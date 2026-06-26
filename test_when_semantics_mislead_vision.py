@@ -336,7 +336,7 @@ if __name__ == '__main__':
     )
 
     # 2. 构造干净的 OCR 推理 Prompt（保持英文）
-    image_path = "test_case/image0.jpg"
+    image_path = "test_case/test_images/image0.jpg"
     # image_path = "image2.jpg"
     image = Image.open(image_path).convert('RGB')
 

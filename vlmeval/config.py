@@ -1824,25 +1824,47 @@ supported_VLM = {
         temperature=0.0,
         retry=10,
     ),
-    "Qwen3_5-9B-API": partial(
+    "Qwen3.5-9B-API": partial(
         GPT4V,
         model="Qwen3.5-9B",
-        api_base="http://10.3.112.34:22240/v1/chat/completions",
+        api_base="http://10.3.112.34:22630/v1/chat/completions",
         key="sk-EMPTY",
         temperature=0.0,
         retry=10,
-        img_size=2048,
+        img_size=-1,
+        img_detail='high',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
     ),
-    "Qwen3_5-27B-API": partial(
+    "Qwen3.5-27B-API": partial(
         GPT4V,
         model="Qwen3.5-27B",
         api_base="http://10.3.112.34:22250/v1/chat/completions",
         key="sk-EMPTY",
         temperature=0.0,
         retry=10,
-        img_size=2048,
+        img_size=-1,
+        img_detail='high',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
     ),
-    'Qwen3_5-122B-A10B-API': partial(
+    'Qwen3.5-122B-A10B-API': partial(
         ModelScopeQwenAPI,
         model='Qwen/Qwen3.5-122B-A10B', # 这里填你在平台看到的模型全名
         api_base='https://api-inference.modelscope.cn/v1', # 替换为 ModelScope 提供的实际接口地址
@@ -1853,13 +1875,24 @@ supported_VLM = {
     'Qwen3.5-9B-OCRAgent': partial(
         ThreeStageOCRAgent,
         model='Qwen3.5-9B',  # 这里的 model 名字需要和你后台 API 服务的别名一致
-        api_base='http://10.3.112.34:22240/v1/chat/completions',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
         key='sk-EMPTY',
         temperature=0.0,
         retry=10,
-        img_size=2048,
-        padding=60,         # 你可以自定义切割边缘的 padding
-        scale_factor=3.0    # 你可以自定义局部放大的倍数
+        img_size=-1,         # -1 = 不缩放，原图直发，由服务端 vLLM 的 Qwen 原生处理器处理
+        img_detail='high',   # 'high' 配合原图发送；vLLM 服务端通常忽略此字段，设为 high 以保兼容
+        padding=60,          # 你可以自定义切割边缘的 padding
+        scale_factor=3.0,    # 你可以自定义局部放大的倍数
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
     ),
     'Qwen3.5-27B-OCRAgent': partial(
         ThreeStageOCRAgent,
@@ -1868,9 +1901,20 @@ supported_VLM = {
         key='sk-EMPTY',
         temperature=0.0,
         retry=10,
-        img_size=2048,
-        padding=60,         # 你可以自定义切割边缘的 padding
-        scale_factor=3.0    # 你可以自定义局部放大的倍数
+        img_size=-1,         # -1 = 不缩放，原图直发，由服务端 vLLM 的 Qwen 原生处理器处理
+        img_detail='high',   # 'high' 配合原图发送；vLLM 服务端通常忽略此字段，设为 high 以保兼容
+        padding=60,          # 你可以自定义切割边缘的 padding
+        scale_factor=3.0,    # 你可以自定义局部放大的倍数
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
     ),
 }
 

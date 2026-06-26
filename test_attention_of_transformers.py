@@ -136,7 +136,7 @@ def draw_text_attn():
     )
 
     # 2. 构造 OCR 推理测试数据
-    image_path = "test_case/image0.jpg"
+    image_path = "test_case/test_images/image0.jpg"
     image = Image.open(image_path).convert('RGB')
 
     # 构建对话：强迫模型使用 CoT 进行多步计算

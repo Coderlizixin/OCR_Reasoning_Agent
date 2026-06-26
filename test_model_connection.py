@@ -62,16 +62,20 @@ def crop_and_encode(img, physical_bbox, padding=60, scale_factor=3.0):
     return base64.b64encode(buffer.getvalue()).decode('utf-8')
 
 
-# client = OpenAI(
-#     base_url='https://api-inference.modelscope.cn/v1',
-#     api_key='ms-7ee485f4-550b-49f8-906a-216377ad5562',  # ModelScope Token
-# )
-
 client = OpenAI(
-    api_key="",
-    base_url="http://10.3.112.34:22240/v1",
+    base_url='https://api-inference.modelscope.cn/v1',
+    api_key='ms-7ee485f4-550b-49f8-906a-216377ad5562',  # ModelScope Token
 )
 
+# client = OpenAI(
+#     api_key="EMPTY",
+#     base_url="http://10.3.112.34:22630/v1",
+# )
+
+# client = OpenAI(
+#     api_key="sk-Sy5R85nas3TrIuwgI3oSjg",
+#     base_url="https://litellm.mybigai.ac.cn/",
+# )
 
 # Question0: What is the average number of the genres of movies made by directors who have worked in drama genres?  # Answer: 3.625
 # Question1: 某人购买了所有劲爆价的商品各一份，其中脉动饮料买了3瓶，那么他总共会得到多少瓶饮料？  # Answer: 58
@@ -88,24 +92,10 @@ client = OpenAI(
 # Question12: On the left chart, how many models have ever reached a Top-1 Accuracy over 80% on the K400 dataset?  # Answer: 6
 
 # 2. 指定你的本地图片路径 (请替换为你实际的图片路径，例如 "C:/images/test.jpg" 或 "./test.png")
-local_image_path = "test_case/image14.jpg"
-detail_image_path = "test_case/detail13.png"
+local_image_path = "test_case/test_images/image0.jpg"
+detail_image_path = "test_case/test_images/detail13.png"
 
-original_img = Image.open(local_image_path).convert('RGB')
-orig_size = original_img.size
-orig_w, orig_h = orig_size
-# 3. 获取 Base64 编码的字符串
-bbox = [378, 530, 536, 550]
-xmin, ymin, xmax, ymax = bbox
-real_xmin = int((xmin / 1000.0) * orig_w)
-real_ymin = int((ymin / 1000.0) * orig_h)
-real_xmax = int((xmax / 1000.0) * orig_w)
-real_ymax = int((ymax / 1000.0) * orig_h)
-physical_bbox = [real_xmin, real_ymin, real_xmax, real_ymax]
-base64_image = crop_and_encode(original_img, physical_bbox)
-
-
-# base64_image, orig_size, resized_size = encode_and_resize_image(local_image_path)
+base64_image, orig_size, resized_size = encode_and_resize_image(local_image_path)
 # base64_image_detail, _, _ = encode_and_resize_image(detail_image_path)
 
 # 判断图片类型以生成正确的 MIME type (可选，通常传 jpeg 兼容性最好)
@@ -141,45 +131,83 @@ else:
     "making sure to enclose it within the tags <a> and </a> like this: <a>your answer</a>. "
     "Question: <q>How many are somewhat confident that Donald Trump can manage the executive branch effectively?</q>"
 
-response = client.chat.completions.create( # type: ignore
-    model='Qwen3.5-9B',
+response = client.chat.completions.create(  # type: ignore
+    model='ZhipuAI/GLM-5.1',
     temperature=0.0,
-    messages=[{ # type: ignore
+    max_tokens=6144,
+    messages=[{  # type: ignore
         'role':
             'user',
         'content': [{
             'type': 'text',
-            'text': "You are an expert visual assistant. You are asked to scan the image and answer the question: <q>What is the total price of the foods whose names end with the letter 'r'?"
-                    "</q> step-by-step. Find the clues in the image which are related to the question. For each text clue or value you extract, output its bounding box coordinates normalized to the [0, 1000] range in the format [xmin, ymin, xmax, ymax]. "
-                    "Do not calculate the final total price yet, just list the items, prices, and their coordinates.",
+            'text': f"""You are a seasoned expert in image analysis. Please parse the information in the image into JSON format.""",
         },
-        {
-            'type': 'image_url',
-            'image_url': {
-                # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
-                'url': f"data:{mime_type};base64,{base64_image}",
-            },
-        },
-        # {
-        #     'type': 'image_url',
-        #     'image_url': {
-        #         # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
-        #         'url': f"data:{mime_type_detail};base64,{base64_image_detail}",
-        #     },
-        # }
+            # {
+            #     'type': 'image_url',
+            #     'image_url': {
+            #         # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
+            #         'url': f"data:{mime_type};base64,{base64_image}",
+            #     },
+                # 'min_pixels': 2500 * 32 * 32,
+                # 'max_pixels': 3000 * 32 * 32,
+            # },
+            # {
+            #     'type': 'image_url',
+            #     'image_url': {
+            #         # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
+            #         'url': f"data:{mime_type_detail};base64,{base64_image_detail}",
+            #     },
+            # }
         ],
     }],
-    # stream=True
+    # extra_body={
+    #     "mm_processor_kwargs": {
+    #         "images_kwargs": {
+    #             "size": {
+    #                 "longest_edge": 8192 * 32 * 32,
+    #                 "shortest_edge": 4096 * 32 * 32,
+    #             }
+    #         }
+    #     }
+    # },
+    stream=True
 )
 
-# huawei集群qwen3.5-27B接口输出
-final_answer_text = response.choices[0].message.content
-print(final_answer_text)
+# huawei集群qwen3.5-122B接口输出
+# final_answer_text = response.choices[0].message.content
+# finish_reason = response.choices[0].finish_reason
+#
+# # 输出 token 用量
+# if hasattr(response, 'usage') and response.usage:
+#     print(f"\n=== Token Usage ===")
+#     print(f"Input (prompt) tokens:  {response.usage.prompt_tokens}")
+#     print(f"Output (completion) tokens: {response.usage.completion_tokens}")
+#     print(f"Total tokens:           {response.usage.total_tokens}")
+# else:
+#     print("\n=== Token Usage: 服务端未返回 usage 信息 ===")
+#
+# print(final_answer_text)
 
 # # modelscope Glm4.6V接口输出
 # for chunk in response:
 #     if chunk.choices:
 #         print(chunk.choices[0].delta.content, end='', flush=True)
+
+# # modelscope Glm5.1接口输出
+done_reasoning = False
+final_answer_text = ''
+for chunk in response:
+    if chunk.choices:
+        reasoning_chunk = chunk.choices[0].delta.reasoning_content
+        answer_chunk = chunk.choices[0].delta.content
+        if reasoning_chunk != '':
+            print(reasoning_chunk, end='', flush=True)
+        elif answer_chunk != '':
+            if not done_reasoning:
+                print('\n\n === Final Answer ===\n')
+                done_reasoning = True
+            # print(answer_chunk, end='', flush=True)
+            final_answer_text += answer_chunk
 
 # model scope qwen3.5-27B接口输出
 # final_answer_text = ""
@@ -198,7 +226,16 @@ print(final_answer_text)
 #             print(answer_chunk, end='', flush=True)
 #             final_answer_text += answer_chunk
 
-print("\n\n=== 提取与可视化阶段 ===")
+# model scope qwen3.5-397B-A17B接口输出
+# final_answer_text = ""
+# for chunk in response:
+#     if chunk.choices:
+#         # print(chunk.choices[0].delta.content, end='', flush=True)
+#         final_answer_text += chunk.choices[0].delta.content
+# print("===final_answer_text===")
+# print(final_answer_text)
+#
+# print("\n\n=== 提取与可视化阶段 ===")
 
 # 2. 使用正则表达式提取坐标
 # 这个正则匹配形如 [ymin, xmin, ymax, xmax] 的格式，允许数字前后有空格
@@ -256,7 +293,7 @@ if extracted_bboxes:
                 width=4
             )
 
-        output_path = "test_case/result_image.jpg"
+        output_path = "test_case/test_images/result_image.jpg"
         original_img.save(output_path)
         print(f"\n✅ 全局绘制成功！带框的图片已保存至: {output_path}")
 

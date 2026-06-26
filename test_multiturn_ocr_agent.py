@@ -78,7 +78,7 @@ client = OpenAI(
     base_url="http://10.3.112.34:22240/v1",
 )
 
-local_image_path = "test_case/image14.jpg"
+local_image_path = "test_case/test_images/image14.jpg"
 question = "What is the total price of the foods whose names end with the letter 'r'?"
 
 # 获取 Base64 编码和尺寸

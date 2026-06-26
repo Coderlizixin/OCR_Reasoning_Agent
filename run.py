@@ -272,9 +272,23 @@ def main():
                         dist.barrier()
 
                     dataset = build_dataset(dataset_name, **dataset_kwargs)
-                    #################################################################
-                    # dataset.data = dataset.data.iloc[:10]
-                    #################################################################
+                    #################### 修改部分开始 ####################
+                    # 针对特定数据集注入错误子集进行 Debug
+                    if dataset_name == 'OCR_Reasoning':
+
+                        # 读取刚才保存的错误集 JSON 文件
+                        error_list_path = r"test_case/random_indices.json"
+                        with open(error_list_path, 'r', encoding='utf-8') as f:
+                            error_list = json.load(f)
+
+                        # 通过 isin() 函数过滤出存在于错误集列表中的样本
+                        dataset.data = dataset.data[dataset.data['index'].isin(error_list)]
+
+                        # 重置 DataFrame 的索引，避免后续遍历时出现 index 错位
+                        dataset.data = dataset.data.reset_index(drop=True)
+                        if RANK == 0:
+                            logger.info(f"成功注入错误子集！当前待测难例数量: {len(dataset.data)}")
+                    ####################################################
                     if dataset is None:
                         logger.error(f'Dataset {dataset_name} is not valid, will be skipped. ')
                         continue

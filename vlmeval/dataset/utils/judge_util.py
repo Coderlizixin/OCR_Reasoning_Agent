@@ -19,15 +19,18 @@ def build_judge(**kwargs):
             'chatgpt-1106': 'gpt-3.5-turbo-1106',
             'chatgpt-0125': 'gpt-3.5-turbo-0125',
             'gpt-4o': 'gpt-4o-2024-05-13',
-            'gpt-4o-0806': 'gpt-4o-2024-08-06',
+             'gpt-4o-0806': 'gpt-4o-2024-08-06',
             'gpt-4o-mini': 'gpt-4o-mini-2024-07-18',
             'qwen-7b': 'Qwen/Qwen2.5-7B-Instruct',
             'qwen-72b': 'Qwen/Qwen2.5-72B-Instruct',
             'deepseek': 'deepseek-ai/DeepSeek-V2.5',
             'llama31-8b': 'meta-llama/Llama-3.1-8B-Instruct',
-            # modify: 加入qwen-plus和qwen-max
+            # modify: 加入qwen-flash、qwen-plus和qwen-max
+            'qwen-flash': 'qwen-flash',
             'qwen-plus': 'qwen-plus',
             'qwen-max': 'qwen-max',
+
+            'my-server-judge': 'Qwen3.5-27B',
         }
         model_version = model_map[model]
     else:
@@ -37,6 +40,13 @@ def build_judge(**kwargs):
         model = SiliconFlowAPI(model_version, **kwargs)
     elif model == 'llama31-8b':
         model = HFChatModel(model_version, **kwargs)
+    elif model == 'my-server-judge':
+        model = OpenAIWrapper(
+            model=model_version,
+            api_base='http://10.3.112.34:22250/v1/chat/completions',
+            key='sk-EMPTY',
+            **kwargs
+        )
     else:
         model = OpenAIWrapper(model_version, **kwargs)
     return model

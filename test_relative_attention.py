@@ -141,7 +141,7 @@ def run_relative_attention_analysis():
     ).eval()
 
     # 2. 读取图片并计算 HSV 区域掩码 (确保纯粹的 Token 分类)
-    image_path = "test_case/image0.jpg"
+    image_path = "test_case/test_images/image0.jpg"
     image = Image.open(image_path).convert('RGB')
 
     dummy_inputs = processor(images=image, text="", return_tensors="pt")

@@ -1,11 +1,15 @@
+import os
 import pandas as pd
 import base64
 from io import BytesIO
 from PIL import Image
-from multipart import file_path
 
-# 你的数据集路径
+# 数据集路径
 tsv_path = r"C:\Users\19639\LMUData\OCR_Reasoning.tsv"
+
+# 输出目录
+output_dir = r"C:\Users\19639\Desktop\sunset of ocrreasoning\images"
+os.makedirs(output_dir, exist_ok=True)
 
 try:
     # 读取 TSV 文件
@@ -14,36 +18,34 @@ try:
     print("可用列名:", df.columns.tolist())
     print("-" * 50)
 
-    file_path = "test_case/image25.jpg"
+    # 取前 10 条数据
+    subset = df.head(20)
+    saved_count = 0
 
-    # 这里我们只查看前 3 条数据作为测试
-    for index, row in df.loc[[12]].iterrows():
-        print(f"\n[题目 ID]: {row.get('index', index)}")
-        print(f"[问  题]: {row.get('question', '未找到question列')}")
-        print(f"[标准答案]: {row.get('answer', '未找到answer列')}")
+    for index, row in subset.iterrows():
+        item_id = row.get('index', index)
+        question = str(row.get('question', ''))[:80]
+        print(f"[{index}] ID={item_id} | {question}...")
 
-        # 提取并显示图片
         img_str = row.get('image', None)
         if pd.notna(img_str):
             try:
-                # 解码 Base64
                 img_data = base64.b64decode(img_str)
                 img = Image.open(BytesIO(img_data))
 
-                if img.mode in ("RGBA", "P"):
-                    img_to_save = img.convert("RGB")
-                else:
-                    img_to_save = img
-                img_to_save.save(file_path, "JPEG")
-
-                # 在 Windows 上会调用你系统默认的图片查看器打开
-                img_to_save.show(title=f"Question {row.get('index', index)}")
+                filename = f"ocr_reasoning_{int(item_id):03d}.png"
+                save_path = os.path.join(output_dir, filename)
+                img.save(save_path, "PNG")
+                print(f"  → 已保存: {save_path} ({img.size[0]}×{img.size[1]}, 原尺寸无损)")
+                saved_count += 1
             except Exception as e:
-                print(f"[图片解析报错]: {e}")
+                print(f"  → [图片解析报错]: {e}")
         else:
-            print("[图片状态]: 该条目没有图片数据")
+            print(f"  → [图片状态]: 该条目没有图片数据")
 
         print("-" * 50)
+
+    print(f"\n完成: 共保存 {saved_count}/10 张图片到 {output_dir}")
 
 except FileNotFoundError:
     print(f"未找到文件: {tsv_path}。请检查是否已正确生成或放置了该数据集文件。")

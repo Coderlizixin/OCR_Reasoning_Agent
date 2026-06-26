@@ -3,6 +3,15 @@ import os
 import sys
 from .base import BaseAPI
 
+
+def _log_diag(msg):
+    """将诊断信息写入文件，避免被模型输出淹没"""
+    log_dir = 'test_case/log'
+    os.makedirs(log_dir, exist_ok=True)
+    with open(os.path.join(log_dir, 'pipeline.log'), 'a', encoding='utf-8') as f:
+        import time
+        f.write(f'[{time.strftime("%H:%M:%S")}] {msg}\n')
+
 APIBASES = {
     'OFFICIAL': 'https://api.openai.com/v1/chat/completions',
 }
@@ -41,17 +50,19 @@ class OpenAIWrapper(BaseAPI):
                  verbose: bool = False,
                  system_prompt: str = None,
                  temperature: float = 0,
-                 timeout: int = 300,
+                 timeout: int = 600,
                  api_base: str = None,
-                 max_tokens: int = 2048,
+                 max_tokens: int = 6144,
                  # img_size: int = 512,
                  # modify: 图像缩放调整
                  img_size: int = 2048,
                  img_detail: str = 'low',
                  use_azure: bool = False,
+                 extra_body: dict = None,
                  **kwargs):
 
         self.model = model
+        self.extra_body = extra_body
         self.cur_idx = 0
         self.fail_msg = 'Failed to obtain answer via API. '
         self.max_tokens = max_tokens
@@ -164,7 +175,10 @@ class OpenAIWrapper(BaseAPI):
                 elif msg['type'] == 'image':
                     from PIL import Image
                     img = Image.open(msg['value'])
+                    orig_w, orig_h = img.size
                     b64 = encode_image_to_base64(img, target_size=self.img_size)
+                    b64_kb = len(b64) / 1024
+                    # print(f'[图像诊断] 原图: {orig_w}×{orig_h}px | img_size={self.img_size} | base64: {b64_kb:.1f}KB')
                     img_struct = dict(url=f'data:image/jpeg;base64,{b64}', detail=self.img_detail)
                     content_list.append(dict(type='image_url', image_url=img_struct))
         else:
@@ -188,9 +202,24 @@ class OpenAIWrapper(BaseAPI):
         return input_msgs
 
     def generate_inner(self, inputs, **kwargs) -> str:
+        import time as _time
+        _t_start = _time.time()
+
         input_msgs = self.prepare_inputs(inputs)
         temperature = kwargs.pop('temperature', self.temperature)
         max_tokens = kwargs.pop('max_tokens', self.max_tokens)
+
+        # 保护：防止 max_tokens 变为负数（vLLM 会返回 400）
+        if max_tokens is not None and max_tokens <= 0:
+            _log_diag(f'[WARNING] max_tokens={max_tokens} 异常! 回退到 {self.max_tokens}. kwargs keys: {list(kwargs.keys())}')
+            max_tokens = self.max_tokens
+
+        # --- 统计请求中的图像数量 ---
+        n_images = 0
+        for msg in input_msgs:
+            content = msg.get('content', [])
+            if isinstance(content, list):
+                n_images += sum(1 for item in content if item.get('type') == 'image_url')
 
         # Will send request if use Azure, dk how to use openai client for it
         if self.use_azure:
@@ -207,6 +236,10 @@ class OpenAIWrapper(BaseAPI):
             temperature=temperature,
             **kwargs)
 
+        # 如果配置了 extra_body，合并进 payload（用于 vLLM 的 mm_processor_kwargs 等参数）
+        if self.extra_body:
+            payload.update(self.extra_body)
+
         if self.o1_model:
             payload['max_completion_tokens'] = max_tokens
             payload.pop('temperature')
@@ -216,17 +249,79 @@ class OpenAIWrapper(BaseAPI):
         response = requests.post(
             self.api_base,
             headers=headers, data=json.dumps(payload), timeout=self.timeout * 1.1)
+        _t_elapsed = _time.time() - _t_start
         ret_code = response.status_code
         ret_code = 0 if (200 <= int(ret_code) < 300) else ret_code
         answer = self.fail_msg
+        prompt_tokens = completion_tokens = total_tokens = None
         try:
             resp_struct = json.loads(response.text)
             answer = resp_struct['choices'][0]['message']['content'].strip()
+
+            usage = resp_struct.get('usage', {})
+            if usage:
+                prompt_tokens = usage.get('prompt_tokens')
+                completion_tokens = usage.get('completion_tokens')
+                total_tokens = usage.get('total_tokens')
+
             print(answer)
         except Exception as err:
             if self.verbose:
                 self.logger.error(f'{type(err)}: {err}')
                 self.logger.error(response.text if hasattr(response, 'text') else response)
+
+        # --- 运行统计：每次请求记录一行 JSONL ---
+        import os as _os, json as _json
+        _log_dir = 'test_case/log'
+        _os.makedirs(_log_dir, exist_ok=True)
+        _stats = {
+            'timestamp': _time.strftime('%Y%m%d_%H%M%S'),
+            'model': self.model,
+            'api_base': self.api_base.rsplit(':', 1)[-1].split('/')[0],  # 只保留端口号
+            'ret_code': ret_code,
+            'elapsed_s': round(_t_elapsed, 1),
+            'n_images': n_images,
+            'max_tokens': max_tokens,
+            'prompt_tokens': prompt_tokens,
+            'completion_tokens': completion_tokens,
+            'total_tokens': total_tokens,
+        }
+        if ret_code != 0:
+            _stats['error'] = response.text[:500]
+        with open(_os.path.join(_log_dir, 'run_stats.jsonl'), 'a', encoding='utf-8') as _f:
+            _f.write(_json.dumps(_stats, ensure_ascii=False) + '\n')
+
+        # 简短状态行 → 写入 pipeline.log
+        _status = 'OK' if ret_code == 0 else f'ERR{ret_code}'
+        _tok_str = f'prompt={prompt_tokens} comp={completion_tokens}' if prompt_tokens else 'tok=N/A'
+        _log_diag(f'[请求] {_status} | {self.model} @ :{_stats["api_base"]} | {_t_elapsed:.0f}s | imgs={n_images} | {_tok_str}')
+
+        # 记录失败请求的完整 payload 和响应，便于诊断 400/500 等错误
+        # 每次失败都保存为独立时间戳文件，追加不覆盖
+        if ret_code != 0:
+            import copy, os, json as _json, time
+            err_log = copy.deepcopy(payload)
+            # 截断 base64 图片数据，避免日志文件过大
+            for msg in err_log.get('messages', []):
+                content = msg.get('content', [])
+                if isinstance(content, list):
+                    for item in content:
+                        if isinstance(item, dict) and item.get('type') == 'image_url':
+                            url = item.get('image_url', {}).get('url', '')
+                            if len(url) > 200:
+                                item['image_url']['url'] = url[:100] + f'...[截断, 总长{len(url)}字符]...' + url[-50:]
+            err_log['_response_status'] = ret_code
+            err_log['_response_text'] = response.text[:2000]
+            err_log['_model'] = self.model
+            err_log['_api_base'] = self.api_base
+            err_log['_timestamp'] = time.strftime('%Y%m%d_%H%M%S')
+            log_dir = 'test_case/log'
+            os.makedirs(log_dir, exist_ok=True)
+            # 独立文件名，按时间戳区分，不覆盖历史错误
+            err_path = os.path.join(log_dir, f'failed_request_{err_log["_timestamp"]}_HTTP{ret_code}.json')
+            with open(err_path, 'w', encoding='utf-8') as f:
+                _json.dump(err_log, f, ensure_ascii=False, indent=2)
+            _log_diag(f'[请求失败] 状态码={ret_code} | 完整请求已保存到 {err_path}')
 
         return ret_code, answer, response
 
