@@ -1,0 +1,108 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 20.00元 for 伊赛牛肉 on the bill",
+      "expected_value": "20.00元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        410,
+        590,
+        430
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 20.00元 for 排骨 on the bill",
+      "expected_value": "20.00元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        428,
+        588,
+        446
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 20.00元 for 黄金烤翅 on the bill",
+      "expected_value": "20.00元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        723,
+        444,
+        774,
+        461
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 20.00元 for 猪肉馅饼 on the bill",
+      "expected_value": "20.00元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        732,
+        523,
+        784,
+        542
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate total meat price",
+      "expression": "20.00 + 20.00 + 20.00 + 20.00",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the number 3 indicating the number of people on the bill",
+      "expected_value": "3人",
+      "expected_unit": "人",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        372,
+        764,
+        387
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate per capita cost",
+      "expression": "80.00 / 3",
+      "depends_on": [
+        5,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "round result to two decimal places",
+      "expression": "round(26.6666..., 2)",
+      "depends_on": [
+        7
+      ]
+    }
+  ],
+  "final_answer": "26.67元",
+  "index": 227,
+  "question": "本次用餐所消费的肉类产品，人均成本核算金额是多少？"
+}

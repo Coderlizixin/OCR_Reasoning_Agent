@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the total revenue value for Q3 2024",
+      "expected_value": "18.12B",
+      "expected_unit": "B",
+      "depends_on": [],
+      "bbox_norm": [
+        243,
+        407,
+        342,
+        427
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the Data Center revenue value",
+      "expected_value": "14.51B",
+      "expected_unit": "B",
+      "depends_on": [],
+      "bbox_norm": [
+        98,
+        390,
+        165,
+        405
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the percentage of Data Center revenue relative to total revenue",
+      "expression": "(14.51 / 18.12) * 100",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "80.08%",
+  "index": 553,
+  "question": "What percentage of the total revenue in Q3 2024 is attributed to the Data Center?"
+}

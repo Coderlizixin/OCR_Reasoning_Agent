@@ -1,0 +1,155 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 14 in the first step of reasoning",
+      "expected_value": "14",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": [
+        428,
+        515,
+        450,
+        542
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2 in the question text",
+      "expected_value": "2",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        510,
+        115,
+        540
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 1 in the question text",
+      "expected_value": "1",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": [
+        60,
+        520,
+        75,
+        550
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate total distance",
+      "expression": "1*2^(3-1) + 1*2^(4-1) + ... + 1*2^(16-1) = 65532",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 12 in the third step of reasoning",
+      "expected_value": "12",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": [
+        230,
+        845,
+        262,
+        882
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the number 1 in the third step of reasoning",
+      "expected_value": "1",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        61,
+        523,
+        71,
+        548
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the number 0.5 in the third step of reasoning",
+      "expected_value": "0.5",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        765,
+        823,
+        791,
+        856
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the number 5 in the third step of reasoning",
+      "expected_value": "5",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": [
+        128,
+        440,
+        145,
+        488
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate excess distance",
+      "expression": "65532 - 12 = 65520",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate increment count",
+      "expression": "65520 / 5 = 13104",
+      "depends_on": [
+        9,
+        8
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "calculate increment cost",
+      "expression": "13104 * 0.5 = 6552",
+      "depends_on": [
+        10,
+        7
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "calculate total cost",
+      "expression": "1 + 6552 = 6553",
+      "depends_on": [
+        6,
+        11
+      ]
+    }
+  ],
+  "final_answer": "6553元",
+  "index": 891,
+  "question": "假如每个站之间的距离成等比数列，公比为2公里。百善镇镇府和东沙屯南之间的距离是1公里。某人从松兰堡坐到清河需要花多少钱？"
+}

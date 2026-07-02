@@ -1,0 +1,91 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "找到图中Intel I7-13700K的位置",
+      "expected_value": "Intel I7-13700K",
+      "expected_unit": "CPU",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        593,
+        377,
+        618
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "理解图表的排序方式，箭头向上表示性能更好",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "查看AMD列中AMD R9-7950X的位置",
+      "expected_value": "AMD R9-7950X",
+      "expected_unit": "CPU",
+      "depends_on": [
+        1,
+        2
+      ],
+      "bbox_norm": [
+        640,
+        325,
+        790,
+        348
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "查看AMD列中R9-7950X3D的位置",
+      "expected_value": "R9-7950X3D",
+      "expected_unit": "CPU",
+      "depends_on": [
+        1,
+        2
+      ],
+      "bbox_norm": [
+        640,
+        515,
+        830,
+        540
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "查看AMD列中R9-7900X的位置",
+      "expected_value": "R9-7900X",
+      "expected_unit": "CPU",
+      "depends_on": [
+        1,
+        2
+      ],
+      "bbox_norm": [
+        640,
+        553,
+        789,
+        574
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "统计这些CPU的数量",
+      "expression": "1 + 1 + 1 = 3",
+      "depends_on": [
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "3个",
+  "index": 99,
+  "question": "图中性能比I7-13700K好的AMD CPU有几个？"
+}

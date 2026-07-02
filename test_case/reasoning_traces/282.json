@@ -1,0 +1,182 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the value 0.2 for friction coefficient",
+      "expected_value": "0.2",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        55,
+        365,
+        115,
+        415
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the value 1 for mass",
+      "expected_value": "1",
+      "expected_unit": "kg",
+      "depends_on": [],
+      "bbox_norm": [
+        145,
+        225,
+        165,
+        270
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the value 10 for gravity",
+      "expected_value": "10",
+      "expected_unit": "m/s^2",
+      "depends_on": [],
+      "bbox_norm": [
+        436,
+        336,
+        460,
+        368
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate friction force",
+      "expression": "0.2 \times 1 \times 10",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the value 4 for force F",
+      "expected_value": "4",
+      "expected_unit": "N",
+      "depends_on": [],
+      "bbox_norm": [
+        75,
+        475,
+        95,
+        500
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the value 3 for time t1",
+      "expected_value": "3",
+      "expected_unit": "s",
+      "depends_on": [],
+      "bbox_norm": [
+        80,
+        790,
+        110,
+        830
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate velocity at 3s",
+      "expression": "(4 - 2) \times 3 = 1 \times v_3",
+      "depends_on": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate stopping time after 3s",
+      "expression": "-(4 + 2)t = 0 - 1 \times 6",
+      "depends_on": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "deduce Option A is correct and C is wrong based on stopping time",
+      "expression": "",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate displacement 0-3s",
+      "expression": "(4 - 2)x_1 = \frac{1}{2} \times 1 \times 6^2",
+      "depends_on": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "calculate displacement 3-4s",
+      "expression": "-(4 + 2)x_2 = 0 - \frac{1}{2} \times 1 \times 6^2",
+      "depends_on": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "calculate acceleration 4-6s",
+      "expression": "\frac{4 - 2}{1}",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "calculate displacement 4-6s",
+      "expression": "\frac{1}{2} \times 2 \times 2^2",
+      "depends_on": [
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "logical",
+      "description": "deduce Option B is wrong based on displacement comparison",
+      "expression": "",
+      "depends_on": [
+        10,
+        11,
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "compute",
+      "description": "calculate work done by F",
+      "expression": "(4 \times 9 - 4 \times 3 - 4 \times 4)",
+      "depends_on": [
+        10,
+        11,
+        13
+      ]
+    }
+  ],
+  "final_answer": "AD",
+  "index": 282,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

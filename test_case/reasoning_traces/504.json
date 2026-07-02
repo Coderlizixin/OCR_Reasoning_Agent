@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the value 38 from the green bar for 'Good' influence of the Media",
+      "expected_value": "38",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        840,
+        777,
+        885,
+        807
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the value 41 from the green bar for 'Good' influence of the Court system",
+      "expected_value": "41",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        857,
+        692,
+        904,
+        724
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the average of the two values",
+      "expression": "(38 + 41) / 2",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "39.5",
+  "index": 504,
+  "question": "What's the average of the two smallest green bars?"
+}

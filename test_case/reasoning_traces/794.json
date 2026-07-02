@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Pietersen's runs value 2120 in the reasoning text step 1",
+      "expected_value": "2120",
+      "expected_unit": "runs",
+      "depends_on": [],
+      "bbox_norm": [
+        371,
+        715,
+        762,
+        747
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Collingwood's runs value 2026 in the reasoning text step 1",
+      "expected_value": "2026",
+      "expected_unit": "runs",
+      "depends_on": [],
+      "bbox_norm": [
+        432,
+        755,
+        488,
+        773
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate total runs by summing individual scores",
+      "expression": "2120 + 2026",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "4146",
+  "index": 794,
+  "question": "what is the total runs scored by Pietersen and Collingwood for England in 2007?"
+}

@@ -1,0 +1,120 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the start time 18:00 in the question",
+      "expected_value": "18:00",
+      "expected_unit": "time",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the end time 5:20 in the question",
+      "expected_value": "5:20",
+      "expected_unit": "time",
+      "depends_on": [],
+      "bbox_norm": [
+        442,
+        566,
+        753,
+        580
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the free period 20分钟 in the fee sign",
+      "expected_value": "20分钟",
+      "expected_unit": "time",
+      "depends_on": [],
+      "bbox_norm": [
+        228,
+        540,
+        354,
+        554
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the first hour fee 6元 in the fee sign",
+      "expected_value": "6元",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        570,
+        445,
+        680,
+        458
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the extra hour fee 6元 in the fee sign",
+      "expected_value": "6元",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        705,
+        459,
+        742,
+        468
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate total duration from 18:00 to 5:20 next day",
+      "expression": "18:00 to 5:20 next day",
+      "expected_value": "11小时20分钟",
+      "expected_unit": "duration",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "subtract free period from total duration",
+      "expression": "11小时20分钟 - 20分钟",
+      "expected_value": "11小时",
+      "expected_unit": "duration",
+      "depends_on": [
+        3,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate remaining hours after first hour",
+      "expression": "11小时 - 1小时",
+      "expected_value": "10小时",
+      "expected_unit": "duration",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate total cost based on fees and remaining hours",
+      "expression": "10 * 6 + 6",
+      "expected_value": "66元",
+      "expected_unit": "currency",
+      "depends_on": [
+        4,
+        5,
+        8
+      ]
+    }
+  ],
+  "final_answer": "66元",
+  "index": 885,
+  "question": "你驾驶特斯拉Model Y在某停车场从18:00停放至次日5:20，需要支付多少费用？"
+}

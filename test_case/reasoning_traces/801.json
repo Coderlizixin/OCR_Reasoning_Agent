@@ -1,0 +1,60 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "James Ransone listed in the image",
+      "expected_value": "James Ransone",
+      "expected_unit": "actor",
+      "depends_on": [],
+      "bbox_norm": [
+        92,
+        392,
+        167,
+        404
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "John Carroll Lynch listed in the image",
+      "expected_value": "John Carroll Lynch",
+      "expected_unit": "actor",
+      "depends_on": [],
+      "bbox_norm": [
+        82,
+        437,
+        167,
+        450
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Luis Guzmán listed in the image",
+      "expected_value": "Luis Guzmán",
+      "expected_unit": "actor",
+      "depends_on": [],
+      "bbox_norm": [
+        112,
+        554,
+        168,
+        564
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Count the number of actors identified",
+      "expression": "count(1, 2, 3)",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 801,
+  "question": "How many actors acted in the series 'How to make it in America'?"
+}

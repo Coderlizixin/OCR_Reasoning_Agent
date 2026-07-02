@@ -1,0 +1,97 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the Y-axis value representing 80% accuracy on the left chart",
+      "expected_value": "80%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        20,
+        370,
+        42,
+        397
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Determine 'Ours IN-1K' crosses the 80% line",
+      "expected_value": "'Ours IN-1K'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Determine 'MoViNet' crosses the 80% line",
+      "expected_value": "'MoViNet'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Determine 'XiT IN-21K' crosses the 80% line",
+      "expected_value": "'XiT IN-21K'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "Determine 'MViT' crosses the 80% line",
+      "expected_value": "'MViT'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Determine 'Swin IN-1K' crosses the 80% line",
+      "expected_value": "'Swin IN-1K'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "Determine 'TimeSformer IN-21K' crosses the 80% line",
+      "expected_value": "'TimeSformer IN-21K'",
+      "expected_unit": "model",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Count total models identified above 80%",
+      "expression": "1 + 1 + 1 + 1 + 1 + 1",
+      "expected_value": "6",
+      "expected_unit": "models",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "6",
+  "index": 458,
+  "question": "On the left chart, how many models have ever reached a Top-1 Accuracy over 80% on the K400 dataset?"
+}

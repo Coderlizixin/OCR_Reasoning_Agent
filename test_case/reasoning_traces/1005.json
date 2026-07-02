@@ -1,0 +1,95 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the value represented by each human-shaped figure from the image legend",
+      "expected_value": "10%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        703,
+        823,
+        742,
+        893
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the percentage of adults who contacted a healthcare professional from the chart data",
+      "expected_value": "80%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        590,
+        927,
+        672,
+        966
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculating the number of red figures representing contacted adults",
+      "expression": "80 / 10",
+      "expected_value": "8",
+      "expected_unit": "figures",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading the total percentage value from the chart scale",
+      "expected_value": "100",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        40,
+        923,
+        172,
+        963
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculating the remaining percentage for those who did not contact",
+      "expression": "100 - 80",
+      "expected_value": "20%",
+      "expected_unit": "%",
+      "depends_on": [
+        2,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating the number of gray figures for the remaining percentage",
+      "expression": "20 / 10",
+      "expected_value": "2",
+      "expected_unit": "figures",
+      "depends_on": [
+        1,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "identifying the color associated with the remaining figures",
+      "expected_value": "gray",
+      "expected_unit": "color",
+      "depends_on": [
+        6
+      ]
+    }
+  ],
+  "final_answer": "gray",
+  "index": 1005,
+  "question": "What color of the human-shaped figure in the image represents 'ADULTS WHO DID NOT CONTACT WITH A HEALTH CARE PROFESSIONAL IN THE PAST YEAR'?"
+}

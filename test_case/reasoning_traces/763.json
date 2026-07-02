@@ -1,0 +1,181 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 7 in the first column",
+      "expected_value": "7",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        37,
+        262,
+        125,
+        401
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2 in the first column",
+      "expected_value": "2",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        39,
+        444,
+        125,
+        581
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 1 in the first column",
+      "expected_value": "1",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        42,
+        627,
+        125,
+        759
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 4 in the first column",
+      "expected_value": "4",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        42,
+        802,
+        132,
+        944
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Adding these numbers we get 7 + 2 + 1 + 4 = 14",
+      "expression": "7 + 2 + 1 + 4 = 14",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Similarly, for the second column, sum is 14",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "For the third column, sum is 14",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the number 2 in the fourth column",
+      "expected_value": "2",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        382,
+        262,
+        471,
+        397
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the number 4 in the fourth column",
+      "expected_value": "4",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        385,
+        444,
+        473,
+        579
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "the number 4 in the fourth column",
+      "expected_value": "4",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        386,
+        446,
+        474,
+        582
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "2 + 4 + 4 = 10",
+      "expression": "2 + 4 + 4 = 10",
+      "depends_on": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "2 + 4 + 4 + x = 14",
+      "depends_on": [
+        5,
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "10 + x = 14",
+      "expression": "10 + x = 14",
+      "depends_on": [
+        11,
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "x = 14 - 10",
+      "expression": "x = 14 - 10",
+      "depends_on": [
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "compute",
+      "description": "x = 4",
+      "expression": "x = 4",
+      "depends_on": [
+        14
+      ]
+    }
+  ],
+  "final_answer": "4",
+  "index": 763,
+  "question": "Find the missing value in this math puzzle."
+}

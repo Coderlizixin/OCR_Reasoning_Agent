@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Read the highest price value in the 52-week range section from the image",
+      "expected_value": "100.56",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        417,
+        678,
+        450,
+        688
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the lowest price value in the 52-week range section from the image",
+      "expected_value": "68.75",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        78,
+        678,
+        103,
+        688
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the difference between the highest and lowest prices",
+      "expression": "100.56 - 68.75",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "31.81",
+  "index": 523,
+  "question": "How much higher is the highest price compared to the lowest price in the 52-week range?"
+}

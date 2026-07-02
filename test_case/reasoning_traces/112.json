@@ -1,0 +1,79 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price of 红萝卜 in the vegetable list",
+      "expected_value": "0.78",
+      "expected_unit": "元/斤",
+      "depends_on": [],
+      "bbox_norm": [
+        126,
+        147,
+        183,
+        210
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price of 鲜鸡 in the meat list",
+      "expected_value": "14.00",
+      "expected_unit": "元/斤",
+      "depends_on": [],
+      "bbox_norm": [
+        315,
+        400,
+        385,
+        474
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Determine 红萝卜 is the cheapest vegetable based on price comparison",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Determine 鲜鸡 is the most expensive meat based on price comparison",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate cost for 2 jin of 红萝卜",
+      "expression": "0.78 * 2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate cost for 2 jin of 鲜鸡",
+      "expression": "14.00 * 2",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate total cost",
+      "expression": "1.56 + 28.00",
+      "depends_on": [
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "29.56元",
+  "index": 112,
+  "question": "最便宜的素菜和最贵的肉类各买两斤需要多少钱？"
+}

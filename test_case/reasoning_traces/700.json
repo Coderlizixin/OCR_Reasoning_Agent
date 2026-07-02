@@ -1,0 +1,139 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 3.35 for the first iced coffee item",
+      "expected_value": "3.35",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        744,
+        112,
+        782,
+        127
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 4.20 for the second iced coffee item",
+      "expected_value": "4.20",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        743,
+        137,
+        782,
+        152
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 3.35 for the third iced coffee item",
+      "expected_value": "3.35",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        744,
+        158,
+        782,
+        175
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 3.50 for the fourth iced coffee item",
+      "expected_value": "3.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        744,
+        182,
+        782,
+        197
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the price 3.95 for the first cold brew coffee item",
+      "expected_value": "3.95",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        747,
+        282,
+        784,
+        297
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the price 3.60 for the second cold brew coffee item",
+      "expected_value": "3.60",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        744,
+        306,
+        782,
+        322
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Sum up the price for one of each of the iced coffee",
+      "expression": "3.35 + 4.20 + 3.35 + 3.50",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Sum up the price for one of each of the cold brew coffees",
+      "expression": "3.95 + 3.60",
+      "depends_on": [
+        5,
+        6
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Sum up the total price for all drinks",
+      "expression": "14.40 + 7.55",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "There are 6 drinks, 4 iced coffees, and 2 cold brew coffees",
+      "depends_on": []
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "Find the average by dividing the total price by the number of drinks",
+      "expression": "21.95 / 6",
+      "depends_on": [
+        9,
+        10
+      ]
+    }
+  ],
+  "final_answer": "3.66",
+  "index": 700,
+  "question": "If I order one of each of the iced coffees and one of each of the cold brew coffees, what is the average price for all of the drinks? Use the cheapest specification for calculation."
+}

@@ -1,0 +1,138 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the value 0 for lg ratio on the graph",
+      "expected_value": "0",
+      "expected_unit": "dimensionless",
+      "depends_on": [],
+      "bbox_norm": [
+        385,
+        565,
+        410,
+        585
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the pH value 5.4 corresponding to lg ratio 0",
+      "expected_value": "5.4",
+      "expected_unit": "pH",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        150,
+        290,
+        190,
+        320
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate Ka2 using pH value",
+      "expression": "10^(-5.4)",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "deduce A is correct based on Ka2 order of magnitude",
+      "expression": "",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "deduce B is correct based on curve N analysis",
+      "expression": "",
+      "depends_on": []
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the pH value 5.4 for C condition where lg ratio is 0",
+      "expected_value": "5.4",
+      "expected_unit": "pH",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        160,
+        270,
+        190,
+        295
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "deduce C is correct based on ionization vs hydrolysis",
+      "expression": "",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the pH value 7 for D condition",
+      "expected_value": "7",
+      "expected_unit": "pH",
+      "depends_on": [],
+      "bbox_norm": [
+        113,
+        186,
+        146,
+        212
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the lg ratio value > 0 at pH 7",
+      "expected_value": "> 0",
+      "expected_unit": "dimensionless",
+      "depends_on": [
+        8
+      ],
+      "bbox_norm": [
+        250,
+        600,
+        520,
+        690
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "deduce D is incorrect based on concentration comparison",
+      "expression": "",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "select final answer D as the incorrect option",
+      "expression": "",
+      "depends_on": [
+        4,
+        5,
+        7,
+        10
+      ]
+    }
+  ],
+  "final_answer": "D",
+  "index": 423,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

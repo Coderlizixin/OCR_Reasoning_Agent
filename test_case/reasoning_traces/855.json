@@ -1,0 +1,140 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify stocks belonging to the category of significant performance increase",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the upper bound net profit value for 国光电器 in the performance increase list",
+      "expected_value": "11200",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        412,
+        246,
+        488,
+        260
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the upper bound net profit value for 鼎龙股份 in the performance increase list",
+      "expected_value": "22050.50",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        503,
+        413,
+        558,
+        423
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the upper bound net profit value for 凯中精密 in the performance increase list",
+      "expected_value": "9000",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        456,
+        438,
+        518,
+        456
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the upper bound net profit value for 诺泰生物 in the performance increase list",
+      "expected_value": "25000",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        300,
+        590,
+        600,
+        620
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the upper bound net profit value for 君禾股份 in the performance increase list",
+      "expected_value": "3785.00",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        436,
+        656,
+        478,
+        668
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the upper bound net profit value for 南芯科技 in the performance increase list",
+      "expected_value": "22055.07",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        483,
+        655,
+        540,
+        670
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the upper bound net profit value for 国航远洋 in the performance increase list",
+      "expected_value": "8000",
+      "expected_unit": "万元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        500,
+        760,
+        550,
+        780
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Calculate the sum of the maximum net profits for all identified stocks",
+      "expression": "11200+22050.50+9000+25000+3785+22055.07+8000",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "final_answer": "101090.57 万元",
+  "index": 855,
+  "question": "业绩大幅上升的股票的净利润之和最多可能是多少？"
+}

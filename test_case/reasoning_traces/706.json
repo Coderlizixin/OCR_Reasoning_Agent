@@ -1,0 +1,87 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 30 listed for hot coffee",
+      "expected_value": "30",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        782,
+        265,
+        817,
+        286
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 15 listed for plain slice",
+      "expected_value": "15",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        775,
+        587,
+        822,
+        607
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 50 listed for egg sandwich",
+      "expected_value": "50",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        775,
+        382,
+        827,
+        402
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Calculate the cost of 2 hot coffees",
+      "expression": "2 * 30",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate the cost of 3 plain slices",
+      "expression": "3 * 15",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate the cost of 1 egg sandwich",
+      "expression": "1 * 50",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Add the cost of the items",
+      "expression": "60 + 50 + 45",
+      "depends_on": [
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "155",
+  "index": 706,
+  "question": "If a customer orders 2 hot coffees, 1 egg sandwich, and 3 plain slices, what is the total amount they have to pay?"
+}

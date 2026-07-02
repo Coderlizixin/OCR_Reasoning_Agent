@@ -6,6 +6,8 @@ from vlmeval.api import GPT4V
 from vlmeval.vlm.cogvlm import GLMThinking
 from vlmeval.vlm.qwen3_vl import Qwen3VLChat
 from vlmeval.vlm.pgr_ocragent import ThreeStageOCRAgent
+from vlmeval.vlm.pseudo_bbox_reasoning_ocragent import PseudoBBoxReasoningOCRAgent
+from vlmeval.vlm.reasoning_trace_ocragent import ReasoningTraceOCRAgent
 
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
@@ -1905,6 +1907,237 @@ supported_VLM = {
         img_detail='high',   # 'high' 配合原图发送；vLLM 服务端通常忽略此字段，设为 high 以保兼容
         padding=60,          # 你可以自定义切割边缘的 padding
         scale_factor=3.0,    # 你可以自定义局部放大的倍数
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Pseudo BBox Reasoning OCRAgent — 使用预生成的伪标签 bbox 替代 Stage 2 动态 grounding
+    # 用于验证：如果给出准确的答题线索，模型是否能推理正确
+    'Qwen3.5-9B-PseudoBBox': partial(
+        PseudoBBoxReasoningOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        pseudo_bbox_file='test_case/bbox_annotations/bbox_results.tsv',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    'Qwen3.5-27B-PseudoBBox': partial(
+        PseudoBBoxReasoningOCRAgent,
+        model='Qwen3.5-27B',
+        api_base='http://10.3.112.34:22250/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        pseudo_bbox_file='test_case/bbox_annotations/bbox_results.tsv',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # Reasoning Trace OCRAgent — Oracle 实验三件套
+    #   - None (默认): 仅子图+描述，不透露 GT 值
+    #   - 'values': 子图+GGT读值文本 → 测试"知道数值后能否算对"
+    #   - 'reasoning': 子图+GT值+compute步骤结构 → 测试理论上界
+    # ================================================================
+    'Qwen3.5-9B-ReasoningTrace': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode=None,
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Values: 给定 GT 读值作为文本，消除视觉读取瓶颈
+    'Qwen3.5-9B-ReasoningTrace-OV': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='values',
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Values — 无子图版：仅 GT 值文本，不展示裁剪子图
+    'Qwen3.5-9B-ReasoningTrace-OV-NS': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='values',
+        include_subimages=False,
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Reasoning — 无子图版：GT 值 + 步骤结构，不展示裁剪子图
+    'Qwen3.5-9B-ReasoningTrace-OR-NS': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='reasoning',
+        include_subimages=False,
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Structure：仅推理步骤框架，无 GT 值、无子图
+    'Qwen3.5-9B-ReasoningTrace-OS-NS': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='structure',
+        include_subimages=False,
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Reasoning: GT 值 + compute 步骤结构（不含表达式和中间结果）
+    'Qwen3.5-9B-ReasoningTrace-OR': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='reasoning',
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Structure：仅推理步骤框架，无 GT 值、有子图
+    'Qwen3.5-9B-ReasoningTrace-OS': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='structure',
+        trace_dir='test_case/reasoning_traces',
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {

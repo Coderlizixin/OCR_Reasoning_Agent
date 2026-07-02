@@ -1,0 +1,75 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 14 next to Special Liqueurs",
+      "expected_value": "14",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        827,
+        200,
+        867,
+        217
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 39 next to Special Whisky",
+      "expected_value": "39",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        379,
+        453,
+        417,
+        473
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 29 next to Special Tequila",
+      "expected_value": "29",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        379,
+        579,
+        417,
+        597
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 27 next to Special Cocktail",
+      "expected_value": "27",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        379,
+        743,
+        417,
+        762
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Add the prices of the identified drinks",
+      "expression": "14 + 39 + 29 + 27",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "$109",
+  "index": 56,
+  "question": "How much does it cost to buy one of each of the drinks with 'special' in their name?"
+}

@@ -1,0 +1,60 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 24 in the date section",
+      "expected_value": "24",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        162,
+        697,
+        207,
+        723
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2025 in the date section",
+      "expected_value": "2025",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        375,
+        695,
+        461,
+        723
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 10 in the date section",
+      "expected_value": "10",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        345,
+        732,
+        378,
+        755
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Sum the identified date numbers",
+      "expression": "24 + 2025 + 10",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "2059",
+  "index": 982,
+  "question": "What is the sum of all numbers related to dates?"
+}

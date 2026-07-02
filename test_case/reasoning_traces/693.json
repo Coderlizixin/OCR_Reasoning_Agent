@@ -1,0 +1,97 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price of a single hamburger in the order list",
+      "expected_value": "$2.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        275,
+        215,
+        317,
+        237
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price of fried pickles in the order list",
+      "expected_value": "$3.39",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        272,
+        757,
+        310,
+        777
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price of a fountain drink in the order list",
+      "expected_value": "$1.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        613,
+        909,
+        647,
+        928
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the tax rate mentioned in the question",
+      "expected_value": "10%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate subtotal of items",
+      "expression": "2.99 + 3.39 + 1.99",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate tax amount",
+      "expression": "8.37 * 0.10",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "round tax amount to two decimal places",
+      "expression": "round(0.837, 2)",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate final total cost",
+      "expression": "8.37 + 0.84",
+      "depends_on": [
+        5,
+        7
+      ]
+    }
+  ],
+  "final_answer": "$9.21",
+  "index": 693,
+  "question": "If you order a single hamburger, fried pickles, and a fountain drink, how much will it cost, including 10% tax?"
+}

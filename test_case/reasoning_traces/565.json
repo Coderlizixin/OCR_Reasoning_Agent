@@ -1,0 +1,80 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify the 'Average Individual Revenue Created' chart",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Inspect the bar for 2021 on the chart",
+      "expected_value": "2021",
+      "expected_unit": "year",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        850,
+        650,
+        870,
+        930
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Inspect the bar for 2022 on the chart",
+      "expected_value": "2022",
+      "expected_unit": "year",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        850,
+        650,
+        880,
+        950
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Inspect the bar for 2023 on the chart",
+      "expected_value": "2023",
+      "expected_unit": "year",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        892,
+        663,
+        905,
+        923
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "Determine that 2021, 2022, 2023 exceed 2230K",
+      "depends_on": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Count the number of years exceeding the threshold",
+      "expression": "1 + 1 + 1",
+      "depends_on": [
+        5
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 565,
+  "question": "How many years has the 'average individual revenue created' exceeded 2230K?"
+}

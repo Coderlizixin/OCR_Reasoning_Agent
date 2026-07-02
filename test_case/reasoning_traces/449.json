@@ -1,0 +1,147 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the label ① in the tangram figure",
+      "expected_value": "①",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        290,
+        430,
+        305,
+        460
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the label ② in the tangram figure",
+      "expected_value": "②",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        347,
+        547,
+        372,
+        587
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Triangle 1 and Triangle 2 have equal base and height, areas are equal",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the label ③ in the tangram figure",
+      "expected_value": "③",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the label ⑤ in the tangram figure",
+      "expected_value": "⑤",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        235,
+        575,
+        260,
+        610
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Triangle 3 and Triangle 5 have equal base and height, areas are equal",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the label ⑥ in the tangram figure",
+      "expected_value": "⑥",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        290,
+        430,
+        310,
+        460
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the label ④ in the tangram figure",
+      "expected_value": "④",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        298,
+        553,
+        320,
+        583
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the label ⑦ in the tangram figure",
+      "expected_value": "⑦",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        232,
+        455,
+        255,
+        495
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "Triangle 4 and Triangle 7 have equal base and height, area is half of square 6",
+      "depends_on": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "Group areas into three sets: ①②, ③⑤⑥, ④⑦",
+      "depends_on": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "Calculate selection schemes for three companies",
+      "expression": "C_3^1×C_3^1×C_3^1×A_3^3=2×3×2×6=72",
+      "depends_on": [
+        11
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 449,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

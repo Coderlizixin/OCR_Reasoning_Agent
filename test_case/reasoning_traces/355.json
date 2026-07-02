@@ -1,0 +1,123 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Reading 'K分子的结构对称' from Option A",
+      "expected_value": "K分子的结构对称",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        450,
+        480,
+        500
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Deducing hydrogen environments from symmetry",
+      "expected_value": "3种不同环境的氢原子",
+      "expected_unit": "text",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Concluding Option A is wrong based on NMR peaks",
+      "expected_value": "A错误",
+      "expected_unit": "text",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Reading '1个K与1个L反应生成1个M和2个' from Option B",
+      "expected_value": "1个K与1个L反应生成1个M和2个",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        520,
+        450,
+        680,
+        480
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "Deducing L identity based on atom conservation",
+      "expected_value": "L为乙二醛",
+      "expected_unit": "text",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Concluding Option B is wrong",
+      "expected_value": "B错误",
+      "expected_unit": "text",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "Reading 'M发生完全水解时，酰胺基水解' from Option C",
+      "expected_value": "M发生完全水解时，酰胺基水解",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        65,
+        495,
+        450,
+        530
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "Concluding Option C is wrong as K cannot be obtained",
+      "expected_value": "C错误",
+      "expected_unit": "text",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "Reading '反应物K和L的计量数之比为1:1' from Option D",
+      "expected_value": "反应物K和L的计量数之比为1:1",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        490,
+        485,
+        880,
+        530
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "Concluding Option D is correct",
+      "expected_value": "D正确",
+      "expected_unit": "text",
+      "depends_on": [
+        9
+      ]
+    }
+  ],
+  "final_answer": "D",
+  "index": 355,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

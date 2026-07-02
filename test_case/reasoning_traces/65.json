@@ -1,0 +1,75 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "图片中'攻击次数'下方用浅蓝色标出的数字",
+      "expected_value": "74",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        592,
+        403,
+        762,
+        429
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "图片中'篡改网页'下方用浅蓝色标出的数字",
+      "expected_value": "87.9",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        576,
+        305,
+        732,
+        331
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "图片中'控制的被控端'左边用浅蓝色标出的数字",
+      "expected_value": "89.3",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        190,
+        498,
+        358,
+        523
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "图片中'相比2018年增加21.7%'下方用浅蓝色标出的数字",
+      "expected_value": "7325",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        444,
+        814,
+        630,
+        839
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "将所有识别出的浅蓝色数字相加",
+      "expression": "74 + 87.9 + 89.3 + 7325",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "7576.2",
+  "index": 65,
+  "question": "图中浅蓝色的数字之和是多少？"
+}

@@ -1,0 +1,110 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify stocks with trading date 2024-06-28 and stock code ending in 25",
+      "expected_value": "*ST洪涛",
+      "expected_unit": "",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the volume value 30.03 for *ST洪涛",
+      "expected_value": "30.03",
+      "expected_unit": "万股",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        450,
+        490,
+        480,
+        510
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the volume value 35.13 for *ST洪涛",
+      "expected_value": "35.13",
+      "expected_unit": "万股",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        447,
+        547,
+        481,
+        571
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the volume value 30.01 for *ST洪涛",
+      "expected_value": "30.01",
+      "expected_unit": "万股",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        447,
+        597,
+        485,
+        627
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the volume value 33.75 for *ST洪涛",
+      "expected_value": "33.75",
+      "expected_unit": "万股",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        447,
+        667,
+        485,
+        692
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "Read the volume value 30.02 for *ST洪涛",
+      "expected_value": "30.02",
+      "expected_unit": "万股",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        447,
+        732,
+        485,
+        761
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Sum the volume values to get total trading volume",
+      "expression": "30.03 + 35.13 + 30.01 + 33.75 + 30.02",
+      "expected_value": "158.94",
+      "expected_unit": "万股",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "158.94",
+  "index": 858,
+  "question": "2024年六月二十八号中，股票代码以25结尾的股票总成交量是多少？"
+}

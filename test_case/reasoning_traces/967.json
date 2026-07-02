@@ -1,0 +1,54 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "根据图表可知其他投资占比",
+      "expected_value": "2.8%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        177,
+        171,
+        307,
+        232
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "除去'其他'后，剩余总体",
+      "expression": "1 - 2.8%",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "根据图表可知采矿业占比",
+      "expected_value": "30.6%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        719,
+        175,
+        868,
+        233
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "'采矿业'占剩余总体的比例",
+      "expression": "30.6% / 97.2%",
+      "depends_on": [
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "31.48%",
+  "index": 967,
+  "question": "除去'其他投资'，'采矿业'占剩余总体的百分之多少？"
+}

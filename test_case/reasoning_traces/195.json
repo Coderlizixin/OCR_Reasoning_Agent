@@ -1,0 +1,97 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Read one-way ticket price in the flight details",
+      "expected_value": "980",
+      "expected_unit": "元/人",
+      "depends_on": [],
+      "bbox_norm": [
+        325,
+        530,
+        430,
+        570
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "Calculate round-trip ticket price",
+      "expression": "980 * 2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read double room price in the hotel details",
+      "expected_value": "220",
+      "expected_unit": "元/间/晚",
+      "depends_on": [],
+      "bbox_norm": [
+        329,
+        532,
+        379,
+        566
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Calculate total hotel cost for 2 rooms",
+      "expression": "220 * 2",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate per capita accommodation cost",
+      "expression": "440 / 4",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "Read concert ticket price in the ticket details",
+      "expected_value": "380",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        328,
+        530,
+        428,
+        568
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate total per capita expenditure",
+      "expression": "1960 + 110 + 380",
+      "depends_on": [
+        2,
+        5,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate ticket price proportion",
+      "expression": "380 / 2450 * 100%",
+      "depends_on": [
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "15.51%",
+  "index": 195,
+  "question": "如果四人一起出行，单程机票是980元/人，在酒店住宿一晚上隔天返程，双床房220元一间，则此次观看音乐会的人均花销中，票价占比是多少？"
+}

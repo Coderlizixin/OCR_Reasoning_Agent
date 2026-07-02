@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the latest price from the OCR",
+      "expected_value": "172.12",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        227,
+        10,
+        256,
+        27
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Identify the change percentage from the OCR",
+      "expected_value": "0.77%",
+      "expected_unit": "percentage",
+      "depends_on": [],
+      "bbox_norm": [
+        305,
+        11,
+        333,
+        26
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the price before the change using the formula",
+      "expression": "172.12 / (1 + 0.0077)",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "170.80",
+  "index": 533,
+  "question": "What was the price before it increased to the Latest Price?"
+}

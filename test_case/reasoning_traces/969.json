@@ -1,0 +1,85 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "图表中谷歌来源占总体百分比",
+      "expected_value": "3.98%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        354,
+        68,
+        406,
+        96
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "图表中百度占总体百分比",
+      "expected_value": "5.74%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        196,
+        183,
+        250,
+        213
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "图表中视频广告占总体百分比",
+      "expected_value": "9.8%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        14,
+        240,
+        198,
+        345
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "图表中联盟广告占总体百分比",
+      "expected_value": "40.9%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        73,
+        833,
+        279,
+        943
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "计算搜索引擎大类共占整体的百分比",
+      "expression": "3.98% + 5.74% + 9.8% + 40.9%",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "计算谷歌来源占搜索引擎整体的百分比",
+      "expression": "3.98% / 60.42%",
+      "depends_on": [
+        1,
+        5
+      ]
+    }
+  ],
+  "final_answer": "6.59%",
+  "index": 969,
+  "question": "访问来源是谷歌的内容，占搜索引擎整体的百分之几？"
+}

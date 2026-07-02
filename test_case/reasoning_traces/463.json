@@ -1,0 +1,135 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the chart labeled 'G = 4 Time Profiles.'",
+      "expected_value": "G = 4 Time Profiles.",
+      "expected_unit": "label",
+      "depends_on": [],
+      "bbox_norm": [
+        47,
+        10,
+        497,
+        322
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Observe the curves in the chart. There are 4 curves.",
+      "expected_value": "4",
+      "expected_unit": "curves",
+      "depends_on": [],
+      "bbox_norm": [
+        400,
+        107,
+        491,
+        197
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Check each curve to see if it drops below the 0 Time Profile Value line.",
+      "expected_value": "0",
+      "expected_unit": "value",
+      "depends_on": [],
+      "bbox_norm": [
+        5,
+        25,
+        90,
+        95
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "The black curve (Group 1) drops below 0.",
+      "expected_value": "drops below 0",
+      "expected_unit": "status",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": [
+        50,
+        150,
+        450,
+        275
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "The red curve (Group 2) drops below 0.",
+      "expected_value": "drops below 0",
+      "expected_unit": "status",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": [
+        57,
+        100,
+        375,
+        900
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "The teal curve (Group 3) does not drop below 0.",
+      "expected_value": "does not drop below 0",
+      "expected_unit": "status",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": [
+        37,
+        27,
+        375,
+        296
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "The purple curve (Group 4) does not drop below 0.",
+      "expected_value": "does not drop below 0",
+      "expected_unit": "status",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": [
+        53,
+        27,
+        377,
+        291
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Count the number of curves that drop below 0. There are 2 curves that drop below 0.",
+      "expression": "1 + 1",
+      "expected_value": "2",
+      "expected_unit": "curves",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "Conclude that 2 groups",
+      "expected_value": "2 groups",
+      "expected_unit": "groups",
+      "depends_on": [
+        8
+      ]
+    }
+  ],
+  "final_answer": "2",
+  "index": 463,
+  "question": "How many group's curves ever drop below 0 when G=4?"
+}

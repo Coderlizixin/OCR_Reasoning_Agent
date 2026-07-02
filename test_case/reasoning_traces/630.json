@@ -1,0 +1,171 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the multiplier for Popcorn (medium)",
+      "expected_value": "4.7x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        177,
+        915,
+        222
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "compare Popcorn multiplier to threshold",
+      "expected_value": "4.7x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the multiplier for ICEE (medium)",
+      "expected_value": "4.4x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        262,
+        914,
+        295
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "compare ICEE multiplier to threshold",
+      "expected_value": "4.4x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the multiplier for Soda (medium)",
+      "expected_value": "3.3x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        347,
+        912,
+        378
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "compare Soda multiplier to threshold",
+      "expected_value": "3.3x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the multiplier for Junior Mints (4.75 oz.)",
+      "expected_value": "3.2x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        427,
+        912,
+        461
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "compare Junior Mints multiplier to threshold",
+      "expected_value": "3.2x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the multiplier for Milk Duds (5 oz.)",
+      "expected_value": "2.7x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        505,
+        912,
+        545
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "compare Milk Duds multiplier to threshold",
+      "expected_value": "2.7x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "the multiplier for M&M's (3.1 oz.)",
+      "expected_value": "2.7x",
+      "expected_unit": "x",
+      "depends_on": [],
+      "bbox_norm": [
+        854,
+        590,
+        912,
+        622
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "compare M&M's multiplier to threshold",
+      "expected_value": "2.7x > 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "logical",
+      "description": "verify remaining items (Red Vines, Twizzlers, Water) are <= 2.5x",
+      "expected_value": "2.4x <= 2.5x",
+      "expected_unit": "boolean",
+      "depends_on": [
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "logical",
+      "description": "count products meeting criteria",
+      "expected_value": "6",
+      "expected_unit": "products",
+      "depends_on": [
+        13
+      ]
+    }
+  ],
+  "final_answer": "6",
+  "index": 630,
+  "question": "How many products have a 'movie' price that is more than 2.5 times the 'street' price?"
+}

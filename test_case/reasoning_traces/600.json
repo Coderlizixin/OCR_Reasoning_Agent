@@ -1,0 +1,72 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify all transactions where the Insider is NIERMANN JON M",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the Change amount +275.00K in the first transaction row",
+      "expected_value": "+275.00K",
+      "expected_unit": "K",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        367,
+        327,
+        426,
+        350
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the Change amount -34.79K in the second transaction row",
+      "expected_value": "-34.79K",
+      "expected_unit": "K",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        374,
+        507,
+        426,
+        527
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the Change amount -8.70K in the third transaction row",
+      "expected_value": "-8.70K",
+      "expected_unit": "K",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        382,
+        542,
+        426,
+        562
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Sum the changes together",
+      "expression": "275.00K - 34.79K - 8.70K",
+      "depends_on": [
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "231.51K",
+  "index": 600,
+  "question": "How many changes did NIERMANN JON M have in total?"
+}

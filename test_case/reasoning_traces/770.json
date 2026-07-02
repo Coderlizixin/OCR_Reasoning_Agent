@@ -1,0 +1,41 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "The circle where the puzzle is located has: 12356789",
+      "expected_value": "12356789",
+      "expected_unit": "number",
+      "depends_on": [],
+      "bbox_norm": [
+        200,
+        200,
+        400,
+        400
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "The inner circle consists of numbers from the number series 1 to 9",
+      "expected_value": "1 to 9",
+      "expected_unit": "series",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Missing 4",
+      "expected_value": "4",
+      "expected_unit": "number",
+      "depends_on": [
+        2
+      ]
+    }
+  ],
+  "final_answer": "4",
+  "index": 770,
+  "question": "Find the missing value in this math puzzle."
+}

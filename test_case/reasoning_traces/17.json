@@ -1,0 +1,90 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify black bars represent world dependence on China's economy",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 0.4 for the black bar in 2000",
+      "expected_value": "0.4",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        56,
+        692,
+        83,
+        727
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 0.7 for the black bar in 2007",
+      "expected_value": "0.7",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        253,
+        512,
+        282,
+        547
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 1.1 for the black bar in 2012",
+      "expected_value": "1.1",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        457,
+        337,
+        478,
+        372
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 1.2 for the black bar in 2017",
+      "expected_value": "1.2",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        307,
+        677,
+        339
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "sum the four values",
+      "expression": "0.4 + 0.7 + 1.1 + 1.2",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "divide sum by 4 to get average",
+      "expression": "3.4 / 4",
+      "depends_on": [
+        6
+      ]
+    }
+  ],
+  "final_answer": "0.85",
+  "index": 17,
+  "question": "四年中世界对中国经济的依存度的平均值是多少?"
+}

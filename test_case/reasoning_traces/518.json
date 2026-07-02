@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the highest price value 452.750 on the curve",
+      "expected_value": "452.750",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        850,
+        240,
+        890,
+        255
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the lowest price value 339.650 on the curve",
+      "expected_value": "339.650",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        35,
+        553,
+        75,
+        565
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the difference between the highest and lowest prices",
+      "expression": "452.750 - 339.650",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "113.100",
+  "index": 518,
+  "question": "How much higher is the highest price compared to the lowest price in the curve?"
+}

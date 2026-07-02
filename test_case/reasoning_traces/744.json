@@ -1,0 +1,78 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取简谐波的波长值",
+      "expected_value": "2",
+      "expected_unit": "m",
+      "depends_on": [],
+      "bbox_norm": [
+        172,
+        653,
+        192,
+        678
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "读取波速值",
+      "expected_value": "1",
+      "expected_unit": "m/s",
+      "depends_on": [],
+      "bbox_norm": [
+        363,
+        50,
+        418,
+        98
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算周期T",
+      "expression": "2 / 1",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "读取时间t",
+      "expected_value": "1",
+      "expected_unit": "s",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        26,
+        320,
+        57
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "判断时间t为半个周期",
+      "depends_on": [
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "确定相对平衡位置的位移",
+      "expected_value": "0.1",
+      "expected_unit": "m",
+      "depends_on": [
+        5
+      ]
+    }
+  ],
+  "final_answer": "D",
+  "index": 744,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

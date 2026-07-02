@@ -1,0 +1,100 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the Chg.(%) value 2.79 for GrowGeneration (GRWG) in the table",
+      "expected_value": "2.79",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        372,
+        527,
+        407,
+        550
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the Chg.(%) value 8.89 for Bright Green (BGXX) in the table",
+      "expected_value": "8.89",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        370,
+        567,
+        397,
+        587
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Identify companies with Chg.(%) greater than 2",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the Price value 2.21 for GrowGeneration (GRWG) in the table",
+      "expected_value": "2.21",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        527,
+        333,
+        547
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the Price value 0.28 for Bright Green (BGXX) in the table",
+      "expected_value": "0.28",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        567,
+        333,
+        587
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate the sum of the prices",
+      "expression": "2.21 + 0.28",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "Determine the count of companies meeting the criteria",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate the average price",
+      "expression": "2.49 / 2",
+      "depends_on": [
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "1.245",
+  "index": 585,
+  "question": "What is the average price of companies with a change greater than 2?"
+}

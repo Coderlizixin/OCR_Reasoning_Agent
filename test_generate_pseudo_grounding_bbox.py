@@ -70,45 +70,137 @@ def bbox_iou(box1, box2):
     return inter_area / union_area if union_area > 0 else 0
 
 
-def filter_bboxes(bboxes, iou_threshold=0.3, min_size=8, max_size=980, max_boxes=20):
+def has_meaningful_desc(desc):
+    """判断 bbox 描述是否有语义价值。
+
+    Args:
+        desc: 描述字符串
+
+    Returns:
+        bool: 描述是否非空且有实际语义
     """
-    轻量 NMS 去重 + 尺寸过滤，保留细粒度框。
+    if not desc or not isinstance(desc, str):
+        return False
+    stripped = desc.strip()
+    # 长度不足 3 个字符，不可能承载足够语义
+    if len(stripped) < 3:
+        return False
+    # 全是标点/空白/特殊符号
+    if not any(c.isalnum() for c in stripped):
+        return False
+    # 纯数字（可能是模型敷衍的占位符）
+    if stripped.isdigit():
+        return False
+    # 常见无意义占位符
+    meaningless = {'element', 'value', 'number', 'text', 'region', 'area',
+                   'box', 'item', 'label', 'data', 'point', 'figure',
+                   'field', 'section', 'part', 'object', 'cell', 'row', 'column'}
+    if stripped.lower() in meaningless:
+        return False
+    return True
+
+
+def score_bbox_importance(bbox, desc, all_areas):
+    """对 bbox 的关键性进行打分，用于超过数量上限时的优选排序。
+
+    评分规则（分数越高越优先保留）：
+      1. 有语义描述 → +100
+      2. 面积在所有框的 25%-75% 分位数之间（尺寸适中）→ +50
+      3. 面积越小权重越高（细粒度更原子化）→ + 0~30
+
+    Args:
+        bbox: [xmin, ymin, xmax, ymax] 归一化坐标
+        desc: 语义描述字符串
+        all_areas: 所有候选框的面积列表，用于计算分位数
+
+    Returns:
+        float: 重要性分数
+    """
+    w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    area = w * h
+    score = 0.0
+
+    # 1. 语义描述加分
+    if has_meaningful_desc(desc):
+        score += 100
+
+    # 2. 尺寸适中加分（避免极端大框和极端小框）
+    if all_areas and len(all_areas) >= 4:
+        sorted_areas = sorted(all_areas)
+        n = len(sorted_areas)
+        q25 = sorted_areas[n // 4]
+        q75 = sorted_areas[3 * n // 4]
+        if q25 <= area <= q75:
+            score += 50
+
+    # 3. 小框优先（更原子化），area 越小加分越多，最多 +30
+    if all_areas:
+        max_area = max(all_areas)
+        if max_area > 0:
+            # area_ratio: 0=最小框, 1=最大框
+            area_ratio = area / max_area
+            # 小框得高分：1.0 - area_ratio 映射到 [0, 30]
+            score += max(0, (1.0 - area_ratio) * 30)
+
+    return score
+
+
+def filter_bboxes(bboxes, iou_threshold=0.3, min_size=8, max_size=980, max_boxes=15,
+                  descs=None):
+    """轻量 NMS 去重 + 尺寸过滤 + 语义优选，保留高质量细粒度框。
 
     Args:
         bboxes: [[xmin, ymin, xmax, ymax], ...] 归一化 [0,1000]
-        iou_threshold: IoU 超过此阈值视为重复（降低以保留更多框）
-        min_size: 框的最小宽/高（降低以保留小元素如文字标签）
+        iou_threshold: IoU 超过此阈值视为重复
+        min_size: 框的最小宽/高
         max_size: 框的最大宽/高（仅过滤覆盖全图的异常大框）
-        max_boxes: 最多保留的框数（提高以适应细粒度）
+        max_boxes: 最多保留的框数（默认 15）
+        descs: 与 bboxes 一一对应的描述列表，用于优选排序；无描述时可为 None
 
     Returns:
-        过滤后的 bbox 列表
+        过滤后的 bbox 列表 [[xmin, ymin, xmax, ymax], ...]
     """
     if not bboxes:
         return []
 
-    # 1. 过滤尺寸异常的框
-    valid = []
-    for b in bboxes:
+    # 确保 descs 长度与 bboxes 一致
+    if descs is None:
+        descs = [""] * len(bboxes)
+    else:
+        descs = list(descs)  # 避免修改原始列表
+
+    # 1. 过滤尺寸异常的框，同时记录 desc
+    valid_bboxes = []
+    valid_descs = []
+    for b, d in zip(bboxes, descs):
         w, h = b[2] - b[0], b[3] - b[1]
         if w <= 0 or h <= 0:
             continue
         if w < min_size or h < min_size:
-            continue  # 太小的噪点
+            continue
         if w > max_size or h > max_size:
-            continue  # 整张图的异常大框
+            continue
         if all(0 <= v <= 1000 for v in b) and b[0] < b[2] and b[1] < b[3]:
-            valid.append(b)
+            valid_bboxes.append(b)
+            valid_descs.append(d)
 
-    if not valid:
+    if not valid_bboxes:
         return []
 
-    # 2. 按框面积升序排列（小框优先保留，因为细粒度元素较小）
-    valid.sort(key=lambda b: (b[2] - b[0]) * (b[3] - b[1]))
+    # 2. 计算所有候选框的面积，用于重要性打分
+    all_areas = [(b[2] - b[0]) * (b[3] - b[1]) for b in valid_bboxes]
 
-    # 3. NMS 去重（仅移除高度重叠的框）
+    # 3. 按重要性分数降序排列：有语义描述的优先，尺寸适中的优先
+    scored = []
+    for i, (b, d) in enumerate(zip(valid_bboxes, valid_descs)):
+        s = score_bbox_importance(b, d, all_areas)
+        scored.append((s, i, b))
+    scored.sort(key=lambda x: x[0], reverse=True)  # 分数高的在前
+
+    # 4. NMS 去重：重要性高的优先通过
     kept = []
-    for b in valid:
+    kept_indices = []
+    for score_val, orig_idx, b in scored:
         is_dup = False
         for k in kept:
             if bbox_iou(b, k) > iou_threshold:
@@ -116,6 +208,7 @@ def filter_bboxes(bboxes, iou_threshold=0.3, min_size=8, max_size=980, max_boxes
                 break
         if not is_dup:
             kept.append(b)
+            kept_indices.append(orig_idx)
         if len(kept) >= max_boxes:
             break
 
@@ -256,7 +349,7 @@ The images come from diverse scenarios including charts, financial documents, ma
 
 === INSTRUCTIONS ===
         Based on the question and the image, you need to arrive at the answer through a series of step-by-step reasoning. Please identify the necessary elements that must be used in the reasoning process.
-        
+
         Element Types to capture based on the scenario:
         - Documents/Receipts/Menus: Specific prices, item names, dates, quantities, etc.
         - Charts/Graphs: Specific bars, data lines, related legend labels, specific axis values, etc.
@@ -269,20 +362,39 @@ The images come from diverse scenarios including charts, financial documents, ma
         2. TIGHT & ATOMIC: Box the smallest meaningful unit. The box should enclose ONLY that element — not its neighbors, not its container, not the surrounding whitespace. Do NOT box an entire table or chart. Box the specific text phrase, number, or data point.
         3. EXHAUSTIVE: If the reasoning sums 4 numbers, you must provide 4 separate bounding boxes for those 4 numbers.
         4. ALIGNED: Boxes must be aligned with the elements in original image.
+        5. MAX COUNT: Output at MOST 15 bounding boxes. If more than 15 elements are relevant, rank them by importance — prioritize the elements that are DIRECTLY used in the calculation or decision steps of the reasoning, and drop the less critical ones. Quality over quantity.
 
         === COORDINATE FORMAT ===
         Normalized to [0, 1000]: [xmin, ymin, xmax, ymax] where (0,0) is top-left and (1000,1000) is bottom-right. All values must be integers.
+
+        === CRITICAL: DESCRIPTION ("desc") REQUIREMENTS ===
+        The "desc" field is MANDATORY and must NEVER be empty. Each desc must be a SPECIFIC, HUMAN-READABLE description of exactly what the crop contains.
+
+        GOOD desc examples (be specific like these):
+        - "Price of Item A: $15.99"
+        - "Orange legend label 'Drama'"
+        - "Handwritten angle alpha in the triangle"
+        - "Value 42 in the table cell at row 3, column 5"
+        - "Bar for 'Software & Services' showing 5.34%"
+        - "The number 0.539 in the answer line"
+        - "Checkbox for option C labeled 'counterclockwise'"
+
+        BAD desc examples (NEVER use these or anything like them):
+        - "" (empty string — STRICTLY FORBIDDEN)
+        - "element" / "value" / "number" / "text" / "region" / "area" / "box" / "item" / "label" / "data" / "point" / "figure"
 
         === SELF-CHECK (do this silently before outputting) ===
         1. Does the reasoning actually reference this element? If not, skip it.
         2. Is the box tight around the element (not loose)?
         3. Are the coordinates in the correct [0,1000] range?
         4. Is this box distinct from other boxes (not heavily overlapping)?
-        5. Is this box align with the element in original image?
+        5. Is this box aligned with the element in original image?
+        6. Is the "desc" field NON-EMPTY and MEANINGFUL? If desc is "" or a generic word like "value", FIX IT before outputting.
+        7. Is the total number of boxes ≤ 15? If not, drop the least critical ones.
 
         === OUTPUT FORMAT ===
-        Output ONLY a valid JSON array of objects. Each object: {{"desc": "<what this element is>", "bbox": [xmin, ymin, xmax, ymax]}}
-        Each object must have "desc" (a brief description of the element) and "bbox" (the coordinate array).
+        Output ONLY a valid JSON array of objects. Each object: {{"desc": "<specific meaningful description>", "bbox": [xmin, ymin, xmax, ymax]}}
+        The "desc" MUST be non-empty and specific. The "bbox" must have exactly 4 integers in [0,1000].
         Example Output:
         [
           {{"desc": "Price of Item A ($15.99)", "bbox": [120, 300, 250, 340]}},
@@ -291,7 +403,7 @@ The images come from diverse scenarios including charts, financial documents, ma
           {{"desc": "Value 42 in the table cell", "bbox": [600, 700, 650, 730]}}
         ]
 
-        Now, generate the JSON array for the current image:"""
+        Now, generate the JSON array for the current image. Remember: desc MUST be non-empty and specific. Output at most 15 boxes:"""
 
 
         messages = [{
@@ -308,7 +420,7 @@ The images come from diverse scenarios including charts, financial documents, ma
         response = client.chat.completions.create(
             model='Qwen3.5-122B-A10B',
             temperature=0.0,
-            max_tokens=8192,
+            max_tokens=12288,
             messages=messages,
             extra_body={
                 "mm_processor_kwargs": {
@@ -389,27 +501,42 @@ The images come from diverse scenarios including charts, financial documents, ma
                         })
                 print(f"  [纯坐标提取]: {len(extracted_items)} 个框（无 desc）")
 
-        # 分离出纯坐标列表用于 NMS
-        extracted_bboxes = [item['bbox'] for item in extracted_items]
+        # ============================================================
+        # 后处理：空描述过滤 + NMS + 数量限制
+        # ============================================================
+        total_extracted = len(extracted_items)
 
-        # NMS + 尺寸过滤（细粒度模式）
+        # 1. 标记空描述
+        empty_desc_count = sum(1 for item in extracted_items
+                               if not has_meaningful_desc(item.get('desc', '')))
+        if empty_desc_count > 0:
+            print(f"  [描述检查]: {empty_desc_count}/{total_extracted} 个框的 desc 为空或无意义")
+
+        # 2. 分离出坐标列表和描述列表（保持一一对应）
+        extracted_bboxes = [item['bbox'] for item in extracted_items]
+        extracted_descs = [item.get('desc', '') for item in extracted_items]
+
+        # 3. NMS + 尺寸过滤 + 语义优选（有描述的框优先，max_boxes=15）
         filtered_bboxes = filter_bboxes(
             extracted_bboxes,
             iou_threshold=0.3,
             min_size=8,
             max_size=980,
-            max_boxes=20
+            max_boxes=15,
+            descs=extracted_descs
         )
 
-        # 构建过滤后的详情列表（bbox → 物理坐标 + 描述）
+        # 4. 构建过滤后的详情列表（bbox → 物理坐标 + 描述）
+        #    通过 bbox 坐标精确匹配回原始描述
+        bbox_to_desc = {}
+        for item in extracted_items:
+            key = tuple(item['bbox'])
+            if key not in bbox_to_desc or not bbox_to_desc[key]:
+                bbox_to_desc[key] = item.get('desc', '')
+
         filtered_items = []
         for bbox in filtered_bboxes:
-            # 尝试匹配原始描述
-            desc = ""
-            for item in extracted_items:
-                if item['bbox'] == bbox:
-                    desc = item['desc']
-                    break
+            desc = bbox_to_desc.get(tuple(bbox), "")
             phys_bbox = [
                 int((bbox[0] / 1000.0) * orig_w),
                 int((bbox[1] / 1000.0) * orig_h),
@@ -422,7 +549,14 @@ The images come from diverse scenarios including charts, financial documents, ma
                 "bbox_phys": phys_bbox
             })
 
-        print(f"  原始 {len(extracted_bboxes)} 框 → 过滤后 {len(filtered_bboxes)} 框")
+        # 5. 二次检查：如果过滤后仍有空描述，记录警告
+        final_empty = sum(1 for item in filtered_items
+                          if not has_meaningful_desc(item.get('desc', '')))
+        if final_empty > 0:
+            print(f"  [警告]: 过滤后仍有 {final_empty}/{len(filtered_items)} 个框的 desc 为空")
+
+        print(f"  原始 {total_extracted} 框 → 过滤后 {len(filtered_items)} 框"
+              f"（其中 {total_extracted - empty_desc_count} 个有描述）")
 
         safe_id = str(item_id).replace('/', '_').replace('\\', '_')
         stage1_items = filtered_items  # 保存第一阶段结果

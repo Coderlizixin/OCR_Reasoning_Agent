@@ -1,0 +1,177 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify foods that can have Chihuahua Cheese added: Baby Burrito, Super Nachos, Tortas, and Tostadas",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price $10.99 listed for Baby Burrito",
+      "expected_value": "$10.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        417,
+        250,
+        492,
+        269
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the add-on price $1.00 for Chihuahua Cheese on Baby Burrito",
+      "expected_value": "$1.00",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        212,
+        322,
+        392,
+        337
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price $10.99 listed for Super Nachos",
+      "expected_value": "$10.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        417,
+        587,
+        485,
+        607
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the add-on price $1.00 for Chihuahua Cheese on Super Nachos",
+      "expected_value": "$1.00",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        670,
+        387,
+        684
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the price $7.99 listed for Tortas",
+      "expected_value": "$7.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        427,
+        706,
+        482,
+        722
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the add-on price $1.00 for Chihuahua Cheese on Tortas",
+      "expected_value": "$1.00",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        767,
+        387,
+        782
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the price $2.99 listed for Tostadas",
+      "expected_value": "$2.99",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        425,
+        802,
+        481,
+        817
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the add-on price $0.50 for Chihuahua Cheese on Tostadas",
+      "expected_value": "$0.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        857,
+        372,
+        872
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "Calculate total for Baby Burrito",
+      "expression": "10.99 + 1.00",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "Calculate total for Super Nachos",
+      "expression": "10.99 + 1.00",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "Calculate total for Tortas",
+      "expression": "7.99 + 1.00",
+      "depends_on": [
+        6,
+        7
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "Calculate total for Tostadas",
+      "expression": "2.99 + 0.50",
+      "depends_on": [
+        8,
+        9
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "Sum all item totals",
+      "expression": "11.99 + 11.99 + 8.99 + 3.49",
+      "depends_on": [
+        10,
+        11,
+        12,
+        13
+      ]
+    }
+  ],
+  "final_answer": "$36.46",
+  "index": 692,
+  "question": "How much would it cost to buy one of each food that can have Chihuahuac Cheese added?"
+}

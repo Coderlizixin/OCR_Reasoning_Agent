@@ -1,0 +1,121 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 12.62 for company IREN in the Software Industry Price column",
+      "expected_value": "12.62",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        226,
+        404,
+        260,
+        422
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 9.85 for company CORZ in the Software Industry Price column",
+      "expected_value": "9.85",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        226,
+        458,
+        259,
+        475
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 5.21 for company WULF in the Software Industry Price column",
+      "expected_value": "5.21",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        520,
+        487,
+        557,
+        507
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 35.00 for company EVBG in the Software Industry Price column",
+      "expected_value": "35.00",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        333,
+        562,
+        362,
+        579
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the price 15.25 for company HUT in the Software Industry Price column",
+      "expected_value": "15.25",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        237,
+        610,
+        260,
+        627
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate the sum of the prices for these software companies",
+      "expression": "12.62 + 9.85 + 5.21 + 35.00 + 15.25",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate the average price for the software companies by dividing the sum by the count of companies",
+      "expression": "77.93 / 5",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "Identify the lowest price among the identified software companies",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Calculate the difference between the average price and the lowest price",
+      "expression": "15.586 - 5.21",
+      "depends_on": [
+        7,
+        8
+      ]
+    }
+  ],
+  "final_answer": "10.376",
+  "index": 599,
+  "question": "How much higher is the average price in the software industry compared to the lowest price?"
+}

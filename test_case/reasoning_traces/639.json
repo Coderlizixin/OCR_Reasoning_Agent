@@ -1,0 +1,48 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the blue-colored section in the image",
+      "expected_value": "Diagnosis",
+      "expected_unit": "section",
+      "depends_on": [],
+      "bbox_norm": [
+        503,
+        10,
+        1000,
+        982
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the items in the outermost ring within the blue section",
+      "expected_value": "OPF, LR, ANN, FCN, MRI images, SVM, Stacking using LR, GRU, RF, DBSCAN, SVM, DT, DNN, MVPA, CNN, SVM, CNN + ANN, SCM",
+      "expected_unit": "items",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        530,
+        20,
+        980,
+        950
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Count the number of items in the list",
+      "expression": "count(items)",
+      "expected_value": "18",
+      "expected_unit": "items",
+      "depends_on": [
+        2
+      ]
+    }
+  ],
+  "final_answer": "18",
+  "index": 639,
+  "question": "How many blue-colored items are there in the outermost ring?"
+}

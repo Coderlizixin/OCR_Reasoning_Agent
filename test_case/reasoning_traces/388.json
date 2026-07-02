@@ -1,0 +1,154 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 20 assigned to N in the input section",
+      "expected_value": "20",
+      "expected_unit": "integer",
+      "depends_on": [],
+      "bbox_norm": [
+        700,
+        50,
+        750,
+        100
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2 assigned to i in the initialization",
+      "expected_value": "2",
+      "expected_unit": "integer",
+      "depends_on": [],
+      "bbox_norm": [
+        150,
+        290,
+        280,
+        330
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 0 assigned to T in the initialization",
+      "expected_value": "0",
+      "expected_unit": "integer",
+      "depends_on": [],
+      "bbox_norm": [
+        355,
+        295,
+        375,
+        315
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate N divided by i",
+      "expression": "20 / 2",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "check if 10 is an integer",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "update T and i based on divisibility",
+      "expression": "T = 1, i = 3",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "check if i >= 5",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate N divided by new i",
+      "expression": "20 / 3",
+      "depends_on": [
+        1,
+        6
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "check if 6.666 is an integer",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "update i without changing T",
+      "expression": "i = 4",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "check if i >= 5",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "calculate N divided by new i",
+      "expression": "20 / 4",
+      "depends_on": [
+        1,
+        10
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "logical",
+      "description": "check if 5 is an integer",
+      "depends_on": [
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "update T and i based on divisibility",
+      "expression": "T = 2, i = 5",
+      "depends_on": [
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "logical",
+      "description": "check if i >= 5 to end program",
+      "depends_on": [
+        14
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 388,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

@@ -1,0 +1,108 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading segment BC from the image",
+      "expected_value": "2r₁",
+      "expected_unit": "length",
+      "depends_on": [],
+      "bbox_norm": [
+        260,
+        200,
+        290,
+        250
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading segment AB from the image",
+      "expected_value": "2r₂",
+      "expected_unit": "length",
+      "depends_on": [],
+      "bbox_norm": [
+        356,
+        186,
+        388,
+        233
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading segment AC from the image",
+      "expected_value": "2r₃",
+      "expected_unit": "length",
+      "depends_on": [],
+      "bbox_norm": [
+        405,
+        205,
+        445,
+        255
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Pythagorean theorem deduction",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculating area S₁",
+      "expression": "S₁=\frac{1}{2}×4r₂r₃=2r₂r₃",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating area S_{Ⅲ}",
+      "expression": "S_{Ⅲ}=\frac{1}{2}×πr₁² - 2r₂r₃",
+      "depends_on": [
+        1,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculating area S_{Ⅱ}",
+      "expression": "S_{Ⅱ}=\frac{1}{2}×πr₃²+\frac{1}{2}×πr₂² - S_{Ⅲ}=\frac{1}{2}×πr₃²+\frac{1}{2}×πr₂² - \frac{1}{2}×πr₁²+2r₂r₃=2r₂r₃",
+      "depends_on": [
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "comparing areas S₁ and S_{Ⅱ}",
+      "depends_on": [
+        5,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "concluding F₁=F₂",
+      "depends_on": [
+        8
+      ]
+    }
+  ],
+  "final_answer": "A",
+  "index": 387,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案"
+}

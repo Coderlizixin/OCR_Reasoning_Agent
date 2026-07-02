@@ -1,0 +1,182 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the column labeled 'Interval Average Trading Volume(Share) Apr 03,2024-Jul 02,2024'",
+      "expected_value": "Interval Average Trading Volume(Share) Apr 03,2024-Jul 02,2024",
+      "expected_unit": "Column Header",
+      "depends_on": [],
+      "bbox_norm": [
+        520,
+        350,
+        690,
+        375
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the value 1.66M in the Interval Average Trading Volume column",
+      "expected_value": "1.66M",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        407,
+        700,
+        427
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the value 2.17M in the Interval Average Trading Volume column",
+      "expected_value": "2.17M",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        671,
+        437,
+        696,
+        453
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the value 38690.67 in the Interval Average Trading Volume column",
+      "expected_value": "38690.67",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        38,
+        467,
+        97,
+        487
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the value 5.88M in the Interval Average Trading Volume column",
+      "expected_value": "5.88M",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        672,
+        497,
+        696,
+        514
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "Read the value 751,846.45 in the Interval Average Trading Volume column",
+      "expected_value": "751,846.45",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        527,
+        700,
+        547
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "Read the value 288,142.87 in the Interval Average Trading Volume column",
+      "expected_value": "288,142.87",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        647,
+        557,
+        696,
+        577
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "Read the value 37,001.62 in the Interval Average Trading Volume column",
+      "expected_value": "37,001.62",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "Read the value 1.01M in the Interval Average Trading Volume column",
+      "expected_value": "1.01M",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        665,
+        617,
+        696,
+        634
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "Read the value 57,991.14 in the Interval Average Trading Volume column",
+      "expected_value": "57,991.14",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        520,
+        647,
+        697,
+        670
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "Read the value 218,949.65 in the Interval Average Trading Volume column",
+      "expected_value": "218,949.65",
+      "expected_unit": "Share",
+      "depends_on": [],
+      "bbox_norm": [
+        640,
+        677,
+        692,
+        695
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "Deduce which values are greater than 800,000: 1.66M, 2.17M, 5.88M, and 1.01M",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "Count the number of companies matching the condition",
+      "expression": "count(1.66M, 2.17M, 5.88M, 1.01M)",
+      "depends_on": [
+        12
+      ]
+    }
+  ],
+  "final_answer": "4",
+  "index": 587,
+  "question": "How many companies have an Interval Average Trading Volume greater than 800,000?"
+}

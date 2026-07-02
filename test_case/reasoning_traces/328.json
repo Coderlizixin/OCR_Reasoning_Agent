@@ -1,0 +1,135 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "read the length of segment AB in the diagram",
+      "expected_value": "\\sqrt{3}",
+      "expected_unit": "units",
+      "depends_on": [],
+      "bbox_norm": [
+        182,
+        627,
+        302,
+        652
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "read the length of segment AC in the diagram",
+      "expected_value": "1",
+      "expected_unit": "units",
+      "depends_on": [],
+      "bbox_norm": [
+        60,
+        170,
+        85,
+        220
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the length of BC using Pythagorean theorem",
+      "expression": "\\sqrt{AB^2 + AC^2}",
+      "expected_value": "2",
+      "expected_unit": "units",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "read the length of segment BD in the diagram",
+      "expected_value": "\\sqrt{6}",
+      "expected_unit": "units",
+      "depends_on": [],
+      "bbox_norm": [
+        203,
+        423,
+        300,
+        633
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "deduce BF equals BD",
+      "expected_value": "\\sqrt{6}",
+      "expected_unit": "units",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "read the length of segment AD in the diagram",
+      "expected_value": "\\sqrt{3}",
+      "expected_unit": "units",
+      "depends_on": [],
+      "bbox_norm": [
+        196,
+        176,
+        222,
+        214
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "read the measure of angle CAE in the diagram",
+      "expected_value": "30°",
+      "expected_unit": "degrees",
+      "depends_on": [],
+      "bbox_norm": [
+        510,
+        180,
+        650,
+        220
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate the length of CE using Law of Cosines",
+      "expression": "\\sqrt{AC^2 + AE^2 - 2AC \\cdot AE \\cos 30°}",
+      "expected_value": "1",
+      "expected_unit": "units",
+      "depends_on": [
+        2,
+        6,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "deduce CF equals CE",
+      "expected_value": "1",
+      "expected_unit": "units",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate cos angle FCB using Law of Cosines",
+      "expression": "\\frac{CF^2 + BC^2 - BF^2}{2CF \\cdot BC}",
+      "expected_value": "-\\frac{1}{4}",
+      "expected_unit": "",
+      "depends_on": [
+        3,
+        5,
+        9
+      ]
+    }
+  ],
+  "final_answer": "-1/4",
+  "index": 328,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

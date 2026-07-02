@@ -1,0 +1,93 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 10.1 for 2023 total revenue",
+      "expected_value": "10.1",
+      "expected_unit": "十亿元人民币",
+      "depends_on": [],
+      "bbox_norm": [
+        622,
+        167,
+        677,
+        194
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the percentage 7% for Brand 2 in 2023",
+      "expected_value": "7%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        627,
+        537,
+        672,
+        567
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate 2023 Brand 2 revenue",
+      "expression": "10.1 * 0.07",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 0.8 for 2017 total revenue",
+      "expected_value": "0.8",
+      "expected_unit": "十亿元人民币",
+      "depends_on": [],
+      "bbox_norm": [
+        270,
+        847,
+        312,
+        872
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the percentage 21% for Brand 1 in 2017",
+      "expected_value": "21%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        270,
+        877,
+        327,
+        907
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate 2017 Brand 1 revenue",
+      "expression": "0.8 * 0.21",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate revenue difference",
+      "expression": "0.707 - 0.168",
+      "depends_on": [
+        3,
+        6
+      ]
+    }
+  ],
+  "final_answer": "0.539十亿元人民币",
+  "index": 13,
+  "question": "2023年品牌二的收入比17年品牌一的收入多多少？"
+}

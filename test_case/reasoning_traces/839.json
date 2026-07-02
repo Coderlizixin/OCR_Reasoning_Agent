@@ -1,0 +1,120 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the percentage value for Helen Piano in the stock list",
+      "expected_value": "12.05%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        198,
+        645,
+        212
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the percentage value for Chahua Shares in the stock list",
+      "expected_value": "9.97%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        630,
+        220,
+        645,
+        235
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the percentage value for Dongyi Risheng in the stock list",
+      "expected_value": "9.91%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        240,
+        645,
+        255
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the percentage value for Gaole Shares in the stock list",
+      "expected_value": "6.55%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        256,
+        645,
+        268
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the percentage value for Golden Seed Wine in the stock list",
+      "expected_value": "6.27%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        285,
+        640,
+        298
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the percentage value for Mogao Shares in the stock list",
+      "expected_value": "5.08%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        305,
+        640,
+        325
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the percentage value for Shifeng Culture in the stock list",
+      "expected_value": "6.52%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        350,
+        640,
+        365
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "count the number of stocks with percentage greater than 5%",
+      "expression": "count([12.05%, 9.97%, 9.91%, 6.55%, 6.27%, 5.08%, 6.52%] > 5%)",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "7",
+  "index": 839,
+  "question": "有多少个股票涨幅超过了5%？"
+}

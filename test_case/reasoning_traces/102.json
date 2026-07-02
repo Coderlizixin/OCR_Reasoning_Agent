@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取红米K70规格中的重量值",
+      "expected_value": "209",
+      "expected_unit": "克",
+      "depends_on": [],
+      "bbox_norm": [
+        671,
+        773,
+        740,
+        794
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "读取荣耀90 GT规格中的重量值",
+      "expected_value": "185",
+      "expected_unit": "克",
+      "depends_on": [],
+      "bbox_norm": [
+        147,
+        773,
+        352,
+        794
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算两款手机的重量差",
+      "expression": "209 - 185",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "24克",
+  "index": 102,
+  "question": "红米K70比荣耀90 GT重了多少克？"
+}

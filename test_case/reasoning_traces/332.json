@@ -1,0 +1,64 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the function definition y=f(x)=x\\cos x+\\sin x in the problem statement",
+      "expected_value": "y=f(x)=x\\cos x+\\sin x",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        200,
+        50,
+        500,
+        100
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "Calculate f(-x) to check parity",
+      "expression": "f(-x)=-x\\cos(-x)-\\sin(-x)=-x\\cos x+\\sin x=-f(x)",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "Determine that f(x) is an odd function implying symmetry about the origin, thus excluding options B and D",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Evaluate f(x) at x=\\pi",
+      "expression": "y=f(\\pi)=\\pi\\cos \\pi+\\sin \\pi=-\\pi<0",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "further excluding option B based on the negative value",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Conclude that the answer is A",
+      "depends_on": [
+        3,
+        5
+      ]
+    }
+  ],
+  "final_answer": "A",
+  "index": 332,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

@@ -1,0 +1,64 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify tickers ending with the letter 'e'",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the Close(USD) value for Apple in the table",
+      "expected_value": "216.75",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        247,
+        295,
+        275,
+        351
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the Close(USD) value for Oracle in the table",
+      "expected_value": "143.09",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        246,
+        394,
+        276,
+        451
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Calculate the sum of the Close(USD) values",
+      "expression": "216.75 + 143.09",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Divide the sum by the number of tickers selected",
+      "expression": "359.84 / 2",
+      "depends_on": [
+        4
+      ]
+    }
+  ],
+  "final_answer": "179.92",
+  "index": 620,
+  "question": "What is the average price for tickers ending with letter 'e', not case sensitive?"
+}

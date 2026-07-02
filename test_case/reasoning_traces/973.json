@@ -1,0 +1,181 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the battery life value for Canon R10",
+      "expected_value": "430",
+      "expected_unit": "张",
+      "depends_on": [],
+      "bbox_norm": [
+        258,
+        728,
+        492,
+        813
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the battery life value for Canon R7",
+      "expected_value": "770",
+      "expected_unit": "张",
+      "depends_on": [],
+      "bbox_norm": [
+        490,
+        725,
+        730,
+        815
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading the battery life value for Canon R8",
+      "expected_value": "370",
+      "expected_unit": "张",
+      "depends_on": [],
+      "bbox_norm": [
+        720,
+        730,
+        950,
+        810
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculating total battery life for R10 with spare battery",
+      "expression": "430*2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculating total battery life for R7 with spare battery",
+      "expression": "770*2",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating total battery life for R8 with spare battery",
+      "expression": "370*2",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "checking if R10 meets 800 photos requirement",
+      "expected_value": "860",
+      "expected_unit": "张",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "checking if R7 meets 800 photos requirement",
+      "expected_value": "1540",
+      "expected_unit": "张",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "checking if R8 meets 800 photos requirement",
+      "expected_value": "740",
+      "expected_unit": "张",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "reading the screen pixel value for R7",
+      "expected_value": "162w",
+      "expected_unit": "像素",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        590,
+        900,
+        665
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "reading the screen pixel value for R10",
+      "expected_value": "104w",
+      "expected_unit": "像素",
+      "depends_on": [],
+      "bbox_norm": [
+        260,
+        590,
+        490,
+        670
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "determining R7 screen is clearer than R10",
+      "expected_value": "R7",
+      "expected_unit": "",
+      "depends_on": [
+        10,
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "read",
+      "description": "reading the weight value for R7",
+      "expected_value": "530",
+      "expected_unit": "g",
+      "depends_on": [],
+      "bbox_norm": [
+        490,
+        910,
+        720,
+        960
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "logical",
+      "description": "checking if R7 weight exceeds 500g limit",
+      "expected_value": "530",
+      "expected_unit": "g",
+      "depends_on": [
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "logical",
+      "description": "concluding no camera meets all requirements",
+      "expected_value": "否",
+      "expected_unit": "",
+      "depends_on": [
+        8,
+        12,
+        14
+      ]
+    }
+  ],
+  "final_answer": "否",
+  "index": 973,
+  "question": "我是一名摄影工作者，因为工作需要，我每天需要拍摄约800张照片。由于充电不便，我通常会携带一块备用电池。此外，我喜欢更清晰的屏幕显示效果，但是不想要相机重量超过500g。请问图中是否有完全满足我需求的相机型号？"
+}

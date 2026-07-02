@@ -1,0 +1,142 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Read the price of Cold Brew with Coconut Milk NEW! in the Cold Brew section",
+      "expected_value": "$6.30",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        250,
+        377,
+        338,
+        397
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Determine $6.30 is the second most expensive item in Cold Brew category",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the price of Ristretto Bianco in the Espresso & Coffee section",
+      "expected_value": "$7.60",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        51,
+        510,
+        341,
+        537
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Determine $7.60 is the second most expensive item in Espresso & Coffee category",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the price of Matcha & Espresso Fusion in the Teavana Teas section",
+      "expected_value": "$7.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        390,
+        350,
+        495,
+        370
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Determine $7.50 is the second most expensive item in Teavana Teas category",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "Read the price of Green Tea in the Frappuccino section",
+      "expected_value": "$7.70",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        856,
+        543,
+        876,
+        555
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "Determine $7.70 is the second most expensive item in Frappuccino category",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "Read the price of Signature Hot Chocolate in the Other Beverages section",
+      "expected_value": "$7.20",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        392,
+        786,
+        488,
+        804
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "Determine $7.20 is the second most expensive item in Other Beverages category",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "Sum the second most expensive prices from all categories",
+      "expression": "6.30 + 7.60 + 7.50 + 7.70 + 7.20",
+      "expected_value": "36.30",
+      "expected_unit": "$",
+      "depends_on": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    }
+  ],
+  "final_answer": "$36.30",
+  "index": 666,
+  "question": "For each different type of food, if someone orders the second most expensive item in grade size, what is the minimum total amount they would need to pay?"
+}

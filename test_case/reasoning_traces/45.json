@@ -1,0 +1,130 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the vegetable name Cabbage from the provided list",
+      "expected_value": "Cabbage",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        64,
+        296,
+        161,
+        320
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the vegetable name Carrot from the provided list",
+      "expected_value": "Carrot",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        62,
+        322,
+        137,
+        344
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the vegetable name Garlic from the provided list",
+      "expected_value": "Garlic",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        62,
+        400,
+        127,
+        422
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the vegetable name Parsley from the provided list",
+      "expected_value": "Parsley",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        257,
+        185,
+        342,
+        210
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the vegetable name Radish from the provided list",
+      "expected_value": "Radish",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        257,
+        265,
+        337,
+        287
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "check if second letter of Cabbage is 'a'",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "check if second letter of Carrot is 'a'",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "check if second letter of Garlic is 'a'",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "check if second letter of Parsley is 'a'",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "check if second letter of Radish is 'a'",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "count the number of vegetables matching the criteria",
+      "expression": "1 + 1 + 1 + 1 + 1",
+      "depends_on": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "final_answer": "5",
+  "index": 45,
+  "question": "How many vegetables' name have the second letter 'a'?"
+}

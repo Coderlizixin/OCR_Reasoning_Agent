@@ -1,0 +1,57 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify the visual representation of 'Net Profit Attributable to Shareholders' on the graph.",
+      "expected_value": "blue bars",
+      "expected_unit": "N/A",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the 80,000,000 mark on the Y-axis.",
+      "expected_value": "80,000,000",
+      "expected_unit": "N/A",
+      "depends_on": [],
+      "bbox_norm": [
+        907,
+        512,
+        953,
+        544
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Observe the blue bars for each year from 2012 to 2024 and compare their height to the 80,000,000 mark on the Y-axis.",
+      "expected_value": "2021, 2022, and 2023",
+      "expected_unit": "years",
+      "depends_on": [
+        1,
+        2
+      ],
+      "bbox_norm": [
+        305,
+        470,
+        845,
+        835
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Count the number of years in which the blue bar extends beyond the 80,000,000 mark.",
+      "expression": "count(2021, 2022, 2023)",
+      "expected_value": "3",
+      "expected_unit": "years",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 537,
+  "question": "How many years has the Net Profit Attributable to Shareholders exceeded 80,000,000?"
+}

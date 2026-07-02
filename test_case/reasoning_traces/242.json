@@ -1,0 +1,109 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 39.00 next to 海鲜棒棒糖",
+      "expected_value": "39.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        478,
+        361,
+        574,
+        384
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 68.00 next to 上脑牛肉",
+      "expected_value": "68.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        475,
+        395,
+        575,
+        420
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 39.00 next to 排酸肋排肉",
+      "expected_value": "39.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        480,
+        430,
+        575,
+        455
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 39.00 next to 手工虾丸",
+      "expected_value": "39.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        480,
+        465,
+        575,
+        490
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the original total price 351.00",
+      "expected_value": "351.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        699,
+        866,
+        833,
+        894
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate original sum of meat dishes",
+      "expression": "39.00 + 68.00 + 39.00 + 39.00",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate discounted price of meat dishes",
+      "expression": "185.00 * 0.8",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate new total price",
+      "expression": "351.00 - 185.00 + 148.00",
+      "depends_on": [
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "314.00元",
+  "index": 242,
+  "question": "如果所有荤菜类打八折，这顿饭总价变为多少？"
+}

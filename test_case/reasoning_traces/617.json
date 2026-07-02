@@ -1,0 +1,115 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify tickers with two 'A' in their company name",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the price 72.18 for Alibaba Group in the table",
+      "expected_value": "72.18",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        440,
+        147,
+        507,
+        207
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the price 2.05 for China Green Agriculture in the table",
+      "expected_value": "2.05",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        467,
+        826,
+        497,
+        882
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the price 10.49 for Tal Education Group in the table",
+      "expected_value": "10.49",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        458,
+        405,
+        497,
+        457
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the price 25.45 for Hollysys Automation Technologies in the table",
+      "expected_value": "25.45",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        458,
+        497,
+        497,
+        540
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "Read the price 1.63 for QuantaSing Group in the table",
+      "expected_value": "1.63",
+      "expected_unit": "USD",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        465,
+        571,
+        497,
+        625
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate the sum of the prices",
+      "expression": "72.18+2.05+10.49+25.45+1.63",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Divide the sum by the number of tickers identified",
+      "expression": "111.8/5",
+      "depends_on": [
+        7
+      ]
+    }
+  ],
+  "final_answer": "22.36",
+  "index": 617,
+  "question": "What is the average price of the ticker with two 'A' in their company name, not case sensitive?"
+}

@@ -1,0 +1,127 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number of gray squares in the first item of the sequence",
+      "expected_value": "2",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        160,
+        270,
+        260,
+        400
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number of gray squares in the second item of the sequence",
+      "expected_value": "1",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        280,
+        330,
+        310,
+        370
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number of gray squares in the third item of the sequence",
+      "expected_value": "2",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        160,
+        270,
+        250,
+        400
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number of gray squares in the fourth item of the sequence",
+      "expected_value": "1",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        160,
+        273,
+        252,
+        403
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number of gray squares in the fifth item of the sequence",
+      "expected_value": "2",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        163,
+        273,
+        252,
+        403
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "identify the repeating pattern in the sequence",
+      "expected_value": "2, 1, 2, 1, 2",
+      "expected_unit": "sequence",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "determine the next number in the sequence",
+      "expression": "pattern_continuation(2, 1, 2, 1, 2)",
+      "expected_value": "1",
+      "expected_unit": "count",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the number of gray squares in option B",
+      "expected_value": "1",
+      "expected_unit": "count",
+      "depends_on": [],
+      "bbox_norm": [
+        362,
+        487,
+        411,
+        537
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "match the expected count to the correct option",
+      "expected_value": "B",
+      "expected_unit": "option",
+      "depends_on": [
+        7,
+        8
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 440,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

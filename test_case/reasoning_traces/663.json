@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Determine that the Grande Coffee purchase is ignored",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price of a grande-size Vanilla Cream listed in the menu",
+      "expected_value": "61",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        379,
+        562,
+        397,
+        586
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the total cost for two grande-size Vanilla Creams",
+      "expression": "61 * 2",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "Calculate the change",
+      "expression": "200 - 122",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "78",
+  "index": 663,
+  "question": "If someone has already bought a grande-size Coffee, and then wants to buy two grande-size Vanilla Creams and pays with 200, how much change will they receive?"
+}

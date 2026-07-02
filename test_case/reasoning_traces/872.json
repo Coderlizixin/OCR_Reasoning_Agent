@@ -1,0 +1,82 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取ST万林旁边的连涨天数",
+      "expected_value": "12天",
+      "expected_unit": "天",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        229,
+        548,
+        247
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "读取交通银行旁边的连涨天数",
+      "expected_value": "11天",
+      "expected_unit": "天",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        265,
+        555,
+        280
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "筛选出连涨天数大于10的股票，包括ST万林和交通银行",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "读取ST万林的收盘价",
+      "expected_value": "4.62元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        249,
+        229,
+        272,
+        247
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "读取交通银行的收盘价",
+      "expected_value": "7.54元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        230,
+        260,
+        275,
+        280
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "计算ST万林和交通银行的收盘价的平均值",
+      "expression": "(4.62+7.54)/2",
+      "depends_on": [
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "6.08元",
+  "index": 872,
+  "question": "连涨天数大于10的股票的收盘价的平均值是多少?"
+}

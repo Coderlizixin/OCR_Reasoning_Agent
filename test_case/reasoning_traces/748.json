@@ -1,0 +1,77 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "deduce charge types from problem statement",
+      "expected_value": "异种电荷",
+      "expected_unit": "none",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the radius of the circle in the diagram",
+      "expected_value": "r",
+      "expected_unit": "length",
+      "depends_on": [],
+      "bbox_norm": [
+        55,
+        355,
+        345,
+        745
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate distances AC and BC based on geometry",
+      "expression": "r_{AC} = r, r_{BC} = \\sqrt{3}r",
+      "expected_value": "r_{AC} = r, \\quad r_{BC} = \\sqrt{3}r",
+      "expected_unit": "length",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the angle between field vectors in the diagram",
+      "expected_value": "60^\\circ",
+      "expected_unit": "degrees",
+      "depends_on": [],
+      "bbox_norm": [
+        7,
+        14,
+        991,
+        986
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "apply electric field formulas",
+      "expression": "E_A = \\frac{k q_A}{r_{AC}^2}, E_B = \\frac{k q_B}{r_{BC}^2}",
+      "expected_value": "E_A = \\frac{k q_A}{r_{AC}^2}, \\quad E_B = \\frac{k q_B}{r_{BC}^2}",
+      "expected_unit": "N/C",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "solve for charge ratio using field relation",
+      "expression": "\\frac{q_A}{q_B} = \\frac{\\sqrt{3}}{3}",
+      "expected_value": "\\frac{q_A}{q_B} = \\frac{\\sqrt{3}}{3}",
+      "expected_unit": "none",
+      "depends_on": [
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 748,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

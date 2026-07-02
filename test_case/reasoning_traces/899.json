@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the proportion value for Finland",
+      "expected_value": "4.2%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        822,
+        471,
+        877,
+        507
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the proportion value for France",
+      "expected_value": "5.3%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        822,
+        552,
+        877,
+        586
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the average of the proportions",
+      "expression": "(4.2 + 5.3) / 2",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "4.75",
+  "index": 899,
+  "question": "What is the average proportion of countries starting with the letter 'F'?"
+}

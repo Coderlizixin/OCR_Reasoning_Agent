@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the percentage of countries where schools were not open for in-person learning for at least 6 months from the image",
+      "expected_value": "38%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        527,
+        203,
+        557,
+        221
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "calculating the percentage of countries where schools resumed in-person teaching within six months",
+      "expression": "100% - 38%",
+      "depends_on": [
+        1
+      ]
+    }
+  ],
+  "final_answer": "62%",
+  "index": 996,
+  "question": "According to the image, how many countries' schools might have resumed in-person teaching within six months?"
+}

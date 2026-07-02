@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 150 in the phrase '150 calories' in reasoning step 1",
+      "expected_value": "150",
+      "expected_unit": "calories",
+      "depends_on": [],
+      "bbox_norm": [
+        577,
+        247,
+        647,
+        312
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2.5 in the phrase '2.5 cups' in reasoning step 2",
+      "expected_value": "2.5",
+      "expected_unit": "cups",
+      "depends_on": [],
+      "bbox_norm": [
+        457,
+        720,
+        481,
+        747
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate total calories by multiplying cups by calories per cup",
+      "expression": "2.5 * 150",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "375",
+  "index": 645,
+  "question": "If I drink 2.5 cups of milk, how many calories will I consume?"
+}

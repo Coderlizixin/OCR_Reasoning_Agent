@@ -1,0 +1,180 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 100 for initial shares purchased",
+      "expected_value": "100",
+      "expected_unit": "股",
+      "depends_on": [],
+      "bbox_norm": [
+        552,
+        682,
+        597,
+        692
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 31.53 as reference price",
+      "expected_value": "31.53",
+      "expected_unit": "元/股",
+      "depends_on": [],
+      "bbox_norm": [
+        555,
+        366,
+        619,
+        387
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 3.67 as price adjustment",
+      "expected_value": "3.67",
+      "expected_unit": "元/股",
+      "depends_on": [],
+      "bbox_norm": [
+        632,
+        367,
+        666,
+        377
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate initial buy price",
+      "expression": "31.53 - 3.67",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate initial total cost",
+      "expression": "100 * 27.86",
+      "depends_on": [
+        1,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the number 31.88 as highest sell price",
+      "expected_value": "31.88",
+      "expected_unit": "元/股",
+      "depends_on": [],
+      "bbox_norm": [
+        569,
+        614,
+        607,
+        624
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate sell total price",
+      "expression": "100 * 31.88",
+      "depends_on": [
+        1,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the fee rate 0.10",
+      "expected_value": "0.10",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        573,
+        673,
+        600,
+        680
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate sell fee",
+      "expression": "3188 * 0.10",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate sell income",
+      "expression": "3188 - 318.8",
+      "depends_on": [
+        7,
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "calculate profit from first trade",
+      "expression": "2869.2 - 2786",
+      "depends_on": [
+        10,
+        5
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "the number 50 for new shares purchased",
+      "expected_value": "50",
+      "expected_unit": "股",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 13,
+      "type": "read",
+      "description": "the number 31.53 as current buy price",
+      "expected_value": "31.53",
+      "expected_unit": "元/股",
+      "depends_on": [],
+      "bbox_norm": [
+        556,
+        366,
+        619,
+        386
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "calculate new buy cost",
+      "expression": "50 * 31.53",
+      "depends_on": [
+        12,
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "compute",
+      "description": "calculate final net cost",
+      "expression": "1576.5 - 83.2",
+      "depends_on": [
+        14,
+        11
+      ]
+    }
+  ],
+  "final_answer": "1493.3",
+  "index": 820,
+  "question": "我在屹通新材涨价前买了100股，在它今天最高价的时候卖出，然后在现在又继续买入50股，假如买入不收取手续费，卖出的手续费需要收取百分之10%，那么我总共花多少钱？"
+}

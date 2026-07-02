@@ -1,0 +1,76 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "initial segment of the graph",
+      "expected_value": "uniform",
+      "expected_unit": "speed",
+      "depends_on": [],
+      "bbox_norm": [
+        425,
+        380,
+        480,
+        400
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "second segment of the graph",
+      "expected_value": "uniformly decelerates to zero",
+      "expected_unit": "speed",
+      "depends_on": [],
+      "bbox_norm": [
+        20,
+        600,
+        350,
+        900
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "value at point B",
+      "expected_value": "zero",
+      "expected_unit": "speed",
+      "depends_on": [],
+      "bbox_norm": [
+        115,
+        225,
+        155,
+        290
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "third segment of the graph",
+      "expected_value": "uniformly accelerates back to its initial value",
+      "expected_unit": "speed",
+      "depends_on": [],
+      "bbox_norm": [
+        650,
+        450,
+        700,
+        500
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "match motion profile to options",
+      "expected_value": "C",
+      "expected_unit": "option",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 318,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

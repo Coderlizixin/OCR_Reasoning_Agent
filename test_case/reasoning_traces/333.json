@@ -1,0 +1,149 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the x-coordinate of the first intersection point on the graph",
+      "expected_value": "\\frac{\\pi}{6}",
+      "expected_unit": "rad",
+      "depends_on": [],
+      "bbox_norm": [
+        135,
+        535,
+        175,
+        635
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the x-coordinate of the second intersection point on the graph",
+      "expected_value": "\\frac{2}{3}\\pi",
+      "expected_unit": "rad",
+      "depends_on": [],
+      "bbox_norm": [
+        273,
+        532,
+        308,
+        628
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate half the period T/2",
+      "expression": "\\frac{T}{2}=\\frac{2}{3}\\pi-\\frac{\\pi}{6}=\\frac{\\pi}{2}",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate angular frequency omega",
+      "expression": "\\omega=\\frac{2\\pi}{T}=\\frac{2\\pi}{\\frac{\\pi}{2}}=2",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "This eliminates option A",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the y-value at the minimum point of the function",
+      "expected_value": "-1",
+      "expected_unit": "unitless",
+      "depends_on": [],
+      "bbox_norm": [
+        320,
+        580,
+        380,
+        640
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate the midpoint x coordinate",
+      "expression": "x=\\frac{\\frac{2}{3}\\pi+\\frac{\\pi}{6}}{2}=\\frac{5\\pi}{12}",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "set up the phase shift equation",
+      "expression": "2\\times \\frac{5\\pi}{12}+\\varphi=\\frac{3\\pi}{2}+2k\\pi(k\\in \\mathbb{Z})",
+      "depends_on": [
+        4,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "solve for phase shift phi",
+      "expression": "\\varphi=2k\\pi+\\frac{2}{3}\\pi(k\\in \\mathbb{Z})",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "express the function's analytical expression",
+      "expression": "y=\\sin\\left(2x+\\frac{2}{3}\\pi+2k\\pi\\right)",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "simplify the function expression",
+      "expression": "=\\sin\\left(2x+\\frac{\\pi}{6}+\\frac{\\pi}{2}\\right)=\\cos\\left(2x+\\frac{\\pi}{6}\\right)",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "convert to alternative sine form",
+      "expression": "=\\sin\\left(\\frac{\\pi}{3}-2x\\right)",
+      "depends_on": [
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "verify the symmetry relation",
+      "expression": "\\cos\\left(2x+\\frac{\\pi}{6}\\right)=-\\cos\\left(\\frac{5\\pi}{6}-2x\\right)",
+      "depends_on": [
+        11
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "logical",
+      "description": "Therefore, the answer is BC",
+      "depends_on": [
+        13
+      ]
+    }
+  ],
+  "final_answer": "BC",
+  "index": 333,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

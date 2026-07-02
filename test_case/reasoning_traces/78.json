@@ -1,0 +1,180 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the number of first prize winners",
+      "expected_value": "2",
+      "expected_unit": "名",
+      "depends_on": [],
+      "bbox_norm": [
+        570,
+        735,
+        700,
+        750
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the value of first prize gift",
+      "expected_value": "400",
+      "expected_unit": "元/名",
+      "depends_on": [],
+      "bbox_norm": [
+        800,
+        735,
+        850,
+        750
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculating total value for first prize",
+      "expression": "2 * 400",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading the number of second prize winners",
+      "expected_value": "4",
+      "expected_unit": "名",
+      "depends_on": [],
+      "bbox_norm": [
+        580,
+        760,
+        940,
+        780
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "reading the value of second prize gift",
+      "expected_value": "200",
+      "expected_unit": "元/名",
+      "depends_on": [],
+      "bbox_norm": [
+        580,
+        760,
+        940,
+        778
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating total value for second prize",
+      "expression": "4 * 200",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "reading the number of third prize winners",
+      "expected_value": "10",
+      "expected_unit": "名",
+      "depends_on": [],
+      "bbox_norm": [
+        565,
+        786,
+        700,
+        803
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "reading the value of third prize gift",
+      "expected_value": "100",
+      "expected_unit": "元/名",
+      "depends_on": [],
+      "bbox_norm": [
+        565,
+        785,
+        940,
+        805
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculating total value for third prize",
+      "expression": "10 * 100",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculating daily total gift value",
+      "expression": "800 + 800 + 1000",
+      "depends_on": [
+        3,
+        6,
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "reading the start date of the event",
+      "expected_value": "9月10日",
+      "expected_unit": "日期",
+      "depends_on": [],
+      "bbox_norm": [
+        480,
+        880,
+        580,
+        910
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "reading the end date of the event",
+      "expected_value": "9月25日",
+      "expected_unit": "日期",
+      "depends_on": [],
+      "bbox_norm": [
+        600,
+        880,
+        740,
+        910
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "calculating total number of event days",
+      "expression": "(25 - 10) + 1",
+      "depends_on": [
+        11,
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "calculating total cost for all gifts",
+      "expression": "2600 * 16",
+      "depends_on": [
+        10,
+        13
+      ]
+    }
+  ],
+  "final_answer": "41600元",
+  "index": 78,
+  "question": "假如活动期间每天都进行获奖评比并且赠送礼物，那么准备所有奖项的礼物要花多少钱？"
+}

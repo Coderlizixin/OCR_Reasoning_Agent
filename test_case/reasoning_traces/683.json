@@ -1,0 +1,93 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price of one Churro",
+      "expected_value": "$1.00",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        302,
+        127,
+        362,
+        175
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "Calculate total cost of two Churros",
+      "expression": "$1.00 * 2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price of a 16'' Pizza",
+      "expected_value": "$8.98",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        847,
+        167,
+        903,
+        211
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price of a Pizza Combo",
+      "expected_value": "$2.50",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        765,
+        162,
+        817,
+        207
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate total cost of the purchase",
+      "expression": "$8.98 + $2.50 + $2.00",
+      "depends_on": [
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the amount paid",
+      "expected_value": "$15",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        90,
+        92,
+        157,
+        145
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate change from $15",
+      "expression": "$15 - $13.48",
+      "depends_on": [
+        6,
+        5
+      ]
+    }
+  ],
+  "final_answer": "$1.52",
+  "index": 683,
+  "question": "If someone wants to buy a 16'' Pizza, a Pizza Combo, and two Churros, how much change will they get back from $15?"
+}

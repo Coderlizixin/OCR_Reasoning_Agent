@@ -1,0 +1,171 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 8.2M for tickets sold in London 2012",
+      "expected_value": "8.2M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        652,
+        662,
+        720,
+        691
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 8.5M for tickets available in London 2012",
+      "expected_value": "8.5M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        752,
+        667,
+        822,
+        700
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate ticket sales rate for London 2012",
+      "expression": "(8.2M / 8.5M) * 100",
+      "expected_value": "96.5%",
+      "expected_unit": "%",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 6.5M for tickets sold in Beijing 2008",
+      "expected_value": "6.5M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        552,
+        592,
+        622,
+        625
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 6.8M for tickets available in Beijing 2008",
+      "expected_value": "6.8M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        602,
+        726,
+        634
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate ticket sales rate for Beijing 2008",
+      "expression": "(6.5M / 6.8M) * 100",
+      "expected_value": "95.6%",
+      "expected_unit": "%",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the number 6.2M for tickets sold in Rio de Janeiro 2016",
+      "expected_value": "6.2M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        537,
+        726,
+        607,
+        759
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the number 6.8M for tickets available in Rio de Janeiro 2016",
+      "expected_value": "6.8M",
+      "expected_unit": "M",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        737,
+        726,
+        771
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Calculate ticket sales rate for Rio de Janeiro 2016",
+      "expression": "(6.2M / 6.8M) * 100",
+      "expected_value": "91.2%",
+      "expected_unit": "%",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "Compare all calculated rates to determine ranking",
+      "expected_value": "London > Beijing > Rio",
+      "expected_unit": "rank",
+      "depends_on": [
+        3,
+        6,
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "Identify the second highest ticket sales rate",
+      "expected_value": "95.6%",
+      "expected_unit": "%",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "Identify the third highest ticket sales rate",
+      "expected_value": "91.2%",
+      "expected_unit": "%",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "Calculate the difference between second and third highest rates",
+      "expression": "95.6% - 91.2%",
+      "expected_value": "4.4%",
+      "expected_unit": "%",
+      "depends_on": [
+        11,
+        12
+      ]
+    }
+  ],
+  "final_answer": "4.4%",
+  "index": 940,
+  "question": "How much more is the second highest ticket sales rate than the third highest ticket sales rate?"
+}

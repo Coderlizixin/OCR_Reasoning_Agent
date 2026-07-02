@@ -1,0 +1,91 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the total stop count for bus line 982 from the reasoning text",
+      "expected_value": "28",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": [
+        137,
+        73,
+        240,
+        126
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the total stop count for bus line E27 from the reasoning text",
+      "expected_value": "24",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": [
+        135,
+        286,
+        230,
+        332
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading the total stop count for bus line M198 from the reasoning text",
+      "expected_value": "21",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        480,
+        240,
+        515
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading the total stop count for bus line M477 from the reasoning text",
+      "expected_value": "27",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "reading the total stop count for bus line M547 from the reasoning text",
+      "expected_value": "12",
+      "expected_unit": "站",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "comparing all stop counts to find the maximum",
+      "expected_value": "28",
+      "expected_unit": "站",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "determining the final answer based on the maximum count",
+      "expected_value": "28",
+      "expected_unit": "站",
+      "depends_on": [
+        6
+      ]
+    }
+  ],
+  "final_answer": "28",
+  "index": 897,
+  "question": "坐公交从始发站到当前站的话，最多经过了多少个公交站？"
+}

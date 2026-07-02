@@ -1,0 +1,70 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the condition that the rotational speed becomes roughly constant at a certain distance",
+      "expected_value": "rotational speed becomes roughly constant",
+      "expected_unit": "N/A",
+      "depends_on": [],
+      "bbox_norm": [
+        76,
+        36,
+        950,
+        215
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the equation relating mass and rotational speed",
+      "expected_value": "\\[\\frac{GM(r)m}{r^2} = \\frac{mv(r)^2}{r}.\\]",
+      "expected_unit": "N/A",
+      "depends_on": [],
+      "bbox_norm": [
+        386,
+        43,
+        636,
+        86
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "deduce the behavior of M(r) for constant v(r)",
+      "expression": "M(r) \\propto r",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "identify that M(r) \\propto r corresponds to choice (B)",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "analyze choice (D) as parabolic M(r) \\propto r^2",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "State the final answer",
+      "depends_on": [
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "BD",
+  "index": 299,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

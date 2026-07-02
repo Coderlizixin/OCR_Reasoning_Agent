@@ -1,0 +1,114 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the position value 3 on the x-axis",
+      "expected_value": "3",
+      "expected_unit": "m",
+      "depends_on": [],
+      "bbox_norm": [
+        360,
+        790,
+        380,
+        850
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the force value 3 from the first segment of the graph",
+      "expected_value": "3",
+      "expected_unit": "N",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        530,
+        120,
+        560
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the distance interval 2 from the first segment of the graph",
+      "expected_value": "2",
+      "expected_unit": "m",
+      "depends_on": [],
+      "bbox_norm": [
+        185,
+        785,
+        205,
+        855
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the force value 2 from the second segment of the graph",
+      "expected_value": "2",
+      "expected_unit": "N",
+      "depends_on": [],
+      "bbox_norm": [
+        10,
+        593,
+        27,
+        633
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the distance interval 1 from the second segment of the graph",
+      "expected_value": "1",
+      "expected_unit": "m",
+      "depends_on": [],
+      "bbox_norm": [
+        190,
+        800,
+        210,
+        850
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate total work done by F",
+      "expression": "3 * 2 + 2 * 1",
+      "expected_value": "8",
+      "expected_unit": "J",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate velocity using kinetic energy theorem",
+      "expression": "sqrt(2 * 8 / m)",
+      "expected_value": "4",
+      "expected_unit": "m/s",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate instantaneous power P = Fv",
+      "expression": "2 * 4",
+      "expected_value": "8",
+      "expected_unit": "W",
+      "depends_on": [
+        4,
+        7
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 747,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

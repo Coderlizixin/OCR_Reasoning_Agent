@@ -1,0 +1,137 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "识别图片中的 1 线圈位置",
+      "expected_value": "1 线圈",
+      "expected_unit": "线圈",
+      "depends_on": [],
+      "bbox_norm": [
+        396,
+        296,
+        423,
+        329
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "识别图片中的 3 线圈位置",
+      "expected_value": "3 线圈",
+      "expected_unit": "线圈",
+      "depends_on": [],
+      "bbox_norm": [
+        260,
+        490,
+        300,
+        530
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "根据安培定则可以画出直流导线在线框中的磁场方向",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "电流大小相等，线圈关于两导线对称，所以线圈中的磁通量为 0",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "电流增大时，根据楞次定律可知线圈中无感应电流，不受安培力",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "1 和 3 线圈静止不动",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "识别图片中的 2 线圈位置",
+      "expected_value": "2 线圈",
+      "expected_unit": "线圈",
+      "depends_on": [],
+      "bbox_norm": [
+        268,
+        295,
+        308,
+        330
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "识别图片中的 4 线圈位置",
+      "expected_value": "4 线圈",
+      "expected_unit": "线圈",
+      "depends_on": [],
+      "bbox_norm": [
+        410,
+        510,
+        450,
+        550
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "根据安培定则可以画出直流导线在线圈中的磁场方向",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "电流增大，根据楞次定律判断感应电流方向",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "靠近直流导线的线圈导体周围磁感应强度较大，因此受力起主要作用",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "根据左手定则判断安培力的方向，根据力的合成可知 2、4 线圈沿着对角线向外运动",
+      "depends_on": [
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "logical",
+      "description": "故 B 正确，ACD 错误",
+      "depends_on": [
+        12
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 341,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

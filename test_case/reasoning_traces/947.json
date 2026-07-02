@@ -1,0 +1,72 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the AI tool names in the 2022 column",
+      "expected_value": "ChatGPT, Jasper, GetGenie, Simplified, DALL-E, Midjourney, YouChat, DeepL",
+      "expected_unit": "tools",
+      "depends_on": [],
+      "bbox_norm": [
+        40,
+        240,
+        160,
+        840
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the AI tool names in the 2023 column",
+      "expected_value": "ChatGPT, Meta AI, Snapchat My AI, Google Gemini, Microsoft Bing AI, Adobe Firefly, DALL-E, Jasper",
+      "expected_unit": "tools",
+      "depends_on": [],
+      "bbox_norm": [
+        346,
+        240,
+        530,
+        840
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the AI tool names in the 2024 column",
+      "expected_value": "ChatGPT, Meta AI, Google Gemini, Microsoft Copilot, Snapchat My AI, Microsoft Bing AI, Adobe Firefly, GetGenie",
+      "expected_unit": "tools",
+      "depends_on": [],
+      "bbox_norm": [
+        715,
+        240,
+        900,
+        830
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Combine all the AI tool names from all columns into a single list",
+      "expected_value": "ChatGPT, Jasper, GetGenie, Simplified, DALL-E, Midjourney, YouChat, DeepL, Meta AI, Snapchat My AI, Google Gemini, Microsoft Bing AI, Adobe Firefly, Microsoft Copilot",
+      "expected_unit": "tools",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Count the number of unique entries in the combined list",
+      "expression": "count(unique(list))",
+      "expected_value": "14",
+      "expected_unit": "tools",
+      "depends_on": [
+        4
+      ]
+    }
+  ],
+  "final_answer": "14",
+  "index": 947,
+  "question": "How many different AI tools are shown in the image?"
+}

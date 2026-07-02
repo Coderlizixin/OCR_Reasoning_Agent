@@ -1,0 +1,65 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify inventory with largest code value",
+      "expected_value": "LED灯泡20W",
+      "expected_unit": "无",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Identify inventory with smallest code value",
+      "expected_value": "路锥",
+      "expected_unit": "无",
+      "depends_on": []
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read total purchase amount for LED灯泡20W",
+      "expected_value": "1401.71",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        915,
+        625,
+        958,
+        648
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read total purchase amount for 路锥",
+      "expected_value": "581.20",
+      "expected_unit": "元",
+      "depends_on": [
+        2
+      ],
+      "bbox_norm": [
+        927,
+        886,
+        958,
+        911
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate difference between amounts",
+      "expression": "1401.71 - 581.20",
+      "depends_on": [
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "820.51",
+  "index": 178,
+  "question": "存货编码数值最大的存货采购总金额和存货编码数值最小的存货采购总金额相差多少元？"
+}

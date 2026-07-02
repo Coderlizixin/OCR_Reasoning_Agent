@@ -1,0 +1,75 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Determine that the Deluxe Cheeseburger purchase is ignored as it was already bought",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price of the Mates Hunger Buster",
+      "expected_value": "$22.00",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        37,
+        217,
+        95,
+        234
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price of the Big Mac Hunger Buster",
+      "expected_value": "$14.40",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        22,
+        479,
+        92,
+        494
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the initial amount of money available",
+      "expected_value": "$40",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        37,
+        217,
+        95,
+        235
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate total price of new items",
+      "expression": "22.00 + 14.40",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate money left after purchase",
+      "expression": "40 - 36.40",
+      "depends_on": [
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "$3.60",
+  "index": 659,
+  "question": "If you have already bought a 'Deluxe Cheeseburger', and then wants to buy one Mates Hunger Buster and one Big Mac Hunger Buster, and you have $40, how much money do you have left?"
+}

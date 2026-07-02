@@ -1,0 +1,103 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Read Option A label in the image",
+      "expected_value": "A",
+      "expected_unit": "option",
+      "depends_on": [],
+      "bbox_norm": [
+        78,
+        456,
+        103,
+        500
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Deduce ΔH1 > 0 for HF gas escaping from solution",
+      "expected_value": null,
+      "expected_unit": null,
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read Option B label in the image",
+      "expected_value": "B",
+      "expected_unit": "option",
+      "depends_on": [],
+      "bbox_norm": [
+        66,
+        573,
+        93,
+        613
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Deduce HCl stability > HBr implies ΔH2 difference",
+      "expected_value": null,
+      "expected_unit": null,
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read Option C label in the image",
+      "expected_value": "C",
+      "expected_unit": "option",
+      "depends_on": [],
+      "bbox_norm": [
+        60,
+        600,
+        750,
+        650
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Deduce ΔH3 + ΔH4 is independent of acid type",
+      "expected_value": null,
+      "expected_unit": null,
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "Read Option D label in the image",
+      "expected_value": "D",
+      "expected_unit": "option",
+      "depends_on": [],
+      "bbox_norm": [
+        56,
+        652,
+        83,
+        683
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "Deduce bond breaking energy equals akJ/mol for ΔH2",
+      "expected_value": "D",
+      "expected_unit": "option",
+      "depends_on": [
+        7
+      ]
+    }
+  ],
+  "final_answer": "D",
+  "index": 421,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

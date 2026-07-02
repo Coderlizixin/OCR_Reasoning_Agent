@@ -1,0 +1,60 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "read the text 'Major factor' in the chart",
+      "expected_value": "Major factor",
+      "expected_unit": "factor",
+      "depends_on": [],
+      "bbox_norm": [
+        201,
+        246,
+        393,
+        266
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "read the text 'Minor factor' in the chart",
+      "expected_value": "Minor factor",
+      "expected_unit": "factor",
+      "depends_on": [],
+      "bbox_norm": [
+        471,
+        244,
+        671,
+        267
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "read the text 'Not a factor' in the chart",
+      "expected_value": "Not a factor",
+      "expected_unit": "factor",
+      "depends_on": [],
+      "bbox_norm": [
+        745,
+        244,
+        937,
+        267
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "count the total number of identified factors",
+      "expression": "1 + 1 + 1",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 493,
+  "question": "How many factors are shown in the chart?"
+}

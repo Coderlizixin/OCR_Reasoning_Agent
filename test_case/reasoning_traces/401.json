@@ -1,0 +1,81 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "radius r labeled in the diagram",
+      "expected_value": "r",
+      "expected_unit": "unitless",
+      "depends_on": [],
+      "bbox_norm": [
+        245,
+        845,
+        265,
+        865
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "radius R labeled in the diagram",
+      "expected_value": "R",
+      "expected_unit": "unitless",
+      "depends_on": [],
+      "bbox_norm": [
+        150,
+        780,
+        170,
+        800
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "magnetic induction strength produced by the current in a circular arc",
+      "expression": "B = k/r",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "magnetic induction strength on the extension of the straight current",
+      "expression": "zero",
+      "depends_on": []
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "magnetic induction strength at point a",
+      "expression": "B_a = k/r - k/R",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "magnetic induction strength at point b",
+      "expression": "B_b = k/r + k/R",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "comparison of magnetic induction strength at point a and b",
+      "expression": "B_a < B_b",
+      "depends_on": [
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": " B_a < B_b",
+  "index": 401,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

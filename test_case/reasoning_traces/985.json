@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "The start date of the Montreal Winter Sports",
+      "expected_value": "Jan 19",
+      "expected_unit": "date",
+      "depends_on": [],
+      "bbox_norm": [
+        660,
+        280,
+        800,
+        310
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "The end date of the Montreal Winter Sports",
+      "expected_value": "Feb 23",
+      "expected_unit": "date",
+      "depends_on": [],
+      "bbox_norm": [
+        657,
+        281,
+        807,
+        371
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the total days between the start and end dates",
+      "expression": "31 - 19 + 23",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "35",
+  "index": 985,
+  "question": "How many days will Winter Sports last?"
+}

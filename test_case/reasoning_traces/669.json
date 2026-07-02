@@ -1,0 +1,83 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify products with '*' in the espresso creations section",
+      "expected_value": "Caramel Macchiato, Caffe Latte, Cappuccino, Caffe Mocha",
+      "expected_unit": "products",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the grande price for Caramel Macchiato in espresso creations",
+      "expected_value": "$4.45",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        307,
+        347,
+        338
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the grande price for Caffe Latte in espresso creations",
+      "expected_value": "$3.65",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        423,
+        345,
+        452
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the grande price for Cappuccino in espresso creations",
+      "expected_value": "$3.65",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        308,
+        467,
+        347,
+        497
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the grande price for Caffe Mocha in espresso creations",
+      "expected_value": "$4.15",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        307,
+        512,
+        345,
+        542
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate the total cost of all identified products",
+      "expression": "$4.45 + $3.65 + $3.65 + $4.15",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "$15.9",
+  "index": 669,
+  "question": "How much does it cost to buy all the grande-sized products marked with '*' in the espresso creations?"
+}

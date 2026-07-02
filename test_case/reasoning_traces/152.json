@@ -1,0 +1,96 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取第四行第二列的食物热量值",
+      "expected_value": "349",
+      "expected_unit": "大卡/100g",
+      "depends_on": [],
+      "bbox_norm": [
+        455,
+        952,
+        531,
+        977
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "计算摄入200g五花肉的热量",
+      "expression": "(200/100)*349",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "读取第三行第三列的食物热量值",
+      "expected_value": "102",
+      "expected_unit": "大卡/100g",
+      "depends_on": [],
+      "bbox_norm": [
+        770,
+        700,
+        860,
+        730
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "计算摄入50g兔肉的热量",
+      "expression": "(50/100)*102",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "读取第二行第三列的食物热量值",
+      "expected_value": "240",
+      "expected_unit": "大卡/100g",
+      "depends_on": [],
+      "bbox_norm": [
+        778,
+        520,
+        854,
+        545
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "计算摄入100g鸭肉的热量",
+      "expression": "(100/100)*240",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "将所有摄入的热量相加",
+      "expression": "698 + 51 + 240",
+      "depends_on": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "根据要求保留两位小数",
+      "expression": "989.00",
+      "depends_on": [
+        7
+      ]
+    }
+  ],
+  "final_answer": "989.00大卡",
+  "index": 152,
+  "question": "某人吃了200g第四行的第二列的食物，50g第三行的第三列的食物，100g第二行的第三列的食物，那么他摄入了多少热量？"
+}

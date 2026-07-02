@@ -1,0 +1,188 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 1 in the first equation",
+      "expected_value": "1",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        270,
+        170,
+        315,
+        275
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 4 in the first equation",
+      "expected_value": "4",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        270,
+        170,
+        320,
+        280
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 5 in the first equation",
+      "expected_value": "5",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        647,
+        171,
+        710,
+        274
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 2 in the second equation",
+      "expected_value": "2",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        218,
+        346,
+        279,
+        446
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 5 in the second equation",
+      "expected_value": "5",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        407,
+        337,
+        473,
+        447
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the number 12 in the second equation",
+      "expected_value": "12",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        636,
+        342,
+        756,
+        448
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the number 3 in the third equation",
+      "expected_value": "3",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        237,
+        517,
+        295,
+        617
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the number 6 in the third equation",
+      "expected_value": "6",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        426,
+        517,
+        485,
+        620
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the number 21 in the third equation",
+      "expected_value": "21",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        614,
+        514,
+        730,
+        620
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "deduce the formula A + (A X B) from the patterns",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "the number 8 in the final equation",
+      "expected_value": "8",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        237,
+        686,
+        298,
+        788
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "the number 11 in the final equation",
+      "expected_value": "11",
+      "expected_unit": "none",
+      "depends_on": [],
+      "bbox_norm": [
+        432,
+        686,
+        541,
+        788
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "calculate the final answer using the formula",
+      "expression": "8 + (8*11)",
+      "depends_on": [
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "final_answer": "96",
+  "index": 775,
+  "question": "Find the missing value in this math puzzle."
+}

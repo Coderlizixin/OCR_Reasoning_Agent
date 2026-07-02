@@ -1,0 +1,54 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the start date June 3",
+      "expected_value": "June 3",
+      "expected_unit": "date",
+      "depends_on": [],
+      "bbox_norm": [
+        590,
+        655,
+        930,
+        715
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the end date June 22",
+      "expected_value": "June 22",
+      "expected_unit": "date",
+      "depends_on": [],
+      "bbox_norm": [
+        590,
+        730,
+        975,
+        785
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the difference in days",
+      "expression": "22 - 3",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "add 1 day for inclusivity",
+      "expression": "19 + 1",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "20",
+  "index": 21,
+  "question": "How many days does this campaign last?"
+}

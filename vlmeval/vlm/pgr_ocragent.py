@@ -24,7 +24,7 @@ class ThreeStageOCRAgent(OpenAIWrapper):
         # Stage 1: 独立 9B 实例 (端口 22250)，避免与 Stage 3 抢占同一服务端
         self.stage1_agent = OpenAIWrapper(
             model='Qwen3.5-9B',
-            api_base='http://10.3.112.34:22240/v1/chat/completions',
+            api_base='http://10.3.112.34:22630/v1/chat/completions',
             # model='Qwen3.5-122B-A10B',
             # api_base='http://10.3.112.34:22510/v1/chat/completions',
             key='sk-EMPTY',
@@ -38,7 +38,7 @@ class ThreeStageOCRAgent(OpenAIWrapper):
         # Stage 2: 122B 强模型做 grounding (端口 22510)
         self.grounding_agent = OpenAIWrapper(
             model='Qwen3.5-9B',
-            api_base='http://10.3.112.34:22240/v1/chat/completions',
+            api_base='http://10.3.112.34:22630/v1/chat/completions',
             # model='Qwen3.5-122B-A10B',
             # api_base='http://10.3.112.34:22510/v1/chat/completions',
             key='ms-EMPTY',

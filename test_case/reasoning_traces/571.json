@@ -1,0 +1,118 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the Last price value 0.1844 in the LPTV row",
+      "expected_value": "0.1844",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        207,
+        407,
+        257,
+        437
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the Last price value 0.1986 in the GDHG row",
+      "expected_value": "0.1986",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        517,
+        247,
+        537
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the Last price value 0.3589 in the SNTI row",
+      "expected_value": "0.3589",
+      "expected_unit": "USD",
+      "depends_on": [],
+      "bbox_norm": [
+        207,
+        567,
+        257,
+        590
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Identify LPTV, GDHG, SNTI as the three companies with the lowest Last prices",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the Pre Change value 0.0834 in the LPTV row",
+      "expected_value": "0.0834",
+      "expected_unit": "USD",
+      "depends_on": [
+        4
+      ],
+      "bbox_norm": [
+        416,
+        416,
+        440,
+        435
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the Pre Change value 0.0476 in the GDHG row",
+      "expected_value": "0.0476",
+      "expected_unit": "USD",
+      "depends_on": [
+        4
+      ],
+      "bbox_norm": [
+        418,
+        525,
+        440,
+        540
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the Pre Change value 0.0829 in the SNTI row",
+      "expected_value": "0.0829",
+      "expected_unit": "USD",
+      "depends_on": [
+        4
+      ],
+      "bbox_norm": [
+        418,
+        576,
+        456,
+        590
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate the sum of the Pre Change values",
+      "expression": "0.0834 + 0.0476 + 0.0829",
+      "depends_on": [
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "0.2139",
+  "index": 571,
+  "question": "What is the sum of the Pre Change for the three companies with the lowest Last prices?"
+}

@@ -1,0 +1,97 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price listed for Raw oysters",
+      "expected_value": "15",
+      "expected_unit": "cents",
+      "depends_on": [],
+      "bbox_norm": [
+        455,
+        237,
+        475,
+        248
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price listed for Stew oysters",
+      "expected_value": "20",
+      "expected_unit": "cents",
+      "depends_on": [],
+      "bbox_norm": [
+        453,
+        248,
+        476,
+        258
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price listed for Fry, Small",
+      "expected_value": "20",
+      "expected_unit": "cents",
+      "depends_on": [],
+      "bbox_norm": [
+        865,
+        237,
+        907,
+        250
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price listed for Butter Cakes",
+      "expected_value": "5",
+      "expected_unit": "cents",
+      "depends_on": [],
+      "bbox_norm": [
+        865,
+        290,
+        877,
+        302
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the price listed for Buckwheat Cakes",
+      "expected_value": "10",
+      "expected_unit": "cents",
+      "depends_on": [],
+      "bbox_norm": [
+        860,
+        345,
+        880,
+        355
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Small strak is excluded as it was already paid for",
+      "expression": "",
+      "depends_on": []
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Add the prices of the ordered items",
+      "expression": "15 + 15 + 20 + 20 + 5 + 10",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "85 cents",
+  "index": 653,
+  "question": "If someone has already bought a small strak and is about to order 2 Raw oysters, 1 order of Stew oysters, 1 order of Fry, Small, 1 order of Butter Cakes, and 1 order of Buckwheat Cakes, how much would their meal cost?"
+}

@@ -1,0 +1,95 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the factorial value for the first row in the image",
+      "expected_value": "9!",
+      "expected_unit": "ways",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "calculate ways to fill first row",
+      "expression": "9! = 2^7 · 3^4 · 5 · 7",
+      "expected_value": "2^7 · 3^4 · 5 · 7",
+      "expected_unit": "ways",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "assume first row configuration",
+      "expression": "WLOG let the first row be 123|456|789",
+      "expected_value": "123|456|789",
+      "expected_unit": "row",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate Case 1 orderings",
+      "expression": "1 way along with 6^3 orderings",
+      "expected_value": "6^3",
+      "expected_unit": "cases",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate Case 2 orderings",
+      "expression": "3 * 3 * 3 ways to put the numbers along with 6^3 orderings",
+      "expected_value": "27 · 6^3",
+      "expected_unit": "cases",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "determine second row ways",
+      "expression": "number of ways to fill the second row is 56 · 6^3",
+      "expected_value": "56 · 6^3",
+      "expected_unit": "ways",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate total ways",
+      "expression": "2^7 · 3^4 · 5 · 7 · 56 · 6^3",
+      "expected_value": "2^16 · 3^10 · 5^1 · 7^2",
+      "expected_unit": "ways",
+      "depends_on": [
+        2,
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate final answer",
+      "expression": "2 · 16 + 3 · 10 + 5 · 1 + 7 · 2",
+      "expected_value": "81",
+      "expected_unit": "answer",
+      "depends_on": [
+        7
+      ]
+    }
+  ],
+  "final_answer": "81",
+  "index": 269,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

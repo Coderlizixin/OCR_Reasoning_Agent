@@ -1,0 +1,100 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the ROE value 8.76% from the graph",
+      "expected_value": "8.76%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        210,
+        600,
+        240,
+        617
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the ROE value 23.79% from the graph",
+      "expected_value": "23.79%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        247,
+        507,
+        387,
+        527
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the ROE value 30.42% from the graph",
+      "expected_value": "30.42%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        481,
+        487,
+        527,
+        507
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the ROE value 32.23% from the graph",
+      "expected_value": "32.23%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        637,
+        458,
+        679,
+        474
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the ROE value 32.31% from the graph",
+      "expected_value": "32.31%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        781,
+        460,
+        819,
+        473
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate the average ROE",
+      "expression": "(8.76 + 23.79 + 30.42 + 32.23 + 32.31) / 5",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate the difference between the highest ROE and the average ROE",
+      "expression": "32.31 - 25.502",
+      "depends_on": [
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "6.808",
+  "index": 550,
+  "question": "How much higher is the highest quarterly ROE compared to the average ROE of all quarters?"
+}

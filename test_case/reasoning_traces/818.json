@@ -1,0 +1,55 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the threshold value 11640",
+      "expected_value": "11640",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        83,
+        715,
+        113,
+        725
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the quantity value 14446",
+      "expected_value": "14446",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        85,
+        690,
+        115,
+        705
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "determine 14446 is greater than 11640",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the count 2 near 10:30",
+      "expected_value": "2",
+      "expected_unit": "个",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": []
+    }
+  ],
+  "final_answer": "2",
+  "index": 818,
+  "question": "量超过11640的时刻有多少个？"
+}

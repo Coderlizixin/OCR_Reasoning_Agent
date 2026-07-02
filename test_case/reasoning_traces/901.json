@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the percentage value 9.2% for Middle East in 2023",
+      "expected_value": "9.2%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        799,
+        162,
+        838,
+        185
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the percentage value 8.6% for Latin America in 2021",
+      "expected_value": "8.6%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        189,
+        157,
+        229,
+        182
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the difference between Middle East 2023 and Latin America 2021",
+      "expression": "9.2 - 8.6",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "0.6%",
+  "index": 901,
+  "question": "How much higher was the percentage in Middle East in 2023 compared to Latin America in 2021?"
+}

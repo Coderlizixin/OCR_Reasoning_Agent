@@ -1,0 +1,105 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the text 'PALACE HOTEL' in the poster",
+      "expected_value": "PALACE HOTEL",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        10,
+        760,
+        50,
+        950
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the text 'HOTEL D'ORANCE' in the poster",
+      "expected_value": "HOTEL D'ORANCE",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        10,
+        330,
+        50,
+        510
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the text 'HOTEL KURHAUS' in the poster",
+      "expected_value": "HOTEL KURHAUS",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        12,
+        35,
+        55,
+        205
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the text 'GRAND HOTEL' in the poster",
+      "expected_value": "GRAND HOTEL",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        940,
+        40,
+        985,
+        330
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the text 'SAVOY HOTEL' in the poster",
+      "expected_value": "SAVOY HOTEL",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        942,
+        363,
+        983,
+        658
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the text 'HOTEL RAUCH' in the poster",
+      "expected_value": "HOTEL RAUCH",
+      "expected_unit": "text",
+      "depends_on": [],
+      "bbox_norm": [
+        930,
+        670,
+        980,
+        950
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "count total occurrences of 'HOTEL'",
+      "expression": "1 + 1 + 1 + 1 + 1 + 1",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "6",
+  "index": 25,
+  "question": "How many times does the word 'HOTEL' appear in the poster?"
+}

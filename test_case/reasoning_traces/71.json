@@ -1,0 +1,190 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading mushroom quantity from the question text",
+      "expected_value": "10串蘑菇",
+      "expected_unit": "串",
+      "depends_on": [],
+      "bbox_norm": [
+        176,
+        443,
+        403,
+        498
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading mushroom price from the question text",
+      "expected_value": "6块钱一串",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        63,
+        363,
+        477,
+        473
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculating mushroom total price",
+      "expression": "10 * 6",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading chive quantity from the question text",
+      "expected_value": "10串韭菜",
+      "expected_unit": "串",
+      "depends_on": [],
+      "bbox_norm": [
+        179,
+        473,
+        222,
+        497
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "reading chive price from the question text",
+      "expected_value": "5块钱一串",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        68,
+        363,
+        480,
+        477
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating chive total price",
+      "expression": "10 * 5",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "reading chicken cartilage quantity from the question text",
+      "expected_value": "10串鸡脆骨",
+      "expected_unit": "串",
+      "depends_on": [],
+      "bbox_norm": [
+        63,
+        583,
+        310,
+        896
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "reading chicken cartilage price from the question text",
+      "expected_value": "6块钱一串",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculating chicken cartilage total price",
+      "expression": "10 * 6",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "reading oyster quantity from the question text",
+      "expected_value": "12个",
+      "expected_unit": "个",
+      "depends_on": [],
+      "bbox_norm": [
+        63,
+        583,
+        307,
+        896
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "reading oyster price from the question text",
+      "expected_value": "12元4个",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        276,
+        363,
+        442,
+        436
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "calculating oyster total price",
+      "expression": "12 * (12 / 4)",
+      "depends_on": [
+        10,
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "calculating subtotal before discount",
+      "expression": "60 + 50 + 60 + 36",
+      "depends_on": [
+        3,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "read",
+      "description": "reading beer quantity from the question text",
+      "expected_value": "12瓶",
+      "expected_unit": "瓶",
+      "depends_on": [],
+      "bbox_norm": [
+        66,
+        359,
+        446,
+        477
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "compute",
+      "description": "calculating final total with discount",
+      "expression": "206 / 2 + 12 * 2",
+      "depends_on": [
+        13,
+        14
+      ]
+    }
+  ],
+  "final_answer": "127元",
+  "index": 71,
+  "question": "某人和他的朋友共五个人，点了10串蘑菇，10串韭菜，10串鸡脆骨，一打生蚝和一打啤酒。假如，蘑菇6块钱一串，韭菜5块钱一串，鸡脆骨6块钱一串，生蚝12块4个。他们花了多少钱？"
+}

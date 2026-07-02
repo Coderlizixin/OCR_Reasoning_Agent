@@ -1,0 +1,39 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the total fat value per serving on the nutrition label",
+      "expected_value": "3g",
+      "expected_unit": "g",
+      "depends_on": [],
+      "bbox_norm": [
+        247,
+        326,
+        397,
+        359
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "calculate total fat for two servings",
+      "expression": "3 * 2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate total fat for seven days",
+      "expression": "6 * 7",
+      "depends_on": [
+        2
+      ]
+    }
+  ],
+  "final_answer": "42g",
+  "index": 647,
+  "question": "If someone eats two servings of this food every day for a week, how many grams of total fat will they consume?"
+}

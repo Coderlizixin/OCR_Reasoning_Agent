@@ -1,0 +1,69 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取菜品名称中带'牛'的菜品黑椒牛肉大的价格",
+      "expected_value": "28.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        512,
+        326,
+        590,
+        355
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "读取菜品名称中带'牛'的菜品特惠肥牛的价格",
+      "expected_value": "9.90",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        525,
+        355,
+        590,
+        385
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算增加的金额",
+      "expression": "28.00 + 9.90",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "读取取消优惠后的原总价",
+      "expected_value": "177.90",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        350,
+        660,
+        435,
+        685
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "计算新总价",
+      "expression": "177.90 + 37.90",
+      "depends_on": [
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "215.80元",
+  "index": 237,
+  "question": "如果所有菜品名称中带'牛'的菜品再多点一份，且取消任何优惠，则总价变为多少？"
+}

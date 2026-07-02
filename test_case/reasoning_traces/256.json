@@ -1,0 +1,90 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 1 next to Crab/Avo Eggroll in the order list",
+      "expected_value": "1",
+      "expected_unit": "items",
+      "depends_on": [],
+      "bbox_norm": [
+        151,
+        627,
+        167,
+        664
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 1 next to Frd Wontons in the order list",
+      "expected_value": "1",
+      "expected_unit": "items",
+      "depends_on": [],
+      "bbox_norm": [
+        151,
+        672,
+        167,
+        707
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 1 next to LS Ribeye Medall in the order list",
+      "expected_value": "1",
+      "expected_unit": "items",
+      "depends_on": [],
+      "bbox_norm": [
+        151,
+        724,
+        168,
+        755
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 1 next to LS Salmon in the order list",
+      "expected_value": "1",
+      "expected_unit": "items",
+      "depends_on": [],
+      "bbox_norm": [
+        151,
+        771,
+        168,
+        802
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 2 next to Water in the order list",
+      "expected_value": "2",
+      "expected_unit": "items",
+      "depends_on": [],
+      "bbox_norm": [
+        147,
+        817,
+        171,
+        854
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "summing the quantities of all ordered items",
+      "expression": "1 + 1 + 1 + 1 + 2",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "6",
+  "index": 256,
+  "question": "What is the total number of items ordered at Yucca de Lac restaurant?"
+}

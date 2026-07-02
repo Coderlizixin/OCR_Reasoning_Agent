@@ -1,0 +1,53 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取问题中的预算金额",
+      "expected_value": "100元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        915,
+        376,
+        933,
+        393
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "读取菜单中纯牛肉丸汤的价格",
+      "expected_value": "18元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        700,
+        935,
+        765,
+        960
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算预算除以单价",
+      "expression": "100 / 18",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "向下取整得到最大份数",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "5份",
+  "index": 101,
+  "question": "预算100元，最多可以点几份汤？"
+}

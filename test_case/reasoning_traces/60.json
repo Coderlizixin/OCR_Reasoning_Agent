@@ -1,0 +1,127 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "识别菜单上的所有食物类别",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "火锅锅底类中的最低价格",
+      "expected_value": "45",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        273,
+        373,
+        326,
+        405
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "精选全牛类中的最低价格",
+      "expected_value": "32",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        490,
+        362,
+        523,
+        385
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "鲜美肉类中的最低价格",
+      "expected_value": "20",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        486,
+        880,
+        519,
+        903
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "新鲜蔬菜类中的最低价格",
+      "expected_value": "32",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        809,
+        306,
+        839,
+        326
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "饮品类中的最低价格",
+      "expected_value": "10",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        912,
+        598,
+        942,
+        620
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "其他类中的最低价格",
+      "expected_value": "3",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        817,
+        866,
+        838,
+        886
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "将每个类别找出的最低价格相加",
+      "expected_value": "142",
+      "expected_unit": "元",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "expression": "45 + 32 + 20 + 32 + 10 + 3"
+    }
+  ],
+  "final_answer": "142元",
+  "index": 60,
+  "question": "若某人需从每类食物中各点一种，最少需花费多少？"
+}

@@ -1,0 +1,107 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the peak percentage value 14 above the CANDID-PTX bar",
+      "expected_value": "14",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        15,
+        62,
+        27,
+        91
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the peak percentage value 13 above the CheXpert bar",
+      "expected_value": "13",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        357,
+        100,
+        375,
+        125
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the peak percentage value 15 above the ChestX-ray8 bar",
+      "expected_value": "15",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        690,
+        65,
+        715,
+        90
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the peak percentage value 10 above the MIMIC-CXR-JPG bar",
+      "expected_value": "10",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        15,
+        595,
+        27,
+        617
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the peak percentage value 12 above the Padchest bar",
+      "expected_value": "12",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        357,
+        547,
+        372,
+        575
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the peak percentage value 14 above the VinDr-CXR bar",
+      "expected_value": "14",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        700,
+        567,
+        715,
+        592
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "count the number of peak percentage values below 14",
+      "expression": "count([14, 13, 15, 10, 12, 14] < 14)",
+      "expected_value": "3",
+      "expected_unit": "count",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 473,
+  "question": "How many charts have peak values below 14?"
+}

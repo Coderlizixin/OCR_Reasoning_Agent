@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Look at the legend in the image to identify the color of the (\\theta = 30) curve.",
+      "expected_value": "magenta (pink)",
+      "expected_unit": "color",
+      "depends_on": [],
+      "bbox_norm": [
+        215,
+        402,
+        336,
+        452
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Follow the magenta curve from its origin near the center of the plot, all the way around.",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Count the number of times the curve forms a distinct closed shape around the very center of the plot.",
+      "expected_value": "three",
+      "expected_unit": "loops",
+      "depends_on": [
+        2
+      ],
+      "bbox_norm": [
+        213,
+        329,
+        350,
+        582
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 470,
+  "question": "How many loops does the ( \\theta = 30) curve form around the center of the plot?"
+}

@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "According to the pie chart, the second largest import value belongs to Singapore (3.6%)",
+      "expected_value": "3.6%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        865,
+        707,
+        972,
+        792
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "According to the pie chart, Singapore accounts for 4% of world exports",
+      "expected_value": "4%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        357,
+        695,
+        445,
+        737
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Subtract Singapore's import share from its export share",
+      "expression": "4% - 3.6%",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "0.4%",
+  "index": 932,
+  "question": "How much greater is the share of exports than the share of imports for the country ranked second in imports?"
+}

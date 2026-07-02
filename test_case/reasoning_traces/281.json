@@ -1,0 +1,143 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "读取表中 z 轴数据",
+      "expected_value": "竖直向下",
+      "expected_unit": "方向",
+      "depends_on": [],
+      "bbox_norm": [
+        400,
+        450,
+        460,
+        520
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "根据 z 轴方向判断测量地点位于北半球",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "判断选项 A 错误",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "读取表格中磁感应强度分量",
+      "expected_value": "B_x, B_y, B_z",
+      "expected_unit": "μT",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        450,
+        470,
+        760
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "计算磁感应强度大小",
+      "expression": "B = \\sqrt{B_x^2 + B_z^2}",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "确认计算结果",
+      "expected_value": "B ≈ 50μT",
+      "expected_unit": "",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "判断选项 B 正确",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "读取第 2 次测量 B_y 符号",
+      "expected_value": "B_y < 0",
+      "expected_unit": "符号",
+      "depends_on": [],
+      "bbox_norm": [
+        305,
+        595,
+        345,
+        630
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "推断 y 轴指向南方",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "读取第 3 次测量 B_x 符号",
+      "expected_value": "B_x > 0",
+      "expected_unit": "符号",
+      "depends_on": [],
+      "bbox_norm": [
+        226,
+        658,
+        250,
+        688
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "推断 x 轴指向北方",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "判断选项 C 正确、D 错误",
+      "expected_value": "",
+      "expected_unit": "",
+      "depends_on": [
+        9,
+        11
+      ]
+    }
+  ],
+  "final_answer": "BC",
+  "index": 281,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

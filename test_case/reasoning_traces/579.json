@@ -1,0 +1,73 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the Weekly value for the second-ranked industry",
+      "expected_value": "3.19%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        848,
+        373,
+        873,
+        386
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the Monthly value for Software & Services",
+      "expected_value": "5.34%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        958,
+        430,
+        985,
+        442
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the Weekly value for the fourth-ranked industry",
+      "expected_value": "1.77%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        846,
+        485,
+        871,
+        497
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the Monthly value for Banks",
+      "expected_value": "3.32%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        957,
+        539,
+        982,
+        552
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate the difference between the Monthly values",
+      "expression": "5.34% - 3.32%",
+      "depends_on": [
+        2,
+        4
+      ]
+    }
+  ],
+  "final_answer": "2.02%",
+  "index": 579,
+  "question": "What is the difference in 'Monthly' between the second-ranked and fourth-ranked industries under the 'Weekly' category?"
+}

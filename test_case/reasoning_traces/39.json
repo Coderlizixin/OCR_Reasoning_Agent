@@ -1,0 +1,37 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the study address text from the location information",
+      "expected_value": "The Church Center, 548 Country Road, Singapore",
+      "expected_unit": "address",
+      "depends_on": [],
+      "bbox_norm": [
+        112,
+        805,
+        500,
+        900
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "deducing that it doesn't snow in Singapore based on location",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "concluding children cannot see snow when studying",
+      "depends_on": [
+        2
+      ]
+    }
+  ],
+  "final_answer": "No",
+  "index": 39,
+  "question": "Can children see snow when they are studying?"
+}

@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "从图表的柱状图中找到2017年全国消协组织受理投诉案件数量",
+      "expected_value": "72.68",
+      "expected_unit": "万件",
+      "depends_on": [],
+      "bbox_norm": [
+        350,
+        130,
+        430,
+        400
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "从图表的柱状图中找到2014年全国消协组织受理投诉案件数量",
+      "expected_value": "62",
+      "expected_unit": "万件",
+      "depends_on": [],
+      "bbox_norm": [
+        58,
+        143,
+        120,
+        175
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算2017年相比2014年增加的数量",
+      "expression": "72.68 - 62",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "10.68万件",
+  "index": 144,
+  "question": "2017年全国消协组织受理投诉案件数量比2014年增加了多少万件？"
+}

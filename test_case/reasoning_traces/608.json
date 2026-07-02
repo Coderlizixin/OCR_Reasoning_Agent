@@ -1,0 +1,132 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify the row for 'Net profit/total operating income(%)'",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the value -500,377.78 for 2018 in the Net profit row",
+      "expected_value": "-500,377.78",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        871,
+        795,
+        923,
+        831
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the value -11955.35 for 2019 in the Net profit row",
+      "expected_value": "-11955.35",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        759,
+        790,
+        817,
+        826
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the value -9651.11 for 2020 in the Net profit row",
+      "expected_value": "-9651.11",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        655,
+        795,
+        700,
+        826
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the value -11702.17 for 2021 in the Net profit row",
+      "expected_value": "-11702.17",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        537,
+        795,
+        582,
+        826
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the value -5038.37 for 2022 in the Net profit row",
+      "expected_value": "-5038.37",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        427,
+        795,
+        469,
+        826
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the value -71885.02 for 2023 in the Net profit row",
+      "expected_value": "-71885.02",
+      "expected_unit": "%",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        307,
+        795,
+        357,
+        826
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate the sum of the Net profit/total operating income(%) from 2018 to 2023",
+      "expression": "-500377.78 + -11955.35 + -9651.11 + -11702.17 + -5038.37 + -71885.02",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Divide the sum by the number of years (6) to find the average",
+      "expression": "-610609.8 / 6",
+      "depends_on": [
+        8
+      ]
+    }
+  ],
+  "final_answer": "-101768.3",
+  "index": 608,
+  "question": "What is the average of Net profit from 2018 to 2023?"
+}

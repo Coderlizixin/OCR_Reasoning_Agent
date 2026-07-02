@@ -1,0 +1,63 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "在选项A分析中读取温度升高甲烷的体积分数变化",
+      "expected_value": "减小",
+      "expected_unit": "体积分数",
+      "depends_on": [],
+      "bbox_norm": [
+        386,
+        403,
+        563,
+        467
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "说明升温平衡正向移动，则正反应为吸热反应，因此ΔH>0",
+      "expression": "Temp up + Vol% down -> Endothermic",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "在选项B/C分析中读取起始加入量的比值",
+      "expected_value": "3",
+      "expected_unit": "比值",
+      "depends_on": [],
+      "bbox_norm": [
+        80,
+        130,
+        330,
+        240
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "分析D选项，温度不变时，加压，平衡逆向移动，甲烷的体积分数增大",
+      "expression": "Pressure up -> Equilibrium reverse",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "综合分析，只有A选项正确",
+      "expression": "A is correct",
+      "depends_on": [
+        2,
+        4
+      ]
+    }
+  ],
+  "final_answer": "A",
+  "index": 429,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

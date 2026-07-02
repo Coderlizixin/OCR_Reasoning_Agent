@@ -1,0 +1,182 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price text for Chicken Dum Biryani",
+      "expected_value": "750.00/2",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        545,
+        433,
+        627,
+        457
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "calculate unit price for Chicken Dum Biryani",
+      "expression": "750.00/2",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price text for Jalpari Fish Tikka",
+      "expected_value": "475.00/1",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        545,
+        457,
+        627,
+        479
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculate unit price for Jalpari Fish Tikka",
+      "expression": "475.00/1",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the price text for Junglee Handi Kukkad",
+      "expected_value": "425.00/1",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        548,
+        482,
+        627,
+        504
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate unit price for Junglee Handi Kukkad",
+      "expression": "425.00/1",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the price text for Apple Mojitos",
+      "expected_value": "125.00/1",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        545,
+        505,
+        627,
+        528
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate unit price for Apple Mojitos",
+      "expression": "125.00/1",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the price text for Chocolate Oreo",
+      "expected_value": "300.00/2",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        545,
+        525,
+        630,
+        550
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate unit price for Chocolate Oreo",
+      "expression": "300.00/2",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "the price text for King of fruits",
+      "expected_value": "150.00/1",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        545,
+        552,
+        630,
+        575
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "calculate unit price for King of fruits",
+      "expression": "150.00/1",
+      "depends_on": [
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "read",
+      "description": "the price text for Assorted Pastries Platter",
+      "expected_value": "199.00/1",
+      "expected_unit": "currency",
+      "depends_on": [],
+      "bbox_norm": [
+        550,
+        578,
+        630,
+        600
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "calculate unit price for Assorted Pastries Platter",
+      "expression": "199.00/1",
+      "depends_on": [
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "logical",
+      "description": "sort items by unit price descending and identify the third highest",
+      "depends_on": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14
+      ]
+    }
+  ],
+  "final_answer": "375",
+  "index": 1020,
+  "question": "What's the per-unit price for the item with the third-highest unit price?"
+}

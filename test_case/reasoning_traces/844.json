@@ -1,0 +1,91 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 12.30 for 九菱科技 price in the chart",
+      "expected_value": "12.30",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        197,
+        748,
+        226,
+        766
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 2.07 for 九菱科技 change in the chart",
+      "expected_value": "2.07",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        333,
+        747,
+        359,
+        770
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate profit for 九菱科技",
+      "expression": "100 * 2.07",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 8.62 for 泉为科技 price in the chart",
+      "expected_value": "8.62",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        198,
+        835,
+        223,
+        853
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 1.44 for 泉为科技 change in the chart",
+      "expected_value": "1.44",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        334,
+        834,
+        357,
+        854
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate profit for 泉为科技",
+      "expression": "66 * 1.44",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate total profit",
+      "expression": "207 + 95.04",
+      "depends_on": [
+        3,
+        6
+      ]
+    }
+  ],
+  "final_answer": "302.04元",
+  "index": 844,
+  "question": "涨价前我买了100股九菱科技和66股泉为科技，总共赚了多少钱？"
+}

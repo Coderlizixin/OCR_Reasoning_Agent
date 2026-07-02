@@ -1,0 +1,120 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the third figure on the left",
+      "expected_value": "third figure on the left",
+      "expected_unit": "figure",
+      "depends_on": [],
+      "bbox_norm": [
+        205,
+        335,
+        285,
+        415
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the middle figure",
+      "expected_value": "middle figure",
+      "expected_unit": "figure",
+      "depends_on": [],
+      "bbox_norm": [
+        383,
+        332,
+        468,
+        418
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "placement of third figure relative to middle figure",
+      "expected_value": "The third figure on the left is placed in the upper left corner of the middle figure",
+      "expected_unit": "deduction",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the second figure on the left",
+      "expected_value": "second figure on the left",
+      "expected_unit": "figure",
+      "depends_on": [],
+      "bbox_norm": [
+        30,
+        330,
+        130,
+        430
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "placement of second figure relative to middle figure",
+      "expected_value": "The second figure on the left is placed below the middle figure",
+      "expected_unit": "deduction",
+      "depends_on": [
+        4,
+        2
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the first figure on the left",
+      "expected_value": "first figure on the left",
+      "expected_unit": "figure",
+      "depends_on": [],
+      "bbox_norm": [
+        45,
+        360,
+        120,
+        400
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "placement of first figure relative to middle figure",
+      "expected_value": "The first figure on the left is placed in the middle part of the middle figure",
+      "expected_unit": "deduction",
+      "depends_on": [
+        6,
+        2
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the right triangle in the upper right corner",
+      "expected_value": "right triangle",
+      "expected_unit": "shape",
+      "depends_on": [],
+      "bbox_norm": [
+        765,
+        385,
+        815,
+        430
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "placement of right triangle",
+      "expected_value": "A right triangle is left in the upper right corner",
+      "expected_unit": "deduction",
+      "depends_on": [
+        8
+      ]
+    }
+  ],
+  "final_answer": "D",
+  "index": 437,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

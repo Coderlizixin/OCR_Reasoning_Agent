@@ -1,0 +1,118 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the value of MA5 from the image",
+      "expected_value": "72.290",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        130,
+        215,
+        215,
+        230
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the value of MA10 from the image",
+      "expected_value": "72.345",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        230,
+        212,
+        300,
+        225
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading the value of MA20 from the image",
+      "expected_value": "72.708",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        298,
+        226,
+        360,
+        238
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading the value of MA30 from the image",
+      "expected_value": "72.345",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        365,
+        228,
+        420,
+        240
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "reading the value of MA60 from the image",
+      "expected_value": "71.633",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        425,
+        230,
+        480,
+        240
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating the average of MA5, MA10, and MA20",
+      "expression": "(72.290 + 72.345 + 72.708) / 3",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculating the average of MA30 and MA60",
+      "expression": "(72.345 + 71.633) / 2",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculating the difference between the two averages",
+      "expression": "71.989 - 72.448",
+      "depends_on": [
+        6,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "determining the magnitude of the difference as the final answer",
+      "expected_value": "0.459",
+      "expected_unit": "",
+      "depends_on": [
+        8
+      ]
+    }
+  ],
+  "final_answer": "0.459",
+  "index": 817,
+  "question": "MA30和MA60的平均值比 MA5, MA10, 和MA20的平均值低多少？"
+}

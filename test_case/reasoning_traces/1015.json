@@ -1,0 +1,93 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the number 578.79 for 2022 operating revenue",
+      "expected_value": "578.79",
+      "expected_unit": "亿元",
+      "depends_on": [],
+      "bbox_norm": [
+        265,
+        255,
+        535,
+        283
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the number 9.67% for 2022 operating revenue growth rate",
+      "expected_value": "9.67%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        658,
+        259,
+        853,
+        283
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate 2021 operating revenue",
+      "expression": "578.79/(1+9.67%)",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "reading the number 230.75 for 2022 net profit",
+      "expected_value": "230.75",
+      "expected_unit": "亿元",
+      "depends_on": [],
+      "bbox_norm": [
+        263,
+        349,
+        532,
+        377
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "reading the number 18.05% for 2022 net profit growth rate",
+      "expected_value": "18.05%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        655,
+        353,
+        882,
+        376
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate 2021 net profit",
+      "expression": "230.75/(1+18.05%)",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate difference between 2021 revenue and net profit",
+      "expression": "527.76-195.47",
+      "depends_on": [
+        3,
+        6
+      ]
+    }
+  ],
+  "final_answer": "332.29亿元",
+  "index": 1015,
+  "question": "2021年营业收入比2021年净利润多多少？"
+}

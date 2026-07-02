@@ -1,0 +1,68 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price for Small Seafood in the item list",
+      "expected_value": "$5.00",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        542,
+        275,
+        627,
+        312
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price for medium Pork in the item list",
+      "expected_value": "$7.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        684,
+        336,
+        762,
+        379
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price for large Chicken in the item list",
+      "expected_value": "$14.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        822,
+        402,
+        917,
+        442
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "determine medium Vegetable is ignored because it is already bought",
+      "expected_value": null,
+      "expected_unit": null,
+      "depends_on": []
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "add the prices of Small Seafood, medium Pork, and large Chicken",
+      "expression": "$5.00 + $7.50 + $14.50",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "$27.00",
+  "index": 696,
+  "question": "If I have already bought a medium Vegetable, and then want to buy a small Seafood, a medium Pork, and a large Chicken, how much would it cost in total?"
+}

@@ -1,0 +1,85 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "图中登机牌上的计划登机时间",
+      "expected_value": "06:55",
+      "expected_unit": "时间",
+      "depends_on": [],
+      "bbox_norm": [
+        158,
+        630,
+        240,
+        655
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "计算飞机起飞时间",
+      "expression": "06:55 + 45分钟",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "图中登机牌上的登机口关闭规则",
+      "expected_value": "20分钟",
+      "expected_unit": "时间",
+      "depends_on": [],
+      "bbox_norm": [
+        130,
+        680,
+        430,
+        760
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "计算登机口关闭时间",
+      "expression": "07:40 - 20分钟",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "问题文本中的乘客到达时间",
+      "expected_value": "07:25",
+      "expected_unit": "时间",
+      "depends_on": [],
+      "bbox_norm": [
+        251,
+        647,
+        318,
+        673
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "比较乘客到达时间与登机口关闭时间",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "判断是否可以登机",
+      "depends_on": [
+        6
+      ]
+    }
+  ],
+  "final_answer": "否",
+  "index": 204,
+  "question": "航班计划在飞机起飞前45分钟开始登机，那么乘客7点25分赶到登机口是否可以登机？"
+}

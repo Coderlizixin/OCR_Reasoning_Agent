@@ -1,0 +1,125 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the product name in the item list",
+      "expected_value": "2GU-金士顿2GU盘",
+      "expected_unit": "个",
+      "depends_on": [],
+      "bbox_norm": [
+        182,
+        219,
+        221,
+        252
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the unit price in the price column",
+      "expected_value": "78元/个",
+      "expected_unit": "元/个",
+      "depends_on": [],
+      "bbox_norm": [
+        495,
+        295,
+        545,
+        335
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the purchased quantity in the quantity column",
+      "expected_value": "5个",
+      "expected_unit": "个",
+      "depends_on": [],
+      "bbox_norm": [
+        400,
+        290,
+        450,
+        350
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the original receipt total amount",
+      "expected_value": "924元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        750,
+        785,
+        835,
+        820
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the target capacity in the question text",
+      "expected_value": "32G",
+      "expected_unit": "G",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        280,
+        300,
+        350
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate existing total capacity",
+      "expression": "5 * 2",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "calculate total USBs needed",
+      "expression": "32 / 2",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate additional USBs needed",
+      "expression": "16 - 5",
+      "depends_on": [
+        7,
+        3
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate cost of additional USBs",
+      "expression": "11 * 78",
+      "depends_on": [
+        8,
+        2
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate final order total",
+      "expression": "924 + 858",
+      "depends_on": [
+        4,
+        9
+      ]
+    }
+  ],
+  "final_answer": "1782元",
+  "index": 191,
+  "question": "若要求所购U盘总容量达到32GB，请问调整后的订单总金额是多少？"
+}

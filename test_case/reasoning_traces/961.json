@@ -1,0 +1,79 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the number 7328 for 2016 contract count from the chart",
+      "expected_value": "7328",
+      "expected_unit": "项",
+      "depends_on": [],
+      "bbox_norm": [
+        274,
+        362,
+        320,
+        390
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the number 10487 for 2017 contract count from the chart",
+      "expected_value": "10487",
+      "expected_unit": "项",
+      "depends_on": [],
+      "bbox_norm": [
+        485,
+        210,
+        545,
+        240
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading the number 11302 for 2018 contract count from the chart",
+      "expected_value": "11302",
+      "expected_unit": "项",
+      "depends_on": [],
+      "bbox_norm": [
+        706,
+        178,
+        765,
+        208
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculating 2017 year-on-year growth rate",
+      "expression": "(10487-7328)/7328",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculating 2018 year-on-year growth rate",
+      "expression": "(11302-10487)/10487",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculating the difference between 2017 and 2018 growth rates",
+      "expression": "43.1%-7.77%",
+      "depends_on": [
+        4,
+        5
+      ]
+    }
+  ],
+  "final_answer": "35.33%",
+  "index": 961,
+  "question": "2017年和2018年，合同项数同比增长率相差多少？"
+}

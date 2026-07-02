@@ -1,0 +1,112 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the expected delayed departure time 21:30 for flight TV9902 on the flight information screen",
+      "expected_value": "21:30",
+      "expected_unit": "time",
+      "depends_on": [],
+      "bbox_norm": [
+        912,
+        686,
+        953,
+        706
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the check-in counter stops boarding 15 minutes before takeoff in the question text",
+      "expected_value": "15",
+      "expected_unit": "minutes",
+      "depends_on": [],
+      "bbox_norm": [
+        880,
+        715,
+        950,
+        740
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate latest boarding time based on delayed departure and check-in stop rule",
+      "expression": "21:30 - 15 minutes",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the airport security process estimated time 20 minutes in the question text",
+      "expected_value": "20",
+      "expected_unit": "minutes",
+      "depends_on": [],
+      "bbox_norm": [
+        225,
+        235,
+        240,
+        250
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate latest arrival at airport based on boarding time and security time",
+      "expression": "21:15 - 20 minutes",
+      "depends_on": [
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the hotel distance to the airport 100 kilometers in the question text",
+      "expected_value": "100",
+      "expected_unit": "kilometers",
+      "depends_on": [],
+      "bbox_norm": [
+        830,
+        50,
+        930,
+        100
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the taxi average speed 80 kilometers per hour in the question text",
+      "expected_value": "80",
+      "expected_unit": "kilometers per hour",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate travel duration based on distance and speed",
+      "expression": "100 / 80 * 60",
+      "depends_on": [
+        6,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate latest departure from hotel based on arrival time and travel duration",
+      "expression": "20:55 - 1 hour 15 minutes",
+      "depends_on": [
+        5,
+        8
+      ]
+    }
+  ],
+  "final_answer": "19:40",
+  "index": 887,
+  "question": "某旅客计划今日乘坐飞往成都双流的航班，只要是今天的航班都行。已知其入住的酒店距离机场约100公里，机场安检流程预计耗时20分钟，且值机柜台将在航班起飞前15分钟停止登机。假如出租车平均速度每小时80公里，请计算该旅客最晚应于何时从酒店出发。"
+}

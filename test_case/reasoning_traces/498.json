@@ -1,0 +1,102 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 71 for unfavorable sentiment in 2006",
+      "expected_value": "71",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        87,
+        300,
+        137,
+        336
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 86 for unfavorable sentiment in 2016",
+      "expected_value": "86",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        892,
+        222,
+        939,
+        256
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate absolute change in unfavorable sentiment",
+      "expression": "86 - 71",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 27 for favorable sentiment in 2006",
+      "expected_value": "27",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        85,
+        526,
+        137,
+        562
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number 11 for favorable sentiment in 2016",
+      "expected_value": "11",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        892,
+        610,
+        939,
+        643
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate absolute change in favorable sentiment",
+      "expression": "11 - 27",
+      "depends_on": [
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Find absolute value of the favorable change",
+      "expression": "abs(-16)",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate the ratio of the absolute change of unfavorable sentiment to that of favorable sentiment",
+      "expression": "15 / 16",
+      "depends_on": [
+        3,
+        7
+      ]
+    }
+  ],
+  "final_answer": "0.9375",
+  "index": 498,
+  "question": "Work out the ratio of absolute change of unfavorable sentiment to that of favorable one from 2006 to 2016?"
+}

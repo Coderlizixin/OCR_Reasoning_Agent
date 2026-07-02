@@ -1,0 +1,116 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reaction ① equation and products in the image",
+      "expected_value": "反应①为乙酸和异丙醇在酸的催化下发生酯化反应生成了乙酸异丙酯和水",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        60,
+        170,
+        450,
+        240
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "deduce reaction type and option A correctness",
+      "expected_value": "①的反应类型为取代反应，A 叙述正确",
+      "expected_unit": "无",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reaction ② equation and products in the image",
+      "expected_value": "反应②为乙酸和丙烯发生加成反应生成乙酸异丙酯",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        180,
+        930,
+        240
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "deduce atom economy and option B correctness",
+      "expected_value": "该反应的原子利用率为 100%，B 叙述正确",
+      "expected_unit": "%",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "molecular structure details in the image",
+      "expected_value": "乙酸异丙酯分子中含有 4 个饱和的碳原子",
+      "expected_unit": "个",
+      "depends_on": [],
+      "bbox_norm": [
+        50,
+        180,
+        950,
+        250
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "deduce carbon coplanarity and option C correctness",
+      "expected_value": "乙酸异丙酯分子中的所有碳原子不可能共平面，C 叙述是错误",
+      "expected_unit": "无",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "option D statement in the image",
+      "expected_value": "该产物是由乙酸与异丙醇通过酯化反应生成的酯",
+      "expected_unit": "无",
+      "depends_on": [],
+      "bbox_norm": [
+        400,
+        360,
+        750,
+        410
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "deduce chemical name and option D correctness",
+      "expected_value": "其化学名称是乙酸异丙酯，D 叙述是正确",
+      "expected_unit": "无",
+      "depends_on": [
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "select final answer based on option analysis",
+      "expected_value": "C",
+      "expected_unit": "无",
+      "depends_on": [
+        2,
+        4,
+        6,
+        8
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 358,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

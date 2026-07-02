@@ -1,0 +1,99 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the company name Take-Two Interactive in the table",
+      "expected_value": "Take-Two Interactive",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        122,
+        155,
+        203,
+        205
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the company name Gaxos in the table",
+      "expected_value": "Gaxos",
+      "expected_unit": "name",
+      "depends_on": [],
+      "bbox_norm": [
+        122,
+        832,
+        147,
+        877
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 154.29 for Take-Two Interactive in the table",
+      "expected_value": "154.29",
+      "expected_unit": "price",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        232,
+        151,
+        265,
+        202
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 2.73 for Gaxos in the table",
+      "expected_value": "2.73",
+      "expected_unit": "price",
+      "depends_on": [
+        2
+      ],
+      "bbox_norm": [
+        239,
+        827,
+        262,
+        882
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate the sum of the prices",
+      "expression": "154.29 + 2.73",
+      "expected_value": "157.02",
+      "depends_on": [
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Count the number of companies identified",
+      "expected_value": "2",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate the average price",
+      "expression": "157.02 / 2",
+      "expected_value": "78.51",
+      "depends_on": [
+        5,
+        6
+      ]
+    }
+  ],
+  "final_answer": "78.51",
+  "index": 619,
+  "question": "What is the average price of stocks whose second letter in their company names is 'a', not case sensitive?"
+}

@@ -1,0 +1,194 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify requirement to count states with value > 25",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "value for NH on the map",
+      "expected_value": "26",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        917,
+        200,
+        987,
+        290
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "value for NY on the map",
+      "expected_value": "38",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        765,
+        305,
+        827,
+        396
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "value for MA on the map",
+      "expected_value": "28",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        842,
+        305,
+        907,
+        396
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "value for PA on the map",
+      "expected_value": "27",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        720,
+        431,
+        735,
+        486
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "value for NJ on the map",
+      "expected_value": "32",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        762,
+        411,
+        832,
+        503
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "value for DC on the map",
+      "expected_value": "42",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        762,
+        625,
+        832,
+        717
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "value for CA on the map",
+      "expected_value": "28",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        140,
+        520,
+        207,
+        610
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "value for NV on the map",
+      "expected_value": "31",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        217,
+        411,
+        287,
+        506
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "value for UT on the map",
+      "expected_value": "26",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        250,
+        536,
+        270,
+        590
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "value for WY on the map",
+      "expected_value": "28",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        295,
+        411,
+        365,
+        503
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "value for CO on the map",
+      "expected_value": "26",
+      "expected_unit": "trips per 100 people",
+      "depends_on": [],
+      "bbox_norm": [
+        315,
+        531,
+        342,
+        591
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "logical",
+      "description": "Exclude states/DC with values less than or equal to 25",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "Count the number of states/DC listed",
+      "expression": "count(qualifying_states)",
+      "depends_on": [
+        13
+      ]
+    }
+  ],
+  "final_answer": "11",
+  "index": 913,
+  "question": "How many states have values greater than 25?"
+}

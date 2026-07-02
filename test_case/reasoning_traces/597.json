@@ -1,0 +1,191 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the Change % value in the Information Technology row",
+      "expected_value": "1.00%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        620,
+        260,
+        645,
+        275
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the Change % value in the Consumer Discretionary row",
+      "expected_value": "0.30%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        312,
+        647,
+        330
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the Change % value in the Energy row",
+      "expected_value": "0.26%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        620,
+        370,
+        645,
+        385
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the Change % value in the Financials row",
+      "expected_value": "0.10%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        618,
+        420,
+        642,
+        435
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the Change % value in the Communication Services row",
+      "expected_value": "0.09%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        615,
+        477,
+        640,
+        491
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "Identify industries where Change % is positive based on steps 1-5",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the Weekly value in the Information Technology row",
+      "expected_value": "3.04%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        257,
+        783,
+        275
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the Weekly value in the Consumer Discretionary row",
+      "expected_value": "0.81%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        755,
+        318,
+        780,
+        330
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "the Weekly value in the Energy row",
+      "expected_value": "0.32%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        755,
+        375,
+        780,
+        385
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "the Weekly value in the Financials row",
+      "expected_value": "-0.50%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        427,
+        783,
+        444
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "the Weekly value in the Communication Services row",
+      "expected_value": "1.09%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        483,
+        775,
+        493
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "compute",
+      "description": "Sum the Weekly values of the identified industries",
+      "expression": "3.04 + 0.81 + 0.32 + (-0.50) + 1.09",
+      "depends_on": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "Count the number of industries with positive Change %",
+      "expression": "5",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "compute",
+      "description": "Calculate the average Weekly value",
+      "expression": "4.76 / 5",
+      "depends_on": [
+        12,
+        13
+      ]
+    }
+  ],
+  "final_answer": "0.952%",
+  "index": 597,
+  "question": "What is the average 'Weekly' value in Industries where 'Change %' is positive?"
+}

@@ -1,0 +1,165 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price of 菜花 in the pre-bill",
+      "expected_value": "12.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        763,
+        444,
+        855,
+        467
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price of 娃娃菜 in the pre-bill",
+      "expected_value": "15.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        760,
+        470,
+        850,
+        490
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price of 千叶豆腐 in the pre-bill",
+      "expected_value": "12.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        760,
+        470,
+        850,
+        490
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price of 香菇 in the pre-bill",
+      "expected_value": "22.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        521,
+        849,
+        544
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate total vegetable price",
+      "expression": "12.00 + 15.00 + 12.00 + 22.00",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate vegetable discount savings",
+      "expression": "61.00 * 0.2",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "the total price of 羊肉串 in the pre-bill",
+      "expected_value": "24.00",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        753,
+        545,
+        847,
+        567
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the quantity of 羊肉串 in the pre-bill",
+      "expected_value": "4",
+      "expected_unit": "串",
+      "depends_on": [],
+      "bbox_norm": [
+        570,
+        545,
+        650,
+        568
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "Calculate lamb skewer unit price",
+      "expression": "24.00 / 4",
+      "depends_on": [
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "Calculate lamb skewer savings based on promotion",
+      "expression": "6.00 * 1",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "Calculate total savings",
+      "expression": "12.20 + 6.00",
+      "depends_on": [
+        6,
+        10
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "the number of customers in the pre-bill",
+      "expected_value": "2",
+      "expected_unit": "人",
+      "depends_on": [],
+      "bbox_norm": [
+        732,
+        285,
+        748,
+        308
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "compute",
+      "description": "Calculate per person savings",
+      "expression": "18.20 / 2",
+      "depends_on": [
+        11,
+        12
+      ]
+    }
+  ],
+  "final_answer": "9.10元",
+  "index": 214,
+  "question": "如果所有素菜打八折，且羊肉串买二送一，则这餐饭人均便宜多少钱？"
+}

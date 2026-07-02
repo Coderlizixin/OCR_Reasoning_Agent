@@ -1,0 +1,89 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "logical",
+      "description": "Identify that the area enclosed by the graph line and the horizontal axis in the v-t image represents displacement",
+      "depends_on": []
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the value 74 from the v-t image",
+      "expected_value": "74",
+      "expected_unit": "m/s",
+      "depends_on": [],
+      "bbox_norm": [
+        277,
+        671,
+        296,
+        715
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the value 25 from the v-t image",
+      "expected_value": "25",
+      "expected_unit": "m/s",
+      "depends_on": [],
+      "bbox_norm": [
+        133,
+        676,
+        151,
+        706
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the value 94 from the v-t image",
+      "expected_value": "94",
+      "expected_unit": "m/s",
+      "depends_on": [],
+      "bbox_norm": [
+        770,
+        671,
+        792,
+        707
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "Read the value 20 from the v-t image",
+      "expected_value": "20",
+      "expected_unit": "s",
+      "depends_on": [],
+      "bbox_norm": [
+        42,
+        362,
+        67,
+        402
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate displacement using the trapezoid area formula",
+      "expression": "(74 - 25 + 94) * 20 * 1/2",
+      "depends_on": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "Match the calculated displacement 1430 m to option B",
+      "depends_on": [
+        6
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 740,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

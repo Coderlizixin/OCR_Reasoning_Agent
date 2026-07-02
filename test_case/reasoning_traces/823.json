@@ -1,0 +1,69 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the lowest point value on the curve",
+      "expected_value": "35.23",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        273,
+        836,
+        296,
+        844
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the highest point value on the curve",
+      "expected_value": "63.78",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        556,
+        661,
+        592,
+        670
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the average of the highest and lowest points",
+      "expression": "(35.23 + 63.78) / 2",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the current stock price value",
+      "expected_value": "61.36",
+      "expected_unit": "price",
+      "depends_on": [],
+      "bbox_norm": [
+        173,
+        466,
+        252,
+        490
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate the difference between current price and the average",
+      "expression": "61.36 - 49.505",
+      "depends_on": [
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "11.855",
+  "index": 823,
+  "question": "当前股价比曲线的最高和最低点的平均值高多少？"
+}

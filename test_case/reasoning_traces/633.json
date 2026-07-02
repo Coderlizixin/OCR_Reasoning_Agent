@@ -1,0 +1,210 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "sales threshold value 10K",
+      "expected_value": "10K",
+      "expected_unit": "K",
+      "depends_on": [],
+      "bbox_norm": [
+        912,
+        887,
+        942,
+        898
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "sales value for day 2",
+      "expected_value": "2",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        103,
+        843,
+        122,
+        958
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "sales value for day 3",
+      "expected_value": "3",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        110,
+        850,
+        125,
+        960
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "sales value for day 4",
+      "expected_value": "4",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        145,
+        870,
+        160,
+        950
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "sales value for day 5",
+      "expected_value": "5",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        160,
+        865,
+        185,
+        958
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "sales value for day 6",
+      "expected_value": "6",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        185,
+        860,
+        210,
+        955
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "sales value for day 8",
+      "expected_value": "8",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        272,
+        820,
+        288,
+        960
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "sales value for day 9",
+      "expected_value": "9",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        280,
+        860,
+        295,
+        960
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "read",
+      "description": "sales value for day 10",
+      "expected_value": "10",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        296,
+        856,
+        313,
+        956
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "read",
+      "description": "sales value for day 11",
+      "expected_value": "11",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        326,
+        862,
+        347,
+        957
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "read",
+      "description": "sales value for day 12",
+      "expected_value": "12",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        355,
+        800,
+        375,
+        950
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "read",
+      "description": "sales value for day 14",
+      "expected_value": "14",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        430,
+        600,
+        455,
+        950
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "read",
+      "description": "sales value for day 16",
+      "expected_value": "16",
+      "expected_unit": "day",
+      "depends_on": [],
+      "bbox_norm": [
+        455,
+        965,
+        475,
+        985
+      ]
+    },
+    {
+      "step_id": 14,
+      "type": "logical",
+      "description": "identify remaining qualifying days",
+      "expected_value": "21, 23, 24, 25, 26, 29, 30, 31",
+      "expected_unit": "day",
+      "depends_on": [
+        13
+      ]
+    },
+    {
+      "step_id": 15,
+      "type": "compute",
+      "description": "count total qualifying days",
+      "expression": "13 + 7",
+      "expected_value": "20",
+      "expected_unit": "days",
+      "depends_on": [
+        14
+      ]
+    }
+  ],
+  "final_answer": "20",
+  "index": 633,
+  "question": "How many days in a month are there when sales exceed 10K?"
+}

@@ -1,0 +1,121 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number 100 on the speed limit sign",
+      "expected_value": "100",
+      "expected_unit": "公里/小时",
+      "depends_on": [],
+      "bbox_norm": [
+        668,
+        225,
+        728,
+        282
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number 60 on the speed limit sign",
+      "expected_value": "60",
+      "expected_unit": "公里/小时",
+      "depends_on": [],
+      "bbox_norm": [
+        677,
+        527,
+        727,
+        587
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number 70 in the text regarding the rest stop",
+      "expected_value": "70",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number 110 in the text regarding the destination",
+      "expected_value": "110",
+      "expected_unit": "公里",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the time 上午10点 in the question text",
+      "expected_value": "上午10点",
+      "expected_unit": "时间",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate time to rest stop in hours",
+      "expression": "70 / 100",
+      "depends_on": [
+        1,
+        3
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "convert hours to minutes",
+      "expression": "0.7 * 60",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "calculate arrival time at rest stop",
+      "expression": "10点 + 42分钟",
+      "depends_on": [
+        5,
+        7
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "compute",
+      "description": "calculate apprentice driving distance",
+      "expression": "110 - 70",
+      "depends_on": [
+        4,
+        3
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "compute",
+      "description": "calculate apprentice driving time",
+      "expression": "40 / 60",
+      "depends_on": [
+        9,
+        2
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "compute",
+      "description": "calculate final arrival time",
+      "expression": "10点42分 + 40分钟",
+      "depends_on": [
+        8,
+        10
+      ]
+    }
+  ],
+  "final_answer": "上午11点22分",
+  "index": 883,
+  "question": "我正驾驶一辆客车行驶在这条公路上，当前时间为上午10点。根据规定，我需要在前方70公里处的休息点进行轮换，由我的徒弟继续驾驶。然而徒弟胆怯，只能保持车辆的最低限速行驶。请问，若要以最短时间抵达110公里外的目的地，我最早何时能到达？"
+}

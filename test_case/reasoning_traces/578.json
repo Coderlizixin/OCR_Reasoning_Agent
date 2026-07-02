@@ -1,0 +1,73 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Read the Monthly value for the second-ranked industry Software & Services",
+      "expected_value": "5.34%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        958,
+        430,
+        985,
+        442
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Read the Change % for Software & Services",
+      "expected_value": "0.73%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        738,
+        429,
+        763,
+        442
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Read the Monthly value for the third-ranked industry Pharmaceuticals, Biotechnology & Life Sciences",
+      "expected_value": "5.34%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        950,
+        590,
+        985,
+        610
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "Read the Change % for Pharmaceuticals, Biotechnology & Life Sciences",
+      "expected_value": "0.41%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        737,
+        595,
+        760,
+        608
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate the difference in Change % between the two industries",
+      "expression": "0.73% - 0.41%",
+      "depends_on": [
+        2,
+        4
+      ]
+    }
+  ],
+  "final_answer": "0.32%",
+  "index": 578,
+  "question": "What is the difference in 'Change %' between the second-ranked and third-ranked industries under the 'Monthly' category?"
+}

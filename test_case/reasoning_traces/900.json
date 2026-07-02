@@ -1,0 +1,149 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the number $44 in the Sale Q1 column for Product 1",
+      "expected_value": "$44",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        122,
+        100,
+        165,
+        137
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the number $37 in the Sale Q1 column for Product 2",
+      "expected_value": "$37",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        253,
+        201,
+        292,
+        237
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the number $30 in the Sale Q1 column for Product 3",
+      "expected_value": "$30",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        387,
+        752,
+        427,
+        784
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the number $22 in the Sale Q1 column for Product 4",
+      "expected_value": "$22",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        527,
+        417,
+        567,
+        451
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "the number $15 in the Sale Q1 column for Product 5",
+      "expected_value": "$15",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        652,
+        522,
+        695,
+        559
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the number $14 in the Sale Q1 column for Product 6",
+      "expected_value": "$14",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        784,
+        542,
+        826,
+        577
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "deduce that Product 1 Sale Q1 exceeds 29",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "deduce that Product 2 Sale Q1 exceeds 29",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "deduce that Product 3 Sale Q1 exceeds 29",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "deduce that Product 4 Sale Q1 does not exceed 29",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "deduce that Product 5 Sale Q1 does not exceed 29",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 12,
+      "type": "logical",
+      "description": "deduce that Product 6 Sale Q1 does not exceed 29",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 13,
+      "type": "logical",
+      "description": "count the products that exceed 29 based on previous deductions",
+      "depends_on": [
+        7,
+        8,
+        9
+      ]
+    }
+  ],
+  "final_answer": "3",
+  "index": 900,
+  "question": "How many products have a Sale Q1 that exceeds 29?"
+}

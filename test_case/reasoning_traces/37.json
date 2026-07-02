@@ -1,0 +1,49 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the date displayed on the poster",
+      "expected_value": "October 31st",
+      "expected_unit": "date",
+      "depends_on": [],
+      "bbox_norm": [
+        70,
+        734,
+        897,
+        775
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "retrieving the date of Mother's Day",
+      "expected_value": "second Sunday in May",
+      "expected_unit": "date",
+      "depends_on": []
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "retrieving the date of Christmas",
+      "expected_value": "December 25",
+      "expected_unit": "date",
+      "depends_on": []
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "comparing dates to determine the next holiday",
+      "expected_value": "Christmas",
+      "expected_unit": "holiday",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "Christmas",
+  "index": 37,
+  "question": "What is the next holiday in the poster? Mother's Day or Christmas?"
+}

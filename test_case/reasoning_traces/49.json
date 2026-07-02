@@ -1,0 +1,75 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the category Chicken mentioned in the menu text",
+      "expected_value": "Chicken",
+      "expected_unit": "category",
+      "depends_on": [],
+      "bbox_norm": [
+        525,
+        56,
+        627,
+        79
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the category Beef mentioned in the menu text",
+      "expected_value": "Beef",
+      "expected_unit": "category",
+      "depends_on": [],
+      "bbox_norm": [
+        520,
+        177,
+        972,
+        342
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the category Pork mentioned in the menu text",
+      "expected_value": "Pork",
+      "expected_unit": "category",
+      "depends_on": [],
+      "bbox_norm": [
+        527,
+        357,
+        597,
+        379
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the category Seafood mentioned in the menu text",
+      "expected_value": "Seafood",
+      "expected_unit": "category",
+      "depends_on": [],
+      "bbox_norm": [
+        530,
+        445,
+        650,
+        470
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Count the number of meat categories identified",
+      "expression": "1 + 1 + 1 + 1",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "4",
+  "index": 49,
+  "question": "How many categories of meat are on the menu?"
+}

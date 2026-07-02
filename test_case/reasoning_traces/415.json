@@ -1,0 +1,121 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the molecular formula C8H6 in option A",
+      "expected_value": "C8H6",
+      "expected_unit": "formula",
+      "depends_on": [],
+      "bbox_norm": [
+        530,
+        400,
+        600,
+        500
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "logical",
+      "description": "Determine option A compounds are isomers based on same formula",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the molecular formula C14H24 in option B first compound",
+      "expected_value": "C14H24",
+      "expected_unit": "formula",
+      "depends_on": [],
+      "bbox_norm": [
+        500,
+        430,
+        520,
+        470
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the molecular formula C13H222 in option B second compound",
+      "expected_value": "C13H222",
+      "expected_unit": "formula",
+      "depends_on": [],
+      "bbox_norm": [
+        640,
+        395,
+        695,
+        500
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "Determine option B compounds are not isomers based on different formulas",
+      "depends_on": [
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "the molecular formula C3H6O2 in option C",
+      "expected_value": "C3H6O2",
+      "expected_unit": "formula",
+      "depends_on": [],
+      "bbox_norm": [
+        230,
+        540,
+        420,
+        660
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "Determine option C compounds are isomers based on same formula",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "the molecular formula C6H6O3 in option D",
+      "expected_value": "C6H6O3",
+      "expected_unit": "formula",
+      "depends_on": [],
+      "bbox_norm": [
+        490,
+        520,
+        780,
+        710
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "Determine option D compounds are isomers based on same formula",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "Conclude option B is the correct answer as it is not isomers",
+      "depends_on": [
+        2,
+        5,
+        7,
+        9
+      ]
+    }
+  ],
+  "final_answer": "B",
+  "index": 415,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

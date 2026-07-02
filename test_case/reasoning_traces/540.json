@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the latest price as 81.02",
+      "expected_value": "81.02",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        196,
+        12,
+        223,
+        31
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Identify the change as 1.76%",
+      "expected_value": "1.76%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        270,
+        11,
+        297,
+        29
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "Calculate the price before the increase",
+      "expression": "81.02 / (1 + 0.0176)",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "79.62",
+  "index": 540,
+  "question": "What was the price before it increased to the latest price?"
+}

@@ -1,0 +1,77 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 1500元 in the question",
+      "expected_value": "1500元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        206,
+        882,
+        313,
+        917
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the promotion rule 满1000立减300 in the reasoning",
+      "expected_value": "满1000立减300",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        151,
+        882,
+        492,
+        919
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the promotion rule 满2000立减500 in the reasoning",
+      "expected_value": "满2000立减500",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        506,
+        882,
+        851,
+        918
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "1500元 satisfies the 满1000 condition",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "1500元 does not satisfy the 满2000 condition",
+      "depends_on": [
+        1,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "calculate actual payment",
+      "expression": "1500 - 300",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "1200元",
+  "index": 123,
+  "question": "购买一台价格为1500元的吸尘器实际需要支付多少钱？"
+}

@@ -1,0 +1,149 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "题干图形中的图案类型",
+      "expected_value": "阴影、白色",
+      "expected_unit": "图案",
+      "depends_on": [],
+      "bbox_norm": [
+        245,
+        122,
+        683,
+        353
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "第一行中的阴影与白色运算结果",
+      "expected_value": "阴影+白=阴影",
+      "expected_unit": "运算结果",
+      "depends_on": [],
+      "bbox_norm": [
+        550,
+        120,
+        680,
+        270
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "第二行中的阴影与白色运算结果",
+      "expected_value": "阴影+白=白",
+      "expected_unit": "运算结果",
+      "depends_on": [],
+      "bbox_norm": [
+        540,
+        200,
+        680,
+        270
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "比较第一行和第二行的运算结果",
+      "expected_value": "相同运算方式，但结果不同",
+      "expected_unit": "推理结论",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "read",
+      "description": "第一列中的白色与白色运算规则",
+      "expected_value": "白+白=白",
+      "expected_unit": "运算规则",
+      "depends_on": [],
+      "bbox_norm": [
+        250,
+        120,
+        380,
+        350
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "read",
+      "description": "第一列中的阴影与阴影运算规则",
+      "expected_value": "阴影+阴影=阴影",
+      "expected_unit": "运算规则",
+      "depends_on": [],
+      "bbox_norm": [
+        250,
+        125,
+        400,
+        200
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "read",
+      "description": "第一列中的阴影与白色运算规则",
+      "expected_value": "阴影+白=阴影",
+      "expected_unit": "运算规则",
+      "depends_on": [],
+      "bbox_norm": [
+        250,
+        120,
+        390,
+        350
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "read",
+      "description": "第一列中的白色与阴影运算规则",
+      "expected_value": "白+阴影=阴影",
+      "expected_unit": "运算规则",
+      "depends_on": [],
+      "bbox_norm": [
+        245,
+        125,
+        405,
+        355
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "验证第二列是否符合第一列规律",
+      "expected_value": "此规律成立",
+      "expected_unit": "验证结果",
+      "depends_on": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "将规律应用到第三列",
+      "expected_value": "应用此规律",
+      "expected_unit": "推导动作",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "匹配选项结果",
+      "expected_value": "只有 C 项符合",
+      "expected_unit": "最终选项",
+      "depends_on": [
+        10
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 451,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。"
+}

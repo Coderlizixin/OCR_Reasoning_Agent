@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "从表格中读取净利润最高的股票（永泰能源）的上年同期净利润",
+      "expected_value": "10.13亿",
+      "expected_unit": "亿",
+      "depends_on": [],
+      "bbox_norm": [
+        726,
+        466,
+        765,
+        482
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "从表格中读取净利润第二高的股票（巨星科技）的上年同期净利润",
+      "expected_value": "8.73亿",
+      "expected_unit": "亿",
+      "depends_on": [],
+      "bbox_norm": [
+        735,
+        365,
+        770,
+        380
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算净利润最大的股票比净利润第二大的股票多多少",
+      "expression": "10.13 - 8.73",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "1.40亿",
+  "index": 867,
+  "question": "净利润最大的股票比净利润第二大的股票多多少元？"
+}

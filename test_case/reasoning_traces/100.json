@@ -1,0 +1,60 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the height value 152.6 from the image",
+      "expected_value": "152.6",
+      "expected_unit": "毫米",
+      "depends_on": [],
+      "bbox_norm": [
+        187,
+        460,
+        260,
+        481
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the width value 74 from the image",
+      "expected_value": "74",
+      "expected_unit": "毫米",
+      "depends_on": [],
+      "bbox_norm": [
+        417,
+        460,
+        448,
+        479
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "reading the thickness value 6.99 from the image",
+      "expected_value": "6.99",
+      "expected_unit": "毫米",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        430,
+        230,
+        455
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculating the volume using height, width, and thickness",
+      "expression": "152.6 * 74 * 6.99",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "78933.876立方毫米",
+  "index": 100,
+  "question": "这个手机的体积是多少？"
+}

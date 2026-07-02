@@ -1,0 +1,63 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "Identify the system type in the problem text",
+      "expected_value": "pendulum",
+      "expected_unit": "N/A",
+      "depends_on": [],
+      "bbox_norm": [
+        652,
+        92,
+        747,
+        148
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "Identify the velocity condition on the graph",
+      "expected_value": "$v_y(t)$ hits zero",
+      "expected_unit": "N/A",
+      "depends_on": [],
+      "bbox_norm": [
+        230,
+        130,
+        260,
+        160
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "Count the zero crossings on the graph",
+      "expected_value": "four times",
+      "expected_unit": "per cycle",
+      "depends_on": [
+        2
+      ],
+      "bbox_norm": [
+        630,
+        380,
+        900,
+        580
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "Match the observed behavior to the correct option",
+      "expected_value": "choice (C)",
+      "expected_unit": "N/A",
+      "depends_on": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 302,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

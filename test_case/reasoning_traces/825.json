@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "从文字中找到盘中最高报价",
+      "expected_value": "0.99",
+      "expected_unit": "元/股",
+      "depends_on": [],
+      "bbox_norm": [
+        147,
+        290,
+        368,
+        313
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "从股票信息中读取现在的价格",
+      "expected_value": "0.68",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        570,
+        612,
+        605,
+        625
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "计算现在的价格和盘中最高报价的差值",
+      "expression": "0.99 - 0.68",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "0.31",
+  "index": 825,
+  "question": "现在的价格比盘中最高报价底多少？"
+}

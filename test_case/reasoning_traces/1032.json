@@ -1,0 +1,69 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the sales tax amount on the receipt",
+      "expected_value": "$23.30",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        636,
+        608,
+        722,
+        636
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the subtotal amount on the receipt",
+      "expected_value": "$262.50",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        375,
+        575,
+        535,
+        605
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculate the tax rate",
+      "expression": "23.30 / 262.50",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price of the additional product in the question",
+      "expected_value": "$525.00",
+      "expected_unit": "dollars",
+      "depends_on": [],
+      "bbox_norm": [
+        640,
+        423,
+        719,
+        450
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "calculate the tax for the additional product",
+      "expression": "525.00 * 0.08876",
+      "depends_on": [
+        3,
+        4
+      ]
+    }
+  ],
+  "final_answer": "$46.60",
+  "index": 1032,
+  "question": "How much tax do I have to pay if I buy another $525.0 product?"
+}

@@ -1,0 +1,54 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the VIP area ticket price from the ticket information",
+      "expected_value": "380元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        253,
+        776,
+        315,
+        804
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "compute",
+      "description": "calculating the general area ticket price",
+      "expression": "380 * (1 - 0.2)",
+      "expected_value": "304元",
+      "expected_unit": "元",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "calculating the VIP area ticket price",
+      "expression": "304 * (1 + 0.5)",
+      "expected_value": "456元",
+      "expected_unit": "元",
+      "depends_on": [
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "compute",
+      "description": "calculating the total family ticket price",
+      "expression": "456 * 4",
+      "expected_value": "1824元",
+      "expected_unit": "元",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "1824元",
+  "index": 167,
+  "question": "如果普通区票价比贵宾区便宜20%，VIP区票价比普通区贵50%，两个成人加两个儿童，需要多少钱买VIP区的票？"
+}

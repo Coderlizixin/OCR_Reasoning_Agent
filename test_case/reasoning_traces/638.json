@@ -1,0 +1,52 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "reading the proportion value 6.5% for FunctionQA in the 'TQA' section of the inner circle",
+      "expected_value": "6.5%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        712,
+        732,
+        778,
+        813
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "reading the proportion value 4.4% for AI2D in the 'TQA' section of the inner circle",
+      "expected_value": "4.4%",
+      "expected_unit": "%",
+      "depends_on": [],
+      "bbox_norm": [
+        786,
+        597,
+        887,
+        701
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "comparing the proportions of FunctionQA and AI2D to identify the highest value",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "concluding that FunctionQA has the highest proportion based on the comparison",
+      "depends_on": [
+        3
+      ]
+    }
+  ],
+  "final_answer": "FunctionQA",
+  "index": 638,
+  "question": "What is the item with the highest proportion in the 'TQA' of the inner circle?"
+}

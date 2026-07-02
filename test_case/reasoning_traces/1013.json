@@ -1,0 +1,100 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price 399元 for 飞利浦电动剃须刀 in yellow background",
+      "expected_value": "399元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        280,
+        840,
+        350,
+        880
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price 1717元/套 for 万家乐厨电套装 in yellow background",
+      "expected_value": "1717元/套",
+      "expected_unit": "元/套",
+      "depends_on": [],
+      "bbox_norm": [
+        626,
+        906,
+        696,
+        949
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the price 899元 for 惠而浦电热水器 in yellow background",
+      "expected_value": "899元",
+      "expected_unit": "元",
+      "depends_on": [],
+      "bbox_norm": [
+        100,
+        907,
+        247,
+        969
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the price 4280元/套 for 方太烟灶套装 in yellow background",
+      "expected_value": "4280元/套",
+      "expected_unit": "元/套",
+      "depends_on": [],
+      "bbox_norm": [
+        837,
+        897,
+        979,
+        957
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "Identify all 16 items in white background and their prices",
+      "depends_on": []
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate average price of yellow background items",
+      "expression": "(399 + 899 + 1717 + 4280) / 4",
+      "depends_on": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Calculate average price of white background items",
+      "expression": "(1699+399+1699+1299+2299+1499+1699+659+1899+2699+2899+999+49+2499+2299+1199)/16",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "compute",
+      "description": "Calculate difference between yellow and white average prices",
+      "expression": "1823.75 - 1612.125",
+      "depends_on": [
+        6,
+        7
+      ]
+    }
+  ],
+  "final_answer": "211.625元",
+  "index": 1013,
+  "question": "在黄色背景下的商品的平均价比在白色背景下的商品的平均价贵多少？"
+}

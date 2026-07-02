@@ -1,0 +1,45 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the price $2.50 associated with an item name containing '$'",
+      "expected_value": "$2.50",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        794,
+        440,
+        877,
+        473
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the price $4.00 associated with another item name containing '$'",
+      "expected_value": "$4.00",
+      "expected_unit": "$",
+      "depends_on": [],
+      "bbox_norm": [
+        797,
+        475,
+        883,
+        512
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "compute",
+      "description": "sum the prices of items with '$' in their names",
+      "expression": "2.50 + 4.00",
+      "depends_on": [
+        1,
+        2
+      ]
+    }
+  ],
+  "final_answer": "$6.50",
+  "index": 1043,
+  "question": "What is the sum of the prices of the items whose names contain '$'?"
+}

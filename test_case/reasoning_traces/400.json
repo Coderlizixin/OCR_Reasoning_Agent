@@ -1,0 +1,127 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the current direction in the conductor",
+      "expected_value": "upward",
+      "expected_unit": "direction",
+      "depends_on": [],
+      "bbox_norm": [
+        335,
+        260,
+        360,
+        290
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the slider movement direction",
+      "expected_value": "upward",
+      "expected_unit": "direction",
+      "depends_on": [],
+      "bbox_norm": [
+        135,
+        85,
+        245,
+        145
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "logical",
+      "description": "deduce resistance and current change based on slider movement",
+      "expected_value": "resistance in the circuit increases and the current decreases",
+      "expected_unit": "change",
+      "depends_on": [
+        1,
+        2
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "logical",
+      "description": "deduce magnetic flux change through both coils",
+      "expected_value": "magnetic flux through both coils decreases",
+      "expected_unit": "flux",
+      "depends_on": [
+        3
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "logical",
+      "description": "deduce magnetic flux change through coil a",
+      "expected_value": "magnetic flux through coil a decreases outward",
+      "expected_unit": "flux",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "logical",
+      "description": "deduce induced current direction in coil a",
+      "expected_value": "induced current in coil a is directed outward",
+      "expected_unit": "direction",
+      "depends_on": [
+        5
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "logical",
+      "description": "deduce induced current direction in coil a using right-hand rule",
+      "expected_value": "induced current in coil a is counterclockwise",
+      "expected_unit": "direction",
+      "depends_on": [
+        6
+      ]
+    },
+    {
+      "step_id": 8,
+      "type": "logical",
+      "description": "deduce magnetic flux change through coil b",
+      "expected_value": "magnetic flux through coil b decreases inward",
+      "expected_unit": "flux",
+      "depends_on": [
+        4
+      ]
+    },
+    {
+      "step_id": 9,
+      "type": "logical",
+      "description": "deduce induced current direction in coil b",
+      "expected_value": "induced current in coil b is directed inward",
+      "expected_unit": "direction",
+      "depends_on": [
+        8
+      ]
+    },
+    {
+      "step_id": 10,
+      "type": "logical",
+      "description": "deduce induced current direction in coil b using right-hand rule",
+      "expected_value": "induced current in coil b is clockwise",
+      "expected_unit": "direction",
+      "depends_on": [
+        9
+      ]
+    },
+    {
+      "step_id": 11,
+      "type": "logical",
+      "description": "select correct option based on coil a and b currents",
+      "expected_value": "options ABD are incorrect, and C is correct",
+      "expected_unit": "selection",
+      "depends_on": [
+        7,
+        10
+      ]
+    }
+  ],
+  "final_answer": "C",
+  "index": 400,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer."
+}

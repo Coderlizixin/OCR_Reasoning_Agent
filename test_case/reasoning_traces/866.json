@@ -1,0 +1,77 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "在图片右侧中签率一列找到最高中签率",
+      "expected_value": "0.033",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        853,
+        243,
+        882,
+        258
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "找到最高中签率股票对应的转股价格",
+      "expected_value": "12.89",
+      "expected_unit": "",
+      "depends_on": [
+        1
+      ],
+      "bbox_norm": [
+        732,
+        242,
+        748,
+        258
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "在图片右侧中签率一列找到第二高中签率",
+      "expected_value": "0.011",
+      "expected_unit": "",
+      "depends_on": [],
+      "bbox_norm": [
+        773,
+        343,
+        790,
+        360
+      ]
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "找到第二高中签率股票对应的转股价格",
+      "expected_value": "32.79",
+      "expected_unit": "",
+      "depends_on": [
+        3
+      ],
+      "bbox_norm": [
+        832,
+        343,
+        850,
+        358
+      ]
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "计算两个转股价格之差",
+      "expression": "32.79 - 12.89",
+      "depends_on": [
+        2,
+        4
+      ]
+    }
+  ],
+  "final_answer": "19.9",
+  "index": 866,
+  "question": "中签率第二高的股票比最高的和的转股价格差多少？"
+}

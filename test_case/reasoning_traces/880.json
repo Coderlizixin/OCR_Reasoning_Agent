@@ -1,0 +1,83 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "type": "read",
+      "description": "the train departure time 15:42 in the problem statement",
+      "expected_value": "15:42",
+      "expected_unit": "time",
+      "depends_on": [],
+      "bbox_norm": [
+        339,
+        327,
+        377,
+        354
+      ]
+    },
+    {
+      "step_id": 2,
+      "type": "read",
+      "description": "the distance 30 km from the hotel to the train station in the problem statement",
+      "expected_value": "30",
+      "expected_unit": "km",
+      "depends_on": [],
+      "bbox_norm": [
+        343,
+        133,
+        379,
+        156
+      ]
+    },
+    {
+      "step_id": 3,
+      "type": "read",
+      "description": "the maximum speed 60 km/h of the taxi in the problem statement",
+      "expected_value": "60",
+      "expected_unit": "km/h",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 4,
+      "type": "read",
+      "description": "the security check time 20 minutes in the problem statement",
+      "expected_value": "20",
+      "expected_unit": "minutes",
+      "depends_on": [],
+      "bbox_norm": []
+    },
+    {
+      "step_id": 5,
+      "type": "compute",
+      "description": "Calculate travel time from distance and speed",
+      "expression": "30 / 60",
+      "depends_on": [
+        2,
+        3
+      ]
+    },
+    {
+      "step_id": 6,
+      "type": "compute",
+      "description": "Calculate total time needed before departure",
+      "expression": "30 + 20",
+      "depends_on": [
+        5,
+        4
+      ]
+    },
+    {
+      "step_id": 7,
+      "type": "compute",
+      "description": "Subtract total time needed from train departure time",
+      "expression": "15:42 - 50 minutes",
+      "depends_on": [
+        1,
+        6
+      ]
+    }
+  ],
+  "final_answer": "14:52",
+  "index": 880,
+  "question": "I have booked a train to Gatwick Airport departing at 15:42. I plan to take a taxi from the hotel to the station. The distance from the hotel to the train station is 30 km, and the taxi can travel at a maximum speed of 60 km/h. The security check takes 20 minutes. What is the latest time I should depart to ensure I arrive on time?"
+}
