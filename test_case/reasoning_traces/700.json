@@ -12,7 +12,8 @@
         112,
         782,
         127
-      ]
+      ],
+      "plan": "Read the price of the first iced coffee item"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         137,
         782,
         152
-      ]
+      ],
+      "plan": "Read the price of the second iced coffee item"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         158,
         782,
         175
-      ]
+      ],
+      "plan": "Read the price of the third iced coffee item"
     },
     {
       "step_id": 4,
@@ -54,7 +57,8 @@
         182,
         782,
         197
-      ]
+      ],
+      "plan": "Read the price of the fourth iced coffee item"
     },
     {
       "step_id": 5,
@@ -68,7 +72,8 @@
         282,
         784,
         297
-      ]
+      ],
+      "plan": "Read the price of the first cold brew coffee item"
     },
     {
       "step_id": 6,
@@ -82,7 +87,8 @@
         306,
         782,
         322
-      ]
+      ],
+      "plan": "Read the price of the second cold brew coffee item"
     },
     {
       "step_id": 7,
@@ -94,7 +100,8 @@
         2,
         3,
         4
-      ]
+      ],
+      "plan": "Sum up the price for one of each of the iced coffee"
     },
     {
       "step_id": 8,
@@ -104,7 +111,8 @@
       "depends_on": [
         5,
         6
-      ]
+      ],
+      "plan": "Sum up the price for one of each of the cold brew coffees"
     },
     {
       "step_id": 9,
@@ -114,13 +122,15 @@
       "depends_on": [
         7,
         8
-      ]
+      ],
+      "plan": "Sum up the total price for all drinks"
     },
     {
       "step_id": 10,
       "type": "logical",
       "description": "There are 6 drinks, 4 iced coffees, and 2 cold brew coffees",
-      "depends_on": []
+      "depends_on": [],
+      "plan": "Determine there are 6 drinks, 4 iced coffees, and 2 cold brew coffees"
     },
     {
       "step_id": 11,
@@ -130,7 +140,8 @@
       "depends_on": [
         9,
         10
-      ]
+      ],
+      "plan": "Find the average by dividing the total price by the number of drinks"
     }
   ],
   "final_answer": "3.66",

@@ -284,12 +284,16 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             prompt_text = self._build_oracle_values_prompt(
                 original_question, valid_read_steps, include_subimages=self.include_subimages)
         elif self.oracle_mode == 'reasoning':
+            # 合并所有步骤（read + compute + logical）为统一顺序列表
+            all_steps = valid_read_steps + compute_steps + logical_steps
             prompt_text = self._build_oracle_reasoning_prompt(
-                original_question, valid_read_steps, compute_steps, logical_steps,
+                original_question, all_steps,
                 include_subimages=self.include_subimages)
         elif self.oracle_mode == 'structure':
+            # 合并所有步骤（read + compute + logical）为统一顺序列表
+            all_steps = valid_read_steps + compute_steps + logical_steps
             prompt_text = self._build_structure_prompt(
-                original_question, compute_steps, logical_steps)
+                original_question, all_steps)
         else:
             prompt_text = self._build_default_prompt(
                 original_question, valid_read_steps, include_subimages=self.include_subimages)
@@ -448,17 +452,20 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
         )
 
     @staticmethod
-    def _build_oracle_reasoning_prompt(question, valid_read_steps,
-                                        compute_steps, logical_steps,
-                                        include_subimages=True):
-        """Oracle Reasoning 模式：原图 + (可选)子图 + GT 值 + compute/logical 步骤结构。
+    def _build_oracle_reasoning_prompt(question, all_steps, include_subimages=True):
+        """Oracle Reasoning 模式：原图 + (可选)子图 + GT 值 + 统一顺序的 REASONING PLAN。
 
-        展示每一步的描述和依赖关系，但**不展示表达式和中间结果**，
-        模型仍需自己执行计算。目的：测试推理框架引导的理论上界。
+        展示 GT 读值和步骤框架（read/compute/logical 统一排序），
+        使用 plan 文本（任务导向，不含具体数值/结论）。
+        目的：测试推理框架引导的理论上界。
+
+        all_steps: 合并后的所有步骤，按 step_id 排序。
         """
-        # GT 值列表
+        # GT 值列表（仅 read 步骤）
         value_lines = []
-        for s in valid_read_steps:
+        for s in all_steps:
+            if s.get('type') != 'read':
+                continue
             val = s.get('expected_value', '?')
             unit = s.get('expected_unit', '')
             unit_str = f' ({unit})' if unit else ''
@@ -466,42 +473,8 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
                 f'  Step {s["step_id"]}: **{val}**{unit_str}'
             )
 
-        # Compute 步骤（仅描述 + 依赖，不含表达式）
-        compute_lines = []
-        for s in compute_steps:
-            deps = s.get('depends_on', [])
-            dep_str = f' (using results from steps {deps})' if deps else ''
-            compute_lines.append(
-                f'  Step {s["step_id"]}: {s.get("description", "")}{dep_str}'
-            )
-
-        # Logical 步骤
-        logical_lines = []
-        for s in logical_steps:
-            deps = s.get('depends_on', [])
-            dep_str = f' (based on steps {deps})' if deps else ''
-            logical_lines.append(
-                f'  Step {s["step_id"]}: {s.get("description", "")}{dep_str}'
-            )
-
-        parts = [
-            f"You are solving a visual reasoning problem. The correct values "
-            f"have been pre-extracted and a reasoning structure is provided.\n",
-            f"=== QUESTION ===\n{question}\n",
-            f"=== VERIFIED VALUES (ground truth — use directly, do NOT verify) ===\n"
-            + "\n".join(value_lines),
-        ]
-
-        if compute_lines:
-            parts.append(
-                f"=== COMPUTATION STEPS (execute in this order) ===\n"
-                + "\n".join(compute_lines)
-            )
-        if logical_lines:
-            parts.append(
-                f"=== LOGICAL DEDUCTION STEPS ===\n"
-                + "\n".join(logical_lines)
-            )
+        # 统一顺序的 REASONING PLAN
+        sequential_plan = ReasoningTraceOCRAgent._build_sequential_plan(all_steps)
 
         anti_loop_or = (
             f"CRITICAL: Do NOT examine or describe the image. Do NOT discuss "
@@ -509,51 +482,38 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             f"This is a pure computation task — use ONLY the given values.\n"
         ) if not include_subimages else ""
 
-        parts.append(
-            f"\n=== CRITICAL RULES ===\n"
+        return (
+            f"You are solving a visual reasoning problem. The correct values "
+            f"have been pre-extracted and a reasoning plan is provided.\n\n"
+            f"=== QUESTION ===\n{question}\n\n"
+            f"=== VERIFIED VALUES (ground truth — use directly, do NOT verify) ===\n"
+            + "\n".join(value_lines) + "\n\n"
+            f"{sequential_plan}\n\n"
+            f"=== CRITICAL RULES ===\n"
             f"{anti_loop_or}"
             f"- The verified values above are CORRECT. Do NOT check them against "
             f"the chart. Do NOT discuss chart colors, legends, or visual details.\n"
-            f"- Follow the computation steps in order. Execute each calculation.\n"
+            f"- Follow the reasoning plan above in order. Execute each step.\n"
             f"- Show intermediate results for each step.\n"
             f"- Be concise — focus on the math, not on visual description.\n"
             f"- At the VERY END of your response, output:\n"
             f"  FINAL_ANSWER: <your answer>\n\n"
-            f"IMPORTANT: This is a computation test. The values and steps are given.\n"
-            f"Just follow the steps, compute, and output the answer.\n"
+            f"IMPORTANT: This is a computation test. The values and plan are given.\n"
+            f"Just follow the plan, compute, and output the answer.\n"
             f"Output the final answer in the format requested by the original question."
         )
 
-        return "\n".join(parts)
-
     @staticmethod
-    def _build_structure_prompt(question, compute_steps, logical_steps):
-        """Oracle Structure 模式：仅原图 + compute/logical 步骤框架。
+    def _build_structure_prompt(question, all_steps):
+        """Oracle Structure 模式：仅原图 + 统一顺序的 REASONING PLAN。
 
         不给 GT 值、不展示子图。模型必须自行从原图读取数值，
         但按照给定的步骤框架执行推理。目的：测试仅有推理框架
         引导（无视觉辅助）能否提升性能。
+
+        all_steps: 合并后的所有步骤（read + compute + logical），按 step_id 排序。
         """
-        # Compute 步骤（仅描述 + 依赖，不含表达式）
-        compute_lines = []
-        for s in compute_steps:
-            deps = s.get('depends_on', [])
-            dep_str = f' (using results from steps {deps})' if deps else ''
-            compute_lines.append(
-                f'  Step {s["step_id"]}: {s.get("description", "")}{dep_str}'
-            )
-
-        # Logical 步骤
-        logical_lines = []
-        for s in logical_steps:
-            deps = s.get('depends_on', [])
-            dep_str = f' (based on steps {deps})' if deps else ''
-            logical_lines.append(
-                f'  Step {s["step_id"]}: {s.get("description", "")}{dep_str}'
-            )
-
-        if not compute_lines and not logical_lines:
-            # 退化：没有任何步骤结构，回退到简单引导
+        if not all_steps:
             return (
                 f"You are solving a visual reasoning problem.\n\n"
                 f"=== QUESTION ===\n{question}\n\n"
@@ -566,28 +526,17 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
                 f"Output the final answer in the format requested by the original question."
             )
 
-        parts = [
-            f"You are solving a visual reasoning problem. A reasoning structure "
-            f"is provided to guide your analysis.\n",
-            f"=== QUESTION ===\n{question}\n",
-        ]
+        sequential_plan = ReasoningTraceOCRAgent._build_sequential_plan(all_steps)
 
-        if compute_lines:
-            parts.append(
-                f"=== COMPUTATION STEPS (follow this order) ===\n"
-                + "\n".join(compute_lines) + "\n"
-            )
-        if logical_lines:
-            parts.append(
-                f"=== LOGICAL DEDUCTION STEPS ===\n"
-                + "\n".join(logical_lines) + "\n"
-            )
-
-        parts.append(
+        return (
+            f"You are solving a visual reasoning problem. A reasoning plan is "
+            f"provided to guide your analysis.\n\n"
+            f"=== QUESTION ===\n{question}\n\n"
+            f"{sequential_plan}\n\n"
             f"=== CRITICAL RULES ===\n"
             f"- You must READ all required values from the image yourself.\n"
             f"  No values are provided — use your vision to locate and extract them.\n"
-            f"- Follow the computation steps above in order. Execute each calculation.\n"
+            f"- Follow the reasoning plan above in order. Execute each step.\n"
             f"- Show your work clearly: state each value you read, then show each "
             f"calculation.\n"
             f"- Read each value ONCE. Do NOT get stuck re-reading or re-verifying "
@@ -595,12 +544,10 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             f"details beyond reading the needed numbers.\n"
             f"- At the VERY END of your response, output:\n"
             f"  FINAL_ANSWER: <your answer>\n\n"
-            f"IMPORTANT: The steps above are a guide, not a script. Read the values "
+            f"IMPORTANT: The plan above is a guide, not a script. Read the values "
             f"yourself, then follow the reasoning structure.\n"
             f"Output the final answer in the format requested by the original question."
         )
-
-        return "\n".join(parts)
 
     @staticmethod
     def _extract_final_answer(raw_response):
@@ -635,3 +582,29 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             return lines[-1]
 
         return text[-500:]
+
+    # ------------------------------------------------------------------
+    # Plan 构建工具
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _get_step_plan(step):
+        """获取步骤的任务导向 plan 文本。优先使用 'plan' 字段，fallback 到 'description'。"""
+        return step.get('plan') or step.get('description', '')
+
+    @staticmethod
+    def _build_sequential_plan(all_steps):
+        """构建统一的 REASONING PLAN section，按 step_id 顺序排列所有步骤。
+
+        不按类型分组——read/compute/logical 步骤在同一个有序列表中，
+        保留依赖关系，使用 plan 文本（不含 GT 值/结论）。
+        """
+        lines = ["=== REASONING PLAN (follow this sequence) ==="]
+        for s in sorted(all_steps, key=lambda x: x['step_id']):
+            sid = s['step_id']
+            plan_text = ReasoningTraceOCRAgent._get_step_plan(s)
+            deps = s.get('depends_on', [])
+            if deps:
+                lines.append(f'  Step {sid}: {plan_text} (using results from steps {deps})')
+            else:
+                lines.append(f'  Step {sid}: {plan_text}')
+        return "\n".join(lines)

@@ -12,7 +12,8 @@
         260,
         360,
         290
-      ]
+      ],
+      "plan": "Read the current direction in the conductor"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         85,
         245,
         145
-      ]
+      ],
+      "plan": "Read the slider movement direction"
     },
     {
       "step_id": 3,
@@ -37,7 +39,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "Determine deduce resistance and current change based on slider movement"
     },
     {
       "step_id": 4,
@@ -47,7 +50,8 @@
       "expected_unit": "flux",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "Determine deduce magnetic flux change through both coils"
     },
     {
       "step_id": 5,
@@ -57,7 +61,8 @@
       "expected_unit": "flux",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "Determine deduce magnetic flux change through coil a"
     },
     {
       "step_id": 6,
@@ -67,7 +72,8 @@
       "expected_unit": "direction",
       "depends_on": [
         5
-      ]
+      ],
+      "plan": "Determine deduce induced current direction in coil a"
     },
     {
       "step_id": 7,
@@ -77,7 +83,8 @@
       "expected_unit": "direction",
       "depends_on": [
         6
-      ]
+      ],
+      "plan": "Determine deduce induced current direction in coil a using right-hand rule"
     },
     {
       "step_id": 8,
@@ -87,7 +94,8 @@
       "expected_unit": "flux",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "Determine deduce magnetic flux change through coil b"
     },
     {
       "step_id": 9,
@@ -97,7 +105,8 @@
       "expected_unit": "direction",
       "depends_on": [
         8
-      ]
+      ],
+      "plan": "Determine deduce induced current direction in coil b"
     },
     {
       "step_id": 10,
@@ -107,7 +116,8 @@
       "expected_unit": "direction",
       "depends_on": [
         9
-      ]
+      ],
+      "plan": "Determine deduce induced current direction in coil b using right-hand rule"
     },
     {
       "step_id": 11,
@@ -118,7 +128,8 @@
       "depends_on": [
         7,
         10
-      ]
+      ],
+      "plan": "select correct option based on coil a and b currents"
     }
   ],
   "final_answer": "C",

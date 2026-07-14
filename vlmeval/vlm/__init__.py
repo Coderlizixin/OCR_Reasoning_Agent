@@ -96,3 +96,4 @@ from .aki import AKI
 from .ristretto import Ristretto
 from .vlaa_thinker import VLAAThinkerChat
 from .kimi_vl import KimiVL
+from .ocr_agent_v2 import OCRReasoningAgentV2

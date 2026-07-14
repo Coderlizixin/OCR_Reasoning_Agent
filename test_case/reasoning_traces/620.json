@@ -4,7 +4,8 @@
       "step_id": 1,
       "type": "logical",
       "description": "Identify tickers ending with the letter 'e'",
-      "depends_on": []
+      "depends_on": [],
+      "plan": "Identify tickers ending with the letter 'e'"
     },
     {
       "step_id": 2,
@@ -20,7 +21,8 @@
         295,
         275,
         351
-      ]
+      ],
+      "plan": "Read the Close(USD) value for Apple in the table"
     },
     {
       "step_id": 3,
@@ -36,7 +38,8 @@
         394,
         276,
         451
-      ]
+      ],
+      "plan": "Read the Close(USD) value for Oracle in the table"
     },
     {
       "step_id": 4,
@@ -46,7 +49,8 @@
       "depends_on": [
         2,
         3
-      ]
+      ],
+      "plan": "Calculate the sum of the Close(USD) values"
     },
     {
       "step_id": 5,
@@ -55,7 +59,8 @@
       "expression": "359.84 / 2",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "Divide the sum by the number of tickers selected"
     }
   ],
   "final_answer": "179.92",

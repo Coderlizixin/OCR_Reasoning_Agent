@@ -12,7 +12,8 @@
         327,
         377,
         354
-      ]
+      ],
+      "plan": "Read the train departure time in the problem statement"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         133,
         379,
         156
-      ]
+      ],
+      "plan": "Read the distance km from the hotel to the train station in the problem statement"
     },
     {
       "step_id": 3,
@@ -35,7 +37,8 @@
       "expected_value": "60",
       "expected_unit": "km/h",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the maximum speed km/h of the taxi in the problem statement"
     },
     {
       "step_id": 4,
@@ -44,7 +47,8 @@
       "expected_value": "20",
       "expected_unit": "minutes",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the security check time minutes in the problem statement"
     },
     {
       "step_id": 5,
@@ -54,7 +58,8 @@
       "depends_on": [
         2,
         3
-      ]
+      ],
+      "plan": "Calculate travel time from distance and speed"
     },
     {
       "step_id": 6,
@@ -64,7 +69,8 @@
       "depends_on": [
         5,
         4
-      ]
+      ],
+      "plan": "Calculate total time needed before departure"
     },
     {
       "step_id": 7,
@@ -74,7 +80,8 @@
       "depends_on": [
         1,
         6
-      ]
+      ],
+      "plan": "Subtract total time needed from train departure time"
     }
   ],
   "final_answer": "14:52",

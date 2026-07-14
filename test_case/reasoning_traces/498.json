@@ -12,7 +12,8 @@
         300,
         137,
         336
-      ]
+      ],
+      "plan": "Read the unfavorable sentiment in 2006 value from the chart"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         222,
         939,
         256
-      ]
+      ],
+      "plan": "Read the unfavorable sentiment in 2016 value from the chart"
     },
     {
       "step_id": 3,
@@ -36,7 +38,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "Calculate absolute change in unfavorable sentiment"
     },
     {
       "step_id": 4,
@@ -50,7 +53,8 @@
         526,
         137,
         562
-      ]
+      ],
+      "plan": "Read the favorable sentiment in 2006 value from the chart"
     },
     {
       "step_id": 5,
@@ -64,7 +68,8 @@
         610,
         939,
         643
-      ]
+      ],
+      "plan": "Read the favorable sentiment in 2016 value from the chart"
     },
     {
       "step_id": 6,
@@ -74,7 +79,8 @@
       "depends_on": [
         4,
         5
-      ]
+      ],
+      "plan": "Calculate absolute change in favorable sentiment"
     },
     {
       "step_id": 7,
@@ -83,7 +89,8 @@
       "expression": "abs(-16)",
       "depends_on": [
         6
-      ]
+      ],
+      "plan": "Find absolute value of the favorable change"
     },
     {
       "step_id": 8,
@@ -93,7 +100,8 @@
       "depends_on": [
         3,
         7
-      ]
+      ],
+      "plan": "Calculate the ratio of the absolute change of unfavorable sentiment to that of favorable sentiment"
     }
   ],
   "final_answer": "0.9375",

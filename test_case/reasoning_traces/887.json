@@ -12,7 +12,8 @@
         686,
         953,
         706
-      ]
+      ],
+      "plan": "Read the expected delayed departure time for flight TV9902 on the flight information screen"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         715,
         950,
         740
-      ]
+      ],
+      "plan": "Read the check-in counter stops boarding minutes before takeoff in the question text"
     },
     {
       "step_id": 3,
@@ -36,7 +38,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "calculate latest boarding time based on delayed departure and check-in stop rule"
     },
     {
       "step_id": 4,
@@ -50,7 +53,8 @@
         235,
         240,
         250
-      ]
+      ],
+      "plan": "Read the airport security process estimated time minutes in the question text"
     },
     {
       "step_id": 5,
@@ -60,7 +64,8 @@
       "depends_on": [
         3,
         4
-      ]
+      ],
+      "plan": "calculate latest arrival at airport based on boarding time and security time"
     },
     {
       "step_id": 6,
@@ -74,7 +79,8 @@
         50,
         930,
         100
-      ]
+      ],
+      "plan": "Read the hotel distance to the airport kilometers in the question text"
     },
     {
       "step_id": 7,
@@ -83,7 +89,8 @@
       "expected_value": "80",
       "expected_unit": "kilometers per hour",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the taxi average speed kilometers per hour in the question text"
     },
     {
       "step_id": 8,
@@ -93,7 +100,8 @@
       "depends_on": [
         6,
         7
-      ]
+      ],
+      "plan": "calculate travel duration based on distance and speed"
     },
     {
       "step_id": 9,
@@ -103,7 +111,8 @@
       "depends_on": [
         5,
         8
-      ]
+      ],
+      "plan": "calculate latest departure from hotel based on arrival time and travel duration"
     }
   ],
   "final_answer": "19:40",

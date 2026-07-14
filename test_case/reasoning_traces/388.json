@@ -12,7 +12,8 @@
         50,
         750,
         100
-      ]
+      ],
+      "plan": "Read assigned to N in the input section"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         290,
         280,
         330
-      ]
+      ],
+      "plan": "Read assigned to i in the initialization"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         295,
         375,
         315
-      ]
+      ],
+      "plan": "Read assigned to T in the initialization"
     },
     {
       "step_id": 4,
@@ -50,7 +53,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "calculate N divided by i"
     },
     {
       "step_id": 5,
@@ -58,7 +62,8 @@
       "description": "check if 10 is an integer",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "check if 10 is an integer"
     },
     {
       "step_id": 6,
@@ -67,7 +72,8 @@
       "expression": "T = 1, i = 3",
       "depends_on": [
         5
-      ]
+      ],
+      "plan": "update T and i based on divisibility"
     },
     {
       "step_id": 7,
@@ -75,7 +81,8 @@
       "description": "check if i >= 5",
       "depends_on": [
         6
-      ]
+      ],
+      "plan": "check if i >= 5"
     },
     {
       "step_id": 8,
@@ -85,7 +92,8 @@
       "depends_on": [
         1,
         6
-      ]
+      ],
+      "plan": "calculate N divided by new i"
     },
     {
       "step_id": 9,
@@ -93,7 +101,8 @@
       "description": "check if 6.666 is an integer",
       "depends_on": [
         8
-      ]
+      ],
+      "plan": "check if 6.666 is an integer"
     },
     {
       "step_id": 10,
@@ -102,7 +111,8 @@
       "expression": "i = 4",
       "depends_on": [
         9
-      ]
+      ],
+      "plan": "update i without changing T"
     },
     {
       "step_id": 11,
@@ -110,7 +120,8 @@
       "description": "check if i >= 5",
       "depends_on": [
         10
-      ]
+      ],
+      "plan": "check if i >= 5"
     },
     {
       "step_id": 12,
@@ -120,7 +131,8 @@
       "depends_on": [
         1,
         10
-      ]
+      ],
+      "plan": "calculate N divided by new i"
     },
     {
       "step_id": 13,
@@ -128,7 +140,8 @@
       "description": "check if 5 is an integer",
       "depends_on": [
         12
-      ]
+      ],
+      "plan": "check if 5 is an integer"
     },
     {
       "step_id": 14,
@@ -137,7 +150,8 @@
       "expression": "T = 2, i = 5",
       "depends_on": [
         13
-      ]
+      ],
+      "plan": "update T and i based on divisibility"
     },
     {
       "step_id": 15,
@@ -145,7 +159,8 @@
       "description": "check if i >= 5 to end program",
       "depends_on": [
         14
-      ]
+      ],
+      "plan": "check if i >= 5 to end program"
     }
   ],
   "final_answer": "B",

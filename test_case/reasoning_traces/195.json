@@ -12,7 +12,8 @@
         530,
         430,
         570
-      ]
+      ],
+      "plan": "Read one-way ticket price in the flight details"
     },
     {
       "step_id": 2,
@@ -21,7 +22,8 @@
       "expression": "980 * 2",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "Calculate round-trip ticket price"
     },
     {
       "step_id": 3,
@@ -35,7 +37,8 @@
         532,
         379,
         566
-      ]
+      ],
+      "plan": "Read double room price in the hotel details"
     },
     {
       "step_id": 4,
@@ -44,7 +47,8 @@
       "expression": "220 * 2",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "Calculate total hotel cost for 2 rooms"
     },
     {
       "step_id": 5,
@@ -53,7 +57,8 @@
       "expression": "440 / 4",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "Calculate per capita accommodation cost"
     },
     {
       "step_id": 6,
@@ -67,7 +72,8 @@
         530,
         428,
         568
-      ]
+      ],
+      "plan": "Read concert ticket price in the ticket details"
     },
     {
       "step_id": 7,
@@ -78,7 +84,8 @@
         2,
         5,
         6
-      ]
+      ],
+      "plan": "Calculate total per capita expenditure"
     },
     {
       "step_id": 8,
@@ -88,7 +95,8 @@
       "depends_on": [
         6,
         7
-      ]
+      ],
+      "plan": "Calculate ticket price proportion"
     }
   ],
   "final_answer": "15.51%",

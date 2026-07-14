@@ -50,7 +50,7 @@ class OpenAIWrapper(BaseAPI):
                  verbose: bool = False,
                  system_prompt: str = None,
                  temperature: float = 0,
-                 timeout: int = 600,
+                 timeout: int = 900,
                  api_base: str = None,
                  max_tokens: int = 6144,
                  # img_size: int = 512,

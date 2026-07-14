@@ -12,7 +12,8 @@
         147,
         183,
         210
-      ]
+      ],
+      "plan": "读取of 红萝卜 in the vegetable list"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         400,
         385,
         474
-      ]
+      ],
+      "plan": "读取of 鲜鸡 in the meat list"
     },
     {
       "step_id": 3,
@@ -34,7 +36,8 @@
       "description": "Determine 红萝卜 is the cheapest vegetable based on price comparison",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "Determine which item is the cheapest vegetable based on price comparison"
     },
     {
       "step_id": 4,
@@ -42,7 +45,8 @@
       "description": "Determine 鲜鸡 is the most expensive meat based on price comparison",
       "depends_on": [
         2
-      ]
+      ],
+      "plan": "Determine which item is the most expensive meat based on price comparison"
     },
     {
       "step_id": 5,
@@ -51,7 +55,8 @@
       "expression": "0.78 * 2",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "Calculate cost for 2 jin of 红萝卜"
     },
     {
       "step_id": 6,
@@ -60,7 +65,8 @@
       "expression": "14.00 * 2",
       "depends_on": [
         2
-      ]
+      ],
+      "plan": "Calculate cost for 2 jin of 鲜鸡"
     },
     {
       "step_id": 7,
@@ -70,7 +76,8 @@
       "depends_on": [
         5,
         6
-      ]
+      ],
+      "plan": "Calculate total cost"
     }
   ],
   "final_answer": "29.56元",

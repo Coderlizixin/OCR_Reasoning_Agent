@@ -7,7 +7,8 @@
       "expected_value": "18:00",
       "expected_unit": "time",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the start time in the question"
     },
     {
       "step_id": 2,
@@ -21,7 +22,8 @@
         566,
         753,
         580
-      ]
+      ],
+      "plan": "Read the end time in the question"
     },
     {
       "step_id": 3,
@@ -35,7 +37,8 @@
         540,
         354,
         554
-      ]
+      ],
+      "plan": "Read the free period in the fee sign"
     },
     {
       "step_id": 4,
@@ -49,7 +52,8 @@
         445,
         680,
         458
-      ]
+      ],
+      "plan": "Read the first hour fee in the fee sign"
     },
     {
       "step_id": 5,
@@ -63,7 +67,8 @@
         459,
         742,
         468
-      ]
+      ],
+      "plan": "Read the extra hour fee in the fee sign"
     },
     {
       "step_id": 6,
@@ -75,7 +80,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "calculate total duration from 18:00 to 5:20 next day"
     },
     {
       "step_id": 7,
@@ -87,7 +93,8 @@
       "depends_on": [
         3,
         6
-      ]
+      ],
+      "plan": "subtract free period from total duration"
     },
     {
       "step_id": 8,
@@ -98,7 +105,8 @@
       "expected_unit": "duration",
       "depends_on": [
         7
-      ]
+      ],
+      "plan": "calculate remaining hours after first hour"
     },
     {
       "step_id": 9,
@@ -111,7 +119,8 @@
         4,
         5,
         8
-      ]
+      ],
+      "plan": "calculate total cost based on fees and remaining hours"
     }
   ],
   "final_answer": "66元",

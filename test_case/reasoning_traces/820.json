@@ -12,7 +12,8 @@
         682,
         597,
         692
-      ]
+      ],
+      "plan": "Read the initial shares purchased value from the chart"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         366,
         619,
         387
-      ]
+      ],
+      "plan": "Read as reference price"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         367,
         666,
         377
-      ]
+      ],
+      "plan": "Read as price adjustment"
     },
     {
       "step_id": 4,
@@ -50,7 +53,8 @@
       "depends_on": [
         2,
         3
-      ]
+      ],
+      "plan": "calculate initial buy price"
     },
     {
       "step_id": 5,
@@ -60,7 +64,8 @@
       "depends_on": [
         1,
         4
-      ]
+      ],
+      "plan": "calculate initial total cost"
     },
     {
       "step_id": 6,
@@ -74,7 +79,8 @@
         614,
         607,
         624
-      ]
+      ],
+      "plan": "Read as highest sell price"
     },
     {
       "step_id": 7,
@@ -84,7 +90,8 @@
       "depends_on": [
         1,
         6
-      ]
+      ],
+      "plan": "calculate sell total price"
     },
     {
       "step_id": 8,
@@ -98,7 +105,8 @@
         673,
         600,
         680
-      ]
+      ],
+      "plan": "Read the fee rate"
     },
     {
       "step_id": 9,
@@ -108,7 +116,8 @@
       "depends_on": [
         7,
         8
-      ]
+      ],
+      "plan": "calculate sell fee"
     },
     {
       "step_id": 10,
@@ -118,7 +127,8 @@
       "depends_on": [
         7,
         9
-      ]
+      ],
+      "plan": "calculate sell income"
     },
     {
       "step_id": 11,
@@ -128,7 +138,8 @@
       "depends_on": [
         10,
         5
-      ]
+      ],
+      "plan": "calculate profit from first trade"
     },
     {
       "step_id": 12,
@@ -137,7 +148,8 @@
       "expected_value": "50",
       "expected_unit": "股",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the new shares purchased value from the chart"
     },
     {
       "step_id": 13,
@@ -151,7 +163,8 @@
         366,
         619,
         386
-      ]
+      ],
+      "plan": "Read as current buy price"
     },
     {
       "step_id": 14,
@@ -161,7 +174,8 @@
       "depends_on": [
         12,
         13
-      ]
+      ],
+      "plan": "calculate new buy cost"
     },
     {
       "step_id": 15,
@@ -171,7 +185,8 @@
       "depends_on": [
         14,
         11
-      ]
+      ],
+      "plan": "calculate final net cost"
     }
   ],
   "final_answer": "1493.3",

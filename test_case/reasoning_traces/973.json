@@ -12,7 +12,8 @@
         728,
         492,
         813
-      ]
+      ],
+      "plan": "reading the battery life value for Canon R10"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         725,
         730,
         815
-      ]
+      ],
+      "plan": "reading the battery life value for Canon R7"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         730,
         950,
         810
-      ]
+      ],
+      "plan": "reading the battery life value for Canon R8"
     },
     {
       "step_id": 4,
@@ -49,7 +52,8 @@
       "expression": "430*2",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "calculating total battery life for R10 with spare battery"
     },
     {
       "step_id": 5,
@@ -58,7 +62,8 @@
       "expression": "770*2",
       "depends_on": [
         2
-      ]
+      ],
+      "plan": "calculating total battery life for R7 with spare battery"
     },
     {
       "step_id": 6,
@@ -67,7 +72,8 @@
       "expression": "370*2",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "calculating total battery life for R8 with spare battery"
     },
     {
       "step_id": 7,
@@ -77,7 +83,8 @@
       "expected_unit": "张",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "checking if R10 meets 800 photos requirement"
     },
     {
       "step_id": 8,
@@ -87,7 +94,8 @@
       "expected_unit": "张",
       "depends_on": [
         5
-      ]
+      ],
+      "plan": "checking if R7 meets 800 photos requirement"
     },
     {
       "step_id": 9,
@@ -97,7 +105,8 @@
       "expected_unit": "张",
       "depends_on": [
         6
-      ]
+      ],
+      "plan": "checking if R8 meets 800 photos requirement"
     },
     {
       "step_id": 10,
@@ -111,7 +120,8 @@
         590,
         900,
         665
-      ]
+      ],
+      "plan": "reading the screen pixel value for R7"
     },
     {
       "step_id": 11,
@@ -125,7 +135,8 @@
         590,
         490,
         670
-      ]
+      ],
+      "plan": "reading the screen pixel value for R10"
     },
     {
       "step_id": 12,
@@ -136,7 +147,8 @@
       "depends_on": [
         10,
         11
-      ]
+      ],
+      "plan": "Determine determining R7 screen is clearer than R10"
     },
     {
       "step_id": 13,
@@ -150,7 +162,8 @@
         910,
         720,
         960
-      ]
+      ],
+      "plan": "reading the weight value for R7"
     },
     {
       "step_id": 14,
@@ -160,7 +173,8 @@
       "expected_unit": "g",
       "depends_on": [
         13
-      ]
+      ],
+      "plan": "checking if R7 weight exceeds 500g limit"
     },
     {
       "step_id": 15,
@@ -172,7 +186,8 @@
         8,
         12,
         14
-      ]
+      ],
+      "plan": "Determine concluding no camera meets all requirements"
     }
   ],
   "final_answer": "否",

@@ -12,7 +12,8 @@
         686,
         360,
         722
-      ]
+      ],
+      "plan": "reading the original ticket price from the itinerary"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         680,
         480,
         730
-      ]
+      ],
+      "plan": "reading the original airport construction fee from the itinerary"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         686,
         628,
         726
-      ]
+      ],
+      "plan": "reading the original fuel surcharge from the itinerary"
     },
     {
       "step_id": 4,
@@ -51,7 +54,8 @@
         1,
         2,
         3
-      ]
+      ],
+      "plan": "calculating the original total cost"
     },
     {
       "step_id": 5,
@@ -60,7 +64,8 @@
       "expression": "1760 / 2",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "calculating the new ticket price with half discount"
     },
     {
       "step_id": 6,
@@ -70,7 +75,8 @@
       "depends_on": [
         2,
         5
-      ]
+      ],
+      "plan": "calculating the new total cost with waived fuel surcharge"
     },
     {
       "step_id": 7,
@@ -80,7 +86,8 @@
       "depends_on": [
         4,
         6
-      ]
+      ],
+      "plan": "calculating the difference between original and new total"
     }
   ],
   "final_answer": "990元",

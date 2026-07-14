@@ -4,6 +4,7 @@ import re
 import ast
 import base64
 import json
+import glob as _glob
 import tempfile
 import pandas as pd
 from PIL import Image
@@ -20,13 +21,16 @@ class PseudoBBoxReasoningOCRAgent(OpenAIWrapper):
     目的：验证如果给出准确的答题线索（通过答案+推理过程反向定位的 bbox），模型是否能推理正确。
     """
 
-    def __init__(self, pseudo_bbox_file=None, padding=60, scale_factor=3.0, **kwargs):
+    def __init__(self, pseudo_bbox_file=None, trace_dir=None, padding=60, scale_factor=3.0, **kwargs):
         """
         初始化伪标签三阶段智能体。
 
         Args:
             pseudo_bbox_file: 伪标签 bbox 结果 TSV 文件路径（由 test_generate_pseudo_grounding_bbox.py 生成）。
                               默认: test_case/bbox_annotations/bbox_results.tsv
+                              当 trace_dir 指定时，此参数被忽略。
+            trace_dir: 推理轨迹 JSON 文件目录。指定后从 reasoning_traces 提取伪标签 bbox，
+                       替代 TSV 文件。默认: None (使用 pseudo_bbox_file)
             padding: 裁剪时的边缘扩充像素。
             scale_factor: 局部图的放大倍数。
         """
@@ -39,10 +43,14 @@ class PseudoBBoxReasoningOCRAgent(OpenAIWrapper):
             self.max_tokens = 6144
 
         # 加载伪标签 bbox 数据
-        if pseudo_bbox_file is None:
-            pseudo_bbox_file = 'test_case/bbox_annotations/bbox_results.tsv'
-        self.pseudo_bbox_data = self._load_pseudo_bboxes(pseudo_bbox_file)
-        _log_diag(f'[PseudoBBox] 已加载 {len(self.pseudo_bbox_data)} 条伪标签 bbox 数据')
+        if trace_dir is not None:
+            self.pseudo_bbox_data = self._load_pseudo_bboxes_from_traces(trace_dir)
+            _log_diag(f'[PseudoBBox] 从 reasoning traces 加载 {len(self.pseudo_bbox_data)} 条伪标签 bbox 数据')
+        else:
+            if pseudo_bbox_file is None:
+                pseudo_bbox_file = 'test_case/bbox_annotations/bbox_results.tsv'
+            self.pseudo_bbox_data = self._load_pseudo_bboxes(pseudo_bbox_file)
+            _log_diag(f'[PseudoBBox] 已加载 {len(self.pseudo_bbox_data)} 条伪标签 bbox 数据')
 
         # Stage 1: 独立 9B 实例 (端口 22630)，避免与 Stage 3 抢占同一服务端
         self.stage1_agent = OpenAIWrapper(
@@ -116,6 +124,47 @@ class PseudoBBoxReasoningOCRAgent(OpenAIWrapper):
                     'bboxes': bboxes,
                     'labels': labels,
                 }
+
+        return lookup
+
+    def _load_pseudo_bboxes_from_traces(self, trace_dir):
+        """从 reasoning traces JSON 文件加载伪标签 bbox。
+
+        只提取 type='read' 步骤的 bbox_norm 和 description 作为伪标签。
+        返回格式与 _load_pseudo_bboxes 一致: {index: {'bboxes': [[xmin,ymin,xmax,ymax], ...],
+                                                        'labels': ['desc1', 'desc2', ...]}}
+        """
+        lookup = {}
+        if not os.path.isdir(trace_dir):
+            _log_diag(f'[PseudoBBox] 警告: trace 目录不存在: {trace_dir}')
+            return lookup
+
+        json_files = _glob.glob(os.path.join(trace_dir, '*.json'))
+        for fpath in json_files:
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    trace = json.load(f)
+                idx = trace.get('index')
+                if idx is None:
+                    continue
+
+                steps = trace.get('steps', [])
+                # 只提取 type='read' 且有 bbox_norm 的步骤
+                read_steps = [s for s in steps
+                              if s.get('type') == 'read' and len(s.get('bbox_norm', [])) == 4]
+
+                if not read_steps:
+                    continue
+
+                bboxes = []
+                labels = []
+                for s in read_steps:
+                    bboxes.append([int(v) for v in s['bbox_norm']])
+                    labels.append(str(s.get('description', f"Step {s.get('step_id', '?')}")))
+
+                lookup[idx] = {'bboxes': bboxes, 'labels': labels}
+            except (json.JSONDecodeError, KeyError, ValueError) as e:
+                _log_diag(f'[PseudoBBox] 跳过 {fpath}: {e}')
 
         return lookup
 

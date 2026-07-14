@@ -4,7 +4,8 @@
       "step_id": 1,
       "type": "logical",
       "description": "Identify process from A to B is isobaric",
-      "depends_on": []
+      "depends_on": [],
+      "plan": "Identify process from A to B is isobaric"
     },
     {
       "step_id": 2,
@@ -18,7 +19,8 @@
         632,
         439,
         653
-      ]
+      ],
+      "plan": "Read volume value at state B"
     },
     {
       "step_id": 3,
@@ -32,7 +34,8 @@
         633,
         378,
         658
-      ]
+      ],
+      "plan": "Read volume value at state A"
     },
     {
       "step_id": 4,
@@ -42,13 +45,15 @@
         1,
         2,
         3
-      ]
+      ],
+      "plan": "Determine since V_B > V_A and isobaric, deduce T_B > T_A"
     },
     {
       "step_id": 5,
       "type": "logical",
       "description": "Identify process from B to C is isochoric",
-      "depends_on": []
+      "depends_on": [],
+      "plan": "Identify process from B to C is isochoric"
     },
     {
       "step_id": 6,
@@ -62,7 +67,8 @@
         385,
         295,
         415
-      ]
+      ],
+      "plan": "Read pressure value at state B"
     },
     {
       "step_id": 7,
@@ -76,7 +82,8 @@
         506,
         286,
         526
-      ]
+      ],
+      "plan": "Read pressure value at state C"
     },
     {
       "step_id": 8,
@@ -86,7 +93,8 @@
         5,
         6,
         7
-      ]
+      ],
+      "plan": "Determine since P_B > P_C and isochoric, deduce T_B > T_C"
     },
     {
       "step_id": 9,
@@ -100,7 +108,8 @@
         380,
         290,
         410
-      ]
+      ],
+      "plan": "Read pressure value at state A"
     },
     {
       "step_id": 10,
@@ -114,7 +123,8 @@
         650,
         380,
         680
-      ]
+      ],
+      "plan": "Read volume value at state A"
     },
     {
       "step_id": 11,
@@ -128,7 +138,8 @@
         480,
         290,
         520
-      ]
+      ],
+      "plan": "Read pressure value at state C"
     },
     {
       "step_id": 12,
@@ -142,7 +153,8 @@
         615,
         445,
         645
-      ]
+      ],
+      "plan": "Read volume value at state C"
     },
     {
       "step_id": 13,
@@ -154,7 +166,8 @@
         10,
         11,
         12
-      ]
+      ],
+      "plan": "Calculate PV/T relation for states A and C"
     },
     {
       "step_id": 14,
@@ -162,7 +175,8 @@
       "description": "Deduce T_A = T_C from PV equality",
       "depends_on": [
         13
-      ]
+      ],
+      "plan": "Determine T_A = T_C from PV equality"
     },
     {
       "step_id": 15,
@@ -172,7 +186,8 @@
         4,
         8,
         14
-      ]
+      ],
+      "plan": "Determine combine T_B > T_A, T_B > T_C, T_A = T_C to select option C"
     }
   ],
   "final_answer": "C",

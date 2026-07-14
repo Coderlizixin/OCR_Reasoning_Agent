@@ -12,7 +12,8 @@
         823,
         742,
         893
-      ]
+      ],
+      "plan": "Read the value represented by each human-shaped figure from the image legend"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         927,
         672,
         966
-      ]
+      ],
+      "plan": "reading the percentage of adults who contacted a healthcare professional from the chart data"
     },
     {
       "step_id": 3,
@@ -38,7 +40,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "calculating the number of red figures representing contacted adults"
     },
     {
       "step_id": 4,
@@ -52,7 +55,8 @@
         923,
         172,
         963
-      ]
+      ],
+      "plan": "reading the total percentage value from the chart scale"
     },
     {
       "step_id": 5,
@@ -64,7 +68,8 @@
       "depends_on": [
         2,
         4
-      ]
+      ],
+      "plan": "calculating the remaining percentage for those who did not contact"
     },
     {
       "step_id": 6,
@@ -76,7 +81,8 @@
       "depends_on": [
         1,
         5
-      ]
+      ],
+      "plan": "calculating the number of gray figures for the remaining percentage"
     },
     {
       "step_id": 7,
@@ -86,7 +92,8 @@
       "expected_unit": "color",
       "depends_on": [
         6
-      ]
+      ],
+      "plan": "identifying the color associated with the remaining figures"
     }
   ],
   "final_answer": "gray",

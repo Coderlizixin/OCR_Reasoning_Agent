@@ -12,7 +12,8 @@
         219,
         221,
         252
-      ]
+      ],
+      "plan": "Read the product name in the item list"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         295,
         545,
         335
-      ]
+      ],
+      "plan": "Read the unit price in the price column"
     },
     {
       "step_id": 3,
@@ -40,7 +42,8 @@
         290,
         450,
         350
-      ]
+      ],
+      "plan": "Read the purchased quantity in the quantity column"
     },
     {
       "step_id": 4,
@@ -54,7 +57,8 @@
         785,
         835,
         820
-      ]
+      ],
+      "plan": "Read the original receipt total amount"
     },
     {
       "step_id": 5,
@@ -68,7 +72,8 @@
         280,
         300,
         350
-      ]
+      ],
+      "plan": "Read the target capacity in the question text"
     },
     {
       "step_id": 6,
@@ -77,7 +82,8 @@
       "expression": "5 * 2",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "calculate existing total capacity"
     },
     {
       "step_id": 7,
@@ -86,7 +92,8 @@
       "expression": "32 / 2",
       "depends_on": [
         5
-      ]
+      ],
+      "plan": "calculate total USBs needed"
     },
     {
       "step_id": 8,
@@ -96,7 +103,8 @@
       "depends_on": [
         7,
         3
-      ]
+      ],
+      "plan": "calculate additional USBs needed"
     },
     {
       "step_id": 9,
@@ -106,7 +114,8 @@
       "depends_on": [
         8,
         2
-      ]
+      ],
+      "plan": "calculate cost of additional USBs"
     },
     {
       "step_id": 10,
@@ -116,7 +125,8 @@
       "depends_on": [
         4,
         9
-      ]
+      ],
+      "plan": "calculate final order total"
     }
   ],
   "final_answer": "1782元",

@@ -8,6 +8,9 @@ from vlmeval.vlm.qwen3_vl import Qwen3VLChat
 from vlmeval.vlm.pgr_ocragent import ThreeStageOCRAgent
 from vlmeval.vlm.pseudo_bbox_reasoning_ocragent import PseudoBBoxReasoningOCRAgent
 from vlmeval.vlm.reasoning_trace_ocragent import ReasoningTraceOCRAgent
+from vlmeval.vlm.ocr_agent_v2 import OCRReasoningAgentV2
+from vlmeval.vlm.ocr_agent_v3 import OCRReasoningAgentV3
+from vlmeval.vlm.ocr_agent_v4 import OCRAgentV4
 
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
@@ -1866,13 +1869,25 @@ supported_VLM = {
             }
         },
     ),
-    'Qwen3.5-122B-A10B-API': partial(
-        ModelScopeQwenAPI,
-        model='Qwen/Qwen3.5-122B-A10B', # 这里填你在平台看到的模型全名
-        api_base='https://api-inference.modelscope.cn/v1', # 替换为 ModelScope 提供的实际接口地址
-        key='ms-7ee485f4-550b-49f8-906a-216377ad5562', # 填入你的 API Key
+    "Qwen3.5-122B-A10B-API": partial(
+        GPT4V,
+        model="Qwen3.5-122B-A10B",
+        api_base="http://10.3.112.34:22510/v1/chat/completions",
+        key="sk-EMPTY",
         temperature=0.0,
-        retry=5
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
     ),
     'Qwen3.5-9B-OCRAgent': partial(
         ThreeStageOCRAgent,
@@ -1931,7 +1946,7 @@ supported_VLM = {
         img_detail='high',
         padding=60,
         scale_factor=3.0,
-        pseudo_bbox_file='test_case/bbox_annotations/bbox_results.tsv',
+        trace_dir='test_case/reasoning_traces',  # 使用 reasoning traces 的伪标签替代 bbox_results.tsv
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {
@@ -2138,6 +2153,201 @@ supported_VLM = {
         scale_factor=3.0,
         oracle_mode='structure',
         trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRReasoningAgentV2 — Iterative Execute-Verify Loop
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV2': partial(
+        OCRReasoningAgentV2,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        max_crops=12,
+        max_iterations=3,
+        planner_model='Qwen3.5-9B',
+        planner_api_base='http://10.3.112.34:22630/v1/chat/completions',
+        grounder_model='Qwen3.5-9B',
+        grounder_api_base='http://10.3.112.34:22630/v1/chat/completions',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    'Qwen3.5-27B-OCRAgentV2': partial(
+        OCRReasoningAgentV2,
+        model='Qwen3.5-27B',
+        api_base='http://10.3.112.34:22250/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        max_crops=12,
+        max_iterations=3,
+        planner_model='Qwen3.5-27B',
+        planner_api_base='http://10.3.112.34:22250/v1/chat/completions',
+        grounder_model='Qwen3.5-27B',
+        grounder_api_base='http://10.3.112.34:22250/v1/chat/completions',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Grounder用122B强模型的变体 — grounding更准确
+    'Qwen3.5-9B-OCRAgentV2-strongGround': partial(
+        OCRReasoningAgentV2,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        max_crops=12,
+        max_iterations=3,
+        planner_model='Qwen3.5-9B',
+        planner_api_base='http://10.3.112.34:22630/v1/chat/completions',
+        grounder_model='Qwen3.5-122B-A10B',
+        grounder_api_base='http://10.3.112.34:22510/v1/chat/completions',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRReasoningAgentV3 — Sequential Grounding → Understanding Pipeline
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV3': partial(
+        OCRReasoningAgentV3,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=50,
+        scale_factor=2.5,
+        max_crop_edge=None,
+        max_crops=44,
+        max_iterations=30,
+        planner_model='Qwen3.5-9B',
+        planner_api_base='http://10.3.112.34:22630/v1/chat/completions',
+        grounder_model='Qwen3.5-9B',
+        grounder_api_base='http://10.3.112.34:22630/v1/chat/completions',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    'Qwen3.5-27B-OCRAgentV3': partial(
+        OCRReasoningAgentV3,
+        model='Qwen3.5-27B',
+        api_base='http://10.3.112.34:22250/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=50,
+        scale_factor=2.5,
+        max_crop_edge=None,
+        max_crops=44,
+        max_iterations=30,
+        planner_model='Qwen3.5-27B',
+        planner_api_base='http://10.3.112.34:22250/v1/chat/completions',
+        grounder_model='Qwen3.5-27B',
+        grounder_api_base='http://10.3.112.34:22250/v1/chat/completions',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRAgentV4 — Planning → Executor (DAG) → Reasoning Pipeline
+    # Single 9B model for all stages
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV4': partial(
+        OCRAgentV4,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    'Qwen3.5-27B-OCRAgentV4': partial(
+        OCRAgentV4,
+        model='Qwen3.5-27B',
+        api_base='http://10.3.112.34:22250/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {

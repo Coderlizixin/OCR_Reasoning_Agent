@@ -7,7 +7,8 @@
       "expected_value": "9!",
       "expected_unit": "ways",
       "depends_on": [],
-      "bbox_norm": []
+      "bbox_norm": [],
+      "plan": "Read the factorial value for the first row in the image"
     },
     {
       "step_id": 2,
@@ -18,7 +19,8 @@
       "expected_unit": "ways",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "calculate ways to fill first row"
     },
     {
       "step_id": 3,
@@ -29,7 +31,8 @@
       "expected_unit": "row",
       "depends_on": [
         2
-      ]
+      ],
+      "plan": "Determine assume first row configuration"
     },
     {
       "step_id": 4,
@@ -40,7 +43,8 @@
       "expected_unit": "cases",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "calculate Case 1 orderings"
     },
     {
       "step_id": 5,
@@ -51,7 +55,8 @@
       "expected_unit": "cases",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "calculate Case 2 orderings"
     },
     {
       "step_id": 6,
@@ -63,7 +68,8 @@
       "depends_on": [
         4,
         5
-      ]
+      ],
+      "plan": "determine second row ways"
     },
     {
       "step_id": 7,
@@ -75,7 +81,8 @@
       "depends_on": [
         2,
         6
-      ]
+      ],
+      "plan": "calculate total ways"
     },
     {
       "step_id": 8,
@@ -86,7 +93,8 @@
       "expected_unit": "answer",
       "depends_on": [
         7
-      ]
+      ],
+      "plan": "calculate final answer"
     }
   ],
   "final_answer": "81",

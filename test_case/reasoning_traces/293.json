@@ -5,7 +5,8 @@
       "type": "logical",
       "description": "Introduce complex impedances and define G",
       "expression": "\\[G = \\frac{V_R}{V_C}\\]",
-      "depends_on": []
+      "depends_on": [],
+      "plan": "Determine introduce complex impedances and define G"
     },
     {
       "step_id": 2,
@@ -14,7 +15,8 @@
       "expression": "\\frac{V_C}{V_0} = \\left|\\frac{Z_R}{Z_C}\\right|",
       "depends_on": [
         1
-      ]
+      ],
+      "plan": "Determine relate V_C/V_0 to impedances"
     },
     {
       "step_id": 3,
@@ -23,7 +25,8 @@
       "expression": "\\frac{V_C}{V_0} = \\omega RC",
       "depends_on": [
         2
-      ]
+      ],
+      "plan": "Substitute impedance values"
     },
     {
       "step_id": 4,
@@ -32,7 +35,8 @@
       "expression": "\\frac{V_C}{V_0} = \\frac{\\omega/(\\omega_0 * Q)}{\\sqrt{(1 - \\omega^2/\\omega_0^2)^2 + (\\omega/\\omega_0 * Q)^2}}.",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "Express in terms of omega and Q"
     },
     {
       "step_id": 5,
@@ -41,7 +45,8 @@
       "expression": "\\[G = \\frac{1}{\\sqrt{1 + ((\\omega_0 * Q/\\omega)(1 - \\omega^2/\\omega_0^2))^2}}\\]",
       "depends_on": [
         4
-      ]
+      ],
+      "plan": "Final expression for G"
     }
   ],
   "final_answer": "\\[G = \\frac{1}{\\sqrt{1 + ((\\omega_0 * Q/\\omega)(1 - \\omega^2/\\omega_0^2))^2}}\\]",

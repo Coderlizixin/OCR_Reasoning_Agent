@@ -8,7 +8,7 @@ from PIL import Image
 tsv_path = r"C:\Users\19639\LMUData\OCR_Reasoning.tsv"
 
 # 输出目录
-output_dir = r"C:\Users\19639\Desktop\sunset of ocrreasoning\images"
+output_dir = r"C:\Users\19639\Desktop\subset of ocrreasoning\images"
 os.makedirs(output_dir, exist_ok=True)
 
 try:
@@ -19,7 +19,8 @@ try:
     print("-" * 50)
 
     # 取前 10 条数据
-    subset = df.head(20)
+    # subset = df.head(20)
+    subset = df[6:7]
     saved_count = 0
 
     for index, row in subset.iterrows():

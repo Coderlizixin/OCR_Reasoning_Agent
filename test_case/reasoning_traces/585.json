@@ -12,7 +12,8 @@
         527,
         407,
         550
-      ]
+      ],
+      "plan": "Read the Chg.(%) value for GrowGeneration (GRWG) in the table"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         567,
         397,
         587
-      ]
+      ],
+      "plan": "Read the Chg.(%) value for Bright Green (BGXX) in the table"
     },
     {
       "step_id": 3,
@@ -35,7 +37,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "Identify companies with Chg.(%) greater than 2"
     },
     {
       "step_id": 4,
@@ -49,7 +52,8 @@
         527,
         333,
         547
-      ]
+      ],
+      "plan": "Read value for GrowGeneration (GRWG) in the table"
     },
     {
       "step_id": 5,
@@ -63,7 +67,8 @@
         567,
         333,
         587
-      ]
+      ],
+      "plan": "Read value for Bright Green (BGXX) in the table"
     },
     {
       "step_id": 6,
@@ -73,7 +78,8 @@
       "depends_on": [
         4,
         5
-      ]
+      ],
+      "plan": "Calculate the sum of the prices"
     },
     {
       "step_id": 7,
@@ -81,7 +87,8 @@
       "description": "Determine the count of companies meeting the criteria",
       "depends_on": [
         3
-      ]
+      ],
+      "plan": "Determine the count of companies meeting the criteria"
     },
     {
       "step_id": 8,
@@ -91,7 +98,8 @@
       "depends_on": [
         6,
         7
-      ]
+      ],
+      "plan": "Calculate the average price"
     }
   ],
   "final_answer": "1.245",

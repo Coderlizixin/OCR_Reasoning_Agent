@@ -12,7 +12,8 @@
         360,
         390,
         410
-      ]
+      ],
+      "plan": "Read the total water fee value in the record"
     },
     {
       "step_id": 2,
@@ -26,7 +27,8 @@
         290,
         760,
         330
-      ]
+      ],
+      "plan": "Read the water usage degrees value in the record"
     },
     {
       "step_id": 3,
@@ -36,7 +38,8 @@
       "depends_on": [
         1,
         2
-      ]
+      ],
+      "plan": "calculate original water fee unit price"
     },
     {
       "step_id": 4,
@@ -50,7 +53,8 @@
         363,
         386,
         408
-      ]
+      ],
+      "plan": "Read increase percentage in the question"
     },
     {
       "step_id": 5,
@@ -60,7 +64,8 @@
       "depends_on": [
         3,
         4
-      ]
+      ],
+      "plan": "calculate adjusted water fee unit price"
     },
     {
       "step_id": 6,
@@ -74,7 +79,8 @@
         360,
         390,
         413
-      ]
+      ],
+      "plan": "Read the water fee budget limit in the question"
     },
     {
       "step_id": 7,
@@ -84,7 +90,8 @@
       "depends_on": [
         5,
         6
-      ]
+      ],
+      "plan": "calculate maximum available degrees"
     },
     {
       "step_id": 8,
@@ -93,7 +100,8 @@
       "expression": "floor(3580.38)",
       "depends_on": [
         7
-      ]
+      ],
+      "plan": "determine integer degrees based on constraint"
     }
   ],
   "final_answer": "3580度",

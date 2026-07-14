@@ -1,0 +1,1 @@
+- [OCR-Agent V4](ocr-agent-v4.md) — Planning→Executor(DAG)→Reasoning pipeline using single 9B model
