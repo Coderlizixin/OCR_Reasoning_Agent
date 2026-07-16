@@ -1,0 +1,121 @@
+{
+  "index": 973,
+  "question": "我是一名摄影工作者，因为工作需要，我每天需要拍摄约800张照片。由于充电不便，我通常会携带一块备用电池。此外，我喜欢更清晰的屏幕显示效果，但是不想要相机重量超过500g。请问图中是否有完全满足我需求的相机型号？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate Canon R10 in the image and read its battery life specification",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate Canon R7 in the image and read its battery life specification",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate Canon R8 in the image and read its battery life specification",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate total battery life for R10 by adding the spare battery capacity to the base battery life from step_1",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate total battery life for R7 by adding the spare battery capacity to the base battery life from step_2",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate total battery life for R8 by adding the spare battery capacity to the base battery life from step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Check if R10's total battery life from step_4 can support approximately 800 photos",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Check if R7's total battery life from step_5 can support approximately 800 photos",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Check if R8's total battery life from step_6 can support approximately 800 photos",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate Canon R7 in the image and read its screen pixel resolution value",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate Canon R10 in the image and read its screen pixel resolution value",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Compare screen pixel values from step_10 and step_11 to determine which has clearer display",
+        "depends_on": [
+          "step_10",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "ground-understand",
+        "description": "Locate Canon R7 in the image and read its weight specification",
+        "depends_on": []
+      },
+      {
+        "id": "step_14",
+        "type": "logical",
+        "description": "Check if R7's weight from step_13 exceeds the 500g limit",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "logical",
+        "description": "Conclude whether any camera meets all requirements based on battery life (steps 7-9), screen clarity (step 12), and weight (step 14)",
+        "depends_on": [
+          "step_8",
+          "step_12",
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "否"
+}

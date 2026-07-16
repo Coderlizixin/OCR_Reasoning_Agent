@@ -4,10 +4,21 @@ OCR-Agent V4: Planning → Executor (DAG-based) → Reasoning Pipeline
 All stages use a single Qwen3.5-9B VL model.
 
 Stage 1 - Planning:     image + question → JSON steps with DAG dependencies
+                        Retries up to 3 times on failure.
 Stage 2 - Executor:     execute steps topologically (ground-understand / compute / logical)
-Stage 3 - Reasoning:    all step results + original image + question → CoT + final answer
+                        Each step retries up to 3 times on failure.
+Stage 3 - Reasoning:    text-only synthesis of step results (NO image fallback).
 
-Error handling: no retry; track end status (success | planning_failed | grounding_error | execution_error).
+Error handling:
+  - planning_parse_failed      — JSON parse error after all retries
+  - planning_api_failed        — API call failed after all retries
+  - planning_invalid_failed    — plan is structurally invalid after all retries
+  - grounding_locate_failed    — locate phase failed
+  - grounding_understand_failed— understand phase failed
+  - compute_failed             — compute step failed
+  - logical_failed             — logical step failed
+  - reasoning_failed           — reasoning produced no answer
+  - success                    — pipeline completed cleanly
 """
 import os
 import io
@@ -194,6 +205,31 @@ BAD examples (FORBIDDEN):
 - "Q1 Sales"       ← label without context
 - "0 to 500"       ← range without specifying what it refers to"""
 
+UNDERSTAND_DIRECT_PROMPT = """You are a precise visual information extractor. You will be shown a FULL image and a specific data-extraction task. Your job is to find the relevant information in the image and read it accurately.
+
+## Instructions
+1. Look at the full image and locate the visual element described in the task.
+2. Read the requested value (text, number, label, color, etc.) directly from the image.
+3. If the task references other steps' results, use that context to guide where to look.
+4. Return ONLY what you can clearly see. Do NOT guess or infer.
+
+## Output Format
+You MUST output a single JSON object: {"result": "your answer here"}
+
+## CRITICAL — Complete Sentences Required
+Your "result" MUST be a **self-contained descriptive sentence** that a person reading it can understand without seeing the original image or task. Never output a bare number or single word.
+
+GOOD examples:
+- "The sales value for Q1 is 42.5 (in units of 10,000 RMB)"
+- "The label for the blue bar in the legend is 'Q1 Sales'"
+- "The y-axis ranges from 0 to 500, with major gridlines every 100 units"
+- "The price of '纯牛肉丸汤' on the menu is 20 yuan"
+
+BAD examples (FORBIDDEN):
+- "42.5"           ← bare number, no meaning to downstream steps
+- "Q1 Sales"       ← label without context
+- "20"             ← bare number without units or what it refers to"""
+
 COMPUTE_PROMPT = """You are a precise calculator. You will be given:
 1. A computation task description
 2. Results from previous steps that contain the data you need
@@ -260,7 +296,14 @@ REASONING_PROMPT = """You are a final-answer synthesizer. You are given VERIFIED
 1. Identify which analysis result(s) answer the question.
 2. If the answer is directly in the results, output it.
 3. If data is missing due to a failed step, state what is missing and give the best possible answer from available data.
-4. Enclose your FINAL answer in <a> and </a> tags. Example: <a>24</a> or <a>21 percent</a>"""
+4. If you simply CANNOT answer from the available data, output your best effort — do NOT leave the answer blank.
+5. Enclose your FINAL answer in <a> and </a> tags. Example: <a>24</a> or <a>21 percent</a>"""
+
+
+# ============================================================================
+# Retry constants
+# ============================================================================
+MAX_ATTEMPTS = 3  # total attempts per stage/step (1 initial + 2 retries)
 
 
 # ============================================================================
@@ -298,7 +341,24 @@ class OCRAgentV4(OpenAIWrapper):
     """
 
     def __init__(self, **kwargs):
+        # Extract trace_dir before passing to parent
+        self.trace_dir = kwargs.pop('trace_dir', None)
+
+        # skip_locate: bypass Locate+crop, feed full image directly to Understand
+        self.skip_locate = kwargs.pop('skip_locate', False)
+
+        # Extract stage-specific temperature overrides
+        self.temp_planning = kwargs.pop('temp_planning', 0.1)
+        self.temp_locate = kwargs.pop('temp_locate', 0.1)
+        self.temp_understand = kwargs.pop('temp_understand', 0.2)
+        self.temp_compute = kwargs.pop('temp_compute', 0.1)
+        self.temp_logical = kwargs.pop('temp_logical', 0.1)
+        self.temp_reasoning = kwargs.pop('temp_reasoning', 0.2)
+
         super().__init__(**kwargs)
+
+        # Last execution trace (set by generate_inner)
+        self.last_trace = None
 
         # Internal agent for all API calls — shares model, api_base, key, etc.
         # Uses _Base64Agent so we can pass cropped images as base64 in-memory.
@@ -321,7 +381,8 @@ class OCRAgentV4(OpenAIWrapper):
     # Core API helper
     # ------------------------------------------------------------------
 
-    def _api_call(self, messages, schema=None, with_image_processor=False):
+    def _api_call(self, messages, schema=None, with_image_processor=False,
+                  temperature=None):
         """Make a single API call with optional guided JSON decoding.
 
         Args:
@@ -330,11 +391,14 @@ class OCRAgentV4(OpenAIWrapper):
             schema: Optional JSON Schema for vLLM guided_json.
             with_image_processor: If True, include mm_processor_kwargs
                                   from self.extra_body for high-res images.
+            temperature: If set, temporarily override agent temperature
+                         for this call (enables retry diversity).
 
         Returns:
             (ret_code: int, text: str, response_obj)
         """
         saved_extra = self.agent.extra_body
+        saved_temp = self.agent.temperature
 
         # Build extra_body for this specific call
         new_extra = {}
@@ -344,10 +408,14 @@ class OCRAgentV4(OpenAIWrapper):
             new_extra['guided_json'] = schema
 
         self.agent.extra_body = new_extra if new_extra else None
+        if temperature is not None:
+            self.agent.temperature = temperature
+
         try:
             return self.agent.generate_inner(messages)
         finally:
             self.agent.extra_body = saved_extra
+            self.agent.temperature = saved_temp
 
     # ------------------------------------------------------------------
     # JSON parsing with fallback
@@ -439,14 +507,20 @@ class OCRAgentV4(OpenAIWrapper):
         return "\n".join(lines)
 
     # ------------------------------------------------------------------
-    # Stage 1: Planning
+    # Stage 1: Planning (with retry)
     # ------------------------------------------------------------------
 
+    PLANNING_FAIL_PARSE = 'planning_parse_failed'
+    PLANNING_FAIL_API = 'planning_api_failed'
+    PLANNING_FAIL_INVALID = 'planning_invalid_failed'
+
     def _planning(self, image_path, question):
-        """Generate the execution plan (DAG of steps).
+        """Generate the execution plan (DAG of steps). Retries on failure.
 
         Returns:
             (steps: list | None, status: str, plan_text: str)
+            status is one of: 'success', 'planning_parse_failed',
+                              'planning_api_failed', 'planning_invalid_failed'
         """
         _log_diag('[V4-Stage1] Planning started')
 
@@ -465,60 +539,86 @@ class OCRAgentV4(OpenAIWrapper):
             {'type': 'image', 'value': image_path},
         ]
 
-        # Use system_prompt on agent temporarily for the system message
-        saved_sp = self.agent.system_prompt
-        self.agent.system_prompt = PLANNING_PROMPT
-        try:
-            ret, plan_text, resp = self._api_call(
-                messages,
-                schema=PLANNING_SCHEMA,
-                with_image_processor=True,
-            )
-        finally:
-            self.agent.system_prompt = saved_sp
+        last_error = self.PLANNING_FAIL_API
+        last_text = ''
 
-        _log_diag(f'[V4-Stage1] Planning ret={ret}, text_len={len(plan_text) if plan_text else 0}')
+        for attempt in range(1, MAX_ATTEMPTS + 1):
+            _log_diag(f'[V4-Stage1] Planning attempt {attempt}/{MAX_ATTEMPTS}')
 
-        if ret != 0 or not plan_text or self.fail_msg in plan_text:
-            return None, 'planning_failed', plan_text or ''
+            saved_sp = self.agent.system_prompt
+            self.agent.system_prompt = PLANNING_PROMPT
+            try:
+                ret, plan_text, resp = self._api_call(
+                    messages,
+                    schema=PLANNING_SCHEMA,
+                    with_image_processor=True,
+                    temperature=self.temp_planning,
+                )
+            finally:
+                self.agent.system_prompt = saved_sp
 
-        plan_obj, err = self._parse_json(plan_text, PLANNING_SCHEMA)
-        if plan_obj is None or 'steps' not in plan_obj:
-            _log_diag(f'[V4-Stage1] JSON parse error: {err}')
-            return None, 'planning_failed', plan_text
+            # Check API-level failure
+            if ret != 0 or not plan_text or self.fail_msg in plan_text:
+                _log_diag(f'[V4-Stage1] API failed (attempt {attempt})')
+                last_error = self.PLANNING_FAIL_API
+                last_text = plan_text or ''
+                continue
 
-        steps = plan_obj['steps']
-        # Validate steps
-        seen_ids = set()
-        for s in steps:
-            sid = s.get('id', '')
-            if not sid or sid in seen_ids:
-                _log_diag(f'[V4-Stage1] Invalid step id: {sid}')
-                return None, 'planning_failed', plan_text
-            seen_ids.add(sid)
-            # Check depends_on only references seen IDs
-            for dep in s.get('depends_on', []):
-                if dep not in seen_ids:
-                    _log_diag(f'[V4-Stage1] Step {sid} depends on unseen step {dep}')
-                    return None, 'planning_failed', plan_text
+            # Try to parse JSON
+            plan_obj, err = self._parse_json(plan_text, PLANNING_SCHEMA)
+            if plan_obj is None or 'steps' not in plan_obj:
+                _log_diag(f'[V4-Stage1] JSON parse error (attempt {attempt}): {err}')
+                last_error = self.PLANNING_FAIL_PARSE
+                last_text = plan_text
+                continue
 
-        _log_diag(f'[V4-Stage1] Planning OK — {len(steps)} steps')
-        return steps, 'success', plan_text
+            # Validate steps
+            steps = plan_obj['steps']
+            seen_ids = set()
+            valid = True
+            for s in steps:
+                sid = s.get('id', '')
+                if not sid or sid in seen_ids:
+                    _log_diag(f'[V4-Stage1] Invalid step id: {sid} (attempt {attempt})')
+                    valid = False
+                    break
+                seen_ids.add(sid)
+                for dep in s.get('depends_on', []):
+                    if dep not in seen_ids:
+                        _log_diag(f'[V4-Stage1] Step {sid} depends on unseen {dep} (attempt {attempt})')
+                        valid = False
+                        break
+                if not valid:
+                    break
+
+            if not valid:
+                last_error = self.PLANNING_FAIL_INVALID
+                last_text = plan_text
+                continue
+
+            _log_diag(f'[V4-Stage1] Planning OK — {len(steps)} steps (attempt {attempt})')
+            return steps, 'success', plan_text
+
+        # All attempts exhausted
+        _log_diag(f'[V4-Stage1] Planning FAILED after {MAX_ATTEMPTS} attempts: {last_error}')
+        return None, last_error, last_text
 
     # ------------------------------------------------------------------
-    # Stage 2: Step Execution
+    # Stage 2: Step Execution (with per-step retry)
     # ------------------------------------------------------------------
+
+    @staticmethod
+    def _step_failed(result_data):
+        """Check if a step result indicates failure."""
+        return result_data is None or result_data.get('status') == 'error'
 
     def _execute_steps(self, steps, image_path, orig_w, orig_h):
-        """Execute steps in order (already topologically sorted).
-
-        Args:
-            steps: List of step dicts.
-            image_path: Path to the original image.
-            orig_w, orig_h: Original image dimensions.
+        """Execute steps in topological order. Each step retries up to MAX_ATTEMPTS.
 
         Returns:
             (all_step_results: dict, overall_status: str)
+            overall_status: 'success' | 'grounding_locate_failed' | 'grounding_understand_failed'
+                          | 'compute_failed' | 'logical_failed'
         """
         all_results = {}
         overall_status = 'success'
@@ -528,42 +628,71 @@ class OCRAgentV4(OpenAIWrapper):
             step_type = step.get('type', 'unknown')
             _log_diag(f'[V4-Stage2] Executing {step_id} ({step_type})')
 
-            # Build context from dependencies
-            context = self._build_step_context(step, all_results)
+            result_data = None
+            retry_count = 0
 
-            try:
-                if step_type == 'ground-understand':
-                    result_data = self._execute_ground_understand(
-                        step, context, image_path, orig_w, orig_h
-                    )
-                elif step_type == 'compute':
-                    result_data = self._execute_compute(step, context)
-                elif step_type == 'logical':
-                    result_data = self._execute_logical(step, context)
-                else:
+            for attempt in range(1, MAX_ATTEMPTS + 1):
+                if attempt > 1:
+                    _log_diag(f'[V4-Stage2] Retrying {step_id} (attempt {attempt}/{MAX_ATTEMPTS})')
+                    retry_count += 1
+
+                # Build context (may have changed if dependencies succeeded on retry)
+                context = self._build_step_context(step, all_results)
+
+                try:
+                    if step_type == 'ground-understand':
+                        result_data = self._execute_ground_understand(
+                            step, context, image_path, orig_w, orig_h
+                        )
+                    elif step_type == 'compute':
+                        result_data = self._execute_compute(step, context)
+                    elif step_type == 'logical':
+                        result_data = self._execute_logical(step, context)
+                    else:
+                        result_data = {
+                            'status': 'error',
+                            'type': step_type,
+                            'error': f'Unknown step type: {step_type}',
+                            'result': '',
+                        }
+                except Exception as e:
                     result_data = {
                         'status': 'error',
                         'type': step_type,
-                        'error': f'Unknown step type: {step_type}',
+                        'error': str(e),
                         'result': '',
                     }
-            except Exception as e:
+
+                # If succeeded, stop retrying
+                if not self._step_failed(result_data):
+                    result_data['retry_count'] = retry_count
+                    break
+
+            # Record final result (after retries)
+            if result_data is None:
                 result_data = {
                     'status': 'error',
                     'type': step_type,
-                    'error': str(e),
+                    'error': 'All attempts failed',
                     'result': '',
                 }
-
+            result_data['retry_count'] = result_data.get('retry_count', retry_count)
             all_results[step_id] = result_data
 
-            if result_data.get('status') == 'error':
+            # Update overall status based on first failure (by priority)
+            if result_data.get('status') == 'error' and overall_status == 'success':
                 if step_type == 'ground-understand':
-                    if overall_status == 'success':
-                        overall_status = 'grounding_error'
+                    failed_phase = result_data.get('failed_phase', 'locate')
+                    if failed_phase == 'understand':
+                        overall_status = 'grounding_understand_failed'
+                    else:
+                        overall_status = 'grounding_locate_failed'
+                elif step_type == 'compute':
+                    overall_status = 'compute_failed'
+                elif step_type == 'logical':
+                    overall_status = 'logical_failed'
                 else:
-                    if overall_status == 'success':
-                        overall_status = 'execution_error'
+                    overall_status = 'execution_error'
 
         return all_results, overall_status
 
@@ -572,13 +701,66 @@ class OCRAgentV4(OpenAIWrapper):
     # ------------------------------------------------------------------
 
     def _execute_ground_understand(self, step, context, image_path, orig_w, orig_h):
-        """Execute a ground-understand step: locate → crop → understand.
+        """Execute a ground-understand step: locate → crop → understand (or direct).
+
+        When skip_locate=True: bypass locate+crop, feed full image directly.
+        When skip_locate=False (default): locate → crop → understand.
 
         Returns:
             {'status': 'ok'|'error', 'type': 'ground-understand',
              'result': str, 'bbox_groups': [...], 'error': str}
         """
         description = step.get('description', '')
+
+        # ================================================================
+        # Fast path: skip locate, feed full image directly to Understand
+        # ================================================================
+        if self.skip_locate:
+            understand_user_content = [
+                {'type': 'text', 'value': (
+                    f"Task: {description}\n\n"
+                    f"{context}\n"
+                    "Look at the full image above. Find the specific visual element "
+                    "described in the task and read its value. "
+                    "Output ONLY the JSON object with the result."
+                )},
+                {'type': 'image', 'value': image_path},
+            ]
+
+            saved_sp = self.agent.system_prompt
+            self.agent.system_prompt = UNDERSTAND_DIRECT_PROMPT
+            try:
+                ret, understand_text, _ = self._api_call(
+                    understand_user_content,
+                    schema=UNDERSTAND_SCHEMA,
+                    with_image_processor=True,  # full image needs high-res
+                    temperature=self.temp_understand,
+                )
+            finally:
+                self.agent.system_prompt = saved_sp
+
+            understand_obj, understand_err = self._parse_json(
+                understand_text, UNDERSTAND_SCHEMA
+            )
+            _log_diag(
+                f'[V4-UnderstandDirect] {step.get("id")}: err={understand_err}'
+            )
+
+            if understand_obj is None:
+                return {
+                    'status': 'error',
+                    'type': 'ground-understand',
+                    'result': '',
+                    'error': f'Understand (direct) failed: {understand_err}',
+                    'failed_phase': 'understand',
+                }
+
+            return {
+                'status': 'ok',
+                'type': 'ground-understand',
+                'result': understand_obj.get('result', ''),
+                'bbox_groups': [],  # no locate phase
+            }
 
         # ----- Phase 1: Locate -----
         locate_user = (
@@ -600,6 +782,7 @@ class OCRAgentV4(OpenAIWrapper):
                 locate_messages,
                 schema=LOCATE_SCHEMA,
                 with_image_processor=True,
+                temperature=self.temp_locate,
             )
         finally:
             self.agent.system_prompt = saved_sp
@@ -614,6 +797,7 @@ class OCRAgentV4(OpenAIWrapper):
                 'type': 'ground-understand',
                 'result': '',
                 'error': f'Locate failed: {locate_err or "empty bbox_groups"}',
+                'failed_phase': 'locate',
             }
 
         bbox_groups = locate_obj['bbox_groups']
@@ -654,6 +838,7 @@ class OCRAgentV4(OpenAIWrapper):
                 'type': 'ground-understand',
                 'result': '',
                 'error': 'Locate produced no valid bounding boxes',
+                'failed_phase': 'locate',
                 'bbox_groups': bbox_groups,
             }
 
@@ -696,6 +881,7 @@ class OCRAgentV4(OpenAIWrapper):
                 understand_user_content,
                 schema=UNDERSTAND_SCHEMA,
                 with_image_processor=False,  # crops are small, no need for high-res
+                temperature=self.temp_understand,
             )
         finally:
             self.agent.system_prompt = saved_sp
@@ -709,6 +895,7 @@ class OCRAgentV4(OpenAIWrapper):
                 'type': 'ground-understand',
                 'result': '',
                 'error': f'Understand failed: {understand_err}',
+                'failed_phase': 'understand',
                 'bbox_groups': bbox_groups,
             }
 
@@ -747,6 +934,7 @@ class OCRAgentV4(OpenAIWrapper):
                 messages,
                 schema=COMPUTE_SCHEMA,
                 with_image_processor=False,
+                temperature=self.temp_compute,
             )
         finally:
             self.agent.system_prompt = saved_sp
@@ -796,6 +984,7 @@ class OCRAgentV4(OpenAIWrapper):
                 messages,
                 schema=LOGICAL_SCHEMA,
                 with_image_processor=False,
+                temperature=self.temp_logical,
             )
         finally:
             self.agent.system_prompt = saved_sp
@@ -818,19 +1007,25 @@ class OCRAgentV4(OpenAIWrapper):
         }
 
     # ------------------------------------------------------------------
-    # Stage 3: Reasoning
+    # Stage 3: Reasoning (text-only, no image, no fallback)
     # ------------------------------------------------------------------
+
+    @staticmethod
+    def _is_reasoning_success(answer_text):
+        """Check if reasoning produced a usable answer."""
+        if answer_text is None:
+            return False
+        txt = answer_text.strip()
+        return '<a>' in txt and '</a>' in txt
 
     def _reasoning(self, image_path, question, all_step_results):
         """Final reasoning stage: TEXT-ONLY synthesis of analysis results.
 
-        The original image is deliberately NOT shown to the model here.
-        This forces the model to trust the executor results instead of
-        re-reading the image. If ground-understand steps failed, the
-        caller should route to _fallback_reasoning instead.
+        No fallback to image — the pipeline strictly tests the executor's output.
+        If the executor didn't extract the needed data, the answer will reflect that.
 
         Returns:
-            (ret_code, answer_text, response_obj)
+            (ret_code: int, answer_text: str, response_obj)
         """
         _log_diag('[V4-Stage3] Reasoning started (text-only, no image)')
 
@@ -854,14 +1049,11 @@ class OCRAgentV4(OpenAIWrapper):
 
         reasoning_prompt = REASONING_PROMPT.format(analysis_text=analysis_text)
 
-        # Text-only — no image. The model can only use the analysis results.
         user_content = [
             {'type': 'text', 'value': (
                 f"Original question: <q>{question}</q>\n\n"
                 "You have NO image. Use ONLY the analysis results above. "
                 "If data is missing due to FAILED steps, say so. "
-                "Please provide the final answer FIRST, enclosed strictly within the tags  and  like this: your <a> answer </a>. "
-                "ONLY AFTER providing the answer, you may briefly explain your reasoning. "
                 "Enclose your final answer in <a> and </a> tags."
             )},
         ]
@@ -871,39 +1063,14 @@ class OCRAgentV4(OpenAIWrapper):
         try:
             ret, answer, resp = self._api_call(
                 user_content,
-                schema=None,  # no guided decoding — free-form reasoning
+                schema=None,
                 with_image_processor=False,
+                temperature=self.temp_reasoning,
             )
         finally:
             self.agent.system_prompt = saved_sp
 
         _log_diag(f'[V4-Stage3] Reasoning ret={ret}, answer_len={len(answer) if answer else 0}')
-        return ret, answer, resp
-
-    # ------------------------------------------------------------------
-    # Fallback: direct reasoning (when planning fails)
-    # ------------------------------------------------------------------
-
-    def _fallback_reasoning(self, image_path, question):
-        """Direct reasoning when planning fails — clean slate, image only."""
-        _log_diag('[V4-Fallback] Planning failed, falling back to direct image reasoning')
-
-        prompt = (
-            f"Question: <q>{question}</q>\n\n"
-            "Look at the image carefully and answer the question step by step. "
-            "Enclose your final answer in <a> and </a> tags."
-        )
-
-        messages = [
-            {'type': 'text', 'value': prompt},
-            {'type': 'image', 'value': image_path},
-        ]
-
-        ret, answer, resp = self._api_call(
-            messages,
-            schema=None,
-            with_image_processor=True,  # high-res for reading small text/numbers
-        )
         return ret, answer, resp
 
     # ------------------------------------------------------------------
@@ -1020,7 +1187,7 @@ class OCRAgentV4(OpenAIWrapper):
     # ------------------------------------------------------------------
 
     def generate_inner(self, inputs, **kwargs):
-        """Main inference pipeline.
+        """Main inference pipeline — no image fallback; retry on failure.
 
         inputs: list of {'type': 'text'|'image', 'value': ...}
         """
@@ -1045,14 +1212,14 @@ class OCRAgentV4(OpenAIWrapper):
             orig_w, orig_h = img.size
 
         # ============================================================
-        # Stage 1: Planning
+        # Stage 1: Planning (up to MAX_ATTEMPTS)
         # ============================================================
         t1 = _time.time()
         steps, plan_status, plan_text = self._planning(image_path, question)
         t1_elapsed = _time.time() - t1
 
         # ============================================================
-        # Stage 2: Execution (if planning succeeded)
+        # Stage 2: Execution (each step up to MAX_ATTEMPTS)
         # ============================================================
         all_step_results = {}
         exec_status = 'success'
@@ -1065,32 +1232,37 @@ class OCRAgentV4(OpenAIWrapper):
             t2_elapsed = _time.time() - t2
         else:
             t2_elapsed = 0
-            exec_status = plan_status  # 'planning_failed'
+            exec_status = plan_status  # planning failure status
 
         # ============================================================
-        # Stage 3: Reasoning
+        # Stage 3: Reasoning (text-only, no image fallback)
         # ============================================================
         t3 = _time.time()
 
         if plan_status == 'success' and all_step_results:
-            # Text-only synthesis — model has NO access to the image.
-            # It must trust the step results (even partial ones) and
-            # cannot re-verify, so partial success is still useful.
+            # Text-only synthesis — model uses ONLY extracted results
             ret, answer, resp = self._reasoning(
                 image_path, question, all_step_results
             )
+            # If reasoning still produced no answer, that's a reasoning failure
+            if not self._is_reasoning_success(answer):
+                _log_diag('[V4-Stage3] Reasoning produced no usable answer')
+                if exec_status == 'success':
+                    exec_status = 'reasoning_failed'
         else:
-            # Planning failed — fall back to direct image reasoning
-            ret, answer, resp = self._fallback_reasoning(image_path, question)
+            # Planning failed — no answer possible
+            ret = -1
+            answer = ''
+            resp = None
 
         t3_elapsed = _time.time() - t3
         t_total = _time.time() - t_start
 
         # Determine final status
-        if plan_status == 'planning_failed':
-            final_status = 'planning_failed'
+        if plan_status != 'success':
+            final_status = plan_status  # planning_parse_failed / planning_api_failed / planning_invalid_failed
         elif exec_status != 'success':
-            final_status = exec_status  # grounding_error or execution_error
+            final_status = exec_status  # grounding_locate_failed / grounding_understand_failed / compute_failed / logical_failed / reasoning_failed
         else:
             final_status = 'success'
 
@@ -1105,4 +1277,132 @@ class OCRAgentV4(OpenAIWrapper):
             f'total={t_total:.0f}s'
         )
 
+        # ============================================================
+        # Build execution trace
+        # ============================================================
+        trace = self._build_trace(
+            image_path=image_path,
+            question=question,
+            plan_status=plan_status,
+            plan_text=plan_text,
+            steps=steps,
+            t1_elapsed=t1_elapsed,
+            all_step_results=all_step_results,
+            exec_status=exec_status,
+            t2_elapsed=t2_elapsed,
+            answer=answer,
+            final_status=final_status,
+            t3_elapsed=t3_elapsed,
+            t_total=t_total,
+        )
+        self.last_trace = trace
+
+        # Persist trace to JSONL if trace_dir is configured
+        if self.trace_dir:
+            self._write_trace(trace)
+
         return ret, answer, resp
+
+    # ------------------------------------------------------------------
+    # Trace building & persistence
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _summarize_step_result(data):
+        """Extract a concise summary from a step result dict for the trace."""
+        summary = {
+            'status': data.get('status', 'unknown'),
+            'type': data.get('type', 'unknown'),
+            'retry_count': data.get('retry_count', 0),
+        }
+        if data.get('status') == 'ok':
+            result = data.get('result', '')
+            if isinstance(result, dict):
+                summary['result'] = json.dumps(result, ensure_ascii=False)
+            else:
+                summary['result'] = str(result)[:500]
+        else:
+            summary['error'] = data.get('error', '')[:300]
+
+        # For ground-understand: track which phase failed and bbox stats
+        if data.get('type') == 'ground-understand':
+            summary['failed_phase'] = data.get('failed_phase', None)
+            bbox_groups = data.get('bbox_groups', None)
+            if bbox_groups:
+                summary['n_bbox_groups'] = len(bbox_groups)
+                summary['n_bboxes'] = sum(
+                    len(g.get('bboxes', [])) for g in bbox_groups
+                )
+            else:
+                summary['n_bbox_groups'] = 0
+                summary['n_bboxes'] = 0
+
+        return summary
+
+    def _build_trace(self, **kwargs):
+        """Build a structured execution trace dict."""
+        steps = kwargs['steps']
+        all_step_results = kwargs['all_step_results']
+        plan_status = kwargs['plan_status']
+
+        # ---- Planning ----
+        planning_trace = {
+            'status': plan_status,
+            'n_steps': len(steps) if steps else 0,
+            'steps': steps,
+            'time_s': round(kwargs['t1_elapsed'], 1),
+        }
+
+        # ---- Executor ----
+        executor_trace = {
+            'overall_status': kwargs['exec_status'] if plan_status == 'success' else plan_status,
+            'n_total': len(steps) if steps else 0,
+            'n_ok': sum(1 for r in all_step_results.values() if r.get('status') == 'ok'),
+            'n_error': sum(1 for r in all_step_results.values() if r.get('status') != 'ok'),
+            'time_s': round(kwargs['t2_elapsed'], 1),
+            'steps': {},
+        }
+        for sid in (s['id'] for s in (steps or [])):
+            if sid in all_step_results:
+                executor_trace['steps'][sid] = self._summarize_step_result(
+                    all_step_results[sid]
+                )
+            else:
+                executor_trace['steps'][sid] = {
+                    'status': 'not_executed',
+                    'type': 'unknown',
+                    'retry_count': 0,
+                    'error': 'Skipped (dependency or planning failure)',
+                }
+
+        # ---- Reasoning ----
+        answer = kwargs['answer']
+        reasoning_trace = {
+            'mode': 'text_only',
+            'has_answer': '<a>' in (answer or '') and '</a>' in (answer or ''),
+            'final_answer': answer[:2000] if answer else None,
+            'time_s': round(kwargs['t3_elapsed'], 1),
+        }
+
+        # ---- Overall ----
+        return {
+            'image_path': kwargs['image_path'],
+            'question': kwargs['question'][:500],
+            'overall_status': kwargs['final_status'],
+            'total_time_s': round(kwargs['t_total'], 1),
+            'planning': planning_trace,
+            'executor': executor_trace,
+            'reasoning': reasoning_trace,
+        }
+
+    def _write_trace(self, trace):
+        """Append one execution trace as a JSON line to the trace log file."""
+        import datetime
+        os.makedirs(self.trace_dir, exist_ok=True)
+        log_path = os.path.join(self.trace_dir, 'execution_traces.jsonl')
+        record = {
+            'timestamp': datetime.datetime.now().isoformat(),
+            **trace,
+        }
+        with open(log_path, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(record, ensure_ascii=False) + '\n')

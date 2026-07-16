@@ -1,0 +1,56 @@
+{
+  "index": 299,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Read the problem statement to identify the condition about rotational speed becoming constant at a certain distance",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the equation in the image that relates mass and rotational speed",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Based on the constant rotational speed condition, deduce the relationship between mass M(r) and radius r",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the deduced relationship with choice (B) to verify if M(r) is proportional to r",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Examine choice (D) to see if it represents a parabolic relationship where M(r) scales with r squared",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Provide the final answer based on the analysis of all choices",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "BD"
+}

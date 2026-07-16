@@ -1,0 +1,39 @@
+{
+  "index": 638,
+  "question": "What is the item with the highest proportion in the 'TQA' of the inner circle?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 'TQA' section in the inner circle and read the proportion value for FunctionQA",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the 'TQA' section in the inner circle and read the proportion value for AI2D",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the proportion values from step_1 and step_2 to determine which is higher",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Conclude which item has the highest proportion based on the comparison in step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "FunctionQA"
+}

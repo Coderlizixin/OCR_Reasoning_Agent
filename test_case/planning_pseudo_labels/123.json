@@ -1,0 +1,55 @@
+{
+  "index": 123,
+  "question": "购买一台价格为1500元的吸尘器实际需要支付多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the price information for the vacuum cleaner in the question and extract the unit price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the promotion rule text that states '满1000立减300' in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the promotion rule text that states '满2000立减500' in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the extracted price from step_1 against the threshold in step_2 to determine if it qualifies for the discount",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Compare the extracted price from step_1 against the threshold in step_3 to determine if it qualifies for the discount",
+        "depends_on": [
+          "step_1",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Apply the applicable discount rule to calculate the final payment amount",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "1200元"
+}

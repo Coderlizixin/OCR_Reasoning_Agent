@@ -1,0 +1,49 @@
+{
+  "index": 620,
+  "question": "What is the average price for tickers ending with letter 'e', not case sensitive?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate and identify all stock tickers in the table that end with the letter 'e' (case-insensitive)",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the row for Apple stock in the table and read its Close(USD) price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the row for Oracle stock in the table and read its Close(USD) price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Add together the Close(USD) values obtained from step_2 and step_3",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Divide the sum from step_4 by the count of tickers ending with 'e' to get the average",
+        "depends_on": [
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "179.92"
+}

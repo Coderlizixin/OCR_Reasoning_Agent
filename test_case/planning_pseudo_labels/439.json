@@ -1,0 +1,82 @@
+{
+  "index": 439,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate points B, D, E, C on the diagram and read the ratio of segment lengths BD : DE : EC",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate triangle ABD in the diagram and read its area value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the area of triangle ADE using the ratio from step_1 and area from step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the area of triangle AEC using the ratio from step_1 and area from step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Sum the areas from steps 2, 3, and 4 to find the total area of triangle ABC",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Identify the geometric property of point F from the diagram",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the area of triangle FDE using the property from step_6 and area from step_3",
+        "depends_on": [
+          "step_3",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the area from step_5 by the area from step_7 to find the ratio",
+        "depends_on": [
+          "step_5",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Compare the calculated ratio with the given options and select the correct answer",
+        "depends_on": [
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "B"
+}

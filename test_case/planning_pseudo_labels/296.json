@@ -1,0 +1,57 @@
+{
+  "index": 296,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the mass labeled 'm' in the physics diagram and extract its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the mass labeled '3m/2' in the physics diagram and extract its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Analyze the system configuration to identify it as two separate Atwood machines",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Apply the Atwood machine acceleration formula: (m1 - m2)g / (m1 + m2)",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Substitute the extracted mass values into the acceleration formula and calculate the result",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Select the correct answer option based on the calculated acceleration",
+        "depends_on": [
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "B"
+}

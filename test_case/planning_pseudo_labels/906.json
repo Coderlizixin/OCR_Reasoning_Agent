@@ -1,0 +1,46 @@
+{
+  "index": 906,
+  "question": "For the region with the second-highest proportion in the 2011-2015 average, what is the average of its 2011-2015 and 1995-1999 average levels?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the inner pie chart and read the percentage value for North America",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the inner pie chart and read the percentage value for Developing East Asia",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the proportions from step_1 and step_2 to identify which region has the second-highest proportion",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the outer ring chart and read the percentage value for Developing East Asia",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the average of the proportion from step_2 and the value from step_4",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "15.5%"
+}

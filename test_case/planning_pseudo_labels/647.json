@@ -1,0 +1,32 @@
+{
+  "index": 647,
+  "question": "If someone eats two servings of this food every day for a week, how many grams of total fat will they consume?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the nutrition label and read the total fat content per serving in grams",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Multiply the total fat per serving from step_1 by 2 to get fat for two servings",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the result from step_2 by 7 to get total fat for one week",
+        "depends_on": [
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "42g"
+}

@@ -1,0 +1,31 @@
+{
+  "index": 867,
+  "question": "净利润最大的股票比净利润第二大的股票多多少元？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the stock with the highest net profit in the table and read its net profit from the previous year",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the stock with the second highest net profit in the table and read its net profit from the previous year",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Subtract the net profit from step_2 from the net profit from step_1 to find the difference",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "1.40亿"
+}

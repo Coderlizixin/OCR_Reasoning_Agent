@@ -1,0 +1,84 @@
+{
+  "index": 415,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate option A in the image and read the molecular formula of the compound shown",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Compare the molecular formula from step_1 to determine if compounds in option A are isomers",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the first compound in option B and read its molecular formula",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the second compound in option B and read its molecular formula",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Compare the molecular formulas from step_3 and step_4 to determine if compounds in option B are isomers",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate option C in the image and read the molecular formula of the compound shown",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Compare the molecular formula from step_6 to determine if compounds in option C are isomers",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate option D in the image and read the molecular formula of the compound shown",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Compare the molecular formula from step_8 to determine if compounds in option D are isomers",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Based on the isomer analysis from steps 2, 5, 7, and 9, identify which option contains non-isomeric compounds",
+        "depends_on": [
+          "step_2",
+          "step_5",
+          "step_7",
+          "step_9"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 10,
+  "gt_final_answer": "B"
+}

@@ -1,0 +1,108 @@
+{
+  "index": 341,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate coil 1 in the image and identify its position",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate coil 3 in the image and identify its position",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Apply Ampere's right-hand rule to determine the magnetic field direction from the DC wire through the coil",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Analyze that equal currents and symmetric coil positions result in zero magnetic flux through the coil",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Apply Lenz's law to determine that increasing current produces no induced current or Ampere force in the coil",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Conclude that coils 1 and 3 remain stationary",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate coil 2 in the image and identify its position",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate coil 4 in the image and identify its position",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Apply Ampere's right-hand rule to determine the magnetic field direction from the DC wire through the coil",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Apply Lenz's law to determine the direction of induced current when current increases",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Analyze that magnetic field strength is stronger near the DC wire, making force effects more significant",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Apply the left-hand rule to determine Ampere force direction and conclude that coils 2 and 4 move outward along the diagonal",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Select the correct option based on the analysis",
+        "depends_on": [
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "B"
+}

@@ -1,0 +1,113 @@
+{
+  "index": 78,
+  "question": "假如活动期间每天都进行获奖评比并且赠送礼物，那么准备所有奖项的礼物要花多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the number of first prize winners in the image and read the count",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the first prize gift value in the image and read the amount",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the first prize winner count by the first prize gift value to get total first prize cost",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the number of second prize winners in the image and read the count",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Find the second prize gift value in the image and read the amount",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply the second prize winner count by the second prize gift value to get total second prize cost",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the number of third prize winners in the image and read the count",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Find the third prize gift value in the image and read the amount",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Multiply the third prize winner count by the third prize gift value to get total third prize cost",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Add the total first prize cost, second prize cost, and third prize cost to get daily total gift value",
+        "depends_on": [
+          "step_3",
+          "step_6",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the event start date in the image and read the date",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate the event end date in the image and read the date",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Calculate the total number of event days by subtracting start date from end date and adding 1",
+        "depends_on": [
+          "step_11",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Multiply the daily total gift value by the total number of event days to get total cost for all gifts",
+        "depends_on": [
+          "step_10",
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "41600元"
+}

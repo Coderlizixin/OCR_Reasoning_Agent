@@ -1,0 +1,92 @@
+{
+  "index": 666,
+  "question": "For each different type of food, if someone orders the second most expensive item in grade size, what is the minimum total amount they would need to pay?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the Cold Brew section and read the price of Cold Brew with Coconut Milk NEW!",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Compare all items in Cold Brew category to identify the second most expensive item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the Espresso & Coffee section and read the price of Ristretto Bianco",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare all items in Espresso & Coffee category to identify the second most expensive item",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the Teavana Teas section and read the price of Matcha & Espresso Fusion",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare all items in Teavana Teas category to identify the second most expensive item",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the Frappuccino section and read the price of Green Tea",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Compare all items in Frappuccino category to identify the second most expensive item",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the Other Beverages section and read the price of Signature Hot Chocolate",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Compare all items in Other Beverages category to identify the second most expensive item",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Add together the second most expensive prices from each category identified in previous steps",
+        "depends_on": [
+          "step_2",
+          "step_4",
+          "step_6",
+          "step_8",
+          "step_10"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 11,
+  "gt_final_answer": "$36.30"
+}

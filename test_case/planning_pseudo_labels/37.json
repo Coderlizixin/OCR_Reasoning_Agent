@@ -1,0 +1,38 @@
+{
+  "index": 37,
+  "question": "What is the next holiday in the poster? Mother's Day or Christmas?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the date displayed on the poster and read the specific date value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Retrieve the standard date for Mother's Day from knowledge",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Retrieve the standard date for Christmas from knowledge",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the poster date with Mother's Day and Christmas dates to identify which holiday comes next",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "Christmas"
+}

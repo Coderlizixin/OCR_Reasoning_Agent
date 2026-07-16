@@ -1,0 +1,25 @@
+{
+  "index": 218,
+  "question": "在这张结账单中，有多少种菜品是免费的？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the bill items in the image and read their prices, identify items with 0.00 yuan price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Count the number of items that have 0.00 yuan price from step_1 to get the total count of free dishes",
+        "depends_on": [
+          "step_1"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 2,
+  "gt_final_answer": "5",
+  "source": "excel_reasoning_column"
+}

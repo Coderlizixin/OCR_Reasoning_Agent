@@ -1,0 +1,124 @@
+{
+  "index": 820,
+  "question": "我在屹通新材涨价前买了100股，在它今天最高价的时候卖出，然后在现在又继续买入50股，假如买入不收取手续费，卖出的手续费需要收取百分之10%，那么我总共花多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the text showing the initial number of shares purchased",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the reference price value in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the price adjustment value in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the initial buy price by adding the reference price and price adjustment",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the initial total cost by multiplying initial shares by initial buy price",
+        "depends_on": [
+          "step_1",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the highest sell price value in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the total sell price by multiplying initial shares by highest sell price",
+        "depends_on": [
+          "step_1",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the fee rate percentage for selling",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Calculate the selling fee by multiplying sell total price by fee rate",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Calculate the net sell income by subtracting sell fee from sell total price",
+        "depends_on": [
+          "step_7",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Calculate the profit from the first trade by subtracting initial total cost from sell income",
+        "depends_on": [
+          "step_10",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate the number of new shares purchased",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "ground-understand",
+        "description": "Locate the current buy price value in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Calculate the new buy cost by multiplying new shares by current buy price",
+        "depends_on": [
+          "step_12",
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "compute",
+        "description": "Calculate the final net cost by adding new buy cost to initial total cost",
+        "depends_on": [
+          "step_14",
+          "step_11"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "1493.3"
+}

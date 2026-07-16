@@ -1,0 +1,48 @@
+{
+  "index": 1067,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Analyze the three-view diagram to understand that the geometric body is a sphere with 1/8 removed",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the volume value of the geometric body in the problem conditions and read it",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Use the volume formula to calculate the radius R of the sphere",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the surface area of the geometric body using the radius from step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Select option D based on the calculated surface area from step_4",
+        "depends_on": [
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "D"
+}

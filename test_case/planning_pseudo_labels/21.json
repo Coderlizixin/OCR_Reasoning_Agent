@@ -1,0 +1,39 @@
+{
+  "index": 21,
+  "question": "How many days does this campaign last?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the campaign start date in the image and extract the day value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the campaign end date in the image and extract the day value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the difference between the end date and start date in days",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Add 1 day to the result from step_3 to account for inclusive counting",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "20"
+}

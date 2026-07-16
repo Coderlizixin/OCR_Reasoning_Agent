@@ -1,0 +1,108 @@
+{
+  "index": 913,
+  "question": "How many states have values greater than 25?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Understand the task requirement to identify and count states with values exceeding 25",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate New Hampshire (NH) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate New York (NY) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate Massachusetts (MA) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate Pennsylvania (PA) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate New Jersey (NJ) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate Washington DC (DC) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate California (CA) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate Nevada (NV) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate Utah (UT) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate Wyoming (WY) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate Colorado (CO) on the map and read its associated value",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Compare each state's value from previous steps against the threshold of 25 and filter out those at or below this value",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6",
+          "step_7",
+          "step_8",
+          "step_9",
+          "step_10",
+          "step_11",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Tally the total number of states that meet the criteria from step_13",
+        "depends_on": [
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "11"
+}

@@ -1,0 +1,98 @@
+{
+  "index": 449,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ①",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ②",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the triangles labeled ① and ② to determine if they have equal base and height",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ③",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ⑤",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the triangles labeled ③ and ⑤ to determine if they have equal base and height",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ⑥",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ④",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the tangram figure and identify the region labeled with ⑦",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Compare the triangles labeled ④ and ⑦ to determine their relationship with square ⑥",
+        "depends_on": [
+          "step_7",
+          "step_8",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Organize the identified regions into three groups based on their geometric relationships",
+        "depends_on": [
+          "step_3",
+          "step_6",
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Calculate the possible selection combinations for the three companies based on the grouped regions",
+        "depends_on": [
+          "step_11"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 12,
+  "gt_final_answer": "B"
+}

@@ -1,0 +1,127 @@
+{
+  "index": 388,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the input section in the image and read the value assigned to variable N",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the initialization section and read the value assigned to variable i",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the initialization section and read the value assigned to variable T",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Divide the value of N from step_1 by the value of i from step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Check if the result from step_4 is an integer value",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Update variables T and i based on whether the result from step_5 is true",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Check if the current value of i is greater than or equal to 5",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the value of N from step_1 by the updated value of i from step_6",
+        "depends_on": [
+          "step_1",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Check if the result from step_8 is an integer value",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Update variable i based on whether the result from step_9 is true, keeping T unchanged",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Check if the current value of i is greater than or equal to 5",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Divide the value of N from step_1 by the updated value of i from step_10",
+        "depends_on": [
+          "step_1",
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Check if the result from step_12 is an integer value",
+        "depends_on": [
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Update variables T and i based on whether the result from step_13 is true",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "logical",
+        "description": "Check if the current value of i is greater than or equal to 5 to determine if the program should end",
+        "depends_on": [
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "B"
+}

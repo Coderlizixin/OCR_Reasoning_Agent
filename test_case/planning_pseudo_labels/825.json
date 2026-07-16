@@ -1,0 +1,31 @@
+{
+  "index": 825,
+  "question": "现在的价格比盘中最高报价底多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the highest trading price (盘中最高报价) displayed in the text and extract its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the current stock price in the stock information section and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Subtract the current price from step_2 from the highest trading price from step_1 to calculate the difference",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "0.31"
+}

@@ -1,0 +1,47 @@
+{
+  "index": 178,
+  "question": "存货编码数值最大的存货采购总金额和存货编码数值最小的存货采购总金额相差多少元？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Find the inventory item with the highest numerical code value in the table",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Find the inventory item with the lowest numerical code value in the table",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the inventory item identified in step_1 and read its total purchase amount",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the inventory item identified in step_2 and read its total purchase amount",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Subtract the smaller purchase amount from the larger one to find the difference",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "820.51"
+}

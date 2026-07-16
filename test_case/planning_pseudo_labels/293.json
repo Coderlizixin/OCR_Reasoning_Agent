@@ -1,0 +1,48 @@
+{
+  "index": 293,
+  "question": "Find an expression for G in terms of \\omega, \\omega_0, and Q.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Introduce complex impedance concepts and define the transfer function G",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Relate the voltage ratio V_C/V_0 to circuit impedances",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Substitute the impedance expressions into the voltage ratio equation",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Algebraically rearrange to express the result in terms of omega and Q",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Simplify the expression to obtain the final form of G",
+        "depends_on": [
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "\\[G = \\frac{1}{\\sqrt{1 + ((\\omega_0 * Q/\\omega)(1 - \\omega^2/\\omega_0^2))^2}}\\]"
+}

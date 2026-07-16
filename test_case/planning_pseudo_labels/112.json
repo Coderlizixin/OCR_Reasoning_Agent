@@ -1,0 +1,63 @@
+{
+  "index": 112,
+  "question": "最便宜的素菜和最贵的肉类各买两斤需要多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the vegetable section in the image, find the item labeled '红萝卜' (carrot), and read its price per unit",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the meat section in the image, find the item labeled '鲜鸡' (fresh chicken), and read its price per unit",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare all vegetable prices to identify which one has the lowest price",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare all meat prices to identify which one has the highest price",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Multiply the price per unit of 红萝卜 (from step_1) by 2 to get the cost for 2 jin",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply the price per unit of 鲜鸡 (from step_2) by 2 to get the cost for 2 jin",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Add the cost from step_5 and step_6 to get the total cost",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "29.56元"
+}

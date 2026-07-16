@@ -1,0 +1,43 @@
+{
+  "index": 578,
+  "question": "What is the difference in 'Change %' between the second-ranked and third-ranked industries under the 'Monthly' category?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 'Monthly' category and find the second-ranked industry 'Software & Services', then read its Monthly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "In the 'Monthly' category, locate the 'Software & Services' row and read its 'Change %' value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the 'Monthly' category and find the third-ranked industry 'Pharmaceuticals, Biotechnology & Life Sciences', then read its Monthly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "In the 'Monthly' category, locate the 'Pharmaceuticals, Biotechnology & Life Sciences' row and read its 'Change %' value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Subtract the Change % value from step_4 from the Change % value from step_2 to find the difference",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "0.32%"
+}

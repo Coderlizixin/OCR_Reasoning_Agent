@@ -1,0 +1,85 @@
+{
+  "index": 608,
+  "question": "What is the average of Net profit from 2018 to 2023?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate the row labeled 'Net profit/total operating income(%)' in the table",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2018 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2019 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2020 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2021 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2022 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Read the Net profit value for the year 2023 from the identified row",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Sum all Net profit values from steps 2 through 7",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Divide the sum from step_8 by 6 to calculate the average",
+        "depends_on": [
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "-101768.3"
+}

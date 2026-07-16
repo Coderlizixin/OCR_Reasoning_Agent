@@ -1,0 +1,31 @@
+{
+  "index": 1043,
+  "question": "What is the sum of the prices of the items whose names contain '$'?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate an item name containing '$' in the image and read its price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate another item name containing '$' in the image and read its price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Add together the prices from step_1 and step_2 to calculate the total sum",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "$6.50"
+}

@@ -1,0 +1,57 @@
+{
+  "index": 474,
+  "question": "How many lines achieved a test accuracy greater than 0.6 when number of effective passes is 10?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate the subplot showing Test Accuracy on the y-axis versus Number of Effective Passes on the x-axis",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the position of the target value on the x-axis labeled Number of Effective Passes",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Identify the y-axis threshold value for test accuracy",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Determine which lines cross the x-axis position with y values exceeding the threshold",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Note the color of each line that satisfies the criteria from step_4",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Count how many lines meet the criteria identified in step_5",
+        "depends_on": [
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "1"
+}

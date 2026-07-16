@@ -1,0 +1,90 @@
+{
+  "index": 700,
+  "question": "If I order one of each of the iced coffees and one of each of the cold brew coffees, what is the average price for all of the drinks? Use the cheapest specification for calculation.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the first iced coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the second iced coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the third iced coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the fourth iced coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the first cold brew coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the second cold brew coffee item in the menu and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Add together the prices from steps 1, 2, 3, and 4 to get the total for all iced coffees",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Add together the prices from steps 5 and 6 to get the total for all cold brew coffees",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Combine the totals from steps 7 and 8 to get the overall price for all drinks",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Count the total number of drinks: 4 iced coffees plus 2 cold brew coffees equals 6 drinks",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Divide the total price from step 9 by the number of drinks from step 10 to calculate the average price",
+        "depends_on": [
+          "step_9",
+          "step_10"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 11,
+  "gt_final_answer": "3.66"
+}

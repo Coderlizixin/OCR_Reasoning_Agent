@@ -1,0 +1,47 @@
+{
+  "index": 429,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate option A in the image and read the change in methane volume fraction when temperature increases",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Analyze that if equilibrium shifts forward with heating, the forward reaction is endothermic, so ΔH is positive",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate options B and C in the image and read the ratio of initial amounts added",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Analyze option D: when pressure increases at constant temperature, equilibrium shifts backward, increasing methane volume fraction",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Synthesize findings from previous steps to determine which option is correct",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "A"
+}

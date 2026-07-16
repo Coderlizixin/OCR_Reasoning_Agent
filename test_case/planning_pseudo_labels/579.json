@@ -1,0 +1,43 @@
+{
+  "index": 579,
+  "question": "What is the difference in 'Monthly' between the second-ranked and fourth-ranked industries under the 'Weekly' category?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the second-ranked industry in the Weekly category and read its Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the Monthly value for Software & Services industry",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the fourth-ranked industry in the Weekly category and read its Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the Monthly value for Banks industry",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the difference between the Monthly values from step_2 and step_4",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "2.02%"
+}

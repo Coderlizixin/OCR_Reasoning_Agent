@@ -6,7 +6,7 @@ import re
 from PIL import Image, ImageDraw
 
 
-# 1. 定义一个函数，用于将本地图片读取并转换为 Base64 编码
+    # 1. 定义一个函数，用于将本地图片读取并转换为 Base64 编码
 def encode_and_resize_image(image_path, max_size=2048):
     # 打开本地图片
     with Image.open(image_path) as img:
@@ -62,15 +62,15 @@ def crop_and_encode(img, physical_bbox, padding=60, scale_factor=3.0):
     return base64.b64encode(buffer.getvalue()).decode('utf-8')
 
 
-client = OpenAI(
-    base_url='https://api-inference.modelscope.cn/v1',
-    api_key='ms-7ee485f4-550b-49f8-906a-216377ad5562',  # ModelScope Token
-)
-
 # client = OpenAI(
-#     api_key="EMPTY",
-#     base_url="http://10.3.112.34:22630/v1",
+#     base_url='https://api-inference.modelscope.cn/v1',
+#     api_key='ms-7ee485f4-550b-49f8-906a-216377ad5562',  # ModelScope Token
 # )
+
+client = OpenAI(
+    api_key="EMPTY",
+    base_url="http://10.3.112.34:23130/v1",
+)
 
 # client = OpenAI(
 #     api_key="sk-Sy5R85nas3TrIuwgI3oSjg",
@@ -132,7 +132,7 @@ else:
     "Question: <q>How many are somewhat confident that Donald Trump can manage the executive branch effectively?</q>"
 
 response = client.chat.completions.create(  # type: ignore
-    model='ZhipuAI/GLM-5.1',
+    model='Qwen3.5-9B-TB',
     temperature=0.0,
     max_tokens=6144,
     messages=[{  # type: ignore
@@ -140,17 +140,15 @@ response = client.chat.completions.create(  # type: ignore
             'user',
         'content': [{
             'type': 'text',
-            'text': f"""You are a seasoned expert in image analysis. Please parse the information in the image into JSON format.""",
+            'text': f"""Transfer the information in the image into Json.""",
         },
-            # {
-            #     'type': 'image_url',
-            #     'image_url': {
-            #         # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
-            #         'url': f"data:{mime_type};base64,{base64_image}",
-            #     },
-                # 'min_pixels': 2500 * 32 * 32,
-                # 'max_pixels': 3000 * 32 * 32,
-            # },
+            {
+                'type': 'image_url',
+                'image_url': {
+                    # 4. 将原本的 http URL 替换为 Base64 Data URL 格式
+                    'url': f"data:{mime_type};base64,{base64_image}",
+                },
+            },
             # {
             #     'type': 'image_url',
             #     'image_url': {
@@ -160,54 +158,56 @@ response = client.chat.completions.create(  # type: ignore
             # }
         ],
     }],
-    # extra_body={
-    #     "mm_processor_kwargs": {
-    #         "images_kwargs": {
-    #             "size": {
-    #                 "longest_edge": 8192 * 32 * 32,
-    #                 "shortest_edge": 4096 * 32 * 32,
-    #             }
-    #         }
-    #     }
-    # },
-    stream=True
+    extra_body={
+        # "thinking_budget": 10,
+        # "max_reasoning_steps": 5,
+        "mm_processor_kwargs": {
+            "images_kwargs": {
+                "size": {
+                    "longest_edge": 8192 * 32 * 32,
+                    "shortest_edge": 4096 * 32 * 32,
+                }
+            }
+        }
+    },
+    # stream=True
 )
 
 # huawei集群qwen3.5-122B接口输出
-# final_answer_text = response.choices[0].message.content
-# finish_reason = response.choices[0].finish_reason
-#
-# # 输出 token 用量
-# if hasattr(response, 'usage') and response.usage:
-#     print(f"\n=== Token Usage ===")
-#     print(f"Input (prompt) tokens:  {response.usage.prompt_tokens}")
-#     print(f"Output (completion) tokens: {response.usage.completion_tokens}")
-#     print(f"Total tokens:           {response.usage.total_tokens}")
-# else:
-#     print("\n=== Token Usage: 服务端未返回 usage 信息 ===")
-#
-# print(final_answer_text)
+final_answer_text = response.choices[0].message.content
+finish_reason = response.choices[0].finish_reason
 
-# # modelscope Glm4.6V接口输出
+# 输出 token 用量
+if hasattr(response, 'usage') and response.usage:
+    print(f"\n=== Token Usage ===")
+    print(f"Input (prompt) tokens:  {response.usage.prompt_tokens}")
+    print(f"Output (completion) tokens: {response.usage.completion_tokens}")
+    print(f"Total tokens:           {response.usage.total_tokens}")
+else:
+    print("\n=== Token Usage: 服务端未返回 usage 信息 ===")
+
+print(final_answer_text)
+
+# modelscope Glm4.6V接口输出
 # for chunk in response:
 #     if chunk.choices:
 #         print(chunk.choices[0].delta.content, end='', flush=True)
 
-# # modelscope Glm5.1接口输出
-done_reasoning = False
-final_answer_text = ''
-for chunk in response:
-    if chunk.choices:
-        reasoning_chunk = chunk.choices[0].delta.reasoning_content
-        answer_chunk = chunk.choices[0].delta.content
-        if reasoning_chunk != '':
-            print(reasoning_chunk, end='', flush=True)
-        elif answer_chunk != '':
-            if not done_reasoning:
-                print('\n\n === Final Answer ===\n')
-                done_reasoning = True
-            # print(answer_chunk, end='', flush=True)
-            final_answer_text += answer_chunk
+# modelscope Glm5.1接口输出
+# done_reasoning = False
+# final_answer_text = ''
+# for chunk in response:
+#     if chunk.choices:
+#         reasoning_chunk = chunk.choices[0].delta.reasoning_content
+#         answer_chunk = chunk.choices[0].delta.content
+#         if reasoning_chunk != '':
+#             print(reasoning_chunk, end='', flush=True)
+#         elif answer_chunk != '':
+#             if not done_reasoning:
+#                 print('\n\n === Final Answer ===\n')
+#                 done_reasoning = True
+#             # print(answer_chunk, end='', flush=True)
+#             final_answer_text += answer_chunk
 
 # model scope qwen3.5-27B接口输出
 # final_answer_text = ""
@@ -237,69 +237,69 @@ for chunk in response:
 #
 # print("\n\n=== 提取与可视化阶段 ===")
 
-# 2. 使用正则表达式提取坐标
-# 这个正则匹配形如 [ymin, xmin, ymax, xmax] 的格式，允许数字前后有空格
-pattern = r'\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]'
-matches = re.findall(pattern, final_answer_text)
-
-# 将匹配到的字符串元组转换为整数列表
-extracted_bboxes = [[int(val) for val in match] for match in matches]
-unique_bboxes = []
-seen = set()
-for bbox in extracted_bboxes:
-    # 列表不能作为 set 的 key，必须先转成 tuple
-    bbox_tuple = tuple(bbox)
-    if bbox_tuple not in seen:
-        seen.add(bbox_tuple)
-        unique_bboxes.append(bbox)
-
-# 将去重后的结果覆盖回原变量
-extracted_bboxes = unique_bboxes
-print(f"去重提取到的原始坐标 (0-1000格式): {extracted_bboxes}")
-
-# 3. 在原图上可视化框
-if extracted_bboxes:
-    try:
-        # 【关键修改 1】：打开原图，并立刻复制一份干净的副本
-        original_img = Image.open(local_image_path).convert('RGB')
-        clean_img = original_img.copy()  # 专门用于无损裁剪
-
-        # 在 original_img 上进行画框操作
-        draw = ImageDraw.Draw(original_img)
-
-        orig_w, orig_h = orig_size
-        # resized_w, resized_h 已经不再需要了
-
-        # 3 & 4. 强制按 [0-1000] 归一化坐标系进行精确映射并画框
-        for i, bbox in enumerate(extracted_bboxes):
-            xmin, ymin, xmax, ymax = bbox
-
-            # 映射到物理坐标
-            real_xmin = int((xmin / 1000.0) * orig_w)
-            real_ymin = int((ymin / 1000.0) * orig_h)
-            real_xmax = int((xmax / 1000.0) * orig_w)
-            real_ymax = int((ymax / 1000.0) * orig_h)
-
-            physical_bbox = [real_xmin, real_ymin, real_xmax, real_ymax]
-            # print(f"映射后原图坐标: {physical_bbox}")
-
-            # 【关键修改 2】：调用复审机制 (注意传入的是 clean_img)
-            # 为了防止一次性请求太多次（你提取了12个框），你可以先限制只审查前 3 个框测试一下
-
-            # 画出边框 (画在 original_img 上)
-            draw.rectangle(
-                physical_bbox,
-                outline="#00FF00",  # 亮绿色
-                width=4
-            )
-
-        output_path = "test_case/test_images/result_image.jpg"
-        original_img.save(output_path)
-        print(f"\n✅ 全局绘制成功！带框的图片已保存至: {output_path}")
-
-        original_img.show()
-
-    except Exception as e:
-        print(f"图片处理失败: {e}")
-else:
-    print("未提取到坐标。")
+# # 2. 使用正则表达式提取坐标
+# # 这个正则匹配形如 [ymin, xmin, ymax, xmax] 的格式，允许数字前后有空格
+# pattern = r'\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]'
+# matches = re.findall(pattern, final_answer_text)
+#
+# # 将匹配到的字符串元组转换为整数列表
+# extracted_bboxes = [[int(val) for val in match] for match in matches]
+# unique_bboxes = []
+# seen = set()
+# for bbox in extracted_bboxes:
+#     # 列表不能作为 set 的 key，必须先转成 tuple
+#     bbox_tuple = tuple(bbox)
+#     if bbox_tuple not in seen:
+#         seen.add(bbox_tuple)
+#         unique_bboxes.append(bbox)
+#
+# # 将去重后的结果覆盖回原变量
+# extracted_bboxes = unique_bboxes
+# print(f"去重提取到的原始坐标 (0-1000格式): {extracted_bboxes}")
+#
+# # 3. 在原图上可视化框
+# if extracted_bboxes:
+#     try:
+#         # 【关键修改 1】：打开原图，并立刻复制一份干净的副本
+#         original_img = Image.open(local_image_path).convert('RGB')
+#         clean_img = original_img.copy()  # 专门用于无损裁剪
+#
+#         # 在 original_img 上进行画框操作
+#         draw = ImageDraw.Draw(original_img)
+#
+#         orig_w, orig_h = orig_size
+#         # resized_w, resized_h 已经不再需要了
+#
+#         # 3 & 4. 强制按 [0-1000] 归一化坐标系进行精确映射并画框
+#         for i, bbox in enumerate(extracted_bboxes):
+#             xmin, ymin, xmax, ymax = bbox
+#
+#             # 映射到物理坐标
+#             real_xmin = int((xmin / 1000.0) * orig_w)
+#             real_ymin = int((ymin / 1000.0) * orig_h)
+#             real_xmax = int((xmax / 1000.0) * orig_w)
+#             real_ymax = int((ymax / 1000.0) * orig_h)
+#
+#             physical_bbox = [real_xmin, real_ymin, real_xmax, real_ymax]
+#             # print(f"映射后原图坐标: {physical_bbox}")
+#
+#             # 【关键修改 2】：调用复审机制 (注意传入的是 clean_img)
+#             # 为了防止一次性请求太多次（你提取了12个框），你可以先限制只审查前 3 个框测试一下
+#
+#             # 画出边框 (画在 original_img 上)
+#             draw.rectangle(
+#                 physical_bbox,
+#                 outline="#00FF00",  # 亮绿色
+#                 width=4
+#             )
+#
+#         output_path = "test_case/test_images/result_image.jpg"
+#         original_img.save(output_path)
+#         print(f"\n✅ 全局绘制成功！带框的图片已保存至: {output_path}")
+#
+#         original_img.show()
+#
+#     except Exception as e:
+#         print(f"图片处理失败: {e}")
+# else:
+#     print("未提取到坐标。")

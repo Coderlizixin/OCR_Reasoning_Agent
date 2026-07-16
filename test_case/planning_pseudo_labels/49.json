@@ -1,0 +1,45 @@
+{
+  "index": 49,
+  "question": "How many categories of meat are on the menu?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Scan the menu text to identify the first meat category listed",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Scan the menu text to identify the second meat category listed",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Scan the menu text to identify the third meat category listed",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Scan the menu text to identify the fourth meat category listed",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Count the total number of distinct meat categories identified in previous steps",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "4"
+}

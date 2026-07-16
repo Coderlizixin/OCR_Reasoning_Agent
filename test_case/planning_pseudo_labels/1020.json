@@ -1,0 +1,122 @@
+{
+  "index": 1020,
+  "question": "What's the per-unit price for the item with the third-highest unit price?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Chicken Dum Biryani' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Calculate the unit price for Chicken Dum Biryani using the price from step_1",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Jalpari Fish Tikka' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the unit price for Jalpari Fish Tikka using the price from step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Junglee Handi Kukkad' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the unit price for Junglee Handi Kukkad using the price from step_5",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Apple Mojitos' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate the unit price for Apple Mojitos using the price from step_7",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Chocolate Oreo' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Calculate the unit price for Chocolate Oreo using the price from step_9",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'King of fruits' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Calculate the unit price for King of fruits using the price from step_11",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Assorted Pastries Platter' and read its price text",
+        "depends_on": []
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Calculate the unit price for Assorted Pastries Platter using the price from step_13",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "logical",
+        "description": "Sort all unit prices in descending order and identify the third highest value",
+        "depends_on": [
+          "step_2",
+          "step_4",
+          "step_6",
+          "step_8",
+          "step_10",
+          "step_12",
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "375"
+}

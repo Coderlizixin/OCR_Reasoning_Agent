@@ -1,0 +1,105 @@
+{
+  "index": 783,
+  "question": "如果4个身高1.1米的儿童，3个身高1.3米的在校学生，1个71岁的老年人，2个65岁的老年人，一同去神农溪景区+纤夫文化走廊（全景游），需要花费多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the number of children (height 1.1m) in the ticket pricing information",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the ticket price for children (height 1.1m) in the pricing table",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the ticket price for students (height 1.3m) in the pricing table",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply the number of children by the children's ticket price to get total children cost",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the number of students (height 1.3m) in the ticket pricing information",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the ticket price for 71-year-old elderly in the pricing table",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Multiply the number of students by the student ticket price to get total student cost",
+        "depends_on": [
+          "step_5",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the number of 71-year-old elderly in the ticket pricing information",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Multiply the number of 71-year-old elderly by their ticket price to get total elderly 71 cost",
+        "depends_on": [
+          "step_8",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate the number of 65-year-old elderly in the ticket pricing information",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the ticket price for 65-year-old elderly in the pricing table",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Multiply the number of 65-year-old elderly by their ticket price to get total elderly 65 cost",
+        "depends_on": [
+          "step_10",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Sum all group costs (children, students, elderly 71, elderly 65) to get total cost",
+        "depends_on": [
+          "step_4",
+          "step_7",
+          "step_9",
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "1775 元"
+}

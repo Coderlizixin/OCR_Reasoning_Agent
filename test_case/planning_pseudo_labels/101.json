@@ -1,0 +1,39 @@
+{
+  "index": 101,
+  "question": "预算100元，最多可以点几份汤？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Extract the budget amount from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item '纯牛肉丸汤' and read its unit price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Divide the budget from step_1 by the unit price from step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Floor the result to get the maximum number of servings",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "5份"
+}

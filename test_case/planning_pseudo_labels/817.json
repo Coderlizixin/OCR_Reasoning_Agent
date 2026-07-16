@@ -1,0 +1,76 @@
+{
+  "index": 817,
+  "question": "MA30和MA60的平均值比 MA5, MA10, 和MA20的平均值低多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the MA5 moving average value on the chart and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the MA10 moving average value on the chart and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the MA20 moving average value on the chart and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the MA30 moving average value on the chart and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the MA60 moving average value on the chart and read its numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the average of the MA5, MA10, and MA20 values obtained from previous steps",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the average of the MA30 and MA60 values obtained from previous steps",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Subtract the average from step_7 from the average from step_6 to find the difference",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "The absolute value of the difference represents the final answer",
+        "depends_on": [
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "0.459"
+}

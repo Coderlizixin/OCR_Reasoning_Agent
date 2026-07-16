@@ -1,0 +1,41 @@
+{
+  "index": 375,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Analyze the function f(x) definition and verify if it satisfies the odd function property f(-x) = -f(x)",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Substitute π/2 into the function f(x) and compute the resulting value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Substitute π into the function f(x) and compute the resulting value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Use the function properties and computed values from previous steps to determine the correct answer option",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "D"
+}

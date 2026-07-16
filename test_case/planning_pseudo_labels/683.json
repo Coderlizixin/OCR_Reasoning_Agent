@@ -1,0 +1,61 @@
+{
+  "index": 683,
+  "question": "If someone wants to buy a 16'' Pizza, a Pizza Combo, and two Churros, how much change will they get back from $15?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the price of one Churro on the menu and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Multiply the Churro price from step_1 by 2 to get the total cost of two Churros",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the price of a 16-inch Pizza on the menu and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the price of a Pizza Combo on the menu and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Add the costs from step_2 (two Churros), step_3 (16-inch Pizza), and step_4 (Pizza Combo) to get the total purchase cost",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the amount paid in the question and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract the total cost from step_5 from the amount paid in step_6 to calculate the change",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "$1.52"
+}

@@ -1,0 +1,75 @@
+{
+  "index": 369,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Examine figure ① and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Examine figure ③ and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Examine figure ④ and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Examine figure ② and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Examine figure ⑤ and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Examine figure ⑥ and identify its symmetry properties",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Compare symmetry properties from steps 1-3 to determine which figures share the same pattern",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Compare symmetry properties from steps 4-6 to determine which figures share the same pattern",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Match the identified groups to the classification options to select the correct answer",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "A"
+}

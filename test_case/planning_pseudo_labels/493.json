@@ -1,0 +1,38 @@
+{
+  "index": 493,
+  "question": "How many factors are shown in the chart?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the text label 'Major factor' in the chart's legend or labels area",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the text label 'Minor factor' in the chart's legend or labels area",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the text label 'Not a factor' in the chart's legend or labels area",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Count the total number of factor labels identified from steps 1, 2, and 3",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "3"
+}

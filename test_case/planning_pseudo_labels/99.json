@@ -1,0 +1,61 @@
+{
+  "index": 99,
+  "question": "图中性能比I7-13700K好的AMD CPU有几个？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the Intel I7-13700K CPU entry in the performance comparison chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Understand that upward arrows indicate better performance in the chart",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the AMD R9-7950X CPU entry in the AMD column of the chart",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the AMD R9-7950X3D CPU entry in the AMD column of the chart",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Find the AMD R9-7900X CPU entry in the AMD column of the chart",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Count the number of AMD CPUs that have better performance than I7-13700K",
+        "depends_on": [
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "3个"
+}

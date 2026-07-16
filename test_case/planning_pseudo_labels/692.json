@@ -1,0 +1,111 @@
+{
+  "index": 692,
+  "question": "How much would it cost to buy one of each food that can have Chihuahuac Cheese added?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Identify which menu items support the Chihuahua Cheese add-on option",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the Baby Burrito menu item and read its base price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the Chihuahua Cheese add-on price for Baby Burrito",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the Super Nachos menu item and read its base price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Find the Chihuahua Cheese add-on price for Super Nachos",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the Tortas menu item and read its base price",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Find the Chihuahua Cheese add-on price for Tortas",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the Tostadas menu item and read its base price",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Find the Chihuahua Cheese add-on price for Tostadas",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Add Baby Burrito base price and Chihuahua Cheese add-on price",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Add Super Nachos base price and Chihuahua Cheese add-on price",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Add Tortas base price and Chihuahua Cheese add-on price",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Add Tostadas base price and Chihuahua Cheese add-on price",
+        "depends_on": [
+          "step_8",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Sum the totals from all four items",
+        "depends_on": [
+          "step_10",
+          "step_11",
+          "step_12",
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "$36.46"
+}

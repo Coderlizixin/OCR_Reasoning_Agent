@@ -1,0 +1,38 @@
+{
+  "index": 100,
+  "question": "这个手机的体积是多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the phone's height dimension in the image and read the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the phone's width dimension in the image and read the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the phone's thickness dimension in the image and read the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply the height, width, and thickness values from steps 1, 2, and 3 to calculate the volume",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "78933.876立方毫米"
+}

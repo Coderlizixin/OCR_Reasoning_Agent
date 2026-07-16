@@ -1,0 +1,65 @@
+{
+  "index": 619,
+  "question": "What is the average price of stocks whose second letter in their company names is 'a', not case sensitive?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate company names in the table where the second letter is 'a' (case-insensitive) and extract the company name text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate another company name in the table where the second letter is 'a' (case-insensitive) and extract the company name text",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the stock price value associated with the company identified in step_1 in the table",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the stock price value associated with the company identified in step_2 in the table",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Add together the two price values from step_3 and step_4 to get the total sum",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Count the total number of companies that matched the criteria from steps 1 and 2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Divide the sum from step_5 by the count from step_6 to calculate the average price",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "78.51"
+}

@@ -1,0 +1,93 @@
+{
+  "index": 883,
+  "question": "我正驾驶一辆客车行驶在这条公路上，当前时间为上午10点。根据规定，我需要在前方70公里处的休息点进行轮换，由我的徒弟继续驾驶。然而徒弟胆怯，只能保持车辆的最低限速行驶。请问，若要以最短时间抵达110公里外的目的地，我最早何时能到达？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the speed limit sign in the image and read the maximum speed value displayed",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the minimum speed limit sign in the image and read the minimum speed value displayed",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the text describing the distance to the rest stop and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the text describing the destination distance and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the current time mentioned in the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Divide the distance to rest stop by the maximum speed to calculate travel time in hours",
+        "depends_on": [
+          "step_1",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Convert the travel time from hours to minutes",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Add the travel time to the current time to determine arrival at rest stop",
+        "depends_on": [
+          "step_5",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Subtract the rest stop distance from the total destination distance to find remaining distance",
+        "depends_on": [
+          "step_4",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Divide the remaining distance by the minimum speed to calculate apprentice's driving time",
+        "depends_on": [
+          "step_9",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Add the apprentice's driving time to the rest stop arrival time to get final arrival time",
+        "depends_on": [
+          "step_8",
+          "step_10"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 11,
+  "gt_final_answer": "上午11点22分"
+}

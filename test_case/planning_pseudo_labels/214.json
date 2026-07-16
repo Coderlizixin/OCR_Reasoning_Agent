@@ -1,0 +1,106 @@
+{
+  "index": 214,
+  "question": "如果所有素菜打八折，且羊肉串买二送一，则这餐饭人均便宜多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the vegetable dish '菜花' in the pre-bill and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the vegetable dish '娃娃菜' in the pre-bill and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the vegetable dish '千叶豆腐' in the pre-bill and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the vegetable dish '香菇' in the pre-bill and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Sum the prices of all vegetable dishes from steps 1-4",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate savings from 20% discount on total vegetable price",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the '羊肉串' item in the pre-bill and read its total price",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the quantity of '羊肉串' in the pre-bill",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Divide the total price of '羊肉串' by its quantity to get unit price",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Calculate savings from buy-2-get-1-free promotion on lamb skewers",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Add vegetable discount savings and lamb skewer savings together",
+        "depends_on": [
+          "step_6",
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate the number of customers in the pre-bill",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Divide total savings by the number of customers to get per person savings",
+        "depends_on": [
+          "step_11",
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "9.10元"
+}

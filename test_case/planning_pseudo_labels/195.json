@@ -1,0 +1,71 @@
+{
+  "index": 195,
+  "question": "如果四人一起出行，单程机票是980元/人，在酒店住宿一晚上隔天返程，双床房220元一间，则此次观看音乐会的人均花销中，票价占比是多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the flight details section in the image and read the one-way ticket price per person",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Multiply the one-way ticket price from step_1 by 2 to get the round-trip ticket price",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the hotel details section in the image and read the double room price per night",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply the double room price from step_3 by 2 to get the total hotel cost for 2 rooms",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Divide the total hotel cost from step_4 by 4 people to get per capita accommodation cost",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the ticket details section in the image and read the concert ticket price",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Add the round-trip ticket price from step_2, per capita accommodation cost from step_5, and concert ticket price from step_6 to get total per capita expenditure",
+        "depends_on": [
+          "step_2",
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the concert ticket price from step_6 by the total per capita expenditure from step_7 to get the ticket price proportion",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "15.51%"
+}

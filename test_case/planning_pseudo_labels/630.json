@@ -1,0 +1,110 @@
+{
+  "index": 630,
+  "question": "How many products have a 'movie' price that is more than 2.5 times the 'street' price?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the Popcorn (medium) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Compare the Popcorn multiplier from step_1 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the ICEE (medium) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the ICEE multiplier from step_3 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the Soda (medium) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the Soda multiplier from step_5 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the Junior Mints (4.75 oz.) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Compare the Junior Mints multiplier from step_7 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the Milk Duds (5 oz.) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Compare the Milk Duds multiplier from step_9 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the M&M's (3.1 oz.) product in the image and read its movie price and street price to calculate the multiplier",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Compare the M&M's multiplier from step_11 to the threshold of 2.5 to determine if it meets the criteria",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Verify that remaining items (Red Vines, Twizzlers, Water) have multipliers less than or equal to 2.5",
+        "depends_on": [
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "logical",
+        "description": "Count the total number of products that meet the criteria (multiplier > 2.5)",
+        "depends_on": [
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "6"
+}

@@ -1,0 +1,116 @@
+{
+  "index": 335,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Analyze the geometric configuration to determine if points A, D, and P lie on the same line",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the vector equation provided in the problem statement and extract it",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Substitute the PA vector relationship to express PD in terms of known vectors",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Apply the collinearity condition for points B, D, C to establish coefficient sum equals 1",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Solve the equation to find the value of lambda",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Extract the length value of AP from the problem statement text",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the length of AD using the lambda value and AP length",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Extract the BC segment length from the cosine term in the problem",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Extract the constant term from the cosine expression in the problem",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Set up the cosine rule equation using values from previous steps",
+        "depends_on": [
+          "step_7",
+          "step_8",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Solve the equation to find the length of CD",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Analyze the case where m equals zero",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Analyze the case where m equals 3/2 and determine validity",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "logical",
+        "description": "Combine all valid cases to determine the final answer",
+        "depends_on": [
+          "step_11",
+          "step_12",
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "0 or \\frac{18}{5}"
+}

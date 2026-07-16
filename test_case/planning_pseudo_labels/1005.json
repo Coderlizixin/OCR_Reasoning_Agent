@@ -1,0 +1,63 @@
+{
+  "index": 1005,
+  "question": "What color of the human-shaped figure in the image represents 'ADULTS WHO DID NOT CONTACT WITH A HEALTH CARE PROFESSIONAL IN THE PAST YEAR'?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the image legend and read what each human-shaped figure color represents",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the percentage value for adults who contacted a healthcare professional in the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the number of red figures representing contacted adults using values from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the total percentage value from the chart scale",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the remaining percentage for those who did not contact using values from step_2 and step_4",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the number of figures for the remaining percentage using values from step_1 and step_5",
+        "depends_on": [
+          "step_1",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Identify which color corresponds to the remaining figures based on step_6",
+        "depends_on": [
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "gray"
+}

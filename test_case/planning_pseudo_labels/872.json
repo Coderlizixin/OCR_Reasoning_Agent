@@ -1,0 +1,52 @@
+{
+  "index": 872,
+  "question": "连涨天数大于10的股票的收盘价的平均值是多少?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the stock 'ST万林' in the table and read its consecutive rising days value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the stock '交通银行' in the table and read its consecutive rising days value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Filter stocks with consecutive rising days greater than 10, including ST万林 and 交通银行",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the stock 'ST万林' in the table and read its closing price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the stock '交通银行' in the table and read its closing price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the average of the closing prices from step_4 and step_5",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "6.08元"
+}

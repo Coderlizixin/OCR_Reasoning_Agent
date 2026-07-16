@@ -1,0 +1,101 @@
+{
+  "index": 587,
+  "question": "How many companies have an Interval Average Trading Volume greater than 800,000?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the column labeled 'Interval Average Trading Volume(Share) Apr 03,2024-Jul 02,2024' in the table",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the first company",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the second company",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the third company",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the fourth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the fifth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the sixth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the seventh company",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the eighth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the ninth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Read the value in the Interval Average Trading Volume column for the tenth company",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Compare each value from steps 2-11 against 800,000 to identify which exceed this threshold",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6",
+          "step_7",
+          "step_8",
+          "step_9",
+          "step_10",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Count how many companies have values exceeding 800,000",
+        "depends_on": [
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "4"
+}

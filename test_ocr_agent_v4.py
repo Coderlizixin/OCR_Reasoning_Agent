@@ -53,6 +53,7 @@ def main():
         verbose=True,
         retry=3,
         wait=3,
+        trace_dir="test_case/v4_traces",
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {
@@ -91,6 +92,39 @@ def main():
     print("【最终答案】:")
     print(answer)
     print("=" * 60)
+
+    # 打印执行追踪
+    if agent.last_trace:
+        print("\n" + "=" * 60)
+        print("【执行追踪 (Execution Trace)】:")
+        print("=" * 60)
+        trace = agent.last_trace
+        print(f"  整体状态: {trace['overall_status']}")
+        print(f"  总耗时:   {trace['total_time_s']}s")
+        print(f"\n  Planning:")
+        p = trace['planning']
+        print(f"    状态: {p['status']}, 步骤数: {p['n_steps']}, 耗时: {p['time_s']}s")
+        if p['steps']:
+            for s in p['steps']:
+                print(f"      {s['id']} ({s['type']}): deps={s.get('depends_on', [])}")
+                print(f"        {s['description'][:100]}")
+        print(f"\n  Executor:")
+        e = trace['executor']
+        print(f"    状态: {e['overall_status']}, ok={e['n_ok']}/{e['n_total']}, 耗时: {e['time_s']}s")
+        for sid, sd in e['steps'].items():
+            status = sd['status']
+            marker = '[OK]' if status == 'ok' else '[ERR]'
+            retry = f' (retry={sd.get("retry_count", 0)})' if sd.get('retry_count', 0) > 0 else ''
+            if status == 'ok':
+                print(f"      {marker} {sid} ({sd['type']}){retry}: {str(sd.get('result', ''))[:120]}")
+            else:
+                phase = sd.get('failed_phase', '')
+                phase_tag = f' [{phase}]' if phase else ''
+                print(f"      {marker} {sid} ({sd['type']}){phase_tag}{retry}: {sd.get('error', '')[:150]}")
+        print(f"\n  Reasoning:")
+        r = trace['reasoning']
+        print(f"    模式: {r['mode']}, 有答案: {r['has_answer']}, 耗时: {r['time_s']}s")
+        print(f"    答案预览: {str(r.get('final_answer', ''))[:200]}")
 
     # 保存结果
     output_dir = "test_case/v4_test_output"

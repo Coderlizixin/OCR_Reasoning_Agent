@@ -1,0 +1,119 @@
+{
+  "index": 333,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the first intersection point where the graph crosses the x-axis and read its x-coordinate value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the second intersection point where the graph crosses the x-axis and read its x-coordinate value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate half the period T/2 using the two x-coordinates from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the angular frequency omega using the period value from step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Analyze the angular frequency result to eliminate option A",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the minimum point of the function on the graph and read its y-value",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the midpoint x-coordinate using the two x-coordinates from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Set up the phase shift equation using the angular frequency from step_4 and midpoint from step_7",
+        "depends_on": [
+          "step_4",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Solve the equation to find the phase shift phi value",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Express the function's analytical expression using the calculated parameters",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Simplify the function expression to its standard form",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Convert the function to an alternative sine form",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Verify the symmetry relation using the simplified function from step_11",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "logical",
+        "description": "Based on the verification results, determine the correct answer options",
+        "depends_on": [
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "BC"
+}

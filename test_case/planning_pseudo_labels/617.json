@@ -1,0 +1,76 @@
+{
+  "index": 617,
+  "question": "What is the average price of the ticker with two 'A' in their company name, not case sensitive?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Scan the table to identify company names containing exactly two 'A' letters (case-insensitive)",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the row for Alibaba Group in the table and read its price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the row for China Green Agriculture in the table and read its price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the row for Tal Education Group in the table and read its price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the row for Hollysys Automation Technologies in the table and read its price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the row for QuantaSing Group in the table and read its price value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Sum all the price values extracted from steps 2 through 6",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the total sum by the count of tickers identified in step 1 to get the average",
+        "depends_on": [
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "22.36"
+}

@@ -1,0 +1,68 @@
+{
+  "index": 242,
+  "question": "如果所有荤菜类打八折，这顿饭总价变为多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the menu item '海鲜棒棒糖' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item '上脑牛肉' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the menu item '排酸肋排肉' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the menu item '手工虾丸' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate and read the original total price on the bill",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Sum the prices of all meat dishes from steps 1-4",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Apply 20% discount (multiply by 0.8) to the meat dishes sum from step_6",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Add the original total price from step_5 and the discounted meat price from step_7 to get the new total",
+        "depends_on": [
+          "step_5",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "314.00元"
+}

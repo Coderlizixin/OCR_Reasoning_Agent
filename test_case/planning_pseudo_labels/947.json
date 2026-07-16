@@ -1,0 +1,46 @@
+{
+  "index": 947,
+  "question": "How many different AI tools are shown in the image?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 2022 column in the table and read the AI tool names listed there",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the 2023 column in the table and read the AI tool names listed there",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the 2024 column in the table and read the AI tool names listed there",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Combine all AI tool names from the 2022, 2023, and 2024 columns into one consolidated list",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Count the number of unique AI tool names in the combined list from step_4",
+        "depends_on": [
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "14"
+}

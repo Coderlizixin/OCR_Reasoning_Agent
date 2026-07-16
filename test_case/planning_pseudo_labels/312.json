@@ -1,0 +1,65 @@
+{
+  "index": 312,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the mass parameter m in the problem diagram and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the angle parameter theta in the problem diagram and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Establish the relationship between the block's speed and the wedges' speed based on the parameters from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the total kinetic energy of the system using the speed relationship from step_3",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Define the effective mass of the system based on the kinetic energy calculated in step_4",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Determine the downward acceleration using potential energy and the effective mass from step_5",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "State the final answer based on the calculations from step_6",
+        "depends_on": [
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "E"
+}

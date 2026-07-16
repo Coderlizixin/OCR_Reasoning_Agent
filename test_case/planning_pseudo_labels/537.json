@@ -1,0 +1,39 @@
+{
+  "index": 537,
+  "question": "How many years has the Net Profit Attributable to Shareholders exceeded 80,000,000?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate the visual representation of 'Net Profit Attributable to Shareholders' on the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Identify the threshold mark on the Y-axis for comparison",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Compare each year's bar height from 2012 to 2024 against the Y-axis threshold",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Count the number of years where the bar extends beyond the threshold",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "3"
+}

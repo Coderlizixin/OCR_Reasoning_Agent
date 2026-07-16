@@ -1,0 +1,39 @@
+{
+  "index": 818,
+  "question": "量超过11640的时刻有多少个？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the threshold value displayed in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the quantity value shown in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the quantity value from step_2 against the threshold from step_1 to determine if it exceeds",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Count the number of occurrences near the 10:30 time point",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "2"
+}

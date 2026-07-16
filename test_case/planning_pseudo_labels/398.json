@@ -1,0 +1,55 @@
+{
+  "index": 398,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the voltmeter in the circuit diagram when switch S is open and read the displayed voltage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the voltmeter in the circuit diagram when switch S is closed and read the displayed voltage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find resistor R in the circuit diagram and read its resistance value from the diagram",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate current I by dividing voltage U (from step_2) by resistance R (from step_3)",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate internal resistance r using EMF E, voltage U (from step_2), and current I (from step_4)",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the calculated internal resistance r with the provided multiple-choice options to select the correct answer",
+        "depends_on": [
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "A"
+}

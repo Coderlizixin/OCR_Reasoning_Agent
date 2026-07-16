@@ -1,0 +1,60 @@
+{
+  "index": 897,
+  "question": "坐公交从始发站到当前站的话，最多经过了多少个公交站？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the total stop count information for bus line 982 in the image and extract the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the total stop count information for bus line E27 in the image and extract the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the total stop count information for bus line M198 in the image and extract the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the total stop count information for bus line M477 in the image and extract the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the total stop count information for bus line M547 in the image and extract the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the stop counts from steps step_1 through step_5 and identify the largest value",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Use the maximum stop count from step_6 to determine the final answer",
+        "depends_on": [
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "28"
+}

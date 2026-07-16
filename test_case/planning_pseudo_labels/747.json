@@ -1,0 +1,68 @@
+{
+  "index": 747,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the x-axis on the graph and read the position value at the marked point",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the force value from the first segment of the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Read the distance interval from the first segment of the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the force value from the second segment of the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the distance interval from the second segment of the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate total work done by multiplying force by distance from steps 2, 3, 4, and 5",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate velocity using the kinetic energy theorem with the work value from step 6",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate instantaneous power by multiplying force from step 4 by velocity from step 7",
+        "depends_on": [
+          "step_4",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "C"
+}

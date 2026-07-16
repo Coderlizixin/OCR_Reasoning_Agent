@@ -1,0 +1,52 @@
+{
+  "index": 256,
+  "question": "What is the total number of items ordered at Yucca de Lac restaurant?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the order list and read the quantity number next to the item 'Crab/Avo Eggroll'",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the order list and read the quantity number next to the item 'Frd Wontons'",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the order list and read the quantity number next to the item 'LS Ribeye Medall'",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the order list and read the quantity number next to the item 'LS Salmon'",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the order list and read the quantity number next to the item 'Water'",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Sum the quantities from steps step_1 through step_5 to get the total number of items ordered",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "6"
+}

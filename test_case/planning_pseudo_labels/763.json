@@ -1,0 +1,123 @@
+{
+  "index": 763,
+  "question": "Find the missing value in this math puzzle.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the number in the first column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the number in the first column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the number in the first column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the number in the first column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Sum the numbers from the first column to find the column total",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Apply the same column sum pattern to the second column",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Apply the same column sum pattern to the third column",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the number in the fourth column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the number in the fourth column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate the number in the fourth column of the puzzle grid",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "compute",
+        "description": "Sum the known numbers in the fourth column",
+        "depends_on": [
+          "step_8",
+          "step_9",
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Set up equation for the fourth column with unknown value",
+        "depends_on": [
+          "step_5",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Simplify the equation from step 12",
+        "depends_on": [
+          "step_11",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Calculate the difference to find x",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "compute",
+        "description": "Determine the missing value in the fourth column",
+        "depends_on": [
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "4"
+}

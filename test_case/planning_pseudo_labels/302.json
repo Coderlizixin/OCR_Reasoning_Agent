@@ -1,0 +1,40 @@
+{
+  "index": 302,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate and read the system type information from the problem text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Examine the graph to identify the velocity condition or behavior shown",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Count how many times the graph crosses the zero line (x-axis)",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the system type, velocity condition, and zero crossing count to select the matching option",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "C"
+}

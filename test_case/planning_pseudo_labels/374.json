@@ -1,0 +1,113 @@
+{
+  "index": 374,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate and read the text 'BE equals 2EA' from the problem statement in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate and read the text 'D is the midpoint of BC' from the problem statement in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Deduce segment equality relationships from the conditions identified in previous steps",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Deduce point equality relationships from the conditions identified in previous steps",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Expand the vector dot product expression using algebraic rules",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Substitute vector definitions into the expanded expression",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Substitute AE in terms of AB into the current expression",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Expand the dot product terms in the expression",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Simplify the dot product terms in the expression",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Distribute the scalar factor across the terms",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Equate terms to establish the relationship between variables",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Derive the magnitude relationship from the established equation",
+        "depends_on": [
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "logical",
+        "description": "Finalize the ratio value based on the derived relationship",
+        "depends_on": [
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "\\sqrt{3}"
+}

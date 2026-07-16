@@ -1,0 +1,73 @@
+{
+  "index": 379,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the first case analysis text in the image and identify the condition where 0 < a < 1",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Based on the condition from step_1, analyze the function y = a^x to determine it passes through point (0,1) and is monotonically decreasing",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Based on the condition from step_1, analyze the function y = 1/a^x to determine it passes through point (0,1) and is monotonically increasing",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Based on the condition from step_1, analyze the function y = log_a(x + 1/2) to determine it passes through point (1/2, 0) and is monotonically decreasing",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Based on the analysis from steps 2, 3, and 4, conclude that option D is the correct answer for the first case",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the second case analysis text in the image and identify the condition where a > 1",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Based on the condition from step_6, analyze and determine that all given options are incorrect for the second case",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Based on the analysis from steps 5 and 7, select option D as the final answer",
+        "depends_on": [
+          "step_5",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "D"
+}

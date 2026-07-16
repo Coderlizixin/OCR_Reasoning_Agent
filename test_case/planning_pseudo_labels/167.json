@@ -1,0 +1,40 @@
+{
+  "index": 167,
+  "question": "如果普通区票价比贵宾区便宜20%，VIP区票价比普通区贵50%，两个成人加两个儿童，需要多少钱买VIP区的票？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the VIP area ticket price information in the image and read the price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Calculate the general area ticket price using the relationship that general area is 20% cheaper than VIP area",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the VIP area ticket price using the relationship that VIP area is 50% more expensive than general area",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate total cost for 2 adults and 2 children by multiplying VIP ticket price by 4",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "1824元"
+}

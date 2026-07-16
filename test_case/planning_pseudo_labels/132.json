@@ -1,0 +1,119 @@
+{
+  "index": 132,
+  "question": "存款大于30万的不同储存期限的平均利率比存款大于20万小于30万的不同储存期限的平均利率大多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for 200,000-300,000 yuan range and read the 3-month term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for 200,000-300,000 yuan range and read the 6-month term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for 200,000-300,000 yuan range and read the 1-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for 200,000-300,000 yuan range and read the 2-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for 200,000-300,000 yuan range and read the 3-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Sum all interest rates from steps 1 through 5 for the 200,000-300,000 yuan range",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the average interest rate by dividing the sum from step_6 by 5",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for over 300,000 yuan range and read the 3-month term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for over 300,000 yuan range and read the 6-month term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for over 300,000 yuan range and read the 1-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for over 300,000 yuan range and read the 2-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate the deposit interest rate table for over 300,000 yuan range and read the 3-year term interest rate",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Sum all interest rates from steps 8 through 12 for the over 300,000 yuan range",
+        "depends_on": [
+          "step_8",
+          "step_9",
+          "step_10",
+          "step_11",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Calculate the average interest rate by dividing the sum from step_13 by 5",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "compute",
+        "description": "Calculate the difference between the average from step_7 and step_14",
+        "depends_on": [
+          "step_7",
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "0.028%"
+}

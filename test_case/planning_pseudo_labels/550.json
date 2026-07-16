@@ -1,0 +1,61 @@
+{
+  "index": 550,
+  "question": "How much higher is the highest quarterly ROE compared to the average ROE of all quarters?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the first quarterly ROE value on the graph and read its percentage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the second quarterly ROE value on the graph and read its percentage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the third quarterly ROE value on the graph and read its percentage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the fourth quarterly ROE value on the graph and read its percentage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the fifth quarterly ROE value on the graph and read its percentage value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Compute the average of all five ROE values obtained from steps 1 through 5",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract the average ROE from step 6 from the highest ROE value from step 5 to find the difference",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "6.808"
+}

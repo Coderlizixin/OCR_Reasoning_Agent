@@ -1,0 +1,77 @@
+{
+  "index": 60,
+  "question": "若某人需从每类食物中各点一种，最少需花费多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Identify all food categories listed on the menu",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the hot pot base category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the premium beef category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the fresh meat category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the fresh vegetable category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the beverage category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the other category section and read the lowest price item",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Add together all the minimum prices found from each category",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "142元"
+}

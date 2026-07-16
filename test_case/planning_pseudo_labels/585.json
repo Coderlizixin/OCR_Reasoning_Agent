@@ -1,0 +1,69 @@
+{
+  "index": 585,
+  "question": "What is the average price of companies with a change greater than 2?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the Chg.(%) column in the table and read the percentage change value for GrowGeneration (GRWG)",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the Chg.(%) column in the table and read the percentage change value for Bright Green (BGXX)",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the Chg.(%) values from step_1 and step_2 to identify which companies have percentage change greater than 2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the Price column in the table and read the price value for GrowGeneration (GRWG)",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the Price column in the table and read the price value for Bright Green (BGXX)",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Add together the price values from step_4 and step_5",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Count how many companies from step_3 meet the criteria of having Chg.(%) greater than 2",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the sum from step_6 by the count from step_7 to get the average price",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "1.245"
+}

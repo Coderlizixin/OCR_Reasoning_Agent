@@ -1,0 +1,68 @@
+{
+  "index": 790,
+  "question": "如果一个12人的团队，其中有6个身高1.3米的儿童，2个身高1.8米的成人，4个本科在读大学生，他们参观黄姚古镇，总共需要花费多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Read the number of adults from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate and read the full adult ticket price from the ticket information in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the number of adults by the full ticket price to calculate adult ticket cost",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the number of children from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the number of students from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate and read the half-price ticket price from the ticket information in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Multiply the number of children and students by the half ticket price to calculate their total cost",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Add the adult ticket cost and children/student ticket cost to get the total expense",
+        "depends_on": [
+          "step_3",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "700元"
+}

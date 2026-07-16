@@ -1,0 +1,61 @@
+{
+  "index": 1015,
+  "question": "2021年营业收入比2021年净利润多多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 2022 operating revenue value in the financial table and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the 2022 operating revenue growth rate percentage in the financial table and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate 2021 operating revenue using the 2022 operating revenue and growth rate from previous steps",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the 2022 net profit value in the financial table and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the 2022 net profit growth rate percentage in the financial table and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate 2021 net profit using the 2022 net profit and growth rate from previous steps",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract 2021 net profit from 2021 operating revenue to find the difference",
+        "depends_on": [
+          "step_3",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "332.29亿元"
+}

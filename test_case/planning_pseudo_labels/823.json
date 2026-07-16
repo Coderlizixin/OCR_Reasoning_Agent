@@ -1,0 +1,46 @@
+{
+  "index": 823,
+  "question": "当前股价比曲线的最高和最低点的平均值高多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the lowest point on the stock price curve and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the highest point on the stock price curve and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the average of the highest and lowest point values from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the current stock price value on the chart and read it",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the difference between the current stock price from step_4 and the average from step_3",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "11.855"
+}

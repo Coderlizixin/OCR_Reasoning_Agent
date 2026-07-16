@@ -1,0 +1,64 @@
+{
+  "index": 202,
+  "question": "如果减免燃油附加费，且票价半价，预计比当前便宜多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the original ticket price in the itinerary and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the airport construction fee in the itinerary and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Identify the fuel surcharge amount in the itinerary and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Sum the ticket price, airport construction fee, and fuel surcharge to get the original total cost",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Multiply the ticket price from step_1 by 0.5 to calculate the discounted ticket price",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Add the discounted ticket price from step_5 and airport construction fee from step_2 to get the new total",
+        "depends_on": [
+          "step_2",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract the new total from step_6 from the original total from step_4 to find the savings",
+        "depends_on": [
+          "step_4",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "990元"
+}

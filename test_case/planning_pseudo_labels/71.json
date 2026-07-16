@@ -1,0 +1,120 @@
+{
+  "index": 71,
+  "question": "某人和他的朋友共五个人，点了10串蘑菇，10串韭菜，10串鸡脆骨，一打生蚝和一打啤酒。假如，蘑菇6块钱一串，韭菜5块钱一串，鸡脆骨6块钱一串，生蚝12块4个。他们花了多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the mushroom quantity mentioned in the question text and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the mushroom price mentioned in the question text and extract the price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the mushroom quantity from step_1 by the mushroom price from step_2 to get total",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the chive quantity mentioned in the question text and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the chive price mentioned in the question text and extract the price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply the chive quantity from step_4 by the chive price from step_5 to get total",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the chicken cartilage quantity mentioned in the question text and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the chicken cartilage price mentioned in the question text and extract the price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Multiply the chicken cartilage quantity from step_7 by the chicken cartilage price from step_8 to get total",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate the oyster quantity mentioned in the question text and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the oyster price mentioned in the question text and extract the price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Multiply the oyster quantity from step_10 by the oyster price from step_11 to get total",
+        "depends_on": [
+          "step_10",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Sum the mushroom total from step_3, chive total from step_6, chicken cartilage total from step_9, and oyster total from step_12",
+        "depends_on": [
+          "step_3",
+          "step_6",
+          "step_9",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "ground-understand",
+        "description": "Locate the beer quantity mentioned in the question text and extract the numerical value",
+        "depends_on": []
+      },
+      {
+        "id": "step_15",
+        "type": "compute",
+        "description": "Add the beer quantity from step_14 to the subtotal from step_13 to get the final total",
+        "depends_on": [
+          "step_13",
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "127元"
+}

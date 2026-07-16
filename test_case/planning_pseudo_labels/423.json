@@ -1,0 +1,95 @@
+{
+  "index": 423,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the graph and identify the point where lg ratio equals 0",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the pH value at the point where lg ratio is 0 from the graph",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate Ka2 using the pH value obtained from step_2",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Analyze the Ka2 value to determine if option A is correct based on order of magnitude",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Analyze curve N to determine if option B is correct",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Find the pH value for condition C where lg ratio equals 0",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Compare ionization and hydrolysis to determine if option C is correct",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the pH value for condition D on the graph",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Check the lg ratio value at pH 7 from the graph",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Compare concentrations to determine if option D is incorrect",
+        "depends_on": [
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Select the final answer based on the analysis of all options",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_7",
+          "step_10"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 11,
+  "gt_final_answer": "D"
+}

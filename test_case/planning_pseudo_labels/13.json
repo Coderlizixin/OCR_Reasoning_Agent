@@ -1,0 +1,61 @@
+{
+  "index": 13,
+  "question": "2023年品牌二的收入比17年品牌一的收入多多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 2023 total revenue value in the chart and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the percentage value for Brand 2 in 2023 from the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate Brand 2 revenue for 2023 by multiplying total revenue from step_1 by the percentage from step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the 2017 total revenue value in the chart and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Find the percentage value for Brand 1 in 2017 from the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate Brand 1 revenue for 2017 by multiplying total revenue from step_4 by the percentage from step_5",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the difference between 2023 Brand 2 revenue (step_3) and 2017 Brand 1 revenue (step_6)",
+        "depends_on": [
+          "step_3",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "0.539十亿元人民币"
+}

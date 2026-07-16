@@ -1,0 +1,46 @@
+{
+  "index": 1032,
+  "question": "How much tax do I have to pay if I buy another $525.0 product?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate and read the sales tax amount shown on the receipt",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate and read the subtotal amount shown on the receipt",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the tax rate by dividing sales tax by subtotal",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the price of the additional product from the question",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Multiply the tax rate by the product price to calculate the tax for the additional product",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "$46.60"
+}

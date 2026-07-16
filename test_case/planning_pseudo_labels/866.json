@@ -1,0 +1,47 @@
+{
+  "index": 866,
+  "question": "中签率第二高的股票比最高的和的转股价格差多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the highest subscription rate value in the subscription rate column on the right side of the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the conversion price corresponding to the stock with the highest subscription rate identified in step_1",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the second highest subscription rate value in the subscription rate column on the right side of the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the conversion price corresponding to the stock with the second highest subscription rate identified in step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the difference between the two conversion prices obtained from step_2 and step_4",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "19.9"
+}

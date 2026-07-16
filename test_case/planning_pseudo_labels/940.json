@@ -1,0 +1,108 @@
+{
+  "index": 940,
+  "question": "How much more is the second highest ticket sales rate than the third highest ticket sales rate?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the section for London 2012 and read the number of tickets sold",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the section for London 2012 and read the number of tickets available",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the ticket sales rate by dividing tickets sold by tickets available for London 2012",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the section for Beijing 2008 and read the number of tickets sold",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the section for Beijing 2008 and read the number of tickets available",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the ticket sales rate by dividing tickets sold by tickets available for Beijing 2008",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the section for Rio de Janeiro 2016 and read the number of tickets sold",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the section for Rio de Janeiro 2016 and read the number of tickets available",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Calculate the ticket sales rate by dividing tickets sold by tickets available for Rio de Janeiro 2016",
+        "depends_on": [
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Compare the three ticket sales rates to establish their ranking order",
+        "depends_on": [
+          "step_3",
+          "step_6",
+          "step_9"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Identify which rate ranks second highest among the three",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "logical",
+        "description": "Identify which rate ranks third highest among the three",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Subtract the third highest rate from the second highest rate to find the difference",
+        "depends_on": [
+          "step_11",
+          "step_12"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 13,
+  "gt_final_answer": "4.4%"
+}

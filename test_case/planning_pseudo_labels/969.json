@@ -1,0 +1,54 @@
+{
+  "index": 969,
+  "question": "访问来源是谷歌的内容，占搜索引擎整体的百分之几？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the chart section showing Google source percentage and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the chart section showing Baidu percentage and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the chart section showing Video Ads percentage and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the chart section showing Affiliate Ads percentage and read the value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Sum the percentages from steps 1, 2, 3, and 4 to get total search engine percentage",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Divide Google source percentage (step_1) by total search engine percentage (step_5) to get the ratio",
+        "depends_on": [
+          "step_1",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "6.59%"
+}

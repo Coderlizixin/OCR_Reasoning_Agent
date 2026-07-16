@@ -1,0 +1,55 @@
+{
+  "index": 961,
+  "question": "2017年和2018年，合同项数同比增长率相差多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 2016 contract count value from the chart and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the 2017 contract count value from the chart and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the 2018 contract count value from the chart and read the number",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the year-on-year growth rate for 2017 using the contract counts from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the year-on-year growth rate for 2018 using the contract counts from step_2 and step_3",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the difference between the 2017 growth rate from step_4 and the 2018 growth rate from step_5",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "35.33%"
+}

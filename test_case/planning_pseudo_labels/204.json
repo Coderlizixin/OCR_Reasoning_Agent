@@ -1,0 +1,62 @@
+{
+  "index": 204,
+  "question": "航班计划在飞机起飞前45分钟开始登机，那么乘客7点25分赶到登机口是否可以登机？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the boarding pass in the image and read the scheduled boarding time",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Calculate the flight departure time based on the boarding time from step_1",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the boarding gate closing rule on the boarding pass",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Calculate the boarding gate closing time using the departure time from step_2 and the rule from step_3",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the passenger's arrival time from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the passenger's arrival time from step_5 with the gate closing time from step_4",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Determine if the passenger can board based on the comparison from step_6",
+        "depends_on": [
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "否"
+}

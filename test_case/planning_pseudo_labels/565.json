@@ -1,0 +1,58 @@
+{
+  "index": 565,
+  "question": "How many years has the 'average individual revenue created' exceeded 2230K?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate the 'Average Individual Revenue Created' chart in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the value for the 2021 bar from the chart",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Read the value for the 2022 bar from the chart",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the value for the 2023 bar from the chart",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Compare each year's value against the 2230K threshold to identify which years exceed it",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Count how many years have values above the threshold",
+        "depends_on": [
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "3"
+}

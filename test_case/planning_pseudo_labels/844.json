@@ -1,0 +1,59 @@
+{
+  "index": 844,
+  "question": "涨价前我买了100股九菱科技和66股泉为科技，总共赚了多少钱？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate 九菱科技 in the chart and read its current price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate 九菱科技 in the chart and read its price change value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply 100 shares by the price change from step_2 to get 九菱科技 profit",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate 泉为科技 in the chart and read its current price value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate 泉为科技 in the chart and read its price change value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply 66 shares by the price change from step_5 to get 泉为科技 profit",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Add the profits from step_3 and step_6 to get total profit",
+        "depends_on": [
+          "step_3",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "302.04元"
+}

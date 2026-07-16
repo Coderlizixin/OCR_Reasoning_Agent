@@ -1,0 +1,51 @@
+{
+  "index": 669,
+  "question": "How much does it cost to buy all the grande-sized products marked with '*' in the espresso creations?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate the espresso creations section and identify all products marked with an asterisk (*)",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the Caramel Macchiato item in espresso creations and read its grande size price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Find the Caffe Latte item in espresso creations and read its grande size price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the Cappuccino item in espresso creations and read its grande size price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Find the Caffe Mocha item in espresso creations and read its grande size price",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Sum the grande prices from steps 2, 3, 4, and 5 to get the total cost",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "$15.9"
+}

@@ -1,0 +1,59 @@
+{
+  "index": 473,
+  "question": "How many charts have peak values below 14?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the CANDID-PTX bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the CheXpert bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the ChestX-ray8 bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the MIMIC-CXR-JPG bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the Padchest bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the VinDr-CXR bar in the chart and read the peak percentage value displayed above it",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Count how many of the peak percentage values from steps 1-6 are below 14",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "3"
+}

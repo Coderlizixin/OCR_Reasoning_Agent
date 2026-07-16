@@ -1,0 +1,31 @@
+{
+  "index": 540,
+  "question": "What was the price before it increased to the latest price?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the price label showing the current/latest price in the image and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the percentage change indicator in the image and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Use the latest price from step_1 and the percentage change from step_2 to calculate the original price before the increase",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "79.62"
+}

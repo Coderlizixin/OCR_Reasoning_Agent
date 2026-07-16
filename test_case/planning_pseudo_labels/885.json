@@ -1,0 +1,76 @@
+{
+  "index": 885,
+  "question": "你驾驶特斯拉Model Y在某停车场从18:00停放至次日5:20，需要支付多少费用？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Extract the start parking time from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Extract the end parking time from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the parking fee sign in the image and read the free parking duration value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the parking fee sign in the image and read the first hour parking fee value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the parking fee sign in the image and read the additional hour parking fee value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the total parking duration from start time to end time",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract the free parking duration from the total duration to get paid duration",
+        "depends_on": [
+          "step_3",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate the number of billable hours after the first hour",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Compute the total parking cost using the fee structure and billable hours",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "66元"
+}

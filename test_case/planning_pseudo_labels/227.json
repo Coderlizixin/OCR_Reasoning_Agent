@@ -1,0 +1,68 @@
+{
+  "index": 227,
+  "question": "本次用餐所消费的肉类产品，人均成本核算金额是多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the bill item '伊赛牛肉' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the bill item '排骨' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the bill item '黄金烤翅' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the bill item '猪肉馅饼' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Sum the prices from steps 1, 2, 3, and 4 to get total meat cost",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the number of people on the bill",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Divide the total meat cost from step 5 by the number of people from step 6",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Round the per capita cost to two decimal places",
+        "depends_on": [
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "26.67元"
+}

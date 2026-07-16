@@ -1,0 +1,82 @@
+{
+  "index": 355,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate Option A in the image and read the text statement about K molecule structure symmetry",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Analyze the molecular symmetry from step_1 to deduce the number of hydrogen environments",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the deduced hydrogen environments with NMR peak count to determine if Option A is incorrect",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate Option B in the image and read the text statement about the reaction between K and L",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Apply atom conservation principles to deduce the identity of L based on the reaction in step_4",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Evaluate whether the deduced L identity makes Option B incorrect",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate Option C in the image and read the text statement about M hydrolysis",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Assess whether K can be obtained from the hydrolysis described in step_7 to determine if Option C is wrong",
+        "depends_on": [
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate Option D in the image and read the text statement about the stoichiometry ratio of reactants K and L",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Verify if the stoichiometry ratio matches the reaction to confirm Option D is correct",
+        "depends_on": [
+          "step_9"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 10,
+  "gt_final_answer": "D"
+}

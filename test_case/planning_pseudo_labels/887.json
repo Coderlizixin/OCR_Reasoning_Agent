@@ -1,0 +1,76 @@
+{
+  "index": 887,
+  "question": "某旅客计划今日乘坐飞往成都双流的航班，只要是今天的航班都行。已知其入住的酒店距离机场约100公里，机场安检流程预计耗时20分钟，且值机柜台将在航班起飞前15分钟停止登机。假如出租车平均速度每小时80公里，请计算该旅客最晚应于何时从酒店出发。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the flight information screen and read the departure time for flight TV9902",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the question text to find when the check-in counter stops boarding",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the latest boarding time by subtracting the check-in stop time from the departure time",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the question text to find the estimated time for airport security process",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate the latest arrival time at the airport by subtracting security time from the boarding time",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Read the question text to find the distance from the hotel to the airport",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Read the question text to find the average taxi speed",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate the travel duration by dividing the distance by the taxi speed",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Calculate the latest departure time from the hotel by subtracting travel duration from the arrival time",
+        "depends_on": [
+          "step_5",
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "19:40"
+}

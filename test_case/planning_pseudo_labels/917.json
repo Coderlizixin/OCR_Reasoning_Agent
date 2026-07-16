@@ -1,0 +1,46 @@
+{
+  "index": 917,
+  "question": "In how many categories does Amazon rank first?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate and read the category name 'Electronics' from the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate and read the category name 'Furniture & homeware' from the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate and read the category name 'Hobby & Leisure' from the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Check if Amazon ranks first in each of the categories identified in steps 1, 2, and 3",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Count the total number of categories where Amazon ranks first",
+        "depends_on": [
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "3"
+}

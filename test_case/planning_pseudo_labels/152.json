@@ -1,0 +1,70 @@
+{
+  "index": 152,
+  "question": "某人吃了200g第四行的第二列的食物，50g第三行的第三列的食物，100g第二行的第三列的食物，那么他摄入了多少热量？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the food item at row 4, column 2 in the table and read its calorie value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "compute",
+        "description": "Multiply 200g by the calorie value per 100g from step_1 to calculate calories from pork belly",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the food item at row 3, column 3 in the table and read its calorie value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply 50g by the calorie value per 100g from step_3 to calculate calories from rabbit meat",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the food item at row 2, column 3 in the table and read its calorie value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply 100g by the calorie value per 100g from step_5 to calculate calories from duck meat",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Sum the calorie values from step_2, step_4, and step_6 to get total calories",
+        "depends_on": [
+          "step_2",
+          "step_4",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Round the total calorie value from step_7 to two decimal places",
+        "depends_on": [
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "989.00大卡"
+}

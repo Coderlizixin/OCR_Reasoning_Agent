@@ -1,0 +1,52 @@
+{
+  "index": 659,
+  "question": "If you have already bought a 'Deluxe Cheeseburger', and then wants to buy one Mates Hunger Buster and one Big Mac Hunger Buster, and you have $40, how much money do you have left?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Understand that the Deluxe Cheeseburger was already purchased and should not be included in the new purchase calculation",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Mates Hunger Buster' in the image and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Big Mac Hunger Buster' in the image and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the initial budget amount mentioned in the problem statement",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Add the prices from step_2 and step_3 to calculate the total cost of new items",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Subtract the total cost from step_5 from the initial budget from step_4 to find remaining money",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "$3.60"
+}

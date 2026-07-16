@@ -1,0 +1,69 @@
+{
+  "index": 498,
+  "question": "Work out the ratio of absolute change of unfavorable sentiment to that of favorable one from 2006 to 2016?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the data point for unfavorable sentiment in 2006 and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the data point for unfavorable sentiment in 2016 and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Subtract the 2006 value from the 2016 value to get the absolute change",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the data point for favorable sentiment in 2006 and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the data point for favorable sentiment in 2016 and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Subtract the 2006 value from the 2016 value to get the absolute change",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Take the absolute value of the favorable sentiment change from step_6",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Divide the unfavorable sentiment change from step_3 by the favorable sentiment change from step_7",
+        "depends_on": [
+          "step_3",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "0.9375"
+}

@@ -1,0 +1,69 @@
+{
+  "index": 160,
+  "question": "假设水费单价上调5%，用水最多多少度才能将水费控制在10000元以内（取整数）？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the total water fee amount displayed in the record and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Find the water usage amount (in degrees/cubic meters) shown in the record and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Divide the total water fee by the water usage to calculate the original unit price",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Extract the price increase percentage mentioned in the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Apply the price increase percentage to the original unit price to get the adjusted price",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Identify the water fee budget limit specified in the question",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Divide the budget limit by the adjusted unit price to find maximum degrees",
+        "depends_on": [
+          "step_5",
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Round down to the nearest integer to satisfy the constraint",
+        "depends_on": [
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "3580度"
+}

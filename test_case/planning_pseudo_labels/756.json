@@ -1,0 +1,87 @@
+{
+  "index": 756,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Analyze the geometric relationship between the two congruent pentahedrons HIJ and LMN",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate line segment AD in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate line segment BE in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate line segment CF in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the distance measurement between the parallel lines and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Analyze the combined geometric structure to determine it forms a triangular prism",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the lateral edge length using the values from step_2 and step_4",
+        "depends_on": [
+          "step_2",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "logical",
+        "description": "Analyze the right cross-section to determine it is an equilateral triangle",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Calculate the volume using the values from step_5, step_7, and step_8",
+        "depends_on": [
+          "step_5",
+          "step_7",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "logical",
+        "description": "Select the correct answer option based on the calculated volume",
+        "depends_on": [
+          "step_9"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 10,
+  "gt_final_answer": "B"
+}

@@ -1,0 +1,85 @@
+{
+  "index": 328,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate segment AB in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate segment AC in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Calculate the length of segment BC using the Pythagorean theorem with values from step_1 and step_2",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate segment BD in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Deduce that segment BF equals segment BD based on the diagram properties",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate segment AD in the diagram and read its length value",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate angle CAE in the diagram and read its measure value",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate the length of segment CE using the Law of Cosines with values from step_2, step_6, and step_7",
+        "depends_on": [
+          "step_2",
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Deduce that segment CF equals segment CE based on the diagram properties",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Calculate the cosine of angle FCB using the Law of Cosines with values from step_3, step_5, and step_9",
+        "depends_on": [
+          "step_3",
+          "step_5",
+          "step_9"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 10,
+  "gt_final_answer": "-1/4"
+}

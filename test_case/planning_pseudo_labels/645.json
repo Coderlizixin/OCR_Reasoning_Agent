@@ -1,0 +1,31 @@
+{
+  "index": 645,
+  "question": "If I drink 2.5 cups of milk, how many calories will I consume?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the nutritional information showing calories per cup of milk and read the calorie value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the quantity of milk cups mentioned in the question",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the calories per cup from step_1 by the number of cups from step_2 to get total calories",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "375"
+}

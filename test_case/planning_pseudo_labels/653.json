@@ -1,0 +1,58 @@
+{
+  "index": 653,
+  "question": "If someone has already bought a small strak and is about to order 2 Raw oysters, 1 order of Stew oysters, 1 order of Fry, Small, 1 order of Butter Cakes, and 1 order of Buckwheat Cakes, how much would their meal cost?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Raw oysters' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Stew oysters' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Fry, Small' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Butter Cakes' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'Buckwheat Cakes' and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Note that the small strak is already purchased and should not be included in the total cost calculation",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Sum the prices from steps 1 through 5 to calculate the total meal cost",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "85 cents"
+}

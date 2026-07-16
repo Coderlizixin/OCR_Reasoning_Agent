@@ -1,0 +1,77 @@
+{
+  "index": 463,
+  "question": "How many group's curves ever drop below 0 when G=4?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the chart titled 'G = 4 Time Profiles' in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Count the number of curves displayed in the chart",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Examine each curve to determine if it crosses below the horizontal zero line",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Check the black curve (Group 1) to see if it goes below the zero line",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Check the red curve (Group 2) to see if it goes below the zero line",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Check the teal curve (Group 3) to see if it goes below the zero line",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Check the purple curve (Group 4) to see if it goes below the zero line",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Count how many curves were found to drop below zero in previous steps",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Conclude the final count of groups whose curves drop below zero",
+        "depends_on": [
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "2"
+}

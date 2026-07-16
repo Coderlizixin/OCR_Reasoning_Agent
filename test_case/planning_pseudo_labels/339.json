@@ -1,0 +1,131 @@
+{
+  "index": 339,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the initial position in the diagram and read the gravitational potential energy value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the object in the diagram and read its mass value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the position where sliding distance is 5m and read the mechanical energy value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "logical",
+        "description": "Compare the initial energy from step_1 with the energy from step_3 to determine if mechanical energy increases or decreases",
+        "depends_on": [
+          "step_1",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Based on the energy comparison from step_4, determine if option A is the correct answer",
+        "depends_on": [
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the angle of inclination in the diagram and read its sine value",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the sliding distance value in the diagram and read it",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Use the work-energy theorem with values from steps 1, 2, 3, 6, and 7 to calculate the friction coefficient",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_6",
+          "step_7"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Based on the friction coefficient from step_8, determine if option B is the correct answer",
+        "depends_on": [
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Use the mass from step_2, sine value from step_6, and friction coefficient from step_8 to calculate acceleration",
+        "depends_on": [
+          "step_2",
+          "step_6",
+          "step_8"
+        ]
+      },
+      {
+        "id": "step_11",
+        "type": "logical",
+        "description": "Compare the calculated acceleration from step_10 with option C to determine if it's incorrect",
+        "depends_on": [
+          "step_10"
+        ]
+      },
+      {
+        "id": "step_12",
+        "type": "ground-understand",
+        "description": "Locate the sliding distance value for option D in the diagram and read it",
+        "depends_on": []
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Use the mass from step_2, sine value from step_6, friction coefficient from step_8, and distance from step_12 to calculate work done by friction",
+        "depends_on": [
+          "step_2",
+          "step_6",
+          "step_8",
+          "step_12"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "logical",
+        "description": "Compare the calculated work from step_13 with option D to determine if it's incorrect",
+        "depends_on": [
+          "step_13"
+        ]
+      },
+      {
+        "id": "step_15",
+        "type": "logical",
+        "description": "Based on the analysis of all options from steps 5, 9, 11, and 14, select the final correct answer",
+        "depends_on": [
+          "step_5",
+          "step_9",
+          "step_11",
+          "step_14"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 15,
+  "gt_final_answer": "AB"
+}

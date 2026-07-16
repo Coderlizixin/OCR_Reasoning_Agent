@@ -1,0 +1,83 @@
+{
+  "index": 191,
+  "question": "若要求所购U盘总容量达到32GB，请问调整后的订单总金额是多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the product name in the item list section of the receipt",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the unit price value from the price column in the item list",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Extract the purchased quantity from the quantity column in the item list",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Find the original receipt total amount displayed on the receipt",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Identify the target capacity requirement from the question text",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the existing total capacity by multiplying quantity by unit capacity",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Determine total USBs needed to reach target capacity",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate additional USBs required by subtracting existing from total needed",
+        "depends_on": [
+          "step_7",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_9",
+        "type": "compute",
+        "description": "Compute cost of additional USBs by multiplying additional quantity by unit price",
+        "depends_on": [
+          "step_8",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_10",
+        "type": "compute",
+        "description": "Calculate final order total by adding additional USB cost to original receipt total",
+        "depends_on": [
+          "step_4",
+          "step_9"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 10,
+  "gt_final_answer": "1782元"
+}

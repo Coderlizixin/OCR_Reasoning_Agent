@@ -1,0 +1,75 @@
+{
+  "index": 437,
+  "question": "Answer the question in the image. If it is a multiple-choice question, please provide the option you think is correct. If it is free-form, please provide your answer.",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the third figure from the left side of the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the middle figure in the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Determine the spatial relationship between the third figure and middle figure",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the second figure from the left side of the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Determine the spatial relationship between the second figure and middle figure",
+        "depends_on": [
+          "step_4",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "ground-understand",
+        "description": "Locate the first figure from the left side of the image",
+        "depends_on": []
+      },
+      {
+        "id": "step_7",
+        "type": "logical",
+        "description": "Determine the spatial relationship between the first figure and middle figure",
+        "depends_on": [
+          "step_6",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the right triangle positioned in the upper right corner",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "logical",
+        "description": "Determine the placement of the right triangle",
+        "depends_on": [
+          "step_8"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 9,
+  "gt_final_answer": "D"
+}

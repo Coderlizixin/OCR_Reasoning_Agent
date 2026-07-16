@@ -1,0 +1,59 @@
+{
+  "index": 17,
+  "question": "四年中世界对中国经济的依存度的平均值是多少?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Identify that black bars in the chart represent world dependence on China's economy",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Read the value from the black bar corresponding to year 2000",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Read the value from the black bar corresponding to year 2007",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Read the value from the black bar corresponding to year 2012",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Read the value from the black bar corresponding to year 2017",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Sum the four values obtained from steps 2 through 5",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Divide the sum from step 6 by 4 to calculate the average",
+        "depends_on": [
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "0.85"
+}

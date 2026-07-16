@@ -1,0 +1,68 @@
+{
+  "index": 1013,
+  "question": "在黄色背景下的商品的平均价比在白色背景下的商品的平均价贵多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the 飞利浦电动剃须刀 product with yellow background and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the 万家乐厨电套装 product with yellow background and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the 惠而浦电热水器 product with yellow background and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the 方太烟灶套装 product with yellow background and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "logical",
+        "description": "Identify all products with white background and extract their prices",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the average price of all yellow background items from steps 1-4",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Calculate the average price of all white background items from step 5",
+        "depends_on": [
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_8",
+        "type": "compute",
+        "description": "Calculate the difference between yellow background average price and white background average price",
+        "depends_on": [
+          "step_6",
+          "step_7"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 8,
+  "gt_final_answer": "211.625元"
+}

@@ -1,0 +1,62 @@
+{
+  "index": 75,
+  "question": "把所有菇类都会吃两份会摄入多少大卡？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the grilled oyster mushroom (烤平菇) in the image and read the calorie value next to it",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the grilled shiitake mushroom (烤香菇) in the image and read the calorie value next to it",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the grilled enoki mushroom (烤金针菇) in the image and read the calorie value next to it",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply the calorie value from step_1 by 2 to get the calories for two servings of grilled oyster mushroom",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Multiply the calorie value from step_2 by 2 to get the calories for two servings of grilled shiitake mushroom",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply the calorie value from step_3 by 2 to get the calories for two servings of grilled enoki mushroom",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Sum the calorie values from steps 4, 5, and 6 to get the total calories for two servings of all mushroom types",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "142 大卡"
+}

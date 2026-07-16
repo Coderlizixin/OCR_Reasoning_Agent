@@ -1,0 +1,46 @@
+{
+  "index": 237,
+  "question": "如果所有菜品名称中带'牛'的菜品再多点一份，且取消任何优惠，则总价变为多少？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the menu item '黑椒牛肉大' in the image and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item '特惠肥牛' in the image and read its price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Add the prices from step_1 and step_2 to calculate the total increase",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the original total price without any discounts in the image and read its value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Add the increase from step_3 to the original total from step_4 to calculate the new total",
+        "depends_on": [
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "215.80元"
+}

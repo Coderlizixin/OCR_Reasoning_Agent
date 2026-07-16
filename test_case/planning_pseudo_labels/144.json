@@ -1,0 +1,31 @@
+{
+  "index": 144,
+  "question": "2017年全国消协组织受理投诉案件数量比2014年增加了多少万件？",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the bar chart in the image and read the number of complaints handled by national consumer association organizations in 2017",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the bar chart in the image and read the number of complaints handled by national consumer association organizations in 2014",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Subtract the 2014 value from step_2 from the 2017 value from step_1 to calculate the increase",
+        "depends_on": [
+          "step_1",
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "10.68万件"
+}

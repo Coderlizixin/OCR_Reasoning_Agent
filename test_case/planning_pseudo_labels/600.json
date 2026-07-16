@@ -1,0 +1,50 @@
+{
+  "index": 600,
+  "question": "How many changes did NIERMANN JON M have in total?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Locate all transaction rows where the Insider field shows NIERMANN JON M",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "In the first transaction row for NIERMANN JON M, read the Change amount value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "In the second transaction row for NIERMANN JON M, read the Change amount value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "In the third transaction row for NIERMANN JON M, read the Change amount value",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Add together the Change amounts from steps 2, 3, and 4 to get the total",
+        "depends_on": [
+          "step_2",
+          "step_3",
+          "step_4"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 5,
+  "gt_final_answer": "231.51K"
+}

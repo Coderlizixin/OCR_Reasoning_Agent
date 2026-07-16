@@ -1,0 +1,53 @@
+{
+  "index": 748,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Analyze the problem statement to determine the types of charges involved in the electric field scenario",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the circle in the diagram and identify its radius value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Use geometric relationships to calculate the lengths of segments AC and BC",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Measure the angle between the electric field vectors shown in the diagram",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Apply the electric field formula using the distance values from step_3",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Calculate the charge ratio by applying the electric field relationship from steps_4 and_5",
+        "depends_on": [
+          "step_4",
+          "step_5"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 6,
+  "gt_final_answer": "C"
+}

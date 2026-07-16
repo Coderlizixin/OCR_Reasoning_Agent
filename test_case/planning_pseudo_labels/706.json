@@ -1,0 +1,62 @@
+{
+  "index": 706,
+  "question": "If a customer orders 2 hot coffees, 1 egg sandwich, and 3 plain slices, what is the total amount they have to pay?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the price listed for hot coffee in the menu",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the price listed for plain slice in the menu",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the price listed for egg sandwich in the menu",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Multiply the hot coffee price from step_1 by 2 to get the total cost",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Multiply the plain slice price from step_2 by 3 to get the total cost",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Multiply the egg sandwich price from step_3 by 1 to get the total cost",
+        "depends_on": [
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Sum the costs from step_4, step_5, and step_6 to get the total amount",
+        "depends_on": [
+          "step_4",
+          "step_5",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "155"
+}

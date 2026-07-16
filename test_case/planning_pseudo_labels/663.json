@@ -1,0 +1,38 @@
+{
+  "index": 663,
+  "question": "If someone has already bought a grande-size Coffee, and then wants to buy two grande-size Vanilla Creams and pays with 200, how much change will they receive?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Understand that the previously purchased grande Coffee is not part of the current transaction and should be excluded from calculations",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the menu item 'grande-size Vanilla Cream' and read its unit price",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "compute",
+        "description": "Multiply the unit price from step_2 by 2 to get the total cost for two grande-size Vanilla Creams",
+        "depends_on": [
+          "step_2"
+        ]
+      },
+      {
+        "id": "step_4",
+        "type": "compute",
+        "description": "Subtract the total cost from step_3 from the payment amount of 200 to find the change",
+        "depends_on": [
+          "step_3"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 4,
+  "gt_final_answer": "78"
+}

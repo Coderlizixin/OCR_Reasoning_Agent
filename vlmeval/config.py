@@ -11,6 +11,7 @@ from vlmeval.vlm.reasoning_trace_ocragent import ReasoningTraceOCRAgent
 from vlmeval.vlm.ocr_agent_v2 import OCRReasoningAgentV2
 from vlmeval.vlm.ocr_agent_v3 import OCRReasoningAgentV3
 from vlmeval.vlm.ocr_agent_v4 import OCRAgentV4
+from vlmeval.vlm.ocr_agent_v4_pseudo_plan import OCRAgentV4PseudoPlan
 
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
@@ -2323,6 +2324,12 @@ supported_VLM = {
         api_base='http://10.3.112.34:22630/v1/chat/completions',
         key='sk-EMPTY',
         temperature=0.0,
+        temp_planning=0.1,
+        temp_locate=0.1,
+        temp_understand=0.2,
+        temp_compute=0.1,
+        temp_logical=0.1,
+        temp_reasoning=0.2,
         retry=10,
         img_size=-1,
         img_detail='high',
@@ -2348,6 +2355,102 @@ supported_VLM = {
         img_size=-1,
         img_detail='high',
         max_tokens=6144,
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRAgentV4PseudoPlan — GT Planning pseudo-labels + V4 Executor + Reasoning
+    # Same as V4 but Stage 1 loads pre-built plans from reasoning GT
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV4-PseudoPlan': partial(
+        OCRAgentV4PseudoPlan,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        temp_planning=0.0,    # planning is pseudo-label lookup, no API call
+        temp_locate=0.1,
+        temp_understand=0.2,
+        temp_compute=0.1,
+        temp_logical=0.1,
+        temp_reasoning=0.2,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
+        pseudo_plan_dir='test_case/planning_pseudo_labels',
+        trace_dir='test_case/v4_pseudo_plan_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRAgentV4-SkipLocate — same as V4 but bypass Locate, feed full
+    # image directly to Understand (no bbox/crop step)
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV4-SkipLocate': partial(
+        OCRAgentV4,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        skip_locate=True,     # <-- full image → Understand directly
+        temp_planning=0.1,
+        temp_understand=0.2,
+        temp_compute=0.1,
+        temp_logical=0.1,
+        temp_reasoning=0.2,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # ================================================================
+    # OCRAgentV4PseudoPlan-SkipLocate — GT plans + no locate
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV4-PseudoPlan-SkipLocate': partial(
+        OCRAgentV4PseudoPlan,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        skip_locate=True,     # <-- full image → Understand directly
+        temp_planning=0.0,    # planning is pseudo-label lookup, no API call
+        temp_understand=0.2,
+        temp_compute=0.1,
+        temp_logical=0.1,
+        temp_reasoning=0.2,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
+        pseudo_plan_dir='test_case/planning_pseudo_labels',
+        trace_dir='test_case/v4_pseudo_plan_skip_locate_traces',
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {

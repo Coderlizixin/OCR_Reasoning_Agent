@@ -1,0 +1,111 @@
+{
+  "index": 597,
+  "question": "What is the average 'Weekly' value in Industries where 'Change %' is positive?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the Information Technology row in the table and read the Change % value",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the Consumer Discretionary row in the table and read the Change % value",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the Energy row in the table and read the Change % value",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the Financials row in the table and read the Change % value",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "ground-understand",
+        "description": "Locate the Communication Services row in the table and read the Change % value",
+        "depends_on": []
+      },
+      {
+        "id": "step_6",
+        "type": "logical",
+        "description": "Compare the Change % values from steps 1-5 and identify which industries have positive values",
+        "depends_on": [
+          "step_1",
+          "step_2",
+          "step_3",
+          "step_4",
+          "step_5"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "ground-understand",
+        "description": "Locate the Information Technology row in the table and read the Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_8",
+        "type": "ground-understand",
+        "description": "Locate the Consumer Discretionary row in the table and read the Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_9",
+        "type": "ground-understand",
+        "description": "Locate the Energy row in the table and read the Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_10",
+        "type": "ground-understand",
+        "description": "Locate the Financials row in the table and read the Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_11",
+        "type": "ground-understand",
+        "description": "Locate the Communication Services row in the table and read the Weekly value",
+        "depends_on": []
+      },
+      {
+        "id": "step_12",
+        "type": "compute",
+        "description": "Add together all Weekly values from the industries identified in step 6",
+        "depends_on": [
+          "step_7",
+          "step_8",
+          "step_9",
+          "step_10",
+          "step_11"
+        ]
+      },
+      {
+        "id": "step_13",
+        "type": "compute",
+        "description": "Count how many industries have positive Change % values from step 6",
+        "depends_on": [
+          "step_6"
+        ]
+      },
+      {
+        "id": "step_14",
+        "type": "compute",
+        "description": "Divide the sum from step 12 by the count from step 13 to get the average",
+        "depends_on": [
+          "step_12",
+          "step_13"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 14,
+  "gt_final_answer": "0.952%"
+}

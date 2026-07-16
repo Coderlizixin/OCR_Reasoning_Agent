@@ -1,0 +1,32 @@
+{
+  "index": 448,
+  "question": "回答图片中的问题。如果是选择题，请提供你认为正确的选项。如果是简答题，请提供你的答案。",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "logical",
+        "description": "Examine the first group of figures and identify the movement pattern where elements shift up one position in a 'Z' pattern",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "logical",
+        "description": "Apply the identified pattern to the second group of figures and verify how elements shift right by one position",
+        "depends_on": [
+          "step_1"
+        ]
+      },
+      {
+        "id": "step_3",
+        "type": "logical",
+        "description": "Compare the given options against the established pattern to determine which one matches",
+        "depends_on": [
+          "step_2"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 3,
+  "gt_final_answer": "D"
+}

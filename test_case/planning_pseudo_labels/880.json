@@ -1,0 +1,61 @@
+{
+  "index": 880,
+  "question": "I have booked a train to Gatwick Airport departing at 15:42. I plan to take a taxi from the hotel to the station. The distance from the hotel to the train station is 30 km, and the taxi can travel at a maximum speed of 60 km/h. The security check takes 20 minutes. What is the latest time I should depart to ensure I arrive on time?",
+  "plan": {
+    "steps": [
+      {
+        "id": "step_1",
+        "type": "ground-understand",
+        "description": "Locate the train departure time mentioned in the problem statement",
+        "depends_on": []
+      },
+      {
+        "id": "step_2",
+        "type": "ground-understand",
+        "description": "Locate the distance from the hotel to the train station mentioned in the problem statement",
+        "depends_on": []
+      },
+      {
+        "id": "step_3",
+        "type": "ground-understand",
+        "description": "Locate the maximum speed of the taxi mentioned in the problem statement",
+        "depends_on": []
+      },
+      {
+        "id": "step_4",
+        "type": "ground-understand",
+        "description": "Locate the security check time mentioned in the problem statement",
+        "depends_on": []
+      },
+      {
+        "id": "step_5",
+        "type": "compute",
+        "description": "Calculate travel time by dividing the distance from step_2 by the speed from step_3",
+        "depends_on": [
+          "step_2",
+          "step_3"
+        ]
+      },
+      {
+        "id": "step_6",
+        "type": "compute",
+        "description": "Add the travel time from step_5 and security check time from step_4 to get total time needed",
+        "depends_on": [
+          "step_5",
+          "step_4"
+        ]
+      },
+      {
+        "id": "step_7",
+        "type": "compute",
+        "description": "Subtract the total time needed from step_6 from the train departure time from step_1 to find the latest departure time",
+        "depends_on": [
+          "step_1",
+          "step_6"
+        ]
+      }
+    ]
+  },
+  "gt_steps_count": 7,
+  "gt_final_answer": "14:52"
+}
