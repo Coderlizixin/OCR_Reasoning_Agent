@@ -99,7 +99,7 @@ def OcrR_auxeval(model, line):
 
     reason_prompt = judge_prompts.format(question=line['question'], ref_answer_1=line['reasoning'], answer=line['prediction'])
     for i in range(6):
-        reason_score = model.generate(reason_prompt, temperature=i * 0.3)   
+        reason_score = model.generate(reason_prompt, temperature=min(i * 0.3, 1.9))   
         match = re.search(r'\[\[(\d+)\]\]', reason_score)
         if match is not None:
             break
@@ -118,7 +118,7 @@ def OcrR_auxeval(model, line):
 
     for i in range(retry):
         prediction = line['prediction']
-        res = model.generate(prompt, temperature=i * 0.5)      
+        res = model.generate(prompt, temperature=min(i * 0.5, 1.9))      
         if FAIL_MSG in res:
             log += f'Try {i}: output is {prediction}, failed to parse.\n'
         else:

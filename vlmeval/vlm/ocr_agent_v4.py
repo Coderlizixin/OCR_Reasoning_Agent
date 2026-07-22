@@ -338,7 +338,12 @@ BAD examples (FORBIDDEN):
 - "False"          ← bare boolean
 - "['Product A', 'Product C']"   ← bare list without context"""
 
+OVERVIEW_PROMPT = """You are a precise image describer. In 2-3 sentences, describe this image — its type (chart, table, poster, receipt, exam, etc.), its overall layout and structure, and key visual elements visible. Do NOT read specific values, numbers, or answer any question. Only describe the overall content and structure at a glance."""
+
 REASONING_PROMPT = """You are a final-answer synthesizer. Below are results from a pipeline that extracted information from an image. You do NOT have access to the image.
+
+## Image Overview
+{overview}
 
 ## Solving Strategy
 {strategy}
@@ -350,12 +355,13 @@ REASONING_PROMPT = """You are a final-answer synthesizer. Below are results from
 {derived_text}
 
 ## Rules
-1. **Visual Observations are FACT.** They were read directly from the image by a visual model. Accept the raw values, text, and transcriptions without question.
-2. **Derived Results are DRAFTS.** They were computed by a separate model that may have made errors. You MUST re-derive them yourself from the Visual Observations. If your re-derivation disagrees with the draft, trust YOUR derivation.
-3. **You have NO access to any image.** Work exclusively from the text above.
-4. **If the observations include a transcribed problem or exam question, SOLVE IT** using your full domain knowledge (math, physics, chemistry, logic, etc.). The observations give you the problem content; your job is to reason through it and find the answer.
-5. **If some steps FAILED**, note what data is missing and give the best answer from available data.
-6. **NEVER say "cannot determine", "not derivable", or "insufficient data"** — always attempt a concrete answer.
+1. **Use the Image Overview** as context to understand what kind of image the observations came from. If an observation seems inconsistent with the overview (e.g. a value outside the described axis range), note it.
+2. **Visual Observations are FACT.** They were read directly from the image by a visual model. Accept the raw values, text, and transcriptions without question.
+3. **Derived Results are DRAFTS.** They were computed by a separate model that may have made errors. You MUST re-derive them yourself from the Visual Observations. If your re-derivation disagrees with the draft, trust YOUR derivation.
+4. **You have NO access to any image.** Work exclusively from the text above.
+5. **If the observations include a transcribed problem or exam question, SOLVE IT** using your full domain knowledge (math, physics, chemistry, logic, etc.).
+6. **If some steps FAILED**, note what data is missing and give the best answer from available data.
+7. **NEVER say "cannot determine", "not derivable", or "insufficient data"** — always attempt a concrete answer.
 
 ## Output Format
 You MUST output a JSON object with two fields:
@@ -723,11 +729,12 @@ class OCRAgentV4(OpenAIWrapper):
                 try:
                     if step_type == 'ground-understand':
                         result_data = self._execute_ground_understand(
-                            step, context, image_path, orig_w, orig_h
+                            step, context, image_path, orig_w, orig_h,
+                            question=question
                         )
                     elif step_type == 'transcribe':
                         result_data = self._execute_transcribe(
-                            step, context, image_path
+                            step, context, image_path, question=question
                         )
                     elif step_type == 'compute':
                         result_data = self._execute_compute(step, context)
@@ -764,11 +771,12 @@ class OCRAgentV4(OpenAIWrapper):
                     try:
                         if new_type == 'ground-understand':
                             replan_result = self._execute_ground_understand(
-                                new_step, context, image_path, orig_w, orig_h
+                                new_step, context, image_path, orig_w, orig_h,
+                                question=question
                             )
                         elif new_type == 'transcribe':
                             replan_result = self._execute_transcribe(
-                                new_step, context, image_path
+                                new_step, context, image_path, question=question
                             )
                         elif new_type == 'compute':
                             replan_result = self._execute_compute(new_step, context)
@@ -862,15 +870,51 @@ class OCRAgentV4(OpenAIWrapper):
         return obj
 
     # ------------------------------------------------------------------
+    # Image Overview (provides reasoning stage with big-picture context)
+    # ------------------------------------------------------------------
+
+    def _generate_overview(self, image_path, question):
+        """Generate a brief natural-language overview of the image.
+
+        This gives the reasoning stage a mental model of what the image
+        contains, enabling sanity checks that isolated observations can't.
+        """
+        _log_diag('[V4-Overview] Generating image overview')
+        messages = [
+            {'type': 'text', 'value': (
+                f"Question: {question}\n\n"
+                "Describe the overall content and layout of this image in 2-3 sentences."
+            )},
+            {'type': 'image', 'value': image_path},
+        ]
+        saved_sp = self.agent.system_prompt
+        self.agent.system_prompt = OVERVIEW_PROMPT
+        try:
+            ret, text, _ = self._api_call(
+                messages, with_image_processor=True, temperature=0.1
+            )
+        finally:
+            self.agent.system_prompt = saved_sp
+        if ret != 0 or not text:
+            _log_diag('[V4-Overview] Failed, using empty overview')
+            return ''
+        overview = text.strip()
+        _log_diag(f'[V4-Overview] OK: {overview[:120]}')
+        return overview
+
+    # ------------------------------------------------------------------
     # ground-understand: with cross-validation (P1-4)
     # ------------------------------------------------------------------
 
-    def _single_understand_direct(self, step, context, image_path, temperature):
+    def _single_understand_direct(self, step, context, image_path, temperature,
+                                   question=''):
         """Single understand call with full image (skip_locate path).
         Returns (result_str | None, error_str | None)."""
         description = step.get('description', '')
+        q_line = f"Original question: {question}\n\n" if question else ""
         understand_user_content = [
             {'type': 'text', 'value': (
+                f"{q_line}"
                 f"Task: {description}\n\n"
                 f"{context}\n"
                 "Look at the full image above. Find the specific visual element "
@@ -899,7 +943,8 @@ class OCRAgentV4(OpenAIWrapper):
             return None, understand_err
         return understand_obj.get('result', ''), None
 
-    def _execute_ground_understand(self, step, context, image_path, orig_w, orig_h):
+    def _execute_ground_understand(self, step, context, image_path, orig_w, orig_h,
+                                    question=''):
         """Execute a ground-understand step: locate → crop → understand (or direct).
 
         When skip_locate=True: direct extraction with cross-validation (P1-4).
@@ -913,7 +958,7 @@ class OCRAgentV4(OpenAIWrapper):
         # ================================================================
         if self.skip_locate:
             result_1, err_1 = self._single_understand_direct(
-                step, context, image_path, self.temp_understand
+                step, context, image_path, self.temp_understand, question=question
             )
             if result_1 is None:
                 _log_diag(f'[V4-UnderstandDirect] {step_id}: first call failed: {err_1}')
@@ -937,7 +982,7 @@ class OCRAgentV4(OpenAIWrapper):
 
             cv_temp = min(self.temp_understand + 0.3, 1.0)
             result_2, err_2 = self._single_understand_direct(
-                step, context, image_path, cv_temp
+                step, context, image_path, cv_temp, question=question
             )
             if result_2 is None:
                 _log_diag(f'[V4-CrossVal] {step_id}: second call failed, using first')
@@ -960,7 +1005,7 @@ class OCRAgentV4(OpenAIWrapper):
             _log_diag(f'[V4-CrossVal] {step_id}: inconsistent, running tiebreaker')
             tb_temp = min(self.temp_understand + 0.15, 1.0)
             result_3, err_3 = self._single_understand_direct(
-                step, context, image_path, tb_temp
+                step, context, image_path, tb_temp, question=question
             )
             if result_3 is None:
                 _log_diag(f'[V4-CrossVal] {step_id}: tiebreaker failed, using first')
@@ -1128,12 +1173,14 @@ class OCRAgentV4(OpenAIWrapper):
     # transcribe step (P0-3)
     # ------------------------------------------------------------------
 
-    def _execute_transcribe(self, step, context, image_path):
+    def _execute_transcribe(self, step, context, image_path, question=''):
         """Execute a transcribe step: full content transcription from image."""
         description = step.get('description', '')
+        q_line = f"Original question: {question}\n\n" if question else ""
 
         messages = [
             {'type': 'text', 'value': (
+                f"{q_line}"
                 f"Task: {description}\n\n"
                 f"{context}\n"
                 "Transcribe ALL relevant text content from the image as described "
@@ -1278,7 +1325,8 @@ class OCRAgentV4(OpenAIWrapper):
         txt = answer_text.strip()
         return '<a>' in txt and '</a>' in txt
 
-    def _reasoning(self, image_path, question, all_step_results, strategy=''):
+    def _reasoning(self, image_path, question, all_step_results, strategy='',
+                   overview=''):
         """Final reasoning stage: TEXT-ONLY synthesis of analysis results.
 
         P0-1: Separates visual observations (FACT) from derived results (DRAFT).
@@ -1316,6 +1364,7 @@ class OCRAgentV4(OpenAIWrapper):
         derived_text = "\n".join(derived_lines) if derived_lines else "(No derived results.)"
 
         reasoning_prompt = REASONING_PROMPT.format(
+            overview=overview or '(No overview available.)',
             strategy=strategy or '(No strategy provided.)',
             observations_text=observations_text,
             derived_text=derived_text,
@@ -1474,8 +1523,10 @@ class OCRAgentV4(OpenAIWrapper):
         # ============================================================
         all_step_results = {}
         exec_status = 'success'
+        overview = ''
 
         if plan_status == 'success' and steps:
+            overview = self._generate_overview(image_path, question)
             t2 = _time.time()
             all_step_results, exec_status = self._execute_steps(
                 steps, image_path, orig_w, orig_h, question, strategy
@@ -1492,7 +1543,7 @@ class OCRAgentV4(OpenAIWrapper):
 
         if plan_status == 'success' and all_step_results:
             ret, answer, resp = self._reasoning(
-                image_path, question, all_step_results, strategy
+                image_path, question, all_step_results, strategy, overview=overview
             )
             if not self._is_reasoning_success(answer):
                 _log_diag('[V4-Stage3] Reasoning produced no usable answer')
@@ -1532,6 +1583,7 @@ class OCRAgentV4(OpenAIWrapper):
             plan_status=plan_status,
             plan_text=plan_text,
             strategy=strategy,
+            overview=overview,
             steps=steps,
             t1_elapsed=t1_elapsed,
             all_step_results=all_step_results,

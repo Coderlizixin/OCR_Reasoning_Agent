@@ -116,6 +116,11 @@ def infer_data(model, model_name, work_dir, dataset, out_file, verbose=False, ap
         kwargs = {'use_vllm': use_vllm}
     model = supported_VLM[model_name](**kwargs) if isinstance(model, str) else model
 
+    # Auto-configure step-level trace saving for models that support it (e.g. OCRAgentV4).
+    # Traces are saved alongside other results under {work_dir}/traces/.
+    if hasattr(model, 'trace_dir') and getattr(model, 'trace_dir', None) is None:
+        model.trace_dir = osp.join(work_dir, 'traces')
+
     is_api = getattr(model, 'is_api', False)
     if is_api:
         lt, indices = len(data), list(data['index'])
