@@ -54,7 +54,47 @@ def get_color_based_background_mask(image_pil, vis_h, vis_w):
     return mask_2d
 
 
-def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weight=0.1, glimpse_relax_factor=0.2):
+def get_gt_region_mask(bbox_json_path, vis_h, vis_w):
+    """
+    根据 bbox 标注文件生成 GT 区域掩码。
+    坐标规范：千分化归一 [0, 1000]，(0,0)=top-left, (1000,1000)=bottom-right。
+    返回一个 (vis_h, vis_w) 的二维二值掩码 (1=GT区域, 0=非GT区域)。
+    """
+    import json
+
+    with open(bbox_json_path, 'r', encoding='utf-8') as f:
+        bbox_data = json.load(f)
+
+    bboxes = bbox_data['bboxes_stage2_refined']
+
+    mask_2d = np.zeros((vis_h, vis_w), dtype=np.uint8)
+
+    for bbox_item in bboxes:
+        bbox = bbox_item['bbox_norm']  # [xmin, ymin, xmax, ymax] in [0, 1000]
+        xmin, ymin, xmax, ymax = bbox
+
+        # 千分化归一 → patch 网格坐标
+        # pixel = norm / 1000 * image_size
+        # patch_idx = pixel / image_size * grid_size = norm / 1000 * grid_size
+        i_min = int(ymin / 1000.0 * vis_h)
+        i_max = int(np.ceil(ymax / 1000.0 * vis_h))
+        j_min = int(xmin / 1000.0 * vis_w)
+        j_max = int(np.ceil(xmax / 1000.0 * vis_w))
+
+        # 裁剪到有效范围
+        i_min = max(0, i_min)
+        i_max = min(vis_h, i_max)
+        j_min = max(0, j_min)
+        j_max = min(vis_w, j_max)
+
+        mask_2d[i_min:i_max, j_min:j_max] = 1
+
+    return mask_2d
+
+
+def apply_zoomtext_and_glc(model, prompt, inputs, processor, image,
+                           fusion_weight=0.1, glimpse_relax_factor=0.2,
+                           bbox_json_path=None):
     # =========================================================
     # 🌟 新增：计算通用描述指令 (q') 的底噪 Attention
     # =========================================================
@@ -102,9 +142,11 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
 
     image_indices = list(range(image_start, image_end))
 
-    # 🌟 核心修正：只取 Prompt 的最后一个 Token（Starting Answer Token）
-    query_idx_q = [inputs["input_ids"].shape[1] - 1]
-    query_idx_prime = [inputs_prime["input_ids"].shape[1] - 1]
+    # 🌟 改为取整个 question（不包括图像区域）对应的所有 tokens
+    # query_idx_q: image_end 之后的所有文本 token（问题文本 + 生成提示）
+    query_idx_q = list(range(image_end + 1, inputs["input_ids"].shape[1]))
+    # query_idx_prime: 通用描述提示的文本 token 部分（同样不包括图像）
+    query_idx_prime = list(range(image_end + 1, inputs_prime["input_ids"].shape[1]))
 
     # ---------------------------------------------------------
     # 步骤 B：弃用注意力筛选，改用 HSV 物理提取
@@ -134,6 +176,34 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
         f"[HSV Mask] 精准锁定 {len(text_token_indices)} 个高优图文 Patch，识别出 {len(irrelevant_img_indices)} 个背景 Patch！")
 
     # ---------------------------------------------------------
+    # 🌟 步骤 B2：加载 GT 标注，区分"真正需要看"的区域
+    # ---------------------------------------------------------
+    gt_token_indices = []
+    non_gt_text_indices = []
+
+    if bbox_json_path is not None and os.path.exists(bbox_json_path):
+        print(f"[GT Mask] 正在从 {bbox_json_path} 加载 GT 区域标注...")
+        gt_mask_2d = get_gt_region_mask(bbox_json_path, vis_h, vis_w)
+        gt_mask_1d = gt_mask_2d.flatten()
+
+        for local_idx, is_gt in enumerate(gt_mask_1d):
+            global_idx = image_start + local_idx
+            if is_gt == 1:
+                gt_token_indices.append(global_idx)
+
+        # 非 GT 文字区域 = HSV 判定为文字 但 不在 GT 区域内
+        gt_set = set(gt_token_indices)
+        non_gt_text_indices = [idx for idx in text_token_indices if idx not in gt_set]
+
+        print(f"[GT Mask] GT 区域: {len(gt_token_indices)} patches, "
+              f"非GT文字区域: {len(non_gt_text_indices)} patches, "
+              f"背景: {len(irrelevant_img_indices)} patches")
+    else:
+        # 无 GT 标注时，非GT文字区域 = 全部文字区域（保持向后兼容）
+        non_gt_text_indices = list(text_token_indices)
+        print("[GT Mask] 未提供 GT 标注，跳过 GT 区域分析。")
+
+    # ---------------------------------------------------------
     # 步骤 C：寻找最佳视觉锚定层 l* -> (现在使用 Relative Attention 寻找峰值)
     # ---------------------------------------------------------
     layer_scores = []
@@ -160,7 +230,7 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
     print(
         f"根据 Relative Attention 评估，视觉锚定最强层(l*)为 Layer {best_layer_idx} (Score: {layer_scores[best_layer_idx]:.4f})")
 
-    # 绘制trend图 (传入两次注意力结果)
+    # 绘制trend图 (传入两次注意力结果 + GT区域标注)
     plot_attention_trend_across_layers(
         attentions,
         attentions_prime,
@@ -168,7 +238,9 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
         query_idx_prime,
         image_indices,
         text_token_indices,
-        irrelevant_img_indices
+        irrelevant_img_indices,
+        gt_token_indices,
+        non_gt_text_indices
     )
 
     print("[Visualization] 正在将底层 Token 索引逆向映射为二维掩码...")
@@ -186,6 +258,17 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
     combined_img = cv2.addWeighted(overlay, alpha, image_bgr, 1 - alpha, 0)
     save_path = 'test_case/visualization/irrelevant_mask_overlay.jpg'
     cv2.imwrite(save_path, combined_img)
+
+    # ---- GT 区域可视化：绿色 = GT bbox 关键区域 ----
+    if bbox_json_path is not None and os.path.exists(bbox_json_path):
+        gt_mask_resized = cv2.resize(gt_mask_2d, (w, h), interpolation=cv2.INTER_NEAREST)
+        gt_overlay_img = image_bgr.copy()
+        gt_overlay_img[mask_resized == 1] = [0, 0, 255]      # 红色 = 背景
+        gt_overlay_img[gt_mask_resized == 1] = [0, 255, 0]   # 绿色 = GT 关键区域
+        gt_overlay_img = cv2.addWeighted(gt_overlay_img, 0.6, image_bgr, 0.4, 0)
+        gt_save_path = 'test_case/visualization/gt_region_overlay.jpg'
+        cv2.imwrite(gt_save_path, gt_overlay_img)
+        print(f"[GT Mask] GT区域可视化已保存至: {os.path.abspath(gt_save_path)}")
 
     clean_image_np = image_np.copy()
     clean_image_np[mask_resized == 1] = [127, 127, 127]
@@ -252,21 +335,30 @@ def apply_zoomtext_and_glc(model, prompt, inputs, processor, image, fusion_weigh
 
 
 def plot_attention_trend_across_layers(attentions, attentions_prime, query_idx_q, query_idx_prime, image_indices,
-                                       text_token_indices, irrelevant_img_indices):
+                                       text_token_indices, irrelevant_img_indices,
+                                       gt_token_indices=None, non_gt_text_indices=None):
     """
-    绘制 Relative Attention (A_q / A_q') 的层级变化趋势
+    绘制 Relative Attention (A_q / A_q') 的层级变化趋势。
+    新增 GT 区域 vs 非GT文字区域的分组对比，用于诊断模型是否聚焦在正确答案所需的区域上。
     """
     print("[Visualization] 正在计算并绘制每一层的 Relative Attention 变化趋势...")
     num_layers = len(attentions)
-
-    target_focus_scores = []
-    bg_focus_scores = []
     epsilon = 1e-6
 
     # 映射回相对于图像块起点的局部索引 (0 到 num_img_tokens-1)
     image_start = image_indices[0]
     local_text_indices = [idx - image_start for idx in text_token_indices]
     local_bg_indices = [idx - image_start for idx in irrelevant_img_indices]
+
+    has_gt = gt_token_indices is not None and len(gt_token_indices) > 0
+    if has_gt:
+        local_gt_indices = [idx - image_start for idx in gt_token_indices]
+        local_non_gt_text_indices = [idx - image_start for idx in non_gt_text_indices]
+
+    target_focus_scores = []
+    bg_focus_scores = []
+    gt_focus_scores = []
+    non_gt_text_focus_scores = []
 
     for l in range(num_layers):
         # 第 l 层：真实问题的注意力 (q)
@@ -280,37 +372,67 @@ def plot_attention_trend_across_layers(attentions, attentions_prime, query_idx_q
         # 核心：计算 Relative Attention
         rel_attn = q_to_img / (q_prime_to_img + epsilon)
 
-        # 分离出目标文字和背景的平均相对分数
+        # HSV 文字区域和背景
         target_score = rel_attn[local_text_indices].mean()
         bg_score = rel_attn[local_bg_indices].mean()
-
         target_focus_scores.append(target_score)
         bg_focus_scores.append(bg_score)
 
+        # GT 区域 vs 非GT文字区域
+        if has_gt:
+            gt_score = rel_attn[local_gt_indices].mean()
+            non_gt_text_score = rel_attn[local_non_gt_text_indices].mean()
+            gt_focus_scores.append(gt_score)
+            non_gt_text_focus_scores.append(non_gt_text_score)
+
     # ================= 绘制趋势图 =================
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(14, 7))
 
+    # 所有文字区域（红线）
     plt.plot(range(num_layers), target_focus_scores,
-             label="Relative Focus on Relevant Text (Signal > 1.0)",
-             color="#d62728", linewidth=2.5, marker='o', markersize=4)
+             label="All Text Regions (HSV)",
+             color="#d62728", linewidth=2.5, marker='o', markersize=3)
 
+    # 背景区域（蓝虚线）
     plt.plot(range(num_layers), bg_focus_scores,
-             label="Relative Focus on Background",
+             label="Background Regions",
              color="#1f77b4", linewidth=2, linestyle='--')
 
+    if has_gt:
+        # GT 真正关键区域（绿实线）
+        plt.plot(range(num_layers), gt_focus_scores,
+                 label="★ GT Relevant Regions (bbox annotated)",
+                 color="#2ca02c", linewidth=3.0, marker='s', markersize=4,
+                 markevery=max(1, num_layers // 10))
+
+        # 非GT文字区域（橙虚线）—— 干扰文字
+        plt.plot(range(num_layers), non_gt_text_focus_scores,
+                 label="Non-GT Text Regions (irrelevant text)",
+                 color="#ff7f0e", linewidth=2, linestyle='-.')
+
+        # 打印关键层对比
+        best_for_gt = np.argmax(gt_focus_scores[5:]) + 5
+        print(f"[Diagnosis] GT 区域注意力最强的层: Layer {best_for_gt} "
+              f"(Score: {gt_focus_scores[best_for_gt]:.4f})")
+        print(f"[Diagnosis] 该层 GT vs 非GT文字 注意力差距: "
+              f"{gt_focus_scores[best_for_gt] - non_gt_text_focus_scores[best_for_gt]:.4f}")
+        if gt_focus_scores[best_for_gt] < non_gt_text_focus_scores[best_for_gt]:
+            print("[Diagnosis] ⚠️ 模型聚焦在干扰文字上，而非GT关键区域！语义先验误导了视觉。")
+
     # 绘制 1.0 的基准线
-    plt.axhline(y=1.0, color='green', linestyle='-', alpha=0.3, label="Baseline (A_q = A_q')")
+    plt.axhline(y=1.0, color='gray', linestyle='-', alpha=0.4, label="Baseline (A_q = A_q')")
 
-    # 标出 l* (视觉锚定最强层)
-    best_layer = np.argmax(target_focus_scores[5:]) + 5  # 从第5层后开始找峰值
-    plt.axvline(x=best_layer, color='gray', linestyle=':', label=f"Best Layer (l* = {best_layer})")
-    plt.text(best_layer + 0.5, target_focus_scores[best_layer], 'Peak Visual Anchoring', color='black')
+    # 标出 l* (HSV文字区域的视觉锚定最强层)
+    best_layer = np.argmax(target_focus_scores[5:]) + 5
+    plt.axvline(x=best_layer, color='gray', linestyle=':', alpha=0.7,
+                label=f"Best Layer (l* = {best_layer})")
 
-    plt.title("Relative Attention Trend (A_q / A_q') Across Transformer Layers", fontsize=14, fontweight='bold')
+    plt.title("Relative Attention Trend (A_q / A_q') — Question vs Generic Attention",
+              fontsize=14, fontweight='bold')
     plt.xlabel("Transformer Layer Depth", fontsize=12)
     plt.ylabel("Relative Attention Score", fontsize=12)
     plt.xticks(range(0, num_layers, 2))
-    plt.legend(fontsize=10)
+    plt.legend(fontsize=9, loc='upper left')
     plt.grid(True, alpha=0.3)
 
     save_path = "test_case/visualization/layerwise_relative_attention_trend.png"
@@ -336,7 +458,7 @@ if __name__ == '__main__':
     )
 
     # 2. 构造干净的 OCR 推理 Prompt（保持英文）
-    image_path = "test_case/test_images/image0.jpg"
+    image_path = "test_case/test_images/image27.png"
     # image_path = "image2.jpg"
     image = Image.open(image_path).convert('RGB')
 
@@ -346,14 +468,8 @@ if __name__ == '__main__':
             "content": [
                 {"type": "image"},  # 这里只需放一个类型占位符
                 {"type": "text",
-                 "text": "Please pay close attention to the textual information in the image, as well as the key elements "
-                         "specified in the question, such as the objects, relationships, and constraints. "
-                         "Then answer the following question within the tags <q> and </q> step-by-step "
-                         "according to the textual content, explaining your reasoning process clearly at each stage and the "
-                         "text clues you use. After presenting your reasoning, provide the final simple answer at last, "
-                         "making sure to enclose it within the tags <a> and </a> like this: <a>your answer</a>. "
-                         "Question: <q>What is the average number of the genres of movies made by directors who have worked in drama genres?</q>"
-                         "Answer"}
+                 "text": "2022年品牌一的收入占比是多少？"
+                }
             ]
         }
     ]
@@ -361,9 +477,15 @@ if __name__ == '__main__':
     prompt = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     inputs = processor(text=prompt, images=[image], return_tensors="pt").to(device)
 
-    # 3. 前向传播：生成并提取 Full Attention
+    # 3. 加载 GT bbox 标注路径
+    bbox_json_path = "test_case/bbox_annotations/bbox_13.json"
+
+    # 4. 前向传播：生成并提取 Full Attention（传入 GT 标注）
     with torch.no_grad():
-        generated_ids = apply_zoomtext_and_glc(model, prompt, inputs, processor, image)
+        generated_ids = apply_zoomtext_and_glc(
+            model, prompt, inputs, processor, image,
+            bbox_json_path=bbox_json_path
+        )
         # answer = processor.decode(
         #     generated_ids[0][inputs["input_ids"].shape[1]:],
         #     skip_special_tokens=True

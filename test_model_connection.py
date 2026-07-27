@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 
 
     # 1. 定义一个函数，用于将本地图片读取并转换为 Base64 编码
-def encode_and_resize_image(image_path, max_size=2048):
+def encode_and_resize_image(image_path, max_size=8192):
     # 打开本地图片
     with Image.open(image_path) as img:
         orig_size = img.size
@@ -69,7 +69,7 @@ def crop_and_encode(img, physical_bbox, padding=60, scale_factor=3.0):
 
 client = OpenAI(
     api_key="EMPTY",
-    base_url="http://10.3.112.34:23130/v1",
+    base_url="http://10.3.112.34:22630/v1",
 )
 
 # client = OpenAI(
@@ -92,7 +92,7 @@ client = OpenAI(
 # Question12: On the left chart, how many models have ever reached a Top-1 Accuracy over 80% on the K400 dataset?  # Answer: 6
 
 # 2. 指定你的本地图片路径 (请替换为你实际的图片路径，例如 "C:/images/test.jpg" 或 "./test.png")
-local_image_path = "test_case/test_images/image0.jpg"
+local_image_path = "test_case/test_images/image13.jpg"
 detail_image_path = "test_case/test_images/detail13.png"
 
 base64_image, orig_size, resized_size = encode_and_resize_image(local_image_path)
@@ -123,7 +123,7 @@ else:
     "Answer the following question within the tags <q> and </q> step-by-step. "
     "After presenting your reasoning, provide the final simple answer at last, "
     "making sure to enclose it within the tags <a> and </a> like this: <a>your answer</a>. "
-    "Question: <q>2021年的不同业务的同比增长率的方差是多少？</q>"
+    "Question: <q>How many are somewhat confident that Donald Trump can manage the executive branch effectively?</q>"
 
     "Answer the following question within the tags <q> and </q> step-by-step. "
     "For each text clue or value you extract from the image, you must provide its bounding box coordinates normalized to the [0, 1000] range in the format [xmin, ymin, xmax, ymax]. "
@@ -132,15 +132,18 @@ else:
     "Question: <q>How many are somewhat confident that Donald Trump can manage the executive branch effectively?</q>"
 
 response = client.chat.completions.create(  # type: ignore
-    model='Qwen3.5-9B-TB',
+    model='Qwen3.5-9B',
     temperature=0.0,
-    max_tokens=6144,
+    max_tokens=12288,
     messages=[{  # type: ignore
         'role':
             'user',
         'content': [{
             'type': 'text',
-            'text': f"""Transfer the information in the image into Json.""",
+            'text': "Answer the following question within the tags <q> and </q> step-by-step. "
+                    "After presenting your reasoning, provide the final simple answer at last, "
+                    "making sure to enclose it within the tags <a> and </a> like this: <a>your answer</a>. "
+                    "Question: <q>Do consumers aged 40-45 buy the most pens?</q>",
         },
             {
                 'type': 'image_url',

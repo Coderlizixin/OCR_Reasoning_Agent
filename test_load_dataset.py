@@ -20,7 +20,7 @@ try:
 
     # 取前 10 条数据
     # subset = df.head(20)
-    subset = df[6:7]
+    subset = df[13:14]
     saved_count = 0
 
     for index, row in subset.iterrows():
