@@ -1,44 +1,36 @@
 """
-OCR-Agent V5: Planning → Executor (DAG-based, Recursive Decomposition) → Reasoning Pipeline
-=============================================================================================
+OCR-Agent V5: Planning → Executor (DAG-based) → Reasoning Pipeline
+==================================================================
 All stages use a single Qwen3.5-9B VL model.
 
 Stage 1 - Planning:     image + question → strategy + JSON steps with DAG dependencies
                         Outputs a solving strategy AND a data-collection plan.
-                        Steps may be coarse — fine-grained decomposition is deferred to Stage 2.
                         Retries up to 3 times on failure.
+                        On persistent failure: question decomposition (max depth 2).
 Stage 2 - Executor:     execute steps topologically (ground-understand / transcribe / compute / logical).
                         Each step retries up to 3 times on failure.
-                        Failed steps trigger RECURSIVE DECOMPOSITION (max depth 2):
-                        - Decomposer breaks the failed step into 2-3 sub-steps (sub-DAG).
-                        - Sub-steps execute recursively with no cross-validation (CV only at depth=0).
-                        - All sub-steps succeed → Synthesizer merges results.
-                        - Sub-steps fail at depth=2 → step marked as failed.
-                        Replaces the old replan mechanism (replan removed in V5).
 Stage 3 - Reasoning:    text-only synthesis — trusts visual observations as FACT,
                         re-derives compute/logical results from raw observations (P0-1).
                         Uses JSON Schema output (P2-8).
 
 Key V5 changes:
-  - Lazy recursive decomposition replacing one-shot replanning.
+  - Planning-layer question decomposition on planning failure.
   - Planning prompt relaxed — no longer forces atomic steps.
-  - Decomposer uses A+B strategy (narrow scope / sequential chain).
-  - Synthesizer merges sub-step results with image layout reference.
-  - Cross-validation disabled for sub-steps (depth >= 1).
-  - Max decomposition depth: 2 layers.
+  - Cross-validation enabled for top-level steps.
 
 Error handling:
-  - planning_parse_failed      — JSON parse error after all retries
-  - planning_api_failed        — API call failed after all retries
-  - planning_invalid_failed    — plan is structurally invalid after all retries
-  - grounding_locate_failed    — locate phase failed
-  - grounding_understand_failed— understand phase failed
-  - transcribe_failed          — transcribe step failed
-  - compute_failed             — compute step failed
-  - logical_failed             — logical step failed
-  - reasoning_failed           — reasoning produced no answer
-  - decompose_failed           — decomposition steps exhausted (depth limit reached)
-  - success                    — pipeline completed cleanly
+  - planning_parse_failed       — JSON parse error after all retries
+  - planning_api_failed         — API call failed after all retries
+  - planning_invalid_failed     — plan is structurally invalid after all retries
+  - planning_decompose_failed   — question decomposition failed
+  - grounding_locate_failed     — locate phase failed
+  - grounding_understand_failed — understand phase failed
+  - transcribe_failed           — transcribe step failed
+  - compute_failed              — compute step failed
+  - logical_failed              — logical step failed
+  - reasoning_failed            — reasoning produced no answer
+  - execution_error             — unexpected executor error
+  - success                     — pipeline completed cleanly
 """
 import os
 import io
@@ -149,6 +141,30 @@ REASONING_SCHEMA = {
     "required": ["reasoning", "answer"]
 }
 
+# V5: Planning-layer decomposition schema
+PLANNING_DECOMPOSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "strategy": {"type": "string"},
+        "sub_questions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "question": {"type": "string"},
+                    "depends_on": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                    }
+                },
+                "required": ["id", "question", "depends_on"]
+            }
+        }
+    },
+    "required": ["strategy", "sub_questions"]
+}
+
 # ============================================================================
 # System Prompts
 # ============================================================================
@@ -177,9 +193,8 @@ PLANNING_PROMPT = """You are a visual reasoning planner. Your job is to:
 1. Order steps: visual extraction first (ground-understand/transcribe), then processing (compute/logical).
 2. `depends_on` must ONLY reference step IDs that appear earlier.
 3. Be specific in step descriptions — name exact labels, positions, colors, or visual features.
-4. **Each step should be CLEAR and EXECUTABLE**: the step description must have a single, unambiguous goal that can be completed in one API call. If a step would require multi-step reasoning or covering widely separated image regions, keep it as a single step — the executor will automatically decompose it further if needed.
+4. **Each step should be CLEAR and EXECUTABLE**: the step description must have a single, unambiguous goal that can be completed in one API call.
 5. **Do NOT over-split**: avoid creating many tiny steps for conceptually simple tasks. A step like "read the sales values for Q1 and Q2" is perfectly fine as ONE step — you do NOT need to split it into "read Q1" and "read Q2" separately.
-6. **Trust the decomposition mechanism**: if your step turns out to be too complex at runtime, a decomposer will recursively break it into smaller sub-steps. So err on the side of fewer, clearer steps rather than over-splitting upfront.
 
 ## Output Format
 You MUST output a single JSON object:
@@ -365,72 +380,78 @@ REASONING_PROMPT = """You are a final-answer synthesizer. Below are results from
 You MUST output a JSON object with two fields:
 {{"reasoning": "your step-by-step reasoning", "answer": "your final answer"}}"""
 
-DECOMPOSE_PROMPT = """You are a step decomposer in a visual reasoning pipeline. A step has failed because it was too complex to execute in a single pass. Your job is to break it into 2-3 smaller sub-steps that together accomplish the original goal.
+# V5: Planning-layer decomposition prompts
+PLANNING_DECOMPOSE_PROMPT = """You are a question decomposer. A visual reasoning question is too complex for the planner to handle — it failed to produce a valid execution plan. Your job is to break the original question into 2-3 simpler sub-questions.
 
-## Failed Step
-{failed_step_json}
-
-## Error
-{error_msg}
-
-## Available Context (results from steps this one depends on)
-{context}
-
-## Original Strategy
-{strategy}
-
-## Question
+## Original Question
 {question}
 
-## Decomposition Strategies
+## Planning Error
+{error_msg}
 
-Use one of these strategies (or combine them):
+## Instructions
 
-**Strategy A — Narrow the Scope**: If the step tried to cover too much visual area or too many data points, split by:
-- Spatial regions (e.g., "left side of the chart" → "right side of the chart")
-- Individual items (e.g., "read value for category A" → "read value for category B")
-- Different visual elements (e.g., "read the axis labels" → "read the legend text")
+The planner failed because the question likely involves multiple independent logical units that cannot be planned together. Break it down using **semantic decomposition** — each sub-question should address ONE distinct logical unit:
 
-**Strategy B — Sequential Reasoning Chain**: If the step implicitly contained multiple reasoning sub-steps, break into an explicit chain:
-- Sub-step 1: Locate/read raw visual data from the image
-- Sub-step 2: Process, filter, or compare the extracted data
-- Sub-step 3: Draw a conclusion or compute the final result
+1. Identify the core logical steps needed to answer the original question.
+2. Turn each logical step into a self-contained sub-question.
+3. If sub-questions depend on each other, encode the dependency in `depends_on`.
+
+## Decomposition Examples
+
+**Example 1 — Numerical comparison:**
+Original: "Which product had the highest sales growth from 2020 to 2021?"
+Sub-questions:
+- sq_1: "What were the sales of each product in 2020?" (depends_on: [])
+- sq_2: "What were the sales of each product in 2021?" (depends_on: [])
+- sq_3: "Based on the 2020 and 2021 sales data, which product had the highest growth rate?" (depends_on: ["sq_1", "sq_2"])
+
+**Example 2 — Multi-step math problem:**
+Original: "According to the table, what is the average score of students who passed both exams?"
+Sub-questions:
+- sq_1: "List all students and their scores for both exams from the table." (depends_on: [])
+- sq_2: "Based on the scores, identify which students passed both exams, and compute their average score." (depends_on: ["sq_1"])
+
+**Example 3 — Spatial/layout reasoning:**
+Original: "What is the distance between the two farthest buildings on the map?"
+Sub-questions:
+- sq_1: "Identify and read the coordinates or positions of all buildings shown on the map." (depends_on: [])
+- sq_2: "Based on the building positions, calculate which two are farthest apart and what the distance is." (depends_on: ["sq_1"])
 
 ## Rules
-1. Output 2-3 sub-steps. Each sub-step must be SIMPLER and more FOCUSED than the original failed step.
-2. For a failed `ground-understand` step: sub-steps can be `ground-understand`, `compute`, or `logical`. Do NOT use `transcribe`.
-3. For a failed `transcribe` step: sub-steps can only be `transcribe`.
-4. `depends_on` in sub-steps should reference OTHER SUB-STEPS within this group. The framework automatically injects the parent step's dependencies — do NOT manually add them.
-5. Use IDs like `{parent_id}.1`, `{parent_id}.2`, `{parent_id}.3`.
-6. Sub-steps can form a chain (step 2 depends on step 1) or run in parallel. Prefer a sequential chain when the task requires progressive reasoning.
+1. Output 2-3 sub-questions. Each sub-question must be SIMPLER than the original.
+2. `depends_on` should reference sub-question IDs that must be answered FIRST.
+3. Sub-questions with empty `depends_on` can be answered independently (in parallel).
+4. Each sub-question should be a single clear question, not a task description.
+5. Use IDs like `sq_1`, `sq_2`, `sq_3`.
 
 ## Output Format
-{"strategy": "brief explanation of how you decomposed this step", "steps": [{"id": "...", "type": "...", "description": "...", "depends_on": [...]}]}"""
+{{"strategy": "brief explanation of your decomposition approach", "sub_questions": [{{"id": "sq_1", "question": "...", "depends_on": []}}, {{"id": "sq_2", "question": "...", "depends_on": ["sq_1"]}}]}}"""
 
-SYNTHESIZE_PROMPT = """You are a result synthesizer. Several sub-steps of a larger visual task have been completed. Your job is to combine their individual findings into ONE coherent, self-contained result.
+QUESTION_SYNTHESIZE_PROMPT = """You are a final answer synthesizer. A complex question was broken into sub-questions, each answered independently. Your job is to combine these sub-answers into ONE final answer to the original question.
 
-## Original Task Description
-{parent_description}
+## Original Question
+{original_question}
 
-## Sub-step Results
+## Sub-questions and Their Answers
 {sub_results_text}
 
 ## Rules
-1. Combine ALL sub-step results into ONE self-contained descriptive paragraph.
-2. Preserve every key data point, value, and finding from each sub-step. Do NOT drop or simplify information.
-3. The image shown is for LAYOUT REFERENCE ONLY — use it to understand how the sub-results relate to each other spatially. Do NOT extract any new values or text from it.
-4. Your output should read as a single, unified answer to the original task description above.
-5. Do NOT add new analysis, reasoning, or conclusions beyond what the sub-steps established.
+1. Combine the sub-answers to produce a direct, concise answer to the ORIGINAL question.
+2. The image shown is for LAYOUT REFERENCE ONLY — to verify consistency across sub-answers. Do NOT extract new information from it.
+3. If sub-answers contradict each other, use your best judgment to resolve the discrepancy.
+4. If some sub-questions failed, work with what you have and give the best possible answer.
+5. Provide a step-by-step reasoning, then the final answer.
 
 ## Output Format
-You MUST output: {{"result": "your synthesized result here"}}"""
+You MUST output: {{"reasoning": "your step-by-step synthesis reasoning", "answer": "your final answer"}}"""
 
 
 # ============================================================================
 # Constants
 # ============================================================================
 MAX_ATTEMPTS = 3  # total attempts per stage/step (1 initial + 2 retries)
-MAX_DECOMPOSE_DEPTH = 2  # max recursion depth for step decomposition
+MAX_PLANNING_DECOMPOSE_DEPTH = 2  # max recursion depth for planning-level decomposition
 
 
 # ============================================================================
@@ -460,12 +481,12 @@ class _Base64Agent(OpenAIWrapper):
 # ============================================================================
 
 class OCRAgentV5(OpenAIWrapper):
-    """V5 OCR Agent: Planning → Executor (DAG with Recursive Decomposition) → Reasoning.
+    """V5 OCR Agent: Planning → Executor (DAG) → Reasoning.
 
     All three stages use the same 9B VL model. The executor runs steps
     in topological order, each as an independent API call with its own
     system prompt and (optionally) constrained JSON decoding.
-    Failed steps trigger lazy recursive decomposition (max depth 2).
+    On planning failure: question decomposition into sub-questions (max depth 2).
     """
 
     def __init__(self, **kwargs):
@@ -610,12 +631,8 @@ class OCRAgentV5(OpenAIWrapper):
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _build_step_context(step, all_step_results, parent_results=None):
-        """Build a context string from the dependent steps' results.
-
-        Searches in all_step_results first, then falls back to parent_results
-        (for sub-steps that need access to parent-level dependencies).
-        """
+    def _build_step_context(step, all_step_results):
+        """Build a context string from the dependent steps' results."""
         dep_ids = step.get('depends_on', [])
         if not dep_ids:
             return ""
@@ -623,8 +640,6 @@ class OCRAgentV5(OpenAIWrapper):
         lines = ["Here are the results of previous steps that this step depends on:\n"]
         for dep_id in dep_ids:
             dep_result = all_step_results.get(dep_id)
-            if dep_result is None and parent_results:
-                dep_result = parent_results.get(dep_id)
 
             if dep_result is not None:
                 if dep_result.get('status') == 'ok':
@@ -767,13 +782,13 @@ class OCRAgentV5(OpenAIWrapper):
         return 'execution_error'
 
     def _execute_single_step(self, step, context, image_path, orig_w, orig_h,
-                             question='', depth=0):
+                             question=''):
         """Dispatch and execute a single step (one attempt, no retry).
 
-        Cross-validation is disabled for sub-steps (depth >= 1).
+        Cross-validation is enabled when self.cross_validate is True.
         """
         step_type = step.get('type', 'unknown')
-        use_cv = (depth == 0) and getattr(self, 'cross_validate', True)
+        use_cv = getattr(self, 'cross_validate', True)
 
         if step_type == 'ground-understand':
             return self._execute_ground_understand(
@@ -795,31 +810,21 @@ class OCRAgentV5(OpenAIWrapper):
             }
 
     def _execute_steps(self, steps, image_path, orig_w, orig_h,
-                       question='', strategy='', depth=0, parent_results=None):
-        """Execute steps in topological order with recursive decomposition.
+                       question='', strategy=''):
+        """Execute steps in topological order.
 
-        Each step retries up to MAX_ATTEMPTS. On failure:
-        - If depth < MAX_DECOMPOSE_DEPTH: decompose into sub-steps,
-          recursively execute them, and synthesize results on success.
-        - If depth >= MAX_DECOMPOSE_DEPTH: mark as failed (terminal).
-
-        Args:
-            steps: list of step dicts
-            depth: current recursion depth (0 = top-level plan)
-            parent_results: results dict from the parent recursion level
-                            (provides access to step dependencies from above)
+        Each step retries up to MAX_ATTEMPTS on failure.
 
         Returns:
             (all_step_results: dict, overall_status: str)
         """
-        indent = "  " * depth
         all_results = {}
         overall_status = 'success'
 
         for step in steps:
             step_id = step.get('id', 'unknown')
             step_type = step.get('type', 'unknown')
-            _log_diag(f'[V5-Stage2{indent}] Executing {step_id} ({step_type}) depth={depth}')
+            _log_diag(f'[V5-Stage2] Executing {step_id} ({step_type})')
 
             result_data = None
             retry_count = 0
@@ -827,17 +832,16 @@ class OCRAgentV5(OpenAIWrapper):
             # -- Retry loop --
             for attempt in range(1, MAX_ATTEMPTS + 1):
                 if attempt > 1:
-                    _log_diag(f'[V5-Stage2{indent}] Retrying {step_id} '
+                    _log_diag(f'[V5-Stage2] Retrying {step_id} '
                               f'(attempt {attempt}/{MAX_ATTEMPTS})')
                     retry_count += 1
 
-                context = self._build_step_context(step, all_results,
-                                                   parent_results=parent_results)
+                context = self._build_step_context(step, all_results)
 
                 try:
                     result_data = self._execute_single_step(
                         step, context, image_path, orig_w, orig_h,
-                        question=question, depth=depth,
+                        question=question,
                     )
                 except Exception as e:
                     result_data = {
@@ -850,111 +854,6 @@ class OCRAgentV5(OpenAIWrapper):
                 if not self._step_failed(result_data):
                     result_data['retry_count'] = retry_count
                     break
-
-            # ================================================================
-            # V5: Recursive decomposition on failure (replaces old replan)
-            # ================================================================
-            if (self._step_failed(result_data)
-                    and step_type in ('ground-understand', 'transcribe', 'compute', 'logical')
-                    and depth < MAX_DECOMPOSE_DEPTH):
-
-                error_msg = result_data.get('error', '') if result_data else 'All attempts failed'
-                _log_diag(f'[V5-Decompose{indent}] Attempting to decompose '
-                          f'{step_id} (depth={depth})')
-
-                sub_steps = self._decompose_step(
-                    step, error_msg, image_path, question, strategy,
-                    all_results=all_results, parent_results=parent_results,
-                )
-
-                if sub_steps:
-                    # Inject parent dependencies into all sub-steps
-                    parent_deps = step.get('depends_on', [])
-                    if parent_deps:
-                        for s in sub_steps:
-                            existing = set(s.get('depends_on', []))
-                            for pd in parent_deps:
-                                if pd not in existing:
-                                    s.setdefault('depends_on', [])
-                                    s['depends_on'] = list(s['depends_on']) + [pd]
-
-                    # Build parent_results for sub-step execution:
-                    # merge current-level results + parent-level results
-                    merged_parent = {}
-                    if parent_results:
-                        merged_parent.update(parent_results)
-                    merged_parent.update(all_results)
-
-                    # Recursively execute sub-steps
-                    sub_results, sub_status = self._execute_steps(
-                        sub_steps, image_path, orig_w, orig_h,
-                        question=question, strategy=strategy,
-                        depth=depth + 1,
-                        parent_results=merged_parent,
-                    )
-
-                    # Check if ALL sub-steps succeeded
-                    all_sub_ok = all(
-                        r.get('status') == 'ok' for r in sub_results.values()
-                    )
-
-                    if all_sub_ok:
-                        _log_diag(f'[V5-Synthesize{indent}] {step_id}: all '
-                                  f'{len(sub_results)} sub-steps OK, synthesizing')
-                        synthesized = self._synthesize_results(
-                            step, sub_steps, sub_results, image_path,
-                        )
-                        if synthesized:
-                            result_data = {
-                                'status': 'ok',
-                                'type': step_type,
-                                'result': synthesized,
-                                'retry_count': retry_count,
-                                'decomposed': True,
-                                'decompose_depth': depth,
-                                'sub_steps': sub_steps,
-                                'sub_results': sub_results,
-                            }
-                        else:
-                            # Synthesizer failed
-                            result_data = {
-                                'status': 'error',
-                                'type': step_type,
-                                'result': '',
-                                'error': 'Synthesizer failed to merge sub-step results',
-                                'decomposed': True,
-                                'decompose_depth': depth,
-                                'sub_steps': sub_steps,
-                                'sub_results': sub_results,
-                            }
-                    else:
-                        # Some sub-steps failed at deeper recursion level
-                        n_failed = sum(
-                            1 for r in sub_results.values()
-                            if r.get('status') != 'ok'
-                        )
-                        _log_diag(f'[V5-Decompose{indent}] {step_id}: '
-                                  f'{n_failed}/{len(sub_results)} sub-steps failed')
-                        result_data = {
-                            'status': 'error',
-                            'type': step_type,
-                            'result': '',
-                            'error': (f'Decomposition failed: {n_failed} sub-step(s) '
-                                      f'failed at depth {depth + 1}'),
-                            'decomposed': True,
-                            'decompose_depth': depth,
-                            'sub_steps': sub_steps,
-                            'sub_results': sub_results,
-                        }
-                else:
-                    _log_diag(f'[V5-Decompose{indent}] {step_id}: decomposer '
-                              f'returned no sub-steps')
-
-            # Terminal failure at max depth
-            elif (self._step_failed(result_data)
-                  and depth >= MAX_DECOMPOSE_DEPTH):
-                _log_diag(f'[V5-Stage2{indent}] {step_id}: FAILED at max depth '
-                          f'{depth} — cannot decompose further')
 
             # -- Finalize step result --
             if result_data is None:
@@ -974,38 +873,81 @@ class OCRAgentV5(OpenAIWrapper):
         return all_results, overall_status
 
     # ------------------------------------------------------------------
-    # V5: Recursive Decomposition (replaces old replan P2-7)
+    # V5: Planning-layer decomposition (replaces failed planning with sub-question DAG)
     # ------------------------------------------------------------------
 
-    def _decompose_step(self, failed_step, error_msg, image_path, question,
-                        strategy, all_results=None, parent_results=None):
-        """Decompose a failed step into 2-3 sub-steps using the A+B strategy.
+    @staticmethod
+    def _topological_sort_sub_questions(sub_questions):
+        """Sort sub-questions in topological order based on depends_on."""
+        sorted_ids = []
+        remaining = list(sub_questions)
+        id_set = {sq['id'] for sq in sub_questions}
 
-        The decomposer sees the original image, the failed step details, the
-        error, and results from dependency steps. It outputs sub-steps in the
-        same format as planning: {strategy, steps[]}.
+        while remaining:
+            # Find a sub-question whose deps are all satisfied
+            ready = None
+            for sq in remaining:
+                deps = [d for d in sq.get('depends_on', []) if d in id_set]
+                if all(d in sorted_ids for d in deps):
+                    ready = sq
+                    break
 
-        Sub-step type restriction:
-          - ground-understand → ground-understand / compute / logical (no transcribe)
-          - transcribe → transcribe only
-          - compute / logical → compute / logical (text-only re-decomposition)
+            if ready is None:
+                # Cycle or broken dep — just take the next one
+                ready = remaining[0]
+
+            sorted_ids.append(ready['id'])
+            remaining.remove(ready)
+
+        # Return in sorted order
+        result = []
+        for sid in sorted_ids:
+            for sq in sub_questions:
+                if sq['id'] == sid:
+                    result.append(sq)
+                    break
+        return result
+
+    @staticmethod
+    def _build_sub_question_context(sub_question, sub_answers):
+        """Build a context string from dependency sub-question answers."""
+        dep_ids = sub_question.get('depends_on', [])
+        if not dep_ids:
+            return ""
+
+        lines = ["The following information has already been determined:\n"]
+        for dep_id in dep_ids:
+            dep_data = sub_answers.get(dep_id, {})
+            dep_q = dep_data.get('question', dep_id)
+            dep_answer = dep_data.get('answer', '(not available)')
+            status = dep_data.get('status', 'unknown')
+            if status == 'ok':
+                # Extract answer from <a> tags if present
+                answer_text = dep_answer
+                if '<a>' in answer_text and '</a>' in answer_text:
+                    start = answer_text.index('<a>') + 3
+                    end = answer_text.index('</a>')
+                    answer_text = answer_text[start:end].strip()
+                lines.append(f"- Sub-question [{dep_id}]: {dep_q}\n  Answer: {answer_text}\n")
+            else:
+                lines.append(f"- Sub-question [{dep_id}]: {dep_q}\n  FAILED\n")
+
+        lines.append("Use the above information to answer the following question.\n")
+        return "\n".join(lines)
+
+    def _decompose_question(self, image_path, question, plan_text, strategy=''):
+        """Decompose a failed planning into 2-3 sub-questions.
+
+        Uses semantic decomposition (Strategy A): break the question
+        into independent logical units that can each be planned separately.
         """
-        step_id = failed_step.get('id', 'unknown')
-        step_type = failed_step.get('type', 'unknown')
-        _log_diag(f'[V5-Decompose] Decomposing {step_id} ({step_type})')
+        _log_diag('[V5-PlanDecompose] Decomposing question (planning failed)')
 
-        # Build context from parent-level dependencies
-        context = self._build_step_context(failed_step, all_results or {},
-                                           parent_results=parent_results)
-        if not context.strip():
-            context = '(No context available — this step has no dependencies)'
+        error_msg = (plan_text or 'Planning produced no output')[:500]
 
-        prompt_text = DECOMPOSE_PROMPT.format(
-            failed_step_json=json.dumps(failed_step, ensure_ascii=False),
-            error_msg=error_msg,
-            context=context,
-            strategy=strategy or 'N/A',
+        prompt_text = PLANNING_DECOMPOSE_PROMPT.format(
             question=question,
+            error_msg=error_msg,
         )
 
         messages = [
@@ -1018,7 +960,7 @@ class OCRAgentV5(OpenAIWrapper):
         try:
             ret, text, _ = self._api_call(
                 messages,
-                schema=PLANNING_SCHEMA,  # same schema: {strategy, steps[]}
+                schema=PLANNING_DECOMPOSE_SCHEMA,
                 with_image_processor=True,
                 temperature=self.temp_planning,
             )
@@ -1026,77 +968,62 @@ class OCRAgentV5(OpenAIWrapper):
             self.agent.system_prompt = saved_sp
 
         if ret != 0 or not text:
-            _log_diag(f'[V5-Decompose] API failed for {step_id}')
-            return None
+            _log_diag('[V5-PlanDecompose] API failed')
+            return None, 'decompose_api_failed'
 
-        obj, err = self._parse_json(text, PLANNING_SCHEMA)
-        if obj is None or 'steps' not in obj:
-            _log_diag(f'[V5-Decompose] Parse failed for {step_id}: {err}')
-            return None
+        obj, err = self._parse_json(text, PLANNING_DECOMPOSE_SCHEMA)
+        if obj is None or 'sub_questions' not in obj:
+            _log_diag(f'[V5-PlanDecompose] Parse failed: {err}')
+            return None, 'decompose_parse_failed'
 
-        sub_steps = obj['steps']
-        n_sub = len(sub_steps)
-        if n_sub < 1:
-            _log_diag(f'[V5-Decompose] {step_id}: decomposer returned empty steps')
-            return None
+        sub_questions = obj['sub_questions']
+        if not sub_questions or len(sub_questions) < 1:
+            _log_diag('[V5-PlanDecompose] Empty sub_questions')
+            return None, 'decompose_empty'
 
-        # Validate and fix sub-step IDs: ensure they follow {parent_id}.N pattern
-        for i, s in enumerate(sub_steps):
-            raw_id = s.get('id', f'sub_{i}')
-            # Normalize: if the decomposer didn't use parent_id prefix, add it
-            if not raw_id.startswith(f'{step_id}.'):
-                s['id'] = f'{step_id}.{raw_id}'
-            # Filter depends_on: keep only references to other sub-steps
-            sub_ids = {ss['id'] for ss in sub_steps}
-            s['depends_on'] = [d for d in s.get('depends_on', []) if d in sub_ids]
+        # Validate and normalize
+        for sq in sub_questions:
+            if 'id' not in sq:
+                sq['id'] = f'sq_{sub_questions.index(sq) + 1}'
+            if 'question' not in sq:
+                sq['question'] = ''
+            if 'depends_on' not in sq:
+                sq['depends_on'] = []
 
-        # Validate step types based on parent type
-        allowed_types = {
-            'ground-understand': {'ground-understand', 'compute', 'logical'},
-            'transcribe': {'transcribe'},
-            'compute': {'compute', 'logical'},
-            'logical': {'compute', 'logical'},
-        }
-        allowed = allowed_types.get(step_type, set())
-        for s in sub_steps:
-            if s['type'] not in allowed:
-                _log_diag(f'[V5-Decompose] {step_id}: sub-step {s["id"]} '
-                          f'type {s["type"]} not allowed for parent {step_type}, '
-                          f'forcing to {step_type}')
-                s['type'] = step_type
+        # Filter depends_on to only reference valid sub-question IDs
+        valid_ids = {sq['id'] for sq in sub_questions}
+        for sq in sub_questions:
+            sq['depends_on'] = [d for d in sq.get('depends_on', []) if d in valid_ids]
 
-        _log_diag(f'[V5-Decompose] {step_id}: got {n_sub} sub-steps: '
-                  f'{[s["id"] for s in sub_steps]}')
-        return sub_steps
+        decomp_strategy = obj.get('strategy', '')
+        _log_diag(f'[V5-PlanDecompose] Got {len(sub_questions)} sub-questions: '
+                  f'{[sq["id"] for sq in sub_questions]}, strategy={decomp_strategy[:80]}')
+        return sub_questions, 'success'
 
-    def _synthesize_results(self, parent_step, sub_steps, sub_results,
-                            image_path):
-        """Synthesize sub-step results into a single coherent result.
+    def _synthesize_question_results(self, image_path, original_question,
+                                     sub_questions, sub_answers, strategy=''):
+        """Synthesize sub-question answers into a final answer for the original question.
 
-        Shows the original image for layout reference only — the synthesizer
-        is instructed NOT to re-read or extract new information from it.
+        Shows the original image for layout reference only.
         """
-        step_id = parent_step.get('id', 'unknown')
-        parent_desc = parent_step.get('description', '')
-        _log_diag(f'[V5-Synthesize] Synthesizing {len(sub_steps)} sub-step '
-                  f'results for {step_id}')
+        _log_diag('[V5-QuestionSynthesize] Synthesizing sub-question answers')
 
         # Build sub-results text
         lines = []
-        for s in sub_steps:
-            sid = s.get('id', 'unknown')
-            sdesc = s.get('description', '')
-            data = sub_results.get(sid, {})
-            if data.get('status') == 'ok':
-                result = data.get('result', '')
-                lines.append(f"[{sid}] — {sdesc}\nResult: {result}\n")
+        for sq in sub_questions:
+            sid = sq.get('id', 'unknown')
+            sq_text = sq.get('question', '')
+            data = sub_answers.get(sid, {})
+            status = data.get('status', 'unknown')
+            answer = data.get('answer', '')
+            if status == 'ok':
+                lines.append(f"[{sid}]: {sq_text}\nAnswer: {answer}\n")
             else:
-                err = data.get('error', 'unknown')
-                lines.append(f"[{sid}] — {sdesc}\nFAILED: {err}\n")
-        sub_results_text = "\n".join(lines) if lines else "(No sub-step results)"
+                lines.append(f"[{sid}]: {sq_text}\nFAILED\n")
+        sub_results_text = "\n".join(lines) if lines else "(No sub-question results)"
 
-        prompt_text = SYNTHESIZE_PROMPT.format(
-            parent_description=parent_desc or 'Extract and synthesize visual information',
+        prompt_text = QUESTION_SYNTHESIZE_PROMPT.format(
+            original_question=original_question,
             sub_results_text=sub_results_text,
         )
 
@@ -1110,35 +1037,38 @@ class OCRAgentV5(OpenAIWrapper):
         try:
             ret, text, _ = self._api_call(
                 messages,
-                schema=UNDERSTAND_SCHEMA,  # {"result": "string"}
+                schema=REASONING_SCHEMA,  # {"reasoning": "...", "answer": "..."}
                 with_image_processor=True,
-                temperature=self.temp_understand,
+                temperature=self.temp_reasoning,
             )
         finally:
             self.agent.system_prompt = saved_sp
 
         if ret != 0 or not text:
-            _log_diag(f'[V5-Synthesize] API failed for {step_id}')
-            # Fallback: simple concatenation
-            fallback = "\n".join(
-                f"[{s.get('id', '?')}]: {sub_results.get(s.get('id', ''), {}).get('result', '')}"
-                for s in sub_steps
-            )
-            return fallback if fallback.strip() else None
+            _log_diag('[V5-QuestionSynthesize] API failed')
+            # Fallback: concatenate sub-answers
+            fallback_parts = []
+            for sq in sub_questions:
+                sid = sq.get('id', '')
+                data = sub_answers.get(sid, {})
+                answer = data.get('answer', '')
+                if '<a>' in answer:
+                    start = answer.index('<a>') + 3
+                    end = answer.index('</a>')
+                    fallback_parts.append(answer[start:end].strip())
+            fallback = ", ".join(fallback_parts) if fallback_parts else "Unable to synthesize"
+            return fallback
 
-        obj, err = self._parse_json(text, UNDERSTAND_SCHEMA)
-        if obj is None or 'result' not in obj:
-            _log_diag(f'[V5-Synthesize] Parse failed for {step_id}: {err}')
-            # Fallback: simple concatenation
-            fallback = "\n".join(
-                f"[{s.get('id', '?')}]: {sub_results.get(s.get('id', ''), {}).get('result', '')}"
-                for s in sub_steps
-            )
-            return fallback if fallback.strip() else None
+        obj, err = self._parse_json(text, REASONING_SCHEMA)
+        if obj is None:
+            _log_diag(f'[V5-QuestionSynthesize] Parse failed: {err}')
+            return text or ''
 
-        result = obj.get('result', '')
-        _log_diag(f'[V5-Synthesize] {step_id}: OK ({len(result)} chars)')
-        return result
+        reasoning = obj.get('reasoning', '')
+        answer = obj.get('answer', '')
+        formatted = f"{reasoning}\n\n<a>{answer}</a>"
+        _log_diag(f'[V5-QuestionSynthesize] OK, answer={answer[:100]}')
+        return formatted
 
     # ------------------------------------------------------------------
     # Image Overview (provides reasoning stage with big-picture context)
@@ -1220,7 +1150,7 @@ class OCRAgentV5(OpenAIWrapper):
 
         When skip_locate=True: direct extraction with cross-validation (P1-4).
         When skip_locate=False: locate → crop → understand.
-        Cross-validation controlled by use_cv (disabled for sub-steps at depth >= 1).
+        Cross-validation controlled by use_cv.
         """
         description = step.get('description', '')
         step_id = step.get('id', 'unknown')
@@ -1765,9 +1695,16 @@ class OCRAgentV5(OpenAIWrapper):
     # ------------------------------------------------------------------
 
     def generate_inner(self, inputs, **kwargs):
-        """Main inference pipeline."""
+        """Main inference pipeline with planning-layer recursive decomposition.
+
+        On planning failure: decompose question into sub-questions, solve each
+        recursively, then synthesize final answer (max depth 2).
+        """
         import time as _time
         t_start = _time.time()
+
+        # Extract internal recursion parameter (not passed by framework)
+        planning_depth = kwargs.pop('_planning_depth', 0)
 
         image_path = None
         question = ""
@@ -1791,7 +1728,124 @@ class OCRAgentV5(OpenAIWrapper):
         t1_elapsed = _time.time() - t1
 
         # ============================================================
-        # Stage 2: Execution
+        # V5: Planning-layer decomposition on planning failure
+        # ============================================================
+        if (plan_status != 'success'
+                and planning_depth < MAX_PLANNING_DECOMPOSE_DEPTH):
+            _log_diag(f'[V5-PlanDecompose] Planning failed (status={plan_status}, '
+                      f'depth={planning_depth}), attempting question decomposition')
+
+            sub_questions, decomp_status = self._decompose_question(
+                image_path, question, plan_text, strategy
+            )
+
+            if sub_questions:
+                # Topological sort by dependency order
+                ordered = self._topological_sort_sub_questions(sub_questions)
+
+                # Recursively solve each sub-question
+                sub_answers = {}
+                t_decompose_start = _time.time()
+                for sq in ordered:
+                    sq_id = sq.get('id', 'unknown')
+                    _log_diag(f'[V5-PlanDecompose] Solving sub-question '
+                              f'{sq_id}: {sq.get("question", "")[:80]}')
+
+                    # Build enriched question with dependency context
+                    context = self._build_sub_question_context(sq, sub_answers)
+                    enriched_q = (context + sq.get('question', '')
+                                  if context else sq.get('question', ''))
+
+                    sub_inputs = [
+                        {'type': 'image', 'value': image_path},
+                        {'type': 'text', 'value': enriched_q},
+                    ]
+
+                    sub_ret, sub_answer, sub_resp = self.generate_inner(
+                        sub_inputs, _planning_depth=planning_depth + 1, **kwargs
+                    )
+
+                    sub_answers[sq_id] = {
+                        'question': sq.get('question', ''),
+                        'answer': sub_answer if sub_ret == 0 else '',
+                        'status': 'ok' if sub_ret == 0 else 'error',
+                    }
+
+                t_decompose_elapsed = _time.time() - t_decompose_start
+
+                # Synthesize final answer from sub-question answers
+                t_synth = _time.time()
+                answer = self._synthesize_question_results(
+                    image_path, question, sub_questions, sub_answers, strategy
+                )
+                t_synth_elapsed = _time.time() - t_synth
+
+                final_status = 'success' if (
+                    answer and '<a>' in (answer or '') and '</a>' in (answer or '')
+                ) else 'planning_decompose_failed'
+                ret = 0 if answer else -1
+                resp = None
+                t_total = _time.time() - t_start
+
+                _log_diag(
+                    f'[V5-Total] status={final_status} | '
+                    f'planning_decomposed={len(sub_questions)} sub-questions | '
+                    f'S1={t1_elapsed:.0f}s S_decompose={t_decompose_elapsed:.0f}s '
+                    f'S_synth={t_synth_elapsed:.0f}s total={t_total:.0f}s'
+                )
+
+                # Write trace with decomposition info
+                self.last_trace = {
+                    'image_path': image_path,
+                    'question': question[:500],
+                    'overall_status': final_status,
+                    'total_time_s': round(t_total, 1),
+                    'planning_depth': planning_depth,
+                    'planning': {
+                        'status': 'planning_decomposed',
+                        'original_status': plan_status,
+                        'strategy': strategy or '',
+                        'n_sub_questions': len(sub_questions),
+                        'sub_questions': [
+                            {'id': sq['id'], 'question': sq['question'],
+                             'depends_on': sq.get('depends_on', [])}
+                            for sq in sub_questions
+                        ],
+                        'decompose_strategy': (
+                            sub_questions[0].get('_decompose_strategy', '')
+                            if sub_questions else ''
+                        ),
+                        'time_s': round(t1_elapsed, 1),
+                    },
+                    'executor': {
+                        'overall_status': 'planning_decomposed',
+                        'n_total': 0,
+                        'n_ok': 0,
+                        'n_error': 0,
+                        'time_s': round(t_decompose_elapsed, 1),
+                        'sub_answers': {
+                            sid: {
+                                'question': sa['question'][:200],
+                                'status': sa['status'],
+                                'answer': str(sa.get('answer', ''))[:300],
+                            }
+                            for sid, sa in sub_answers.items()
+                        },
+                    },
+                    'reasoning': {
+                        'mode': 'question_synthesis',
+                        'has_answer': '<a>' in (answer or '') and '</a>' in (answer or ''),
+                        'final_answer': (answer or '')[:2000],
+                        'time_s': round(t_synth_elapsed, 1),
+                    },
+                }
+                if self.trace_dir:
+                    self._write_trace(self.last_trace)
+
+                return ret, answer, resp
+
+        # ============================================================
+        # Stage 2: Execution (normal flow — planning succeeded)
         # ============================================================
         all_step_results = {}
         exec_status = 'success'
@@ -1905,22 +1959,6 @@ class OCRAgentV5(OpenAIWrapper):
             else:
                 summary['n_bbox_groups'] = 0
                 summary['n_bboxes'] = 0
-
-        # V5: Include decomposition info in trace
-        if data.get('decomposed'):
-            summary['decomposed'] = True
-            summary['decompose_depth'] = data.get('decompose_depth', -1)
-            sub_results = data.get('sub_results', {})
-            if sub_results:
-                summary['n_sub_steps'] = len(sub_results)
-                summary['n_sub_ok'] = sum(
-                    1 for r in sub_results.values()
-                    if r.get('status') == 'ok'
-                )
-                summary['sub_steps'] = {
-                    sid: OCRAgentV5._summarize_step_result(sr)
-                    for sid, sr in sub_results.items()
-                }
 
         return summary
 
