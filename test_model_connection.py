@@ -67,15 +67,15 @@ def crop_and_encode(img, physical_bbox, padding=60, scale_factor=3.0):
 #     api_key='ms-7ee485f4-550b-49f8-906a-216377ad5562',  # ModelScope Token
 # )
 
-client = OpenAI(
-    api_key="EMPTY",
-    base_url="http://10.3.112.34:22630/v1",
-)
-
 # client = OpenAI(
-#     api_key="sk-Sy5R85nas3TrIuwgI3oSjg",
-#     base_url="https://litellm.mybigai.ac.cn/",
+#     api_key="EMPTY",
+#     base_url="http://10.3.112.34:23220/v1",
 # )
+
+client = OpenAI(
+    api_key="sk-Sy5R85nas3TrIuwgI3oSjg",
+    base_url="https://litellm.mybigai.ac.cn/",
+)
 
 # Question0: What is the average number of the genres of movies made by directors who have worked in drama genres?  # Answer: 3.625
 # Question1: 某人购买了所有劲爆价的商品各一份，其中脉动饮料买了3瓶，那么他总共会得到多少瓶饮料？  # Answer: 58
@@ -92,7 +92,7 @@ client = OpenAI(
 # Question12: On the left chart, how many models have ever reached a Top-1 Accuracy over 80% on the K400 dataset?  # Answer: 6
 
 # 2. 指定你的本地图片路径 (请替换为你实际的图片路径，例如 "C:/images/test.jpg" 或 "./test.png")
-local_image_path = "test_case/test_images/image13.jpg"
+local_image_path = "C:\\Users\\19639\\LMUData\\images\\CharXiv_reasoning_val\\1.jpg"
 detail_image_path = "test_case/test_images/detail13.png"
 
 base64_image, orig_size, resized_size = encode_and_resize_image(local_image_path)
@@ -132,18 +132,17 @@ else:
     "Question: <q>How many are somewhat confident that Donald Trump can manage the executive branch effectively?</q>"
 
 response = client.chat.completions.create(  # type: ignore
-    model='Qwen3.5-9B',
-    temperature=0.0,
+    model='gpt-5.6-terra',
     max_tokens=12288,
     messages=[{  # type: ignore
         'role':
             'user',
         'content': [{
             'type': 'text',
-            'text': "Answer the following question within the tags <q> and </q> step-by-step. "
-                    "After presenting your reasoning, provide the final simple answer at last, "
-                    "making sure to enclose it within the tags <a> and </a> like this: <a>your answer</a>. "
-                    "Question: <q>Do consumers aged 40-45 buy the most pens?</q>",
+            'text': "What is the name of the line that is the furthest away from its fi value from the W_H axis?"
+            "* Your final answer must be grounded to some text that is explicitly written and relevant to the question in the chart."
+            "* If you need to answer multiple terms, separate them with commas."
+            "* Unless specified in the question (such as answering with a letter), you are required to answer the full names of subplots and/or labels by default.",
         },
             {
                 'type': 'image_url',
@@ -161,18 +160,16 @@ response = client.chat.completions.create(  # type: ignore
             # }
         ],
     }],
-    extra_body={
-        # "thinking_budget": 10,
-        # "max_reasoning_steps": 5,
-        "mm_processor_kwargs": {
-            "images_kwargs": {
-                "size": {
-                    "longest_edge": 8192 * 32 * 32,
-                    "shortest_edge": 4096 * 32 * 32,
-                }
-            }
-        }
-    },
+    # extra_body={
+    #     "mm_processor_kwargs": {
+    #         "images_kwargs": {
+    #             "size": {
+    #                 "longest_edge": 8192 * 32 * 32,
+    #                 "shortest_edge": 4096 * 32 * 32,
+    #             }
+    #         }
+    #     }
+    # },
     # stream=True
 )
 

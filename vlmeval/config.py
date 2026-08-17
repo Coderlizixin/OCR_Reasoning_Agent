@@ -13,6 +13,8 @@ from vlmeval.vlm.ocr_agent_v3 import OCRReasoningAgentV3
 from vlmeval.vlm.ocr_agent_v4 import OCRAgentV4
 from vlmeval.vlm.ocr_agent_v4_pseudo_plan import OCRAgentV4PseudoPlan
 from vlmeval.vlm.ocr_agent_v5 import OCRAgentV5
+from vlmeval.vlm.ocr_agent_v5_grounding import OCRAgentV5Grounding
+from vlmeval.vlm.ocr_agent_v6 import OCRAgentV6
 
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
@@ -1837,7 +1839,7 @@ supported_VLM = {
         api_base="http://10.3.112.34:22630/v1/chat/completions",
         key="sk-EMPTY",
         temperature=0.0,
-        retry=10,
+        retry=5,
         img_size=-1,
         img_detail='high',
         extra_body={
@@ -2001,6 +2003,7 @@ supported_VLM = {
         padding=60,
         scale_factor=3.0,
         oracle_mode=None,
+        include_subimages=False,
         trace_dir='test_case/reasoning_traces',
         extra_body={
             "mm_processor_kwargs": {
@@ -2154,6 +2157,58 @@ supported_VLM = {
         padding=60,
         scale_factor=3.0,
         oracle_mode='structure',
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Structure + Step QA: plan+GT值配对为QA线索（有子图版）
+    'Qwen3.5-9B-ReasoningTrace-OSTQA': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='ostqa',
+        include_subimages=True,
+        trace_dir='test_case/reasoning_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+    # Oracle Structure + Step QA — 无子图版：仅原图 + plan+answer 配对线索
+    'Qwen3.5-9B-ReasoningTrace-OSTQA-NS': partial(
+        ReasoningTraceOCRAgent,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        padding=60,
+        scale_factor=3.0,
+        oracle_mode='ostqa',
+        include_subimages=False,
         trace_dir='test_case/reasoning_traces',
         extra_body={
             "mm_processor_kwargs": {
@@ -2520,6 +2575,69 @@ supported_VLM = {
         img_detail='high',
         max_tokens=6144,
         trace_dir='test_case/v5_traces',
+        extra_body={
+            "mm_processor_kwargs": {
+                "images_kwargs": {
+                    "size": {
+                        "longest_edge": 8192 * 32 * 32,
+                        "shortest_edge": 4096 * 32 * 32,
+                    }
+                }
+            }
+        },
+    ),
+
+    'Qwen3.5-9B-OCRAgentV5-Grounding-Understanding': partial(
+            OCRAgentV5Grounding,
+            model='Qwen3.5-9B',
+            api_base='http://10.3.112.34:22630/v1/chat/completions',
+            key='sk-EMPTY',
+            temperature=0.0,
+            skip_locate=False,
+            cross_validate=True,
+            temp_planning=0.1,
+            temp_understand=0.2,
+            temp_compute=0.1,
+            temp_logical=0.1,
+            temp_reasoning=0.2,
+            retry=10,
+            img_size=-1,
+            img_detail='high',
+            max_tokens=6144,
+            trace_dir='test_case/v5_traces',
+            extra_body={
+                "mm_processor_kwargs": {
+                    "images_kwargs": {
+                        "size": {
+                            "longest_edge": 8192 * 32 * 32,
+                            "shortest_edge": 4096 * 32 * 32,
+                        }
+                    }
+                }
+            },
+        ),
+    # ================================================================
+    # OCRAgentV6 — Planning → Executor → Reasoning (V6 improvements)
+    # ================================================================
+    'Qwen3.5-9B-OCRAgentV6': partial(
+        OCRAgentV6,
+        model='Qwen3.5-9B',
+        api_base='http://10.3.112.34:22630/v1/chat/completions',
+        key='sk-EMPTY',
+        temperature=0.0,
+        skip_locate=True,
+        cross_validate=True,
+        temp_planning=0.1,
+        temp_locate=0.1,
+        temp_understand=0.2,
+        temp_compute=0.1,
+        temp_logical=0.1,
+        temp_reasoning=0.2,
+        retry=10,
+        img_size=-1,
+        img_detail='high',
+        max_tokens=6144,
+        trace_dir='test_case/v6_traces',
         extra_body={
             "mm_processor_kwargs": {
                 "images_kwargs": {

@@ -438,6 +438,7 @@ class MMLongBench(ImageBaseDataset):
         'GPT4o': (1, 1),
         'GPT4o_HIGH': (1, 1),
         'GPT4o_MINI': (1, 1),
+        'Qwen3.5-9B-API': (1, 1),
         'MiniCPM-Llama3-V-2_5': (1, 5),
         'InternVL-Chat-V1-5': (5, 2),
         'XComposer2_4KHD': (1, 5),
@@ -451,7 +452,7 @@ class MMLongBench(ImageBaseDataset):
             raise AssertionError("{} doesn't support the evaluation on MMLongBench_DOC.".format(model_name))
         super(MMLongBench, self).__init__(dataset)
 
-        self.is_api = True if listinstr(['GPT4'], model_name) else False
+        self.is_api = True if listinstr(['GPT4', 'Qwen3.5-9B-API'], model_name) else False
         self.max_pages = 120
         concat_num, column_num = self.SUPPORTED_MODELS.get(model_name)
         self.concat_num = concat_num

@@ -274,7 +274,7 @@ def main():
                     dataset = build_dataset(dataset_name, **dataset_kwargs)
                     #################### 修改部分开始 ####################
                     # 针对特定数据集注入错误子集进行 Debug
-                    if dataset_name == 'OCR_Reasoning':
+                    if dataset_name in ('OCR_Reasoning', 'OCR_Reasoning_StepQA', 'Depended_Step_Reasoning_QA'):
 
                         # 读取刚才保存的错误集 JSON 文件
                         error_list_path = r"test_case/random_indices.json"
@@ -287,7 +287,7 @@ def main():
                         # 重置 DataFrame 的索引，避免后续遍历时出现 index 错位
                         dataset.data = dataset.data.reset_index(drop=True)
                         if RANK == 0:
-                            logger.info(f"成功注入错误子集！当前待测难例数量: {len(dataset.data)}")
+                            logger.info(f"成功注入子集！当前待测样本数量 ({dataset_name}): {len(dataset.data)}")
                     ####################################################
                     if dataset is None:
                         logger.error(f'Dataset {dataset_name} is not valid, will be skipped. ')
@@ -403,7 +403,7 @@ def main():
                         judge_kwargs['model'] = 'gpt-4-turbo'
                     elif listinstr(['VGRPBench'], dataset_name):
                         judge_kwargs['model'] = 'gpt-4o'
-                    elif listinstr(['MathVista', 'MathVerse', 'MathVision', 'DynaMath', 'VL-RewardBench', 'LogicVista', 'MOAT', 'OCR_Reasoning'], dataset_name):  # noqa: E501
+                    elif listinstr(['MathVista', 'MathVerse', 'MathVision', 'DynaMath', 'VL-RewardBench', 'LogicVista', 'MOAT', 'OCR_Reasoning', 'Step_Reasoning_QA', 'Depended_Step_Reasoning_QA'], dataset_name):  # noqa: E501
                         judge_kwargs['model'] = 'gpt-4o-mini'
                     elif listinstr(['MMLongBench', 'MMDU', 'DUDE', 'SLIDEVQA', 'MIA-Bench', 'WildVision', 'MMAlignBench', 'MM-IFEval'], dataset_name):  # noqa: E501
                         judge_kwargs['model'] = 'gpt-4o'

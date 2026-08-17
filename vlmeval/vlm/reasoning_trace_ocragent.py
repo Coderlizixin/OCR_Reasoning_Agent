@@ -13,7 +13,7 @@ from vlmeval.api.gpt import OpenAIWrapper, _log_diag
 class ReasoningTraceOCRAgent(OpenAIWrapper):
     """基于 GT Reasoning Trace 的结构化引导推理 Agent。
 
-    支持四种 Oracle 模式（通过 oracle_mode 参数控制）：
+    支持五种 Oracle 模式（通过 oracle_mode 参数控制）：
 
     - oracle_mode=None (默认): 仅展示子图 + 描述，不透露 GT 值或推理步骤。
       模型自主完成"读取 → 推理 → 计算"。GT 仅用于定位关键区域。
@@ -28,6 +28,11 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
     - oracle_mode='structure': Oracle Structure 模式。
       仅展示 compute/logical 步骤框架（描述+依赖），不给 GT 值、不展示子图。
       测试：仅有推理框架引导（无视觉辅助）能否提升性能。
+
+    - oracle_mode='ostqa': Oracle Structure with Step QA 模式。
+      将每个 read 步骤的 plan 与其 GT 值配对为 QA 线索（plan→answer），
+      使推理计划与执行结果一一对应。compute/logical 步骤仅展示 plan。
+      测试：结构化 Q&A 对辅助信息能否进一步提升性能。
 
     子图控制：
       - include_subimages=True (默认): 展示 bbox 裁剪子图
@@ -47,11 +52,12 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
                        默认: test_case/reasoning_traces/
             padding: 裁剪时的边缘扩充像素。
             scale_factor: 局部图的放大倍数。
-            oracle_mode: None | 'values' | 'reasoning' | 'structure'
+            oracle_mode: None | 'values' | 'reasoning' | 'structure' | 'ostqa'
                         None: 仅子图+描述，不透露 GT 值
                         'values': 子图+描述+GT read 值作为文本
                         'reasoning': 子图+GT值+compute 步骤结构
                         'structure': 仅 compute/logical 步骤框架（无 GT 值、无子图）
+                        'ostqa': 每个 read 步骤的 plan+GT值配对为 QA 线索
             include_subimages: 是否包含 bbox 裁剪子图。默认 True。
         """
         super().__init__(**kwargs)
@@ -194,6 +200,7 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
         oracle_mode=None: 仅子图+描述，模型自主读值+推理
         oracle_mode='values': 子图+描述+GT读值文本，模型只需推理计算
         oracle_mode='reasoning': 子图+GT值+compute步骤结构，模型按框架计算
+        oracle_mode='ostqa': plan+GT值配对为QA线索，一一对应
         """
         import time as _time
         _t_start = _time.time()
@@ -235,7 +242,7 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
         valid_read_steps = []
         for s in read_steps:
             bbox_norm = s.get('bbox_norm', [])
-            if len(bbox_norm) == 4 or self.oracle_mode in ('values', 'reasoning', 'structure'):
+            if len(bbox_norm) == 4 or self.oracle_mode in ('values', 'reasoning', 'structure', 'ostqa'):
                 # Oracle 模式下即使没有 bbox 也保留（值来自 GT，不依赖子图）
                 valid_read_steps.append(s)
 
@@ -294,6 +301,13 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             all_steps = valid_read_steps + compute_steps + logical_steps
             prompt_text = self._build_structure_prompt(
                 original_question, all_steps)
+        elif self.oracle_mode == 'ostqa':
+            # 合并所有步骤（read + compute + logical）为统一顺序列表
+            # read 步骤：plan + GT answer 配对；compute 步骤：仅 plan
+            all_steps = valid_read_steps + compute_steps + logical_steps
+            prompt_text = self._build_ostqa_prompt(
+                original_question, all_steps,
+                include_subimages=self.include_subimages)
         else:
             prompt_text = self._build_default_prompt(
                 original_question, valid_read_steps, include_subimages=self.include_subimages)
@@ -546,6 +560,102 @@ class ReasoningTraceOCRAgent(OpenAIWrapper):
             f"  FINAL_ANSWER: <your answer>\n\n"
             f"IMPORTANT: The plan above is a guide, not a script. Read the values "
             f"yourself, then follow the reasoning structure.\n"
+            f"Output the final answer in the format requested by the original question."
+        )
+
+    @staticmethod
+    def _build_ostqa_prompt(question, all_steps, include_subimages=True):
+        """Oracle Structure with Step QA 模式：原图 + (可选)子图 + 配对 plan→answer 线索。
+
+        每个 read 步骤展示为 "Task → Verified Answer" 的 QA 对，
+        compute/logical 步骤展示为需要执行的 plan。
+        plan 和 GT 值一一对应，消除分离列表的匹配负担。
+
+        目的：测试结构化 Q&A 对是否比分离的 plan + value 列表更有效。
+
+        all_steps: 合并后的所有步骤（read + compute + logical），按 step_id 排序。
+        """
+        if not all_steps:
+            return (
+                f"You are solving a visual reasoning problem.\n\n"
+                f"=== QUESTION ===\n{question}\n\n"
+                f"=== INSTRUCTIONS ===\n"
+                f"1. Carefully examine the image to find all relevant values.\n"
+                f"2. Plan and execute your calculations step by step.\n"
+                f"3. Show your work clearly.\n"
+                f"4. At the VERY END of your response, output:\n"
+                f"   FINAL_ANSWER: <your answer>\n\n"
+                f"Output the final answer in the format requested by the original question."
+            )
+
+        # Build structured clue blocks
+        clue_blocks = []
+        for s in sorted(all_steps, key=lambda x: x['step_id']):
+            sid = s['step_id']
+            stype = s.get('type', 'read')
+            plan_text = ReasoningTraceOCRAgent._get_step_plan(s)
+            deps = s.get('depends_on', [])
+
+            if stype == 'read':
+                # read 步骤：plan + GT answer 配对
+                val = s.get('expected_value', '?')
+                unit = s.get('expected_unit', '')
+                unit_str = f' ({unit})' if unit else ''
+                answer_text = f'{val}{unit_str}'
+
+                clue_blocks.append(
+                    f'  Step {sid}:\n'
+                    f'    Task: {plan_text}\n'
+                    f'    Verified Answer: **{answer_text}**'
+                )
+            else:
+                # compute / logical 步骤：仅 plan（无 GT 答案）
+                type_label = 'Compute' if stype == 'compute' else 'Logical reasoning'
+                if deps:
+                    clue_blocks.append(
+                        f'  Step {sid}:\n'
+                        f'    Task: {plan_text}\n'
+                        f'    ({type_label} — using results from steps {deps})'
+                    )
+                else:
+                    clue_blocks.append(
+                        f'  Step {sid}:\n'
+                        f'    Task: {plan_text}\n'
+                        f'    ({type_label})'
+                    )
+
+        clues_section = (
+            "=== VERIFIED CLUES (plan + answer pairs — CORRECT, do NOT verify) ===\n"
+            + "\n".join(clue_blocks) + "\n"
+        )
+
+        anti_loop_ostqa = (
+            "CRITICAL: Do NOT examine or describe the image. Do NOT discuss "
+            "chart colors, legends, or visual layout. "
+            "This is a pure computation task — use ONLY the given clues.\n"
+        ) if not include_subimages else ""
+
+        return (
+            f"You are solving a visual reasoning problem. A step-by-step "
+            f"reasoning guide with pre-verified answers for each reading step "
+            f"is provided below.\n\n"
+            f"=== QUESTION ===\n{question}\n\n"
+            f"{clues_section}\n"
+            f"=== CRITICAL RULES ===\n"
+            f"{anti_loop_ostqa}"
+            f"- Each 'Verified Answer' above is CORRECT. Do NOT check against the image.\n"
+            f"  Do NOT discuss chart colors, legends, or visual details.\n"
+            f"- Follow the steps in order. Use each verified answer where its "
+            f"step's result is needed by later steps.\n"
+            f"- For 'Compute' / 'Logical reasoning' steps, execute the "
+            f"calculation or judgment using the verified answers from previous steps.\n"
+            f"- Show your work clearly — reference the step numbers when you "
+            f"use each value.\n"
+            f"- Be concise — focus on the computation, not on visual description.\n"
+            f"- At the VERY END of your response, output:\n"
+            f"  FINAL_ANSWER: <your answer>\n\n"
+            f"IMPORTANT: This is a computation test. The values and plan are given.\n"
+            f"Just follow the plan, compute, and output the answer.\n"
             f"Output the final answer in the format requested by the original question."
         )
 

@@ -14,7 +14,6 @@ Stage 3 - Reasoning:    text-only synthesis — trusts visual observations as FA
                         Uses JSON Schema output (P2-8).
 
 Key V5 changes:
-  - Planning-layer question decomposition on planning failure.
   - Planning prompt relaxed — no longer forces atomic steps.
   - Cross-validation enabled for top-level steps.
 
@@ -22,7 +21,7 @@ Error handling:
   - planning_parse_failed       — JSON parse error after all retries
   - planning_api_failed         — API call failed after all retries
   - planning_invalid_failed     — plan is structurally invalid after all retries
-  - planning_decompose_failed   — question decomposition failed
+
   - grounding_locate_failed     — locate phase failed
   - grounding_understand_failed — understand phase failed
   - transcribe_failed           — transcribe step failed
@@ -141,29 +140,6 @@ REASONING_SCHEMA = {
     "required": ["reasoning", "answer"]
 }
 
-# V5: Planning-layer decomposition schema
-PLANNING_DECOMPOSE_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "strategy": {"type": "string"},
-        "sub_questions": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "id": {"type": "string"},
-                    "question": {"type": "string"},
-                    "depends_on": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    }
-                },
-                "required": ["id", "question", "depends_on"]
-            }
-        }
-    },
-    "required": ["strategy", "sub_questions"]
-}
 
 # ============================================================================
 # System Prompts
@@ -381,77 +357,14 @@ You MUST output a JSON object with two fields:
 {{"reasoning": "your step-by-step reasoning", "answer": "your final answer"}}"""
 
 # V5: Planning-layer decomposition prompts
-PLANNING_DECOMPOSE_PROMPT = """You are a question decomposer. A visual reasoning question is too complex for the planner to handle — it failed to produce a valid execution plan. Your job is to break the original question into 2-3 simpler sub-questions.
 
-## Original Question
-{question}
 
-## Planning Error
-{error_msg}
-
-## Instructions
-
-The planner failed because the question likely involves multiple independent logical units that cannot be planned together. Break it down using **semantic decomposition** — each sub-question should address ONE distinct logical unit:
-
-1. Identify the core logical steps needed to answer the original question.
-2. Turn each logical step into a self-contained sub-question.
-3. If sub-questions depend on each other, encode the dependency in `depends_on`.
-
-## Decomposition Examples
-
-**Example 1 — Numerical comparison:**
-Original: "Which product had the highest sales growth from 2020 to 2021?"
-Sub-questions:
-- sq_1: "What were the sales of each product in 2020?" (depends_on: [])
-- sq_2: "What were the sales of each product in 2021?" (depends_on: [])
-- sq_3: "Based on the 2020 and 2021 sales data, which product had the highest growth rate?" (depends_on: ["sq_1", "sq_2"])
-
-**Example 2 — Multi-step math problem:**
-Original: "According to the table, what is the average score of students who passed both exams?"
-Sub-questions:
-- sq_1: "List all students and their scores for both exams from the table." (depends_on: [])
-- sq_2: "Based on the scores, identify which students passed both exams, and compute their average score." (depends_on: ["sq_1"])
-
-**Example 3 — Spatial/layout reasoning:**
-Original: "What is the distance between the two farthest buildings on the map?"
-Sub-questions:
-- sq_1: "Identify and read the coordinates or positions of all buildings shown on the map." (depends_on: [])
-- sq_2: "Based on the building positions, calculate which two are farthest apart and what the distance is." (depends_on: ["sq_1"])
-
-## Rules
-1. Output 2-3 sub-questions. Each sub-question must be SIMPLER than the original.
-2. `depends_on` should reference sub-question IDs that must be answered FIRST.
-3. Sub-questions with empty `depends_on` can be answered independently (in parallel).
-4. Each sub-question should be a single clear question, not a task description.
-5. Use IDs like `sq_1`, `sq_2`, `sq_3`.
-
-## Output Format
-{{"strategy": "brief explanation of your decomposition approach", "sub_questions": [{{"id": "sq_1", "question": "...", "depends_on": []}}, {{"id": "sq_2", "question": "...", "depends_on": ["sq_1"]}}]}}"""
-
-QUESTION_SYNTHESIZE_PROMPT = """You are a final answer synthesizer. A complex question was broken into sub-questions, each answered independently. Your job is to combine these sub-answers into ONE final answer to the original question.
-
-## Original Question
-{original_question}
-
-## Sub-questions and Their Answers
-{sub_results_text}
-
-## Rules
-1. Combine the sub-answers to produce a direct, concise answer to the ORIGINAL question.
-2. The image shown is for LAYOUT REFERENCE ONLY — to verify consistency across sub-answers. Do NOT extract new information from it.
-3. If sub-answers contradict each other, use your best judgment to resolve the discrepancy.
-4. If some sub-questions failed, work with what you have and give the best possible answer.
-5. Provide a step-by-step reasoning, then the final answer.
-
-## Output Format
-You MUST output: {{"reasoning": "your step-by-step synthesis reasoning", "answer": "your final answer"}}"""
 
 
 # ============================================================================
 # Constants
 # ============================================================================
 MAX_ATTEMPTS = 3  # total attempts per stage/step (1 initial + 2 retries)
-MAX_PLANNING_DECOMPOSE_DEPTH = 2  # max recursion depth for planning-level decomposition
 
 
 # ============================================================================
@@ -871,204 +784,6 @@ class OCRAgentV5(OpenAIWrapper):
                 overall_status = self._step_error_status(step, result_data)
 
         return all_results, overall_status
-
-    # ------------------------------------------------------------------
-    # V5: Planning-layer decomposition (replaces failed planning with sub-question DAG)
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _topological_sort_sub_questions(sub_questions):
-        """Sort sub-questions in topological order based on depends_on."""
-        sorted_ids = []
-        remaining = list(sub_questions)
-        id_set = {sq['id'] for sq in sub_questions}
-
-        while remaining:
-            # Find a sub-question whose deps are all satisfied
-            ready = None
-            for sq in remaining:
-                deps = [d for d in sq.get('depends_on', []) if d in id_set]
-                if all(d in sorted_ids for d in deps):
-                    ready = sq
-                    break
-
-            if ready is None:
-                # Cycle or broken dep — just take the next one
-                ready = remaining[0]
-
-            sorted_ids.append(ready['id'])
-            remaining.remove(ready)
-
-        # Return in sorted order
-        result = []
-        for sid in sorted_ids:
-            for sq in sub_questions:
-                if sq['id'] == sid:
-                    result.append(sq)
-                    break
-        return result
-
-    @staticmethod
-    def _build_sub_question_context(sub_question, sub_answers):
-        """Build a context string from dependency sub-question answers."""
-        dep_ids = sub_question.get('depends_on', [])
-        if not dep_ids:
-            return ""
-
-        lines = ["The following information has already been determined:\n"]
-        for dep_id in dep_ids:
-            dep_data = sub_answers.get(dep_id, {})
-            dep_q = dep_data.get('question', dep_id)
-            dep_answer = dep_data.get('answer', '(not available)')
-            status = dep_data.get('status', 'unknown')
-            if status == 'ok':
-                # Extract answer from <a> tags if present
-                answer_text = dep_answer
-                if '<a>' in answer_text and '</a>' in answer_text:
-                    start = answer_text.index('<a>') + 3
-                    end = answer_text.index('</a>')
-                    answer_text = answer_text[start:end].strip()
-                lines.append(f"- Sub-question [{dep_id}]: {dep_q}\n  Answer: {answer_text}\n")
-            else:
-                lines.append(f"- Sub-question [{dep_id}]: {dep_q}\n  FAILED\n")
-
-        lines.append("Use the above information to answer the following question.\n")
-        return "\n".join(lines)
-
-    def _decompose_question(self, image_path, question, plan_text, strategy=''):
-        """Decompose a failed planning into 2-3 sub-questions.
-
-        Uses semantic decomposition (Strategy A): break the question
-        into independent logical units that can each be planned separately.
-        """
-        _log_diag('[V5-PlanDecompose] Decomposing question (planning failed)')
-
-        error_msg = (plan_text or 'Planning produced no output')[:500]
-
-        prompt_text = PLANNING_DECOMPOSE_PROMPT.format(
-            question=question,
-            error_msg=error_msg,
-        )
-
-        messages = [
-            {'type': 'text', 'value': prompt_text},
-            {'type': 'image', 'value': image_path},
-        ]
-
-        saved_sp = self.agent.system_prompt
-        self.agent.system_prompt = ""
-        try:
-            ret, text, _ = self._api_call(
-                messages,
-                schema=PLANNING_DECOMPOSE_SCHEMA,
-                with_image_processor=True,
-                temperature=self.temp_planning,
-            )
-        finally:
-            self.agent.system_prompt = saved_sp
-
-        if ret != 0 or not text:
-            _log_diag('[V5-PlanDecompose] API failed')
-            return None, 'decompose_api_failed'
-
-        obj, err = self._parse_json(text, PLANNING_DECOMPOSE_SCHEMA)
-        if obj is None or 'sub_questions' not in obj:
-            _log_diag(f'[V5-PlanDecompose] Parse failed: {err}')
-            return None, 'decompose_parse_failed'
-
-        sub_questions = obj['sub_questions']
-        if not sub_questions or len(sub_questions) < 1:
-            _log_diag('[V5-PlanDecompose] Empty sub_questions')
-            return None, 'decompose_empty'
-
-        # Validate and normalize
-        for sq in sub_questions:
-            if 'id' not in sq:
-                sq['id'] = f'sq_{sub_questions.index(sq) + 1}'
-            if 'question' not in sq:
-                sq['question'] = ''
-            if 'depends_on' not in sq:
-                sq['depends_on'] = []
-
-        # Filter depends_on to only reference valid sub-question IDs
-        valid_ids = {sq['id'] for sq in sub_questions}
-        for sq in sub_questions:
-            sq['depends_on'] = [d for d in sq.get('depends_on', []) if d in valid_ids]
-
-        decomp_strategy = obj.get('strategy', '')
-        _log_diag(f'[V5-PlanDecompose] Got {len(sub_questions)} sub-questions: '
-                  f'{[sq["id"] for sq in sub_questions]}, strategy={decomp_strategy[:80]}')
-        return sub_questions, 'success'
-
-    def _synthesize_question_results(self, image_path, original_question,
-                                     sub_questions, sub_answers, strategy=''):
-        """Synthesize sub-question answers into a final answer for the original question.
-
-        Shows the original image for layout reference only.
-        """
-        _log_diag('[V5-QuestionSynthesize] Synthesizing sub-question answers')
-
-        # Build sub-results text
-        lines = []
-        for sq in sub_questions:
-            sid = sq.get('id', 'unknown')
-            sq_text = sq.get('question', '')
-            data = sub_answers.get(sid, {})
-            status = data.get('status', 'unknown')
-            answer = data.get('answer', '')
-            if status == 'ok':
-                lines.append(f"[{sid}]: {sq_text}\nAnswer: {answer}\n")
-            else:
-                lines.append(f"[{sid}]: {sq_text}\nFAILED\n")
-        sub_results_text = "\n".join(lines) if lines else "(No sub-question results)"
-
-        prompt_text = QUESTION_SYNTHESIZE_PROMPT.format(
-            original_question=original_question,
-            sub_results_text=sub_results_text,
-        )
-
-        messages = [
-            {'type': 'text', 'value': prompt_text},
-            {'type': 'image', 'value': image_path},
-        ]
-
-        saved_sp = self.agent.system_prompt
-        self.agent.system_prompt = ""
-        try:
-            ret, text, _ = self._api_call(
-                messages,
-                schema=REASONING_SCHEMA,  # {"reasoning": "...", "answer": "..."}
-                with_image_processor=True,
-                temperature=self.temp_reasoning,
-            )
-        finally:
-            self.agent.system_prompt = saved_sp
-
-        if ret != 0 or not text:
-            _log_diag('[V5-QuestionSynthesize] API failed')
-            # Fallback: concatenate sub-answers
-            fallback_parts = []
-            for sq in sub_questions:
-                sid = sq.get('id', '')
-                data = sub_answers.get(sid, {})
-                answer = data.get('answer', '')
-                if '<a>' in answer:
-                    start = answer.index('<a>') + 3
-                    end = answer.index('</a>')
-                    fallback_parts.append(answer[start:end].strip())
-            fallback = ", ".join(fallback_parts) if fallback_parts else "Unable to synthesize"
-            return fallback
-
-        obj, err = self._parse_json(text, REASONING_SCHEMA)
-        if obj is None:
-            _log_diag(f'[V5-QuestionSynthesize] Parse failed: {err}')
-            return text or ''
-
-        reasoning = obj.get('reasoning', '')
-        answer = obj.get('answer', '')
-        formatted = f"{reasoning}\n\n<a>{answer}</a>"
-        _log_diag(f'[V5-QuestionSynthesize] OK, answer={answer[:100]}')
-        return formatted
 
     # ------------------------------------------------------------------
     # Image Overview (provides reasoning stage with big-picture context)
@@ -1695,16 +1410,9 @@ class OCRAgentV5(OpenAIWrapper):
     # ------------------------------------------------------------------
 
     def generate_inner(self, inputs, **kwargs):
-        """Main inference pipeline with planning-layer recursive decomposition.
-
-        On planning failure: decompose question into sub-questions, solve each
-        recursively, then synthesize final answer (max depth 2).
-        """
+        """Main inference pipeline: Planning → Executor → Reasoning."""
         import time as _time
         t_start = _time.time()
-
-        # Extract internal recursion parameter (not passed by framework)
-        planning_depth = kwargs.pop('_planning_depth', 0)
 
         image_path = None
         question = ""
@@ -1726,123 +1434,6 @@ class OCRAgentV5(OpenAIWrapper):
         t1 = _time.time()
         steps, plan_status, plan_text, strategy = self._planning(image_path, question)
         t1_elapsed = _time.time() - t1
-
-        # ============================================================
-        # V5: Planning-layer decomposition on planning failure
-        # ============================================================
-        if (plan_status != 'success'
-                and planning_depth < MAX_PLANNING_DECOMPOSE_DEPTH):
-            _log_diag(f'[V5-PlanDecompose] Planning failed (status={plan_status}, '
-                      f'depth={planning_depth}), attempting question decomposition')
-
-            sub_questions, decomp_status = self._decompose_question(
-                image_path, question, plan_text, strategy
-            )
-
-            if sub_questions:
-                # Topological sort by dependency order
-                ordered = self._topological_sort_sub_questions(sub_questions)
-
-                # Recursively solve each sub-question
-                sub_answers = {}
-                t_decompose_start = _time.time()
-                for sq in ordered:
-                    sq_id = sq.get('id', 'unknown')
-                    _log_diag(f'[V5-PlanDecompose] Solving sub-question '
-                              f'{sq_id}: {sq.get("question", "")[:80]}')
-
-                    # Build enriched question with dependency context
-                    context = self._build_sub_question_context(sq, sub_answers)
-                    enriched_q = (context + sq.get('question', '')
-                                  if context else sq.get('question', ''))
-
-                    sub_inputs = [
-                        {'type': 'image', 'value': image_path},
-                        {'type': 'text', 'value': enriched_q},
-                    ]
-
-                    sub_ret, sub_answer, sub_resp = self.generate_inner(
-                        sub_inputs, _planning_depth=planning_depth + 1, **kwargs
-                    )
-
-                    sub_answers[sq_id] = {
-                        'question': sq.get('question', ''),
-                        'answer': sub_answer if sub_ret == 0 else '',
-                        'status': 'ok' if sub_ret == 0 else 'error',
-                    }
-
-                t_decompose_elapsed = _time.time() - t_decompose_start
-
-                # Synthesize final answer from sub-question answers
-                t_synth = _time.time()
-                answer = self._synthesize_question_results(
-                    image_path, question, sub_questions, sub_answers, strategy
-                )
-                t_synth_elapsed = _time.time() - t_synth
-
-                final_status = 'success' if (
-                    answer and '<a>' in (answer or '') and '</a>' in (answer or '')
-                ) else 'planning_decompose_failed'
-                ret = 0 if answer else -1
-                resp = None
-                t_total = _time.time() - t_start
-
-                _log_diag(
-                    f'[V5-Total] status={final_status} | '
-                    f'planning_decomposed={len(sub_questions)} sub-questions | '
-                    f'S1={t1_elapsed:.0f}s S_decompose={t_decompose_elapsed:.0f}s '
-                    f'S_synth={t_synth_elapsed:.0f}s total={t_total:.0f}s'
-                )
-
-                # Write trace with decomposition info
-                self.last_trace = {
-                    'image_path': image_path,
-                    'question': question[:500],
-                    'overall_status': final_status,
-                    'total_time_s': round(t_total, 1),
-                    'planning_depth': planning_depth,
-                    'planning': {
-                        'status': 'planning_decomposed',
-                        'original_status': plan_status,
-                        'strategy': strategy or '',
-                        'n_sub_questions': len(sub_questions),
-                        'sub_questions': [
-                            {'id': sq['id'], 'question': sq['question'],
-                             'depends_on': sq.get('depends_on', [])}
-                            for sq in sub_questions
-                        ],
-                        'decompose_strategy': (
-                            sub_questions[0].get('_decompose_strategy', '')
-                            if sub_questions else ''
-                        ),
-                        'time_s': round(t1_elapsed, 1),
-                    },
-                    'executor': {
-                        'overall_status': 'planning_decomposed',
-                        'n_total': 0,
-                        'n_ok': 0,
-                        'n_error': 0,
-                        'time_s': round(t_decompose_elapsed, 1),
-                        'sub_answers': {
-                            sid: {
-                                'question': sa['question'][:200],
-                                'status': sa['status'],
-                                'answer': str(sa.get('answer', ''))[:300],
-                            }
-                            for sid, sa in sub_answers.items()
-                        },
-                    },
-                    'reasoning': {
-                        'mode': 'question_synthesis',
-                        'has_answer': '<a>' in (answer or '') and '</a>' in (answer or ''),
-                        'final_answer': (answer or '')[:2000],
-                        'time_s': round(t_synth_elapsed, 1),
-                    },
-                }
-                if self.trace_dir:
-                    self._write_trace(self.last_trace)
-
-                return ret, answer, resp
 
         # ============================================================
         # Stage 2: Execution (normal flow — planning succeeded)

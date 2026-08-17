@@ -14,6 +14,7 @@ from .image_vqa import (
     CustomVQADataset, CRPE, MathVerse, OlympiadBench, QSpatial, VizWiz, MMNIAH, LogicVista, MME_CoT,
     MMSci_Captioning, Physics_yale, TDBenchGrounding, WildDocBenchmark, OCR_Reasoning
 )
+from .step_reasoning_qa import Step_Reasoning_QA, OCR_Reasoning_StepQA, Depended_Step_Reasoning_QA
 
 from .image_ccocr import CCOCRDataset
 from .image_shortqa import ImageShortQADataset, PathVQA_VAL, PathVQA_TEST
@@ -161,7 +162,8 @@ IMAGE_DATASET = [
     VLM2Bench, VMCBenchDataset, EMMADataset, MME_CoT, MOAT, MedXpertQA_MM_test,
     LEGO, MMSci_Captioning, Physics_yale, MMIFEval, Spatial457, VisuLogic, CVBench,
     CMMU_MCQ, PathVQA_VAL, PathVQA_TEST, PathMMU_VAL, PathMMU_TEST, TDBench, TDBenchGrounding,
-    MicroVQA, MicroBench, CharXiv, OmniMedVQA, WildDocBenchmark, MSEarthMCQ, OCR_Reasoning
+    MicroVQA, MicroBench, CharXiv, OmniMedVQA, WildDocBenchmark, MSEarthMCQ, OCR_Reasoning,
+    Step_Reasoning_QA, OCR_Reasoning_StepQA, Depended_Step_Reasoning_QA
 ]
 
 
