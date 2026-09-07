@@ -1,0 +1,114 @@
+{
+  "experiment": "H2 multi-step grounding engineering smoke",
+  "runner_version": "h2-grounding-v1",
+  "model": "Qwen3.5-9B",
+  "indices": [1, 17, 8, 244, 346],
+  "token_budget_per_model_call": 12288,
+  "thinking_disabled": false,
+  "temperature_explicitly_set": false,
+  "all_final_runs_complete": true,
+  "all_final_runs_request_failure_count": 0,
+  "runs": [
+    {
+      "mode": "single",
+      "run_directory": "Qwen3.5-9B/single__h2-grounding-v1-12288-final",
+      "samples": 5,
+      "valid_samples": 5,
+      "step_calls_or_imports": 5,
+      "step_level_failures": 0,
+      "union_bbox_count": 33,
+      "token_total": 54470,
+      "latency_seconds": null,
+      "latency_note": "unavailable in the imported frozen v4 single-pass artifact",
+      "spatial_diagnostic_iou_0_5": {
+        "macro_necessary_recall": 0.19333333333333333,
+        "macro_precision": 0.24,
+        "complete_evidence_rate": 0.0,
+        "mean_pred_union_area_ratio": 0.0817554
+      }
+    },
+    {
+      "mode": "repeated-single",
+      "run_directory": "Qwen3.5-9B/repeated-single-2x__h2-grounding-v1-12288",
+      "samples": 5,
+      "valid_samples": 5,
+      "step_calls_or_imports": 10,
+      "step_level_failures": 0,
+      "union_bbox_count": 59,
+      "token_total": 102224,
+      "latency_seconds": 967.76,
+      "scientific_comparison_ready": false,
+      "scientific_comparison_note": "engineering smoke used two calls per question; formal control must use --repeat-counts-from to match predicted-plan calls per question",
+      "spatial_diagnostic_iou_0_5": {
+        "macro_necessary_recall": 0.2969047619047619,
+        "macro_precision": 0.21343434343434342,
+        "complete_evidence_rate": 0.0,
+        "mean_pred_union_area_ratio": 0.16076000000000001
+      }
+    },
+    {
+      "mode": "predicted-plan",
+      "run_directory": "Qwen3.5-9B/predicted-plan__h2-grounding-v1-12288",
+      "samples": 5,
+      "valid_samples": 5,
+      "step_calls_or_imports": 24,
+      "step_level_failures": 2,
+      "step_failure_details": [
+        {"index": 1, "step_id": "s3", "status": "parse_failed", "finish_reason": "stop"},
+        {"index": 244, "step_id": "s6", "status": "truncated", "finish_reason": "length"}
+      ],
+      "union_bbox_count": 122,
+      "token_total": 222438,
+      "latency_seconds": 1929.94,
+      "spatial_diagnostic_iou_0_5": {
+        "macro_necessary_recall": 0.439047619047619,
+        "macro_precision": 0.14773626373626375,
+        "complete_evidence_rate": 0.0,
+        "mean_pred_union_area_ratio": 0.355588
+      }
+    },
+    {
+      "mode": "reviewed-plan",
+      "run_directory": "Qwen3.5-9B/reviewed-plan-engineering__h2-grounding-v1-12288",
+      "review_file": "reviewed_plans_engineering_smoke.json",
+      "review_scope": "engineering_smoke_only_not_for_scientific_results",
+      "samples": 5,
+      "valid_samples": 5,
+      "step_calls_or_imports": 23,
+      "step_level_failures": 1,
+      "step_failure_details": [
+        {"index": 17, "step_id": "s1", "status": "truncated", "finish_reason": "length"}
+      ],
+      "union_bbox_count": 214,
+      "token_total": 209990,
+      "latency_seconds": 1825.53,
+      "spatial_diagnostic_iou_0_5": {
+        "macro_necessary_recall": 0.5333333333333333,
+        "macro_precision": 0.14049699491447065,
+        "complete_evidence_rate": 0.2,
+        "mean_pred_union_area_ratio": 0.339072
+      }
+    }
+  ],
+  "evaluator_compatibility": {
+    "loader": "rig_eval.core.load_predictions",
+    "loaded_indices_for_every_run": [1, 8, 17, 244, 346],
+    "status": "passed"
+  },
+  "visual_checks": {
+    "checked": [
+      "repeated-single index 1",
+      "predicted-plan index 244",
+      "reviewed-plan index 346"
+    ],
+    "coordinate_alignment": "passed",
+    "observation": "boxes land on visible chart content; predicted/reviewed unions also show substantial over-grounding"
+  },
+  "diagnostic_runs_not_for_comparison": [
+    {
+      "run_directory": "Qwen3.5-9B/predicted-plan__h2-grounding-v1",
+      "reason": "initial 3072/4096 planner/step budgets caused JSON truncation; retained and superseded by the 12288 run"
+    }
+  ],
+  "interpretation": "The smoke validates the engineering pipeline, not an H2 scientific conclusion. Spatial-only recall rises with additional/decomposed calls, while precision falls and selected area grows. Formal H2 must use semantic decisions and a repeated-single control matched to predicted step counts."
+}

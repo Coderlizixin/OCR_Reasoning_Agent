@@ -1,0 +1,199 @@
+{
+  "experiment": "H2 27B five-question adaptive-gate reviewed comparison",
+  "indices": [
+    1,
+    17,
+    8,
+    244,
+    346
+  ],
+  "semantic_policy": "overlap_review",
+  "adjudications": {
+    "repeated-single@6": {
+      "protocol": "H2 five-question overlap-review adjudication v1",
+      "indices_with_manual_review": [
+        1,
+        8,
+        244
+      ],
+      "source_material": [
+        "GT description",
+        "prediction description",
+        "GT/prediction bbox",
+        "source image"
+      ],
+      "decision_rule": "True only for the same necessary semantic clue. Wrong-series overlaps, label/point substitutions, and a single curve substituted for a required full curve set are false. A controlled subplot region covering the complete named curve set is semantically accepted and separately penalized by area.",
+      "candidate_count": 131,
+      "candidate_key_sha256": "866a132858299983ae7eed7b6af5688f290068194fc40f41ac39c79c68876a84",
+      "true_count": 113,
+      "false_count": 18,
+      "pending_count": 0
+    },
+    "static-question-plan@6": {
+      "protocol": "H2 five-question overlap-review adjudication v1",
+      "indices_with_manual_review": [
+        1,
+        8,
+        244
+      ],
+      "source_material": [
+        "GT description",
+        "prediction description",
+        "GT/prediction bbox",
+        "source image"
+      ],
+      "decision_rule": "True only for the same necessary semantic clue. Wrong-series overlaps, label/point substitutions, and a single curve substituted for a required full curve set are false. A controlled subplot region covering the complete named curve set is semantically accepted and separately penalized by area.",
+      "candidate_count": 63,
+      "candidate_key_sha256": "4ce6efb2812da6b549a138d877e6fef94dc5e3fd6a9251eee8e9055feda641b2",
+      "true_count": 57,
+      "false_count": 6,
+      "pending_count": 0
+    }
+  },
+  "runs": {
+    "repeated-single@6": {
+      "n_samples": 5,
+      "mean_pred_count": 58.4,
+      "mean_pred_union_area_ratio": 0.2911072,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.8002380952380952,
+          "micro_necessary_recall": 0.8163265306122449,
+          "macro_precision": 0.14115036610558998,
+          "macro_f1": 0.2392853658060613,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.8192857142857143
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.674047619047619,
+          "micro_necessary_recall": 0.7346938775510204,
+          "macro_precision": 0.11832449545882381,
+          "macro_f1": 0.2006893949742729,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.674047619047619
+        }
+      }
+    },
+    "static-question-plan@6": {
+      "n_samples": 5,
+      "mean_pred_count": 34.8,
+      "mean_pred_union_area_ratio": 0.5312903999999999,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.7592857142857142,
+          "micro_necessary_recall": 0.7959183673469388,
+          "macro_precision": 0.28003318250377074,
+          "macro_f1": 0.38656387304085515,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.7688095238095238
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.6038095238095238,
+          "micro_necessary_recall": 0.5918367346938775,
+          "macro_precision": 0.2181659125188537,
+          "macro_f1": 0.30350760705620045,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.6038095238095238
+        }
+      }
+    }
+  },
+  "primary_delta_static_minus_repeated": {
+    "macro_necessary_recall": -0.04095238095238096,
+    "macro_precision": 0.13888281639818076,
+    "macro_f1": 0.14727850723479385
+  },
+  "paired_primary_analysis": {
+    "profile": "match_at_0.3",
+    "paired_unit": "question",
+    "per_question": [
+      {
+        "index": 1,
+        "repeated_single": 0.9,
+        "static_question_plan": 0.6,
+        "delta_static_minus_repeated": -0.30000000000000004
+      },
+      {
+        "index": 8,
+        "repeated_single": 0.875,
+        "static_question_plan": 0.875,
+        "delta_static_minus_repeated": 0.0
+      },
+      {
+        "index": 17,
+        "repeated_single": 0.6666666666666666,
+        "static_question_plan": 0.6666666666666666,
+        "delta_static_minus_repeated": 0.0
+      },
+      {
+        "index": 244,
+        "repeated_single": 0.8095238095238095,
+        "static_question_plan": 0.9047619047619048,
+        "delta_static_minus_repeated": 0.09523809523809523
+      },
+      {
+        "index": 346,
+        "repeated_single": 0.75,
+        "static_question_plan": 0.75,
+        "delta_static_minus_repeated": 0.0
+      }
+    ],
+    "mean_delta": -0.04095238095238096,
+    "bootstrap": {
+      "method": "paired question-level percentile bootstrap",
+      "resamples": 10000,
+      "seed": 20260903,
+      "confidence_level": 0.95,
+      "interval": [
+        -0.18000000000000002,
+        0.05714285714285714
+      ]
+    }
+  },
+  "costs": {
+    "repeated_single_grounding": {
+      "calls": 30,
+      "valid_calls": 30,
+      "prompt_tokens": 136968,
+      "completion_tokens": 98026,
+      "total_tokens": 234994,
+      "elapsed_seconds": 3076.5448223000276
+    },
+    "static_question_planning": {
+      "calls": 5,
+      "valid_calls": 5,
+      "prompt_tokens": 2619,
+      "completion_tokens": 23724,
+      "total_tokens": 26343,
+      "elapsed_seconds": 741.2056407000055
+    },
+    "static_question_grounding": {
+      "calls": 30,
+      "valid_calls": 30,
+      "prompt_tokens": 135358,
+      "completion_tokens": 76454,
+      "total_tokens": 211812,
+      "elapsed_seconds": 2428.204485400114
+    },
+    "static_question_total": {
+      "calls": 35,
+      "valid_calls": 35,
+      "prompt_tokens": 137977,
+      "completion_tokens": 100178,
+      "total_tokens": 238155,
+      "elapsed_seconds": 3169.4101261001197
+    },
+    "image_calls": {
+      "repeated-single@6": 30,
+      "static-question-plan@6": 30
+    }
+  }
+}

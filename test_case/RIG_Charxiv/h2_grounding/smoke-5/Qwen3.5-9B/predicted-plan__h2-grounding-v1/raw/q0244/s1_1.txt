@@ -1,0 +1,200 @@
+Based on the provided image, I need to identify the charts where the curve corresponding to a cell label `(x, 0)` shows the most significant increase in "Steady-state flow density" compared to other curves (specifically those with a non-zero second coordinate) from iteration 0.0 to 12.5.
+
+1.  **Chart 1 (Top Left):**
+    *   **Title/Content:** Legend shows cells `(0,0)` to `(0,8)`.
+    *   **Key Curve:** The yellow curve labeled `(0,0)` starts near 0.025, rises steadily, and ends around 0.075-0.080. Other curves (e.g., (0,1) in light orange, or the darker purple ones) generally stay lower or flatten out around 0.025-0.050.
+    *   **Comparison:** The `(0,0)` curve has a clear, sustained increase that is greater than the increases of curves like `(0,2)` or `(0,5)`.
+    *   **Conclusion:** Yes, this chart fits the criteria.
+
+2.  **Chart 2 (Top Middle):**
+    *   **Title/Content:** Legend shows cells `(1,0)` to `(1,8)`.
+    *   **Key Curve:** The light orange curve labeled `(1,0)` starts around 0.085 and rises sharply to nearly 0.200.
+    *   **Comparison:** Other curves (e.g., `(1,2)` at darker orange, `(1,8)` at black) show much smaller increases or decreases. `(1,0)` is clearly the greatest increase.
+    *   **Conclusion:** Yes, this chart fits the criteria.
+
+3.  **Chart 3 (Top Right):**
+    *   **Title/Content:** Legend shows cells `(2,0)` to `(2,8)`.
+    *   **Key Curve:** The yellow curve `(2,0)` is relatively flat/low. The light orange curve `(2,1)` is below it. The reddish curve `(2,2)` rises significantly to about 0.110. The black curve `(2,8)` spikes at the end.
+    *   **Comparison:** `(2,2)` and `(2,8)` show larger increases than `(2,0)`.
+    *   **Conclusion:** No, `(2,0)` is not the greatest increase.
+
+4.  **Chart 4 (Middle Left):**
+    *   **Title/Content:** Legend shows cells `(3,0)` to `(3,8)`.
+    *   **Key Curve:** The yellow curve `(3,0)` is low. The reddish curves `(3,2)`, `(3,3)`, etc., rise to about 0.075.
+    *   **Comparison:** Non-zero curves like `(3,3)` have a much greater increase than `(3,0)`.
+    *   **Conclusion:** No.
+
+5.  **Chart 5 (Middle Middle):**
+    *   **Title/Content:** Legend shows cells `(4,0)` to `(4,8)`.
+    *   **Key Curve:** The yellow curve `(4,0)` is very low/flat. The dark navicular/purple curve `(4,4)` rises to about 0.080.
+    *   **Comparison:** `(4,4)` has a larger increase.
+    *   **Conclusion:** No.
+
+6.  **Chart 6 (Middle Right):**
+    *   **Title/Content:** Legend shows cells `(5,0)` to `(5,8)`.
+    *   **Key Curve:** The yellow curve `(5,0)` is low. The purple curve `(5,5)` rises to about 0.070.
+    *   **Comparison:** `(5,5)` has a larger increase.
+    *   **Conclusion:** No.
+
+7.  **Chart 7 (Bottom Left):**
+    *   **Title/Content:** Legend shows cells `(6,0)` to `(6,8)`.
+    *   **Key Curve:** The yellow curve `(6,0)` is very low/flat. The purple curve `(6,6)` rises to about 0.040.
+    *   **Comparison:** `(6,6)` has a larger increase.
+    *   **Conclusion:** No.
+
+8.  **Chart 8 (Bottom Middle):**
+    *   **Title/Content:** Legend shows cells `(7,0)` to `(7,8)`.
+    *   **Key Curve:** The yellow curve `(7,0)` is very low/flat. The dark purple curve `(7,7)` rises to about 0.050.
+    *   **Comparison:** `(7,7)` has a larger increase.
+    *   **Conclusion:** No.
+
+9.  **Chart 9 (Bottom Right):**
+    *   **Title/Content:** Legend shows cells `(8,0)` to `(8,8)`.
+    *   **Key Curve:** The yellow curve `(8,0)` is low (around 0.025 start). The black curve `(8,8)` starts at 0.025 and rises to ~0.060.
+    *   **Comparison:** While `(8,8)` has an increase, let's look at `(8,0)`. It's the bottom-most curve mostly. If (8,0) is the start value, it's actually quite low. But `(8,8)` definitely has a greater magnitude of increase. Wait, checking the legend again. `(8,0)` is the top-most legend item (yellow). It stays very low, near the bottom of the chart, around 0.020. It doesn't show a significant increase compared to `(8,8)`.
+    *   **Conclusion:** No.
+
+So, the charts where the curve with a second coordinate of 0 shows the greatest increase are Chart 1 `(0,0)` and Chart 2 `(1,0)`. This makes 2 charts.
+
+The request asks for "elements" that identify the boundaries and labels of each chart page and the corresponding legend entries defining curves by their second coordinate values. I need to list the bounding boxes for each subplot's legend area to support the analysis.
+
+**Plan:**
+- Identify the 9 subplots.
+- Locate the legend for each subplot. The legends are generally in the top-right or top-left corner of each subplot.
+- Crop each legend region. I will focus on the top-left corner legends as they seem consistent (top-left legend box).
+
+Let's refine the goal: The user needs the ground truth for "In how many charts does the curve labeled with a second coordinate of 0...".
+Evidence needed: Identify the boundaries and labels of each chart page and the corresponding legend entries.
+- I need to define the bounding box for each subplot/legend.
+- I will box the legend area of each of the 9 charts.
+
+**Subplot 1 (Top Left):**
+- Legend box: Top left corner.
+- Text: "Cell (0,0)...(0,8)"
+
+**Subplot 2 (Top Middle):**
+- Legend box: Top right corner.
+- Text: "Cell (1,0)...(1,8)"
+
+**Subplot 3 (Top Right):**
+- Legend box: Top right corner.
+- Text: "Cell (2,0)...(2,8)"
+
+**Subplot 4 (Middle Left):**
+- Legend box: Top left corner.
+- Text: "Cell (3,0)...(3,8)"
+
+**Subplot 5 (Middle Middle):**
+- Legend box: Top left corner.
+- Text: "Cell (4,0)...(4,8)"
+
+**Subplot 6 (Middle Right):**
+- Legend box: Top right corner.
+- Text: "Cell (5,0)...(5,8)"
+
+**Subplot 7 (Bottom Left):**
+- Legend box: Top right corner.
+- Text: "Cell (6,0)...(6,8)" - Wait, looking closely at Bottom Left, legend is Top Right. "Cell (6,0)..." is visible.
+
+**Subplot 8 (Bottom Middle):**
+- Legend box: Top left corner.
+- Text: "Cell (7,0)...(7,8)"
+
+**Subplot 9 (Bottom Right):**
+- Legend box: Top right corner.
+- Text: "Cell (8,0)...(8,8)"
+
+Wait, let me re-check the positions.
+- Top Row: Legend is Top Left (Chart 1), Top Right (Chart 2), Top Right (Chart 3).
+- Middle Row: Legend is Top Left (Chart 4), Top Left (Chart 5), Top Right (Chart 6).
+- Bottom Row: Legend is Top Right (Chart 7 - actually no, looks like Top Right is `(6,0)`... wait, Text is `(6,0)` at `(246, 275)` to `(290, 284)`? No, `(7,0)` in Chart 8. Let's look closer.
+- Bottom Left Chart: Legend is Top Right. Text starts `(6,0)`.
+- Bottom Middle Chart: Legend is Top Left. Text starts `(7,0)`.
+- Bottom Right Chart: Legend is Top Right. Text starts `(8,0)`.
+
+Okay, I will list the bounding boxes for the data area or the whole subplot to encompass the legend if needed, or just the legend area. The prompt asks for "boundaries and labels of each chart page and the corresponding legend entries".
+
+I will provide bounding boxes for the legend area of each of the 9 charts.
+
+Chart 1 (Top Left): Legend at top left.
+Chart 2 (Top Mid): Legend at top right.
+Chart 3 (Top Right): Legend at top right.
+Chart 4 (Mid Left): Legend at top left.
+Chart 5 (Mid Mid): Legend at top left.
+Chart 6 (Mid Right): Legend at top right.
+Chart 7 (Bot Left): Legend at top right.
+Chart 8 (Bot Mid): Legend at top left.
+Chart 9 (Bot Right): Legend at top right.
+
+Wait, let's look at Chart 7 (Bottom Left). The legend is on the right side. Text: `(6,0), (6,1)` etc.
+Let's look at Chart 8 (Bottom Middle). Legend on the left. Text: `(7,0), (7,1)` etc.
+Let's look at Chart 9 (Bottom Right). Legend on the right. Text: `(8,0), (8,1)` etc.
+
+Let's define the bounding boxes more precisely.
+Total image size roughly 1000x1000.
+There are 9 subplots arranged in a 3x3 grid.
+Each subplot is roughly 300-350 wide and high. With gaps.
+Top row: y=[0, 330].
+Middle row: y=[330, 660].
+Bottom row: y=[660, 1000].
+Left col: x=[0, 330].
+Mid col: x=[330, 660].
+Right col: x=[660, 1000].
+
+Subplot 1 (Top-Left): x=[20, 330], y=[20, 330]. Legend here.
+Subplot 2 (Top-Mid): x=[330, 660], y=[20, 330]. Legend here.
+Subplot 3 (Top-Right): x=[660, 1000], y=[20, 330]. Legend here.
+Subplot 4 (Mid-Left): x=[20, 330], y=[330, 660]. Legend here.
+Subplot 5 (Mid-Mid): x=[330, 660], y=[330, 660]. Legend here.
+Subplot 6 (Mid-Right): x=[660, 1000], y=[330, 660]. Legend here.
+Subplot 7 (Bot-Left): x=[20, 330], y=[660, 1000]. Legend here.
+Subplot 8 (Bot-Mid): x=[330, 660], y=[660, 1000]. Legend here.
+Subplot 9 (Bot-Right): x=[660, 1000], y=[660, 1000]. Legend here.
+
+I will select regions that specifically capture the legend or the chart title/headers to satisfy "boundaries and labels of each chart page". The "chart page" usually refers to the subplot.
+
+I will group them by row.
+
+Row 1:
+- Post 1 (Top Left): Chart box [32, 326]. Note: x=[20, 330], y=[20, 330]? Let's assume the image is 1000x1000.
+Let's just box the whole chart area or just the legend. The prompt says "boundaries and labels of each chart page". I'll box the legend area specifically as it contains the evidence "cell (x,0)".
+
+Top Left Chart (Legend): [85, 56, 225, 225] (approx). Coordinates: x=85, y=10 (top), width=140, height=215.
+Top Middle Chart (Legend): [565, 56, 705, 225].
+Top Right Chart (Legend): [850, 10, 990, 225].
+
+Middle Left Chart (Legend): [85, 56, 225, 225] -> Wait, Legend for middle left is (3,0) etc. It is at [85, 300, 225, 470]. No, x is small, y is larger (dropping down).
+Let's just define the chart regions generally.
+Actually, listing 9 distinct bounding boxes for the legends is the most precise way to show "corresponding legend entries".
+
+Chart 1 (Top Left): Legend `(0,0)`...Box: [82, 52, 228, 222] (True coords might differ, just approx).
+Chart 2 (Top Mid): Legend `(1,0)`...Box: [550, 52, 695, 222].
+Chart 3 (Top Right): Legend `(2,0)`...Box: [816, 52, 962, 222].
+Chart 4 (Mid Left): Legend `(3,0)`...Box: [82, 318, 228, 488].
+Chart 5 (Mid Mid): Legend `(4,0)`...Box: [550, 318, 695, 488].
+Chart 6 (Mid Right): Legend `(5,0)`...Box: [816, 318, 962, 488].
+Chart 7 (Bot Left): Legend `(6,0)`...Box: [816, 725, 962, 895].
+Chart 8 (Bot Mid): Legend `(7,0)`...Box: [550, 725, 695, 895].
+Chart 9 (Bot Right): Legend `(8,0)`...Box: [816, 725, 962, 895].
+
+I need to be careful with exact coordinates.
+Top Left Chart: y range 0-330 approx. x range 0-330. Legend is top left.
+Top Mid Chart: y range 0-330. x range 330-660. Legend top right (inside box).
+Top Right Chart: y range 0-330. x range 660-1000. Legend top right.
+
+Let's refine bounding boxes.
+Image size is likely 1024x1024 or similar.
+Subplots are 3x3.
+Subplot 1: x=[24, 326], y=[24, 316]. Legend: x=[96, 76, 218, 187]. No, legend is vertical.
+Let's just box the legends.
+1. Legend (0,0): Top-Left. x=88, y=52. W=138, H=172.
+2. Legend (1,0): Top-Mid. x=555, y=52. W=138, H=172.
+3. Legend (2,0): Top-Right. x=822, y=52. W=138, H=172.
+4. Legend (3,0): Mid-Left. x=88, y=323. W=138, H=172.
+5. Legend (4,0): Mid-Mid. x=555, y=323. W=138, H=172.
+6. Legend (5,0): Mid-Right. x=822, y=323. W=138, H=172.
+7. Legend (6,0): Bot-Left. x=822, y=733. W=138, H=172. Wait, in Bot-Left, legend is Top Right corner of the box? No, wait.
+    Let's look at Bot-Left (Cell 6,0 legend is at x=246, y=275 inside the subplot).
+    Wait, in the bottom-left plot, the legend is actually on the RIGHT.
+    Text `(6,0)` is at roughly x=260 in the subplot coordinate system (width 300 roughly). So it's in the top-right area of the subplot.
+    In the middle-right plot, text

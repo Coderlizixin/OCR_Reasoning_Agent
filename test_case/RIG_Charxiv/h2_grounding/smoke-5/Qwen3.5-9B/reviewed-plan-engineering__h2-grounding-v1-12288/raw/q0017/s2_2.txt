@@ -1,0 +1,490 @@
+The user wants to identify a dense cluster of points near the coordinate (0.75, -0.25).
+I need to find visible evidence for the spatial distribution of points.
+There appear to be three main clusters of purple dots.
+1.  **Top cluster:** Located near the top edge, y is around 0.75-0.95, x varies from -0.25 to 0.50.
+2.  **Right cluster:** Located on the right edge, x is around 0.75-0.95, y is around 0.00 to 0.40.
+3.  **Bottom cluster:** Located at the bottom, y is around -0.75 to -0.90, x is around 0.25 to 0.35.
+
+The question asks for the cluster closest to (0.75, -0.25).
+Let's look at the coordinates.
+(0.75, -0.25) means x=0.75, y=-0.25.
+The right cluster is at x ~ 0.8, y ~ 0.2.
+The bottom cluster is at x ~ 0.3, y ~ -0.8.
+Wait, let me re-examine the coordinates on the axes.
+X-axis: -1.00 to 1.00.
+Y-axis: -1.00 to 1.00.
+
+Target point: (0.75, -0.25).
+- Top cluster: x roughly -0.2 to 0.5, y roughly 0.7 to 0.9. Distance to (0.75, -0.25) is large.
+- Right cluster: x roughly 0.6 to 0.95, y roughly 0.0 to 0.4. The closest point is around (0.8, 0.1). Distance to (0.75, -0.25) is roughly sqrt((0.8-0.75)^2 + (0.1 - (-0.25))^2) = sqrt(0.0025 + 0.1225) ~ 0.35.
+- Bottom cluster: x roughly 0.2 to 0.35, y roughly -0.8 to -0.9. Distance to (0.75, -0.25) is large.
+
+Wait, looking at the image again.
+There is a cluster of points on the right side. Their x-coordinates are around 0.8. Their y-coordinates range from roughly 0.0 to 0.4.
+There is a cluster of points at the bottom. Their y-coordinates are around -0.8. Their x-coordinates are around 0.3.
+There is a cluster of points at the top. Their y-coordinates are above 0.75.
+
+Let's look at the coordinate (0.75, -0.25).
+This is on the right side (x=0.75) and slightly below the x-axis (y=-0.25).
+The right cluster is centered around x=0.85, y=0.25.
+The bottom cluster is centered around x=0.3, y=-0.85.
+Actually, looking closely at the bottom cluster, it's a vertical line of points going down from y=-0.25? No, that's not right.
+Let's trace the points.
+There is a vertical-looking chain of points starting from y=0.5, x=0.3, going down to y=-0.85, x=0.35.
+Wait, let's look at the "top cluster". It's near the top edge, centered around x=0.1? No, looks like two groups at the top.
+Let's re-evaluate the clusters based on visual grouping.
+1.  **Top group:** Two dense patches near the top boundary. One around x=-0.2, y=0.85. One around x=0.3, y=0.9.
+2.  **Right group:** A dense patch on the right edge. Center roughly x=0.9, y=0.2.
+3.  **Bottom/Right-Side vertical group:** There is a line of points starting around y=0.5, x=0.3 and going down to y=-0.9, x=0.35. This looks like a separate cluster or a line.
+Actually, looking at the prompt, it asks for "top cluster, right cluster, or bottom cluster". This implies there are three main clusters labeled or identifiable as such.
+Let's look at the distribution again.
+- Top: ~15 points near the top.
+- Right: ~30 points on the right.
+- Bottom: A vertical line of points ~15 points going down from y=0.5 to y=-0.9. This could be the "bottom cluster".
+
+The question asks: "Identify a dense cluster of points that appears closest to the coordinate (0.75, -0.25)".
+Let's check the distance of each "cluster" to (0.75, -0.25).
+- Top cluster: Far away (y ~ 0.8).
+- Right cluster: Center roughly (0.9, 0.2). Distance sqrt((0.9-0.75)^2 + (0.2 - (-0.25))^2) = sqrt(0.0225 + 0.1225) = sqrt(0.145) ~ 0.38.
+- Bottom cluster (the vertical line): The top part of this line is near y=0.5, x=0.3. The bottom is near y=-0.9, x=0.35. The middle is around y=-0.35, x=0.35. This is far from x=0.75.
+
+Wait, is there a cluster I missed?
+Let's look at the right edge again. The points are concentrated around x=0.8 to 0.95.
+The y-coordinates range from y=0.0 to y=0.4.
+The bottom cluster (the vertical line) goes from y=0.5 down to y=-0.9.
+The target is (0.75, -0.25).
+The right cluster is the closest in terms of X coordinate, but its Y is around 0.2. The target Y is -0.25.
+The bottom vertical line has a point near y=-0.35, x=0.35.
+Maybe the "bottom cluster" refers to the bottom part of the plot?
+Let's look at the options provided in the prompt: "top cluster, right cluster, or bottom cluster".
+This suggests the image is divided into these three zones.
+- Top zone: The two groups at the top.
+- Right zone: The group on the right.
+- Bottom zone: The vertical line of points at the bottom.
+
+Which is closest to (0.75, -0.25)?
+The right cluster is at x > 0.7. The bottom cluster is at x ~ 0.3.
+So the right cluster is horizontally closer.
+Vertically, the right cluster is y > 0. The target is y = -0.25.
+The bottom cluster is y < -0.25.
+Visually, the right cluster is the most prominent "dense cluster" on the right side.
+Let's check the coordinate system again.
+Maybe I am misinterpreting the "bottom cluster".
+The line of points going down... the top of that line is at y=0.5. Then a gap. Then a gap. Then the right cluster? No, the right cluster is separate.
+Actually, looking really closely at the right side and bottom.
+There is a cluster of points on the right: x roughly 0.8-0.95.
+There is a separate vertical line of points: x roughly 0.3-0.35, going from y=0.5 down to y=-0.9.
+Wait, is the vertical line connected to the right cluster?
+Looking at the coordinates:
+Right cluster top points: x ~ 0.9, y ~ 0.4.
+Right cluster bottom points: x ~ 0.9, y ~ 0.0.
+Vertical line top points: x ~ 0.3, y ~ 0.5.
+There seems to be a gap between the right cluster and the vertical line.
+The coordinate asked is (0.75, -0.25).
+This is x=0.75, y=-0.25.
+The right cluster is around x=0.9, y=0.2.
+The vertical line (let's call it bottom cluster) is around x=0.35, y=-0.8.
+Neither is super close, but the right cluster is closer in X.
+However, maybe the "bottom cluster" refers to the bottom part of the vertical line?
+Or maybe the "right cluster" is the one on the right.
+The question asks to identify the cluster closest to (0.75, -0.25).
+Let's look at the bottom right corner of the circle.
+There are points in the orange/red region.
+The right cluster is in the light green/yellow region (x=0.9, y=0.2).
+The bottom vertical line ends in the orange region (x=0.35, y=-0.85).
+The target is (0.75, -0.25). This is in the light green region.
+Visually, the right cluster is the "right cluster". The prompt implies there are three clusters: top, right, bottom.
+- Top cluster: The points at the top.
+- Right cluster: The points on the right.
+- Bottom cluster: The points at the bottom (the vertical line).
+
+Which is closest to (0.75, -0.25)?
+The right cluster is centered around (0.9, 0.2).
+The bottom cluster is centered around (0.35, -0.6).
+Distance from (0.75, -0.25) to (0.9, 0.2): sqrt((0.15)^2 + (0.45)^2) = sqrt(0.0225 + 0.2025) = sqrt(0.225) ~ 0.47.
+Distance from (0.75, -0.25) to (0.35, -0.6): sqrt((0.4)^2 + (-0.35)^2) = sqrt(0.16 + 0.1225) = sqrt(0.2825) ~ 0.53.
+So the right cluster is closer.
+Wait, let's look closer at the right cluster.
+It spans y from roughly 0.0 to 0.4.
+The lowest point of the right cluster is around y=0.0, x=0.75.
+Ah! There is a point at roughly (0.75, 0.0).
+And there are points below it? No, the vertical line is at x=0.3.
+Let's re-examine the "right cluster".
+It looks like a scattered cloud.
+One point is at x=0.6, y=0.0.
+One point is at x=0.75, y=-0.05? No, y axis 0.00 is the horizontal line.
+There are points just above y=0.00. Like x=0.8, y=0.0.
+Is there a point at (0.75, -0.25)?
+Looking at the vertical line... it passes near x=0.6 at y=0.5? No.
+Let's trace the vertical line again.
+Starts at y=0.5, x=0.3.
+Then y=0.6, x=0.3.
+...
+y=0.0, x=0.3. No, wait.
+Let's look at the grid lines.
+x=0.25, x=0.50.
+The vertical line is between x=0.25 and x=0.50. So x ~ 0.35.
+The right cluster is between x=0.625 and x=0.9375 (0.75 to 1.00 roughly).
+So the right cluster is definitely the one with x > 0.75.
+The coordinate (0.75, -0.25) has x=0.75.
+This is on the left edge of the right cluster's x-range.
+The y-coordinate is -0.25.
+The right cluster is mostly above y=0.0.
+However, looking very closely at the bottom right area...
+Is there a cluster there?
+Ah, I see a vertical line of points. Let's re-trace it.
+It goes from y=0.5, x=0.3 down to y=-0.85, x=0.35.
+Wait, looking at the bottom part of that line, near y=-0.8.
+Is there another cluster?
+The prompt mentions "right cluster". That's the one on the far right (x~0.9).
+The prompt mentions "top cluster". That's the one at the top (y~0.9).
+The prompt mentions "bottom cluster". This likely refers to the vertical line at the bottom (y~-0.8).
+But the coordinate is (0.75, -0.25).
+This is in the 4th quadrant (positive x, negative y).
+The right cluster is in the 1st quadrant (mostly).
+The bottom cluster is in the 4th quadrant (mostly), but x is small (~0.35).
+This coordinate (0.75, -0.25) is closer to the right cluster in X, but the right cluster is high in Y.
+Let's look at the image again very carefully.
+Maybe the "right cluster" extends lower?
+The points on the right are around x=0.8, y=0.2.
+Points near x=0.6, y=0.0?
+There is a single point at x=0.5, y=0.0.
+There is a single point at x=0.4, y=0.3.
+Actually, let's look at the "vertical line" again.
+It starts at y=0.6, x=0.3.
+Then y=0.6, x=0.6? No.
+Let's look at the points near (0.75, -0.25).
+x=0.75 is marked on the x-axis.
+y=-0.25 is marked on the y-axis.
+The intersection is in the light green area.
+Are there points there?
+There are no purple dots right at (0.75, -0.25).
+However, the question asks "Identify a dense cluster... closest to...".
+The clusters are:
+1. Top: y > 0.7.
+2. Right: x > 0.7, y < 0.5.
+3. Bottom: x < 0.5, y < -0.5.
+
+Let's check the Right Cluster again.
+It has points at x=0.8, y=0.1.
+x=0.85, y=0.25.
+x=0.9, y=0.0.
+This cluster is physically closest to the point (0.75, -0.25) if we consider Euclidean distance?
+Right cluster center ~ (0.85, 0.1).
+Bottom cluster center ~ (0.35, -0.8).
+Target: (0.75, -0.25).
+Dist to Right: sqrt((0.1)^2 + (0.35)^2) ~ 0.37.
+Dist to Bottom: sqrt((0.4)^2 + (0.55)^2) ~ 0.7.
+So the Right Cluster is the closest.
+
+Wait, is there a cluster I am missing?
+Let's look at the vertical line again.
+Maybe it's not a line. Maybe it's a separate cluster.
+The vertical line goes from y=0.5 to y=-0.9.
+Wait, looking at the bottom, near y=-0.9. There are some colored dots (brown/red).
+The question asks for the cluster closest to (0.75, -0.25).
+The right cluster is clearly the best candidate among the three named options.
+Let's confirm the visual evidence for the "right cluster".
+It is a group of purple dots on the right side of the plot.
+Bounding box for the right cluster:
+x: ~625 to ~940 (pixels). Wait, image is square.
+Let's estimate coordinates.
+x range: 0.625 to 0.937 (approx 0.6 to 0.95).
+y range: 0.0 to 0.40.
+The coordinate (0.75, -0.25) is just to the right of y=0 and left of x=0.75? No, x=0.75.
+So x=0.75 is within the x-range of the right cluster.
+y=-0.25 is below the right cluster (which is > 0).
+So the right cluster is the closest.
+
+Let's formulate the evidence.
+I need to ground the spatial distribution of all data points to identify the three distinct groups.
+I will list the bounding boxes for the three clusters.
+1. Top cluster: Near top edge.
+2. Right cluster: Near right edge.
+3. Bottom cluster: Vertical line near bottom center-right.
+
+Evidence items:
+- The top cluster of points. Bbox around the top group.
+- The right cluster of points. Bbox around the right group.
+- The bottom cluster of points (vertical line). Bbox around that line.
+- The axes labels to confirm coordinates. x=0.75, y=-0.25 labels.
+
+Let's refine the bboxes.
+Image size roughly 1000x1000 for calculation.
+- Top cluster: y ~ 750 to 950 (top is 1.00). x ~ 150 to 600.
+  Wait, top is y=1.00. So y coords are high values.
+  Top cluster: y from 0.75 to 1.00. x from -0.1 to 0.5.
+  Bbox: [150, 50, 550, 950] roughly.
+  Actually, let's look at the image provided.
+  Top cluster is at the very top.
+  Right cluster is at the middle right.
+  Bottom cluster is at the bottom center.
+
+Let's check the bottom cluster again.
+It's a vertical line.
+x is around 0.3.
+y goes from 0.6 down to -0.9.
+Wait, looking at y=0.0 line.
+There is a gap.
+The points at the top of the vertical line are near y=0.6.
+The points at the bottom are near y=-0.9.
+This is a long vertical structure.
+Is it possible that the "bottom cluster" is just the bottom tip?
+The prompt says "bottom cluster".
+The vertical line is the only other structure.
+
+Let's focus on the "right cluster".
+It is clearly a group of points on the right.
+Coordinates: x > 0.7. y > 0.
+The target is x=0.75, y=-0.25.
+The right cluster is the closest.
+
+I will provide the bounding boxes for the three clusters to define the spatial distribution.
+1. Top cluster: The group of points near the top edge.
+2. Right cluster: The group of points on the right side.
+3. Bottom cluster: The vertical line of points at the bottom.
+
+I also need to ground the axis labels to show where (0.75, -0.25) is.
+- X-axis label "0.75".
+- Y-axis label "-0.25".
+- The intersection region.
+
+Let's select the bounding boxes.
+- Top cluster: [416, 125, 668, 215] ? No, that's too small.
+  Let's look at the full image.
+  Top cluster points are at y > 0.75.
+  Bbox: [150, 50, 650, 1000] roughly covers the top area?
+  Let's be specific.
+  Top cluster points: x from ~ -0.1 to 0.5. y from ~ 0.8 to 1.0.
+  Bbox: [120, 40, 520, 200]. (Assuming 1000x1000 scale where origin is bottom left, but plot origin is center? No, plot axes are Cartesian -1 to 1).
+  Let's estimate pixel coordinates.
+  Image is roughly square.
+  Top left corner (0,1). Bottom left (-1, -1). Wait, canvas coordinates (0,0) top left.
+  Plot area:
+  Left: x=-1. Right: x=1.
+  Top: y=1. Bottom: y=-1.
+  Top cluster: y ~ 0.8 to 1.0. x ~ -0.1 to 0.5.
+  Pixels:
+  x=0 is center. x=1 is right edge. x=-1 is left edge.
+  y=1 is top. y=-1 is bottom.
+  Top cluster:
+  x range: -0.1 (100px from left) to 0.5 (600px from left).
+  y range: 0.8 (top 200px) to 1.0 (very top).
+  Wait, the points are purple dots.
+  Visual location: Top center-right.
+  Two main groups. One left-ish, one right-ish.
+  Bbox for top cluster: [150, 50, 650, 250]. (x: 150..650, y: 50..250). Wait, y is inverted usually.
+  Let's assume standard image coords: (0,0) top-left.
+  Plot origin (0,0) is at center of image.
+  Image height H, width W.
+  Center is (W/2, H/2).
+  Top edge y=0 in image.
+  So y > 0.75 is near the top edge.
+  Bottom edge y=H in image. y < -0.25 is below the vertical middle (y=H/2).
+
+  Let's just use the visual regions.
+  - Top cluster: Upper part of the circle.
+  - Right cluster: Right part of the circle.
+  - Bottom cluster: Lower part of the circle (vertical line).
+
+  I need to ground the "dense cluster".
+  The right cluster is the one.
+  I should also ground the target coordinate area to show proximity.
+  Target: (0.75, -0.25).
+  This is x=0.75 (right side), y=-0.25 (below equator).
+  The right cluster is around x=0.8, y=0.2.
+  It's the closest.
+
+  I will create elements for:
+  1. The right cluster of points.
+  2. The top cluster of points.
+  3. The bottom cluster of points.
+  4. The x-axis tick label for 0.75.
+  5. The y-axis tick label for -0.25.
+
+  Let's refine the boxes.
+  Right cluster:
+  x: 0.6 to 0.9.
+  y: 0.0 to 0.4.
+  In pixel coords (assuming 1000x1000 canvas, plot centered at 500,500):
+  x range: 700 to 900.
+  y range: 300 to 400 (since y=0 is at 500, y=1 is at 0, y=-1 is at 1000).
+  Wait, y=0.2 is near top half? No, y=0 is center. y=1 is top. y=-1 is bottom.
+  So y=0.2 is 80% up from bottom? No.
+  y=1 -> top. y=0 -> middle. y=-1 -> bottom.
+  So y=0.2 is 20% down from top. y=0 is 50% down from top.
+  So y=0.2 is upper part.
+  Wait, y-axis labels: 0.00 is in the middle. 0.25 is above it. -0.25 is below it.
+  Okay, so y=0.2 is in the upper half.
+  The right cluster is in the upper right quadrant (y > 0).
+  The target (0.75, -0.25) is in the lower right quadrant (y < 0).
+  This makes the "bottom cluster" potentially closer?
+  Let's re-evaluate distances.
+  Right cluster center: (0.9, 0.2).
+  Bottom cluster (vertical line): Center roughly (0.35, -0.7).
+  Target: (0.75, -0.25).
+
+  Distance to Right Cluster (0.9, 0.2):
+  dx = 0.15. dy = 0.45. Dist = sqrt(0.0225 + 0.2025) = sqrt(0.225) ~ 0.47.
+
+  Distance to Bottom Cluster (0.35, -0.7):
+  dx = 0.4. dy = 0.45. Dist = sqrt(0.16 + 0.2025) = sqrt(0.36) = 0.6.
+
+  Distance to a specific point in Right Cluster?
+  The right cluster has points down to y=0.0.
+  Point (0.75, 0.0).
+  Target (0.75, -0.25).
+  Distance = 0.25.
+  This is closer than to the bottom cluster!
+  So the "right cluster" is the answer.
+
+  The question asks to identify the cluster.
+  So I need to provide evidence for the "right cluster".
+  And evidence for the other clusters to show they are not it (by spatial distribution).
+  And evidence for the coordinate system.
+
+  Elements:
+  1. The right cluster of points.
+  2. The top cluster of points.
+  3. The bottom cluster of points.
+  4. X-axis label 0.75.
+  5. Y-axis label -0.25.
+
+  Coordinates for bboxes (approximate, 1000x1000 image, 0,0 top-left):
+  Image width/height ~ 1024? Let's assume 1000 for simplicity.
+  Plot box: Margins are small.
+  Center (500, 500) corresponds to (0,0).
+  x=-1 -> (0, 500). x=1 -> (1000, 500).
+  y=1 -> (500, 0). y=-1 -> (500, 1000).
+
+  Right cluster:
+  x: 0.6 to 0.95 -> Pixels: 625 to 975.
+  y: 0.0 to 0.4 -> Pixels: y=0.0 is 500. y=0.4 is 300.
+  So bbox: [625, 300, 975, 500].
+
+  Top cluster:
+  y: 0.75 to 1.0 -> Pixels: y=0.75 is 125. y=1.0 is 0.
+  x: -0.2 to 0.5 -> Pixels: x=-0.2 is 200. x=0.5 is 625.
+  So bbox: [200, 0, 625, 125].
+
+  Bottom cluster (vertical line):
+  y: -0.9 to 0.6 -> Pixels: y=-0.9 is 900. y=0.6 is 140.
+  Wait, the line goes from y=0.6 (upper) to y=-0.9 (lower).
+  Let's check the image.
+  There is a vertical line of points.
+  Top end: y=0.6, x=0.3. (Pixels: x=325, y=140).
+  Bottom end: y=-0.9, x=0.35. (Pixels: x=360, y=900).
+  So bbox: [325, 140, 360, 900].
+
+  Target coordinate (0.75, -0.25):
+  x=0.75 -> Pixel 750.
+  y=-0.25 -> Pixel 625.
+  This point is in the empty space between the right cluster and the bottom cluster.
+  It is closest to the right cluster (which is at x>0.6, y>0).
+  Wait, y=0.0 is the boundary.
+  The right cluster is above y=0.
+  The bottom cluster is mostly below y=0, but x is 0.35.
+  The target x is 0.75.
+  So horizontally, it's close to the right cluster.
+  Vertically, it's below the right cluster.
+  But closer than the bottom cluster horizontally (0.75 vs 0.35).
+
+  So the evidence is:
+  - The right cluster spatial location.
+  - The top cluster spatial location.
+  - The bottom cluster spatial location.
+  - The axis labels to define the coordinate space.
+
+  I will output the bboxes for these clusters and labels.
+
+  One detail: "Identify a dense cluster of points that appears closest to the coordinate (0.75, -0.25)".
+  The answer is "right cluster".
+  I need to ground the evidence for this conclusion.
+  Evidence:
+  1. The right cluster of points.
+  2. The top cluster of points.
+  3. The bottom cluster of points.
+  4. X-axis label 0.75.
+  5. Y-axis label -0.25.
+
+  Let's refine the bboxes based on visual inspection of the provided image.
+  Image size looks like roughly 1000x1000.
+  Top cluster: Top middle. x ~ -0.2 to 0.5. y ~ 0.8 to 1.0.
+  Bbox: [100, 50, 500, 150] roughly.
+  Right cluster: Right middle-ish. x ~ 0.6 to 0.9. y ~ 0.0 to 0.4.
+  Bbox: [600, 300, 900, 500] roughly.
+  Bottom cluster: Bottom center. x ~ 0.25 to 0.4. y ~ -0.9 to 0.5.
+  Bbox: [250, 100, 400, 900] roughly.
+  Axis labels:
+  x=0.75 is on the bottom axis.
+  y=-0.25 is on the left axis.
+
+  Final check of the question: "Identify a dense cluster... closest to...".
+  The prompt asks for "elements", which are the visual clues.
+  I will list the clusters and the relevant axes labels.
+
+  Clue 1: The dense cluster of points in the upper region (Top cluster).
+  Clue 2: The dense cluster of points in the right region (Right cluster).
+  Clue 3: The dense cluster of points in the lower central region (Bottom cluster).
+  Clue 4: The x-axis tick label indicating 0.75.
+  Clue 5: The y-axis tick label indicating -0.25.
+
+  Wait, I need to be precise with bboxes.
+  Top cluster:
+  Points at top:
+  Group 1: x ~ -0.1, y ~ 0.85.
+  Group 2: x ~ 0.0, y ~ 0.9.
+  Group 3: x ~ 0.4, y ~ 0.9.
+  Bbox: [150, 50, 500, 150].
+
+  Right cluster:
+  Points at right:
+  Scattered from x=0.6 to 0.9. y=0 to 0.4.
+  Bbox: [650, 350, 950, 500].
+
+  Bottom cluster:
+  Vertical line.
+  Points from y=-0.9 to y=0.5. x=0.3.
+  Bbox: [250, 150, 350, 950].
+
+  Labels:
+  x=0.75: Bottom axis, right side. [800, 950, 850, 990].
+  y=-0.25: Left axis, below center. [10, 600, 50, 650].
+
+  Let's refine.
+  The "right cluster" is the one.
+  I will ground the right cluster specifically? No, I need to support the reasoning "Identification of spatial distribution...".
+  So I need to ground all three to show I distinguish them.
+
+  One more check: Is the vertical line actually a cluster?
+  Yes, dense points along a curve/line.
+  Is the right part a cluster? Yes.
+  Is the top part a cluster? Yes.
+
+  So the plan is solid.
+</think>
+
+{
+  "elements": [
+    {
+      "description": "dense cluster of points in the upper region of the plot (top cluster)",
+      "bbox": [180, 60, 520, 180]
+    },
+    {
+      "description": "dense cluster of points in the right region of the plot (right cluster)",
+      "bbox": [680, 380, 920, 520]
+    },
+    {
+      "description": "dense cluster of points forming a vertical line in the lower central region (bottom cluster)",
+      "bbox": [280, 160, 360, 920]
+    },
+    {
+      "description": "x-axis label indicating the value 0.75",
+      "bbox": [810, 960, 850, 990]
+    },
+    {
+      "description": "y-axis label indicating the value -0.25",
+      "bbox": [15, 620, 45, 650]
+    }
+  ]
+}

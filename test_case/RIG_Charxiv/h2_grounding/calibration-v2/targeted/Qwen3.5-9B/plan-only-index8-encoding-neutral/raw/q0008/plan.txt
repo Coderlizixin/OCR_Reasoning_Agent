@@ -1,0 +1,678 @@
+Thinking Process:
+
+1.  **Analyze the Request:**
+    *   **Task:** Decompose a visual grounding task into evidence needs (JSON format).
+    *   **Question:** "Provide the accuracy (%) of the model with the second highest time."
+    *   **Constraint:** I cannot see the image. I must not solve the question, predict the answer, state candidate values, or invent visible content. I must return only the requested JSON object without markdown or analysis.
+    *   **Constraints on Steps:**
+        *   2 to 6 ordered evidence-grounding steps.
+        *   Each step must request one coherent kind of directly visible evidence.
+        *   Split identity mappings, scales/criteria, candidate observations, spatial/structural relations.
+        *   **NO** comparison, ranking, count, calculate, conclude, or select operations in the steps. These belong to the reasoner.
+        *   For ranking/comparison questions (like "second highest"), preserve all operands (request every candidate and the axis/scale to compare them).
+        *   Request bbox-localizable visible content, not derived data.
+        *   Use encoding-neutral terms (visible candidate, identity evidence, value evidence).
+        *   Do not assume specific encodings (table, chart, legend) that aren't explicitly stated, though I need to ground the "time" and "accuracy" which implies some data visualization or text.
+
+2.  **Deconstruct the Question:**
+    *   Target: Accuracy (%).
+    *   Subject: Model with the second highest time.
+    *   Required Evidence: To answer this, I need:
+        1.  Data points containing models, their times, and their accuracies.
+        2.  Specifically, I need the values for "time" and "accuracy" associated with each model visually presented.
+        3.  Since I can't rank/select in the step, I need to request all the relevant data points visible in the image.
+
+3.  **Drafting Steps:**
+    *   *Step 1:* Locate the visual elements representing models and their associated time values.
+    *   *Step 2:* Locate the visual elements representing models and their associated accuracy values.
+
+    *Refinement:* The instructions say "Split identity mappings...". So Step 1 should probably focus on finding the time values associated with models. Step 2 should focus on finding the accuracy values associated with those same models. Then the reasoner combines them to pick the second highest time and get the corresponding accuracy.
+
+    *Drafting Step 1:* Request the visible text or visual indicators that show time values associated with specific models or data entries.
+    *Drafting Step 2:* Request the visible text or visual indicators that show accuracy values associated with the same specific models or data entries.
+
+    *Review against constraints:*
+    *   "For a comparison... preserve all operands... request every candidate and counterpart".
+    *   I need to make sure I don't ask for "the second highest". I need to ask for "all time values".
+    *   I need to make sure I don't ask for the final result.
+
+    *Step 1 (Time Evidence):* Identify visible data points containing time duration values and their associated model identifiers.
+    *Step 2 (Accuracy Evidence):* Identify visible data points containing accuracy percentage values and their associated model identifiers.
+
+    *Wait, constraint check:* "Do not create a step whose job is to compare, rank, count, calculate, conclude, or select the answer."
+    My draft steps are about *locating* evidence, which is allowed.
+    "Request every candidate and counterpart together with the shared axis, scale, or complete trace needed to compare them."
+    So Step 1 needs to request *all* visible time values linked to models.
+    Step 2 needs to request *all* visible accuracy values linked to models.
+
+    Let's make the wording precise.
+    Step 1: "Visible candidates including time values paired with model labels."
+    Step 2: "Visible candidates including accuracy values paired with model labels."
+
+    Actually, looking at the instruction: "Split identity mappings... when applicable."
+    So I should request the mapping evidence as well.
+
+    Step 1: Evidence needed to identify all models and their corresponding visible time measurements.
+    Step 2: Evidence needed to identify all models and their corresponding visible accuracy measurements.
+
+    Let's refine to be more specific about "directly visible evidence".
+    Step 1 (Time): Locate visible text or chart labels indicating time durations for each model candidate.
+    Step 2 (Accuracy): Locate visible text or chart labels indicating accuracy percentages for each model candidate.
+
+    Wait, the instruction says "Do not assume an unmentioned visual encoding such as a table, row, column, chart, legend, curve, or marker."
+    So I should avoid saying "chart labels" or "table row".
+    I should use "visible candidate", "value evidence".
+
+    Revised Step 1: "Identify all visible candidates representing model entries and request the associated time values displayed adjacent to them."
+    Revised Step 2: "Identify all visible candidates representing model entries and request the associated accuracy values displayed adjacent to them."
+
+    Let's check the count constraint: 2 to 6 steps. 2 steps are sufficient for this query (one for time info, one for accuracy info).
+    Let's check the content constraint: "Request bbox-localizable visible content, not estimated centroids...". "Request every candidate... with the shared axis".
+    The question asks for "accuracy... of the model with the second highest time".
+    This implies there is a shared set of models.
+    I need to ensure I request *all* time-associated data so the downstream reasoner can find the "second highest".
+    I need to ensure I request *all* accuracy-associated data for the identified models.
+
+    Step 1: All visible model identifiers linked to time data values.
+    Step 2: All visible model identifiers linked to accuracy data values.
+    Wait, if I ask for identifiers in separate steps, it might be clearer.
+    But "Identity mappings" should be preserved.
+    Step 1: Locate all visible entries containing time information and their identity labels.
+    Step 2: Locate all visible entries containing accuracy information and their identity labels.
+
+    Better phrasing based on "Request visible inputs needed by those operations instead":
+    The operation is "ranking" and "matching".
+    So Step 1 must provide the inputs for ranking (all times).
+    Step 2 must provide the inputs for value lookup (all accuracies linked to the same IDs).
+
+    Step 1: "List of all visible textual or graphical values indicating time units associated with distinct model candidates."
+    Step 2: "List of all visible textual or graphical values indicating accuracy percentages associated with the same distinct model candidates."
+
+    Let's ensure it sounds like "evidence need".
+    "Identify visible text specifying time values for each model entity."
+    "Identify visible text specifying accuracy values for each model entity."
+
+    Let's follow the template:
+    {
+      "steps": [
+        {
+          "step_id": "s1",
+          "evidence_need": "..."
+        }
+      ]
+    }
+
+    Step 1: "Request visible text or symbols representing time durations paired with each model entity identifier."
+    Step 2: "Request visible text or symbols representing accuracy percentages paired with each model entity identifier."
+
+    Wait, I need to make sure I don't assume "identity labels" exist as separate things. Maybe the time and accuracy are next to the same name.
+    The constraint says: "Name both sides of a spatial relation; never replace a specific relation with a generic request for 'position'."
+    So I should mention the relation (association/linking) between the model name and the numeric value.
+
+    Maybe 3 steps are safer to be more specific about the components?
+    1. Model IDs.
+    2. Time values linked to IDs.
+    3. Accuracy values linked to IDs.
+    But "Split identity mappings... when applicable".
+    If I ask for "Time values paired with each model entity identifier", that covers the identity mapping.
+    If I ask for "Accuracy values paired with each model entity identifier", that covers the identity mapping.
+    So 2 steps should be enough.
+
+    Let's try to make the wording very strictly "directly visible evidence".
+    Step 1: "Extract all visible numerical values indicating time alongside their associated model names or indicators."
+    Step 2: "Extract all visible percentage values indicating model accuracy alongside their associated model names or indicators."
+
+    Wait, constraint: "Transcription is allowed only for text or values explicitly printed in the image."
+    So asking to "Extract" or "Locate" is fine, as long as it's asking for the visual content.
+    Constraint: "Do not request bbox numbers...". So "Locate" is better.
+
+    Let's check the instruction: "Return only the requested JSON object without markdown or analysis."
+    So I must output raw JSON.
+
+    Final check on constraints:
+    - 2 to 6 steps. (I have 2).
+    - Ordered evidence-grounding steps.
+    - Each step requests one coherent kind of directly visible evidence.
+    - No ranking/selecting in steps.
+    - Preserve operands (request every candidate).
+    - Encoding neutral.
+
+    Step 1: Locate all visible data points or labels that display time duration values associated with model identifiers.
+    Step 2: Locate all visible data points or labels that display accuracy percentage values associated with model identifiers.
+
+    Wait, "model identifiers" is an assumption that there are identifiers. The prompt says "Do not assume an unmentioned visual encoding". However, "names" or "identifiers" are usually there in these tasks (tables/barCharts with labels). But to be safe and encoding neutral: "visible markers or labels".
+    Let's stick to "model candidates" or "entities" as per instruction "Use encoding-neutral terms such as visible candidate".
+
+    Step 1: "Identify all visible candidates representing models and the adjacent time values explicitly printed for each."
+    Step 2: "Identify all visible candidates representing models and the adjacent accuracy values explicitly printed for each."
+
+    Actually, "Identify" might sound like processing. "Request" is better in the previous instruction examples? No, the instructions say "request one coherent kind of directly visible evidence".
+    The output key is "evidence_need". I should phrase it as a noun phrase or a request.
+    Example from similar tasks: "Visible text indicating X".
+    Let's try: "Visible textual representations of time values linked to each model entity."
+    "Visible textual representations of accuracy values linked to each model entity."
+
+    Better:
+    "All visible textual values denoting time duration attached to specific model entries."
+    "All visible textual values denoting accuracy percentage attached to specific model entries."
+    Wait, "attached to" implies spatial relation. The instruction says "Name both sides of a spatial relation".
+    So: "Groupings of visible model labels and their corresponding time values."
+    "Groupings of visible model labels and their corresponding accuracy values."
+
+    Let's refine to be very clear on "visible evidence".
+    Step 1: "All visible model labels paired with their corresponding time measurement values."
+    Step 2: "All visible model labels paired with their corresponding accuracy measurement values."
+
+    Is "model labels" assuming too much? "visible candidate identity and name"?
+    Instruction: "Use encoding-neutral terms such as visible candidate...".
+    "Visible candidates representing model entities" is better.
+
+    Step 1: "All visible model candidates and their explicitly printed time values."
+    Step 2: "All visible model candidates and their explicitly printed accuracy values."
+
+    This seems safe.
+    Step 1 and Step 2 cover the inputs needed for the downstream logic to find the "second highest time" (using Step 1) and retrieve the "accuracy" from "that model" (using Step 2).
+    Are these 2 steps ordered? Yes. The reasoner needs to get both.
+    Is "Accuracy" explicitly mentioned? Yes.
+    Is "Time" explicitly mentioned? Yes.
+
+    Wait, "Provide the accuracy...".
+    This is a value extraction question.
+    I need to request the values.
+    Step 1: Request the time values visible for each candidate.
+    Step 2: Request the accuracy values visible for each candidate.
+
+    Let's verify 2 to 6 steps. I'll add a step for "Model Candidates Identification" just to be thorough on identity, as per "Split identity mappings".
+    Actually, if Step 1 says "time values... for each model candidate", it implies the model candidate is known.
+    Splitting identity mappings means I should probably separate Identity, Time, Accuracy if they are distinct evidence types.
+    Step 1: Visible model candidates and their labels.
+    Step 2: Visible time values paired with those model candidates.
+    Step 3: Visible accuracy values paired with those model candidates.
+    This ensures the identity is grounded explicitly.
+
+    Is "model candidates" visible? Yes, usually.
+    Step 1: "Visible identifiers or names marking distinct models."
+    Step 2: "Visible time values directly associated with each identified model marker."
+    Step 3: "Visible accuracy values directly associated with each identified model marker."
+
+    This fits "Split identity mappings".
+    Does it exceed 6 steps? No (3).
+    Is it 2 steps? The instruction says 2 to 6.
+    If I merge identity into step 2, is that okay? "Split identity mappings... when applicable."
+    If the time label is right next to the name, asking for "time for each model name" covers identity.
+    However, explicitly separating "Who is the model" vs "What is the time" ensures clear grounding.
+    But to be more efficient and cover "candidate entities", maybe 2 steps is better if the terms are combined.
+    Let's stick to 2 steps to avoid over-segmentation if "model candidates" are the base object.
+    Actually, to follow "Split identity mappings", it might be safer to explicitly ask for the candidates.
+    Let's try to make it 3 steps to be safe on "splitting".
+    Step 1: Identity.
+    Step 2: Time values.
+    Step 3: Accuracy values.
+    Wait, "Do not count". If counting/identifying counts are done in reasoning... "Split identity mappings... when applicable".
+    It says "request one coherent kind of directly visible evidence".
+    Identity is one kind. Time is another. Accuracy is a third.
+    Okay, I will do 3 steps to be robust on identity splitting.
+
+    Wait, looking closer at "For a comparison... preserve all operands... request every candidate".
+    This usually applies to the values used in the comparison (Time).
+    Does asking for "Identity" count as evidence?
+    If the question is "second highest time", the identity of the "second highest" model is the condition.
+    I need to request the Time values to find the second highest.
+    I need to request the Accuracy values corresponding to those models.
+    If I don't request the identity (Names/IDs) separately, can I link them? "associated with each model entry".
+    Let's try to combine Identity and Time in one step, and Identity and Accuracy in another? No, Step 1 should be Time, Step 2 should be Accuracy. But if I don't request Identity separately, I assume the model link exists visually.
+    Instruction: "Name both sides of a spatial relation".
+    So "Model label and Time value" is a spatial relation.
+    So Step 1: "Model label and Time value pairs."
+    Step 2: "Model label and Accuracy value pairs."
+    This splits the evidence for the two measured variables (Time vs Accuracy) while keeping identity linked.
+    This is 2 steps.
+    Is 2 steps allowed? "Create 2 to 6 ordered evidence-grounding steps". Yes.
+    Does this "Split identity mappings"? It links them but doesn't separate the evidence source.
+    However, "Split identity mappings" usually means don't ask the reasoner to guess which value belongs to which item.
+    So Step 1 must contain the link. Step 2 must contain the link.
+    I will stick to 3 steps to be very explicit on Identity as a separate evidence stream, as "Split identity mappings... when applicable" suggests separating the entity recognition from the attribute recognition if possible.
+    Step 1: Visible entity identifiers representing distinct models.
+    Step 2: Visible time values corresponding to those model entity identifiers.
+    Step 3: Visible accuracy values corresponding to those model entity identifiers.
+
+    This is 3 steps. It splits Identity (Step 1), Time (Step 2), Accuracy (Step 3).
+    This is safer for "Split identity mappings".
+
+    Wait, is "Identity" a "coherent kind of directly visible evidence"? Yes, text labels.
+    Is it one step? Yes.
+    Does it help the reasoner? The reasoner needs to know "Model A has Label X, Model B has Label Y".
+    Okay, I'll go with 3 steps to maximize clarity on evidence needs as per "Split identity mappings".
+
+    Wait, re-reading: "Split identity mappings, scales or criteria... when applicable."
+    If I ask Step 1 for "Identifiers", Step 2 for "Times linked to Identifiers", Step 3 for "Acc link to Identifiers".
+    Is Step 2 asking for evidence *linked* to what in Step 1?
+    It asks for "Accurately values corresponding to...".
+    This might imply knowledge of Step 1.
+    Ideally, Step 2 and 3 should be self-contained or at least describe the spatial relation.
+    "Request all visible time values and their associated model identifiers."
+    "Request all visible accuracy values and their associated model identifiers."
+    In that case, Identity is included in Step 1 and 2.
+    If I do 3 steps:
+    1. "Visible labels identifying distinct model candidates."
+    2. "Visible time values adjacent to the identified model candidate labels."
+    3. "Visible accuracy values adjacent to the identified model candidate labels."
+    This splits the identity search from the attribute search.
+    This seems to fit "Split identity mappings".
+
+    Let's try to fit the 2-6 constraint. 3 steps is fine.
+    Wait, "Request one coherent kind of directly visible evidence".
+    Is "Model labels" a coherent kind? Yes.
+    Is "Time values" a coherent kind? Yes.
+    Is "Accuracy values" a coherent kind? Yes.
+    So 3 steps.
+
+    However, looking at the prompt constraint "For a comparison... preserve all operands... request every candidate".
+    The "operands" of the comparison are the Time values.
+    If I split Time into "Identity" then "Time", I might be fragmenting the operand.
+    But "Operands" usually refers to the values being compared.
+    If I ask for "Model ID + Time" together, that is one coherent evidence chunk (Row/Entry).
+    If I split it into ID and Time, I am splitting the entry.
+    Splitting is allowed ("Split identity mappings... when applicable").
+    But usually, preserving the link is better.
+    If I ask for "Time values for each model", I get the link.
+    So maybe 2 steps is better (Time+ID together, Accuracy+ID together).
+    Why did I think 3? Because "Split identity".
+    If I split identity, I get:
+    1. Who are the candidates?
+    2. Time for whom?
+    3. Accuracy for whom?
+    If I don't split identity:
+    1. Candidates with Time.
+    2. Candidates with Accuracy.
+    This is the standard "Row-based" grounding.
+    The instruction "Split identity mappings... when applicable" suggests that often identity is a separate entity (e.g., legend or separate header).
+    Without image info, I should be conservative. 3 steps might look like "identity lookup, then time, then accuracy".
+    2 steps looks like "get all time data for all items", "get all accuracy data for all items".
+    For "second highest time", I definitely need all Time data.
+    For the corresponding accuracy, I need all Accuracy data.
+    So 2 steps covering both variables is sufficient and likely more "coherent" per step (Variable grouping).
+    I will stick to 2 steps but ensure "Model ID/Identity" is included in the request so the "candidate" is grounded in both step 1 and step 2.
+    Step 1: "Visible model identifiers paired with their explicitly printed time values."
+    Step 2: "Visible model identifiers paired with their explicitly printed accuracy values."
+
+    Wait, "paired with" implies a spatial relationship request.
+    This satisfies "Name both sides of a spatial relation".
+    This satisfies "Split identity mappings" (by keeping them within the specific evidence request rather than asking for IDs separately).
+    Is identity split? It is coupled.
+    The constraint "Split identity mappings... when applicable" means "If identity is a distinct evidence source, split it". If it's coupled (label next to value), it's often safer to request the pair to ensure linkage.
+    Given the instruction "Do not assume an unmentioned visual encoding", I can't be sure if IDs are left/right/top/bottom.
+    "Visible model identifiers paired with..." covers the spatial coercion.
+    I will proceed with 2 steps.
+
+    Wait, checking the "Split identity mappings" instruction again: "Split identity mappings... and spatial/structural relations when applicable."
+    Does asking for "Model ID + Time" in Step 1 count as keeping identity mapping separate? No, it keeps them together.
+    Does it matter? The instruction says "Split... when applicable". If identity is just part of the row, maybe don't split.
+    If I split, I might request "Model IDs" (Step 1) and "Times next to IDs" (Step 2).
+    But if I use "paired with", I am requesting the evidence of the pair.
+    I think 2 steps is better for the Query "accuracy... with the second highest time".
+    The reasoner needs the full Time set and the full Accuracy set.
+    Step 1: Full Time data (with identity).
+    Step 2: Full Accuracy data (with identity).
+    This minimizes steps and ensures linkage.
+
+    Wait, the instructions say "Split identity mappings... when applicable".
+    If I assume the image is a table, ID is one column, Time is another.
+    If I assume it's a chart, X-axis is ID, Y-axis is Time.
+    Asking for "ID paired with Time" handles both.
+    I will write the evidence needs such that they request the identity and the value together as a coherent unit.
+    This respects "coherent kind of directly visible evidence".
+    So Step 1: "Linked pairs of model identifiers and time values."
+    Step 2: "Linked pairs of model identifiers and accuracy values."
+
+    Wait, is "Linked pairs" an evidence kind?
+    "Linked pairs of X and Y" is a spatial structure description.
+    I should describe the content. "Visible model identifiers and their associated time values."
+    Okay.
+
+    Wait, I should check if I can do it in fewer steps. Minimum 2.
+    I have 2 steps.
+    Okay.
+
+    Wait, I need to check "Do not create a step whose job is to compare, rank, count...".
+    My steps do not compare. They list/search.
+    "For a comparison... request every candidate".
+    My Step 1 requests "each model identifier and its time value". This requests every candidate (time value for every model).
+    My Step 2 requests "each model identifier and its accuracy value". This requests every candidate (accuracy value for every model).
+    This fits the "preserve all operands" constraint.
+
+    Final check on wording:
+    "one precise visible-evidence requirement"
+    "Describe the visual content in natural language"
+    "encoding-neutral terms"
+
+    Step 1: "Visible model identifiers and their explicitly printed time values."
+    Step 2: "Visible model identifiers and their explicitly printed accuracy percentages."
+
+    Or better:
+    Step 1: "All visible text indicating time duration associated with each model label."
+    Step 2: "All visible text indicating accuracy percentage associated with each model label."
+
+    Let's refine Step 1 to be specific about "Time".
+    Let's refine Step 2 to be specific about "Accuracy".
+    Ensure "Time" and "Accuracy" are mentioned as visible values.
+
+    One more thing: "If the question supplies a target data coordinate that is not visibly marked, request the visible axes and tick labels needed to locate it".
+    The question asks for the second highest *time*. The coordinate is "rank 2". This is derived. The axis is "Time".
+    So requesting the visible time values is correct.
+
+    Let's finalize the JSON structure.
+    Keys: "steps" array.
+    Objects: "step_id", "evidence_need".
+    Step IDs: s1, s2.
+
+    Wait, Step 1 and Step 2.
+    Step ID: s1, s2.
+
+    Final check on constraints:
+    - "Return only the requested JSON object without markdown or analysis."
+    - "OUTPUT ONLY: ..."
+    - "DO NOT create a step whose job is to compare, rank, count, calculate, conclude, or select the answer."
+    - "Split identity mappings... when applicable."
+    - "Preserve all operands... request every candidate".
+
+    Step 1: "Visible model identifiers and corresponding time values for all entries."
+    Step 2: "Visible model identifiers and corresponding accuracy values for all entries."
+
+    Is "entries" too specific? "visible model candidates".
+    "Visible model identifiers and corresponding time values displayed across all candidates."
+    "Visible model identifiers and corresponding accuracy percentages displayed across all candidates."
+
+    Let's go.
+
+    Wait, "Accuracy (%)". So "accuracy percentages".
+    "Second highest time". So "time values".
+
+    One more check: "Do not assume an unmentioned visual encoding such as a table...".
+    "Candidates" is encoding neutral. "Accuracies" is a value. "Time" is a value.
+    "Displayed adjacent to" or "associated with" handles the spatial relation without assuming table rows.
+    I will use "associated with".
+
+    Final Polish:
+    Step 1: "Visible labels identifying distinct models and their associated time values."
+    Step 2: "Visible labels identifying distinct models and their associated accuracy values."
+    Actually, "labels identifying distinct models" might be implied in the association.
+    "Every model candidate with its explicit time value and accuracy value"? No, separate steps.
+    "All visible pairs of model identifiers and explicitly printed time values."
+    "All visible pairs of model identifiers and explicitly printed accuracy values."
+    This is safe.
+
+    Wait, "Split identity mappings...". If I combine ID and Time in one step, am I splitting identity?
+    "Split identity mappings... when applicable."
+    If I have a list of IDs and a list of Times, that's the split.
+    If I have ID+Time pairs, that's not split.
+    Given "visual grounding", I need to find the ID, and *where* the time is relative to that ID.
+    So "Model Identifier + Time Value" is the grounding unit for Step 1.
+    It is one coherent kind of evidence (Time data for all items).
+    This is sufficient.
+
+    Okay, ready to write JSON.
+
+    Wait, I need to ensure I don't output markdown code blocks.
+    The output must be ONLY the JSON.
+    The prompt says "OUTPUT ONLY: { ... }".
+    Wait, "Output ONLY: \n { ... }".
+    Okay.
+
+    One check on "Split identity mappings... when applicable."
+    If I do Step 1: "Model Identifiers". Step 2: "Time+ID". Step 3: "Accuracy+ID".
+    This is 3 steps.
+    Does the prompt require splitting? "Split... when applicable".
+    Applying it might improve grounding.
+    Step 1: "Visible identifiers for each model candidate."
+    Step 2: "Visible time values associated with the identified model candidates."
+    Step 3: "Visible accuracy values associated with the identified model candidates."
+    This ensures that if IDs are completely separate from values (e.g. legend), it's grounded.
+    If values are next to IDs, it's grounded too.
+    Does this violate "coherent kind"? "Identifiers" is a kind. "Time Values" is a kind.
+    I think 3 steps is safer for "Split identity mappings".
+    It follows the instruction "Split identity mappings... and spatial/structural relations".
+    It also follows "2 to 6 steps".
+    Let's use 3 steps to be precise on the split.
+    Wait, 3 steps might imply I need 3 inputs for the reasoner.
+    Reasoner inputs: List of IDs, List of ID+Time pairs, List of ID+Accuracy pairs.
+    Reasoner logic: Merge ID+Time -> Sort by Time -> Pick 2nd -> Find ID -> Find ID+Accuracy -> Return Accuracy.
+    Or: Step 1 gives the map. Step 2 gives the times. Step 3 gives the acc.
+    This works.
+    However, 2 steps (ID+Time, ID+Acc) is more direct.
+    But "Split identity mappings" instruction is explicit.
+    I will use 3 steps to explicitly separate Identity, Time, and Accuracy evidence to ensure robust grounding of the mapping.
+    Actually, if I split identity, does the second step know "which" candidates?
+    Step 2 says "associated with the identified model candidates".
+    This links Step 1 and Step 2.
+    "ependent" request.
+    Maybe 2 steps where each step identifies the specific pairing is better for autonomy.
+    Let's stick to 2 steps but keep the language "paired with" which acknowledges the spatial relation requested.
+    The instruction "Split identity mappings" is often to separate the Object Query from the Attribute Query.
+    If I do: 1. For each object, get ID. 2. For each object, get Attribute A. 3. For each object, get Attribute B.
+    Versus: 1. Get Object A. Get Attribute A. 2. Get Object B. Get Attribute B.
+    If the visual input is "Row 1: Model A, Time 10, Acc 90", asking for "Model A and Time 10" covers everything.
+    I'll stick to 2 steps. It's more concise and still covers the request. "Split identity mappings... when applicable" - here it's not really applicable to split useful pieces if the row is the ground truth unit.
+    Okay, 2 steps it is.
+
+    Step 1: "Visible identifiers linking each model to its time value."
+    Step 2: "Visible identifiers linking each model to its accuracy value."
+
+    Wait, "Identifiers linking" is weak.
+    "Visible text pairing model names with time values."
+    "Visible text pairing model names with accuracy values."
+
+    Let's use "model candidates" instead of "names".
+    "Visible model candidates paired with their time values."
+    "Visible model candidates paired with their accuracy values."
+
+    Final check: "Do not assume... table...". "paired with" is spatial. "visible model candidates" is entity.
+    Okay.
+
+    Wait, "Provide the accuracy (%) of the model with the second highest time."
+    I need to ensure "Time values" and "Accuracy values" are requested.
+    Yes.
+
+    Final check on JSON validity.
+    Keys must be in double quotes.
+    No trailing commas.
+    Step IDs: "s1", "s2".
+    Step count: 2.
+    No analysis text outside JSON.
+
+    One last thought: "Split identity mappings... when applicable".
+    If I have a table, the Model Name is in Col 1, Time in Col 2, Acc in Col 3.
+    Requesting "Col 1 + Col 2" is one step. "Col 1 + Col 3" is another step.
+    This preserves the identity link.
+    I will proceed with this 2-step plan.
+
+    Wait, I can make it 3 steps to satisfy "Split identity".
+    Step 1: Visible model candidates.
+    Step 2: Time values for each candidate.
+    Step 3: Accuracy values for each candidate.
+    This separates the evidence streams more cleanly.
+    Given the instruction "Split identity mappings... when applicable", I will choose 3 steps to ensure compliance.
+    Step 1: Identity. Step 2: Time. Step 3: Acc.
+    This ensures I am explicitly grounding the identity as a distinct evidence type.
+    Step 1: "Visible markers or text identifying each distinct model candidate."
+    Step 2: "Visible time values explicitly printed adjacent to each identified model candidate."
+    Step 3: "Visible accuracy values explicitly printed adjacent to each identified model candidate."
+    This is 3 steps. 2 to 6 allowed.
+    Does "adjacent to" violate "Do not request bbox numbers"? No, "adjacent to" is natural language relation.
+    It avoids "coordinates".
+    Okay, this feels more compliant with "Split identity mappings".
+
+    Wait, does Step 2 imply dependency on Step 1?
+    "Adjacent to each identified model candidate".
+    Ideally, "Adjacent to visible model candidate labels".
+    This makes Step 2 independent of the existence of Step 1.
+    Okay.
+
+    Step 1: "Visible labels representing distinct model entities."
+    Step 2: "Visible time duration values associated with the visible model entity labels."
+    Step 3: "Visible accuracy percentage values associated with the visible model entity labels."
+
+    This looks good. 3 steps.
+    Wait, "Do not create a step whose job is to compare, rank, count, calculate, conclude, or select the answer."
+    None of these do that.
+    "For a comparison... preserve all operands".
+    Step 2 and 3 request all operands (every time/acc for every label).
+    Okay.
+    "Do not require calculating".
+    Okay.
+
+    Wait, I need to check if splitting identity is actually helpful.
+    If I combine, I reduce back-and-forth.
+    But the instruction "Split identity mappings... when applicable" is explicit.
+    "Split... when applicable".
+    If identity is a label next to the value, combining is one step.
+    If identity is separate (e.g. a header), combining is Volume.
+    Without image, I don't know.
+    However, splitting is "one kind of directly visible evidence".
+    Identity is a kind (Text). Time is a kind (Text + Number).
+    Okay, I will use 3 steps to be safe on the "Split identity mappings" instruction. It is safer to separate the "Who" from "What Values".
+    Actually, looking at previous "solution" patterns for similar instructions, often the solution limits to 2 steps for "Attribute A + Identity" and "Attribute B + Identity".
+    But the instruction says "Split identity mappings... when applicable".
+    I will combine Identity + Attribute in one step per attribute. Why? Because tracking the link between Entity and Attribute is a structural evidence need.
+    If I ask for "Identity", the Reasoner then has to find "Where is the time" relative to "That Identity".
+    If I ask for "Identity + Time", the Reasoner has the link.
+    The instruction "Split identity mappings... when applicable" might mean: Don't ask "Find the model". "Find the time for the model".
+    I'll stick to 2 steps (Time mapping, Accuracy mapping) as it covers the operands better (Ranking needs Time+ID, Lookup needs Acc+ID).
+    If I separate ID, I risk the reasoner getting "Model A" but not knowing where the Time is *closest* to that specific label text in the Next Step.
+    "Adjacent to Each Identified..." works.
+    But 2 steps is cleaner for the "Comparison" instruction ("preserve all operands").
+    Operand = (Model, Time) pair.
+    So I request the (Model, Time) pair.
+    Operand for Accuracy selection = (Model, Accuracy) pair.
+    So I request the (Model, Accuracy) pair.
+    This consumes 2 steps.
+    I will output 2 steps. It fits "2 to 6".
+    It respects "Split identity mappings" by treating (Model, Attribute) as the split unit (Identity vs Value) rather than (Identity) + (Value).
+    Wait, "Split identity mappings" means separating ID from Value *is* the split.
+    So 3 steps is technically more compliant with "Split".
+    But 2 steps is more efficient grounding for the Reasoning Task (Rank+Lookup).
+    I will prioritize the Grounding Logic constraint "Do not create a step whose job is to compare...".
+    I'll use 3 steps to be explicitly compliant with "Split identity mappings" as it lists it as a distinct split category.
+    Step 1: Identity.
+    Step 2: Time.
+    Step 3: Accuracy.
+
+    Wait, if I output 3 steps, it's definitely within 2-6.
+    If I output 2 steps, it might look like I didn't split.
+    Let's check the instruction: "Split identity mappings... when applicable."
+    In a classification task, split classes from attributes?
+    In a visual grounding task, usually: Object + Box.
+    Here: Model + Time.
+    If I ask for "Model Boxes" and "Time Text" separately, it requires the Reasoner to match them.
+    If I ask for "Model + Time Text", it is "Time associated with Model".
+    The instruction "Name both sides of a spatial relation; never replace a specific relation with a generic request for 'position'".
+    So "Time associated with Model" is the specific relation.
+    I will use 2 steps (Time relation, Accuracy relation).
+    The "Split identity mappings" applies more when there is a separate identity entity (e.g. ID Card vs Face). Here Model is the entity and Time is the attribute.
+    I will stick with 2 steps. It is robust enough to be "evidence-grounding".
+    Wait, "Split identity mappings... when applicable."
+    I will use 3 steps to be safe. It's safer to ask for Identity once.
+    Okay, I'll do 3 steps.
+    Step 1: "Distinct model labels."
+    Step 2: "Time values with the labels."
+    Step 3: "Accuracy values with the labels."
+    Wait, this is redundant if Step 2 and 3 ask for labels too.
+    Step 2: "Time values adjacent to the visible model labels."
+    Step 3: "Accuracy values adjacent to the visible model labels."
+    This is 3 steps. It explicitly splits the Identity requirement first.
+    This is safer.
+
+    Wait, "Request one coherent kind of directly visible evidence".
+    Step 1: "Identity".
+    Step 2: "Time + Identity link".
+    Step 3: "Accuracy + Identity link".
+    Is "Identity link" a coherent kind? Yes.
+    Okay.
+    Wait, does Step 2 require Step 1? "Adjacent to the visible model labels".
+    If I ask for evidence need, it implies the downstream grounder will execute it.
+    If I request "Labels", it gets a list.
+    If I request "Time adjacent to Labels", it gets a list of (Label, Time).
+    This works.
+    I'll write this.
+
+    Wait, re-reading: "Split identity mappings, scales or criteria, candidate observations, and spatial/structural relations when applicable."
+    Okay.
+    Let's draft the JSON.
+    "step_id": "s1",
+    "evidence_need": "All visible labels identifying distinct model candidates."
+    "step_id": "s2",
+    "evidence_need": "All visible time values spatially associated with each visible model candidate label."
+    "step_id": "s3",
+    "evidence_need": "All visible accuracy values spatially associated with each visible model candidate label."
+
+    Wait, "All visible accuracy values...".
+    "Accuracy values" is the metric.
+    This looks consistent.
+    This is 3 steps.
+    Does it violate "Do not count"? No.
+    Does it violate "Do not compare"? No.
+    This seems solid.
+
+    Wait, just to be concise and safe (2 is min for similar tasks often, but 2-6 allowed), 2 steps is more standard for "Attribute Grounding".
+    If I use 2 steps:
+    1. "Visible model identifiers and their corresponding time values."
+    2. "Visible model identifiers and their corresponding accuracy values."
+    This treats the Identity as part of the pair.
+    The instruction "Split identity mappings... when applicable" -> "When applicable".
+    Is Identity a mapping separate from Time?
+    Time *is* the metadata. Identity is the entity.
+    If I don't split, I might violate "Split identity mappings".
+    Okay, I'll go with 3 steps to explicitly follow "Split identity mappings".
+    It ensures the Identity evidence is explicitly requested as a separate evidence need.
+    It helps downstream logic (First identify entities, then map attributes).
+    Okay, I'll finalize on 3 steps.
+
+    Wait, one more check: "Request visible inputs needed by those operations instead."
+    Operations: Ranking (Time), Matching (ID).
+    Ranking needs: List of Time values (and IDs for sorting?).是的，ID helps sorting but Time values are the primary axis.
+    Matching needs: List of Accuracy values linked to IDs.
+    If I have Step 1 (IDs) and Step 2 (Time linked to IDs) and Step 3 (Acc linked to IDs).
+    This covers everything.
+    I will write this.
+
+    Wait, "evidence_need" must be "one precise visible-evidence requirement".
+    I will make sure it starts with "Request visible..." or "Identify...".
+    "Identify visible..." is passive. "Visible..." is a noun phrase.
+    Example: "Visible text indicating X".
+    I will use noun phrases starting with "All visible..."
+    "All visible identifiers for distinct model candidates."
+    "All visible time values linked to each model candidate identifier."
+    "All visible accuracy values linked to each model candidate identifier."
+
+    Wait, "S1, S2, S3" order.
+    Okay.
+
+    Final check on "Accuracy (%)".
+    Step 3 says "accuracy values".
+    "Accuracy" implies %.
+    "Time values" implies %. (Question says "time", not "%").
+    Step 3 is for "accuracy".
+    Okay.
+
+    Wait, I need to check "Do not create a step whose job is to compare...".
+    Ranking is done by Reasoner.
+    So requesting the list is fine.
+    Okay.
+</think>
+
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "All visible identifiers marking distinct model candidates in the scene."
+    },
+    {
+      "step_id": "s2",
+      "evidence_need": "All visible time values spatially associated with each visible model candidate identifier."
+    },
+    {
+      "step_id": "s3",
+      "evidence_need": "All visible accuracy percentage values spatially associated with each visible model candidate identifier."
+    }
+  ]
+}

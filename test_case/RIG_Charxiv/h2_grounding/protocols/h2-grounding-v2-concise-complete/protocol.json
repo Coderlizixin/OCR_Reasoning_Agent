@@ -1,0 +1,174 @@
+{
+  "protocol_version": "h2-grounding-v2-concise-complete",
+  "task": "question-conditioned necessary visual evidence grounding",
+  "scientific_hypothesis": "step-conditioned grounding improves necessary-evidence discovery beyond the gain from an equal number of repeated single-pass calls",
+  "modes": [
+    "single",
+    "repeated-single",
+    "predicted-plan",
+    "reviewed-plan"
+  ],
+  "question_source_policy": "prefer_raw_question_then_question",
+  "formal_dataset": {
+    "annotation_path": "T:\\PyCharmProject\\OCR-Reasoning\\RIG-Annotating-main\\annotation of RIG\\Charxiv_reasoning_val\\annotation_1.json",
+    "annotation_sha256": "8ba7d79c4685908114977d1e5a6747c275f520b81cdf93ec9a3ff457c6d05898",
+    "expected_samples": 41,
+    "coverage_policy": "exactly all indices in annotation_1.json"
+  },
+  "planner": {
+    "image_visible": false,
+    "system_prompt": "You decompose a visual grounding task into evidence needs.\nYou receive only the question, not the image. Do not solve the question, predict the\nanswer, state candidate values, or invent visible content. Return only the requested\nJSON object without markdown or analysis.",
+    "user_prompt_template": "QUESTION:\n__QUESTION_PLACEHOLDER__\n\nCreate 2 to 6 ordered evidence-grounding steps for a downstream visual grounder.\nEach step must request one coherent kind of directly visible evidence needed to\nderive the answer. Split identity mappings, scales or criteria, candidate observations,\nand spatial/structural relations when applicable.\n\nThe plan must describe evidence requirements only. It must not contain the final\nanswer.\nDo not create a step whose job is to compare, rank, count, calculate, conclude, or\nselect the answer. Those operations belong to a later reasoner; request the visible\ninputs needed by those operations instead.\nFor a comparison, ranking, distance, or count question, preserve all operands of the\ncriterion: request every candidate and counterpart together with the shared axis,\nscale, or complete trace needed to compare them. Name both sides of a spatial\nrelation; never replace a specific relation with a generic request for \"position\".\nRequest bbox-localizable visible content, not estimated centroids, derived data\ncoordinates, distances, rankings, or counts. Transcription is allowed only for text\nor values explicitly printed in the image.\nDescribe the visual content in natural language; do not request bbox numbers, image\ndimensions, pixels, or coordinate conversion. If the question supplies a target data\ncoordinate that is not visibly marked, request the visible axes and tick labels needed\nto locate it rather than requesting canvas metadata.\nBecause you cannot see the image, do not assume an unmentioned visual encoding such\nas a table, row, column, chart, legend, curve, or marker. Use encoding-neutral terms\nsuch as visible candidate, identity evidence, value evidence, and spatial position;\nthe downstream grounder will identify how that evidence is actually displayed.\n\nOUTPUT ONLY:\n{\n  \"steps\": [\n    {\n      \"step_id\": \"s1\",\n      \"evidence_need\": \"one precise visible-evidence requirement\"\n    }\n  ]\n}",
+    "guided_json_schema": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "properties": {
+              "step_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 24
+              },
+              "evidence_need": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              }
+            },
+            "required": [
+              "step_id",
+              "evidence_need"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "min_steps": 2,
+    "max_steps": 6,
+    "terminal_failure_policy": "truncated or unparseable plans are preserved as zero-step model failures; they are never dropped, repaired, or regenerated in a formal run"
+  },
+  "step_grounder": {
+    "system_prompt": "You locate visible evidence for one assigned step.\nUse internal visual reasoning to identify and localize the requested evidence\naccurately. Do not solve the final question or choose an answer. Return only the\nrequested JSON object; do not expose analysis or a checklist.",
+    "user_prompt_template": "IMAGE: A chart or scientific figure.\n\nQUESTION:\n__QUESTION_PLACEHOLDER__\n\nCURRENT EVIDENCE NEED:\n__EVIDENCE_NEED_PLACEHOLDER__\n\nLocate every visible clue required for CURRENT EVIDENCE NEED. Cover every relevant\ncandidate, series, or panel, not only the most salient item or likely answer.\n\nRULES\n- One item is one semantic clue; keep distinct clues separate even if boxes overlap.\n- Box the full visible clue. For a curve, axis, or spatial relation, include the\n  complete relevant segment or region needed to perceive it.\n- Include only evidence for this step. Do not use the whole image as a shortcut.\n- Return at most 16 elements. bbox uses integer [xmin,ymin,xmax,ymax] in [0,1000].\n- Transcribe visible text or values exactly when readable.\n\nOUTPUT ONLY:\n{\n  \"elements\": [\n    {\n      \"description\": \"visible identity, value, or structural clue\",\n      \"bbox\": [xmin, ymin, xmax, ymax]\n    }\n  ]\n}",
+    "guided_json_schema": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "bbox": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000
+                }
+              }
+            },
+            "required": [
+              "description",
+              "bbox"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "elements"
+      ],
+      "additionalProperties": false
+    },
+    "soft_target_max_elements": null,
+    "hard_max_elements": 16
+  },
+  "single_control": {
+    "source_prompt_version": "derivation-evidence-v4-concise-guided-json",
+    "repeated_control_policy": "match predicted step count per question"
+  },
+  "review_policy": {
+    "image_visible_to_reviewer": false,
+    "same_step_ids_order_and_count_as_predicted": true,
+    "failed_source_plans_remain_zero_step_failures": true,
+    "may_edit": [
+      "evidence_need",
+      "review_notes"
+    ],
+    "prohibited_inputs": [
+      "answer",
+      "GT bbox",
+      "annotation description",
+      "grounding output"
+    ]
+  },
+  "inference": {
+    "max_completion_tokens_per_call": 12288,
+    "thinking_disabled": false,
+    "temperature_explicitly_set": false
+  },
+  "union_policy": {
+    "deduplicate_only": "casefolded identical description plus identical bbox",
+    "preserve_identical_bbox_with_different_semantics": true,
+    "coordinate_space": "integer [0,1000] xyxy"
+  },
+  "evaluation": {
+    "primary_comparison": "predicted-plan versus call-matched repeated-single",
+    "primary_metric": "paired question-level macro necessary recall difference",
+    "primary_semantic_policy": "overlap_review",
+    "primary_iou_profile": 0.3,
+    "secondary_iou_profile": 0.5,
+    "secondary_metrics": [
+      "macro precision",
+      "macro F1",
+      "complete evidence rate",
+      "mean prediction union area ratio",
+      "mean prediction count"
+    ],
+    "uncertainty": {
+      "method": "paired question bootstrap percentile 95% CI",
+      "resamples": 10000,
+      "seed": 20260903,
+      "multiplicity": "one primary comparison; no correction required"
+    },
+    "claim_tiers": {
+      "coverage_support": "predicted-plan improves recall over repeated-single",
+      "efficient_grounding_support": "coverage support plus improved macro F1 without increased mean union area",
+      "planning_bottleneck_evidence": "reviewed-plan improves over predicted-plan under identical step count"
+    }
+  },
+  "reporting": {
+    "paired_unit": "question",
+    "required_failure_rates": [
+      "sample_level",
+      "plan_level",
+      "step_level"
+    ],
+    "required_costs": [
+      "image_calls",
+      "prompt_tokens",
+      "completion_tokens",
+      "wall_time"
+    ],
+    "all_sample_primary": true,
+    "valid_plan_subset_secondary_only": true
+  }
+}

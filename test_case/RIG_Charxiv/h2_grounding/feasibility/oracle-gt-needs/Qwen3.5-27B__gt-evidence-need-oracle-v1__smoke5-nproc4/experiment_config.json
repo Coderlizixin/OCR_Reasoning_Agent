@@ -1,0 +1,72 @@
+{
+  "experiment_version": "gt-evidence-need-oracle-v1",
+  "model_name": "Qwen3.5-27B",
+  "selected_indices": [
+    1,
+    17,
+    8,
+    244,
+    346
+  ],
+  "target_count": 49,
+  "evidence_input": "question + GT annotation description; GT bbox is evaluation-only",
+  "thinking_disabled": false,
+  "temperature_explicitly_set": false,
+  "guided_json": true,
+  "max_tokens": 12288,
+  "nproc": 4,
+  "api_base": "http://10.3.112.34:23290/v1",
+  "annotation_path": "T:\\PyCharmProject\\OCR-Reasoning\\RIG-Annotating-main\\annotation of RIG\\Charxiv_reasoning_val\\annotation_1.json",
+  "annotation_sha256": "8ba7d79c4685908114977d1e5a6747c275f520b81cdf93ec9a3ff457c6d05898",
+  "tsv_path": "C:\\Users\\19639\\LMUData\\CharXiv_reasoning_val.tsv",
+  "tsv_sha256": "88381fc53b97d5be4c833dda520dcb6d6cf98509547c2a62d20ae9545408cf05",
+  "image_dir": "C:\\Users\\19639\\LMUData\\images\\CharXiv_reasoning_val",
+  "input_image_sha256": {
+    "1": "d9523819e39e812a9b6b7eee92bc7118d2a09da047b7a2fdf81a08dc2318a420",
+    "17": "00ac91d398cfbabec36bc507afa530e8b77827b6ec00ca99651de7f90f8913d0",
+    "8": "3d7f1aeeaad7041626299d2ebb77e43c03625ce380b17cb8a58db8802a6d3ecd",
+    "244": "6855161168230da2a1434aa9d87b528e1d8346b594f10c25e24850a74c5e4674",
+    "346": "572d6a3cf266cdc34be54bf4b5ccaac0a75f13dd107a8aee0a826d3d466fe193"
+  },
+  "system_prompt": "You are a precise visual evidence localizer.\nYou receive one known-correct evidence need for a reasoning question. Locate only\nthat requested visible clue in the image. Do not solve the question, choose an\nanswer, or add related context. Use internal visual reasoning, then return only the\nrequested JSON object without markdown or exposed analysis.",
+  "user_prompt_template": "IMAGE: A chart or scientific figure.\n\nQUESTION:\n__QUESTION_PLACEHOLDER__\n\nKNOWN-CORRECT EVIDENCE NEED:\n__EVIDENCE_NEED_PLACEHOLDER__\n\nLocate the visible image element described by KNOWN-CORRECT EVIDENCE NEED.\n\nRULES\n- The evidence need is semantically correct, but no target coordinates are given.\n- Return only the requested clue, not the answer and not surrounding evidence.\n- Usually return one box. Return multiple boxes only if the same requested clue is\n  genuinely displayed as disconnected visible parts.\n- Box the full visible extent of the requested clue. For a curve, axis, trace, or\n  region, include the complete relevant visible segment.\n- Do not use the whole image or a very large context box as a shortcut.\n- bbox is integer [xmin,ymin,xmax,ymax] normalized to [0,1000].\n- Transcribe visible text or values exactly when readable.\n- Return at most 4 elements.\n\nOUTPUT ONLY:\n{\n  \"elements\": [\n    {\n      \"description\": \"the localized requested clue\",\n      \"bbox\": [xmin, ymin, xmax, ymax]\n    }\n  ]\n}",
+  "guided_json_schema": {
+    "type": "object",
+    "properties": {
+      "elements": {
+        "type": "array",
+        "maxItems": 4,
+        "items": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 320
+            },
+            "bbox": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              }
+            }
+          },
+          "required": [
+            "description",
+            "bbox"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "elements"
+    ],
+    "additionalProperties": false
+  },
+  "created_at": "2026-09-04T07:43:58.791937+00:00"
+}

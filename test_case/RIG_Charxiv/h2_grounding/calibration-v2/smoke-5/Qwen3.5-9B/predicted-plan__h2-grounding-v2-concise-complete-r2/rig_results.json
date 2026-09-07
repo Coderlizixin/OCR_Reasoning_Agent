@@ -1,0 +1,563 @@
+[
+  {
+    "index": 1,
+    "model_name": "Qwen3.5-9B",
+    "prompt_version": "h2-grounding-v2-concise-complete",
+    "h2_mode": "predicted-plan",
+    "inst_category": 1,
+    "category_name": "Text-in-Chart",
+    "question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?",
+    "question_source_field": "raw_question",
+    "dataset_question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?\n    * Your final answer must be grounded to some text that is explicitly written and relevant to the question in the chart.\n    * If you need to answer multiple terms, separate them with commas.\n    * Unless specified in the question (such as answering with a letter), you are required to answer the full names of subplots and/or labels by default.\n    ",
+    "gt_answer": "lambda_L = 0.13",
+    "status": "valid",
+    "plan_status": "valid",
+    "plan_steps": [
+      {
+        "step_id": "s1",
+        "evidence_need": "Identify all distinct linear traces within the visualization that are designated as data lines."
+      },
+      {
+        "step_id": "s2",
+        "evidence_need": "Extract the alphanumeric text labels or names explicitly assigned to each identified data line."
+      },
+      {
+        "step_id": "s3",
+        "evidence_need": "Transcribe the specific numerical or symbolic 'fi value' annotation associated with each identified data line."
+      },
+      {
+        "step_id": "s4",
+        "evidence_need": "Identify the visual trace and numerical scale markings defining the W_H axis."
+      },
+      {
+        "step_id": "s5",
+        "evidence_need": "Record the observed positional coordinates of each identified data line and its corresponding 'fi value' along the mapped scale of the W_H axis."
+      }
+    ],
+    "elements": [
+      {
+        "id": "pred_000",
+        "description": "blue line trace",
+        "bbox": [
+          271,
+          20,
+          408,
+          928
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_001",
+        "description": "red line trace",
+        "bbox": [
+          242,
+          145,
+          379,
+          928
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_002",
+        "description": "green line trace",
+        "bbox": [
+          229,
+          272,
+          332,
+          911
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_003",
+        "description": "lambda_L = 0.13",
+        "bbox": [
+          145,
+          40,
+          220,
+          60
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_004",
+        "description": "lambda_L = 0.20",
+        "bbox": [
+          145,
+          65,
+          220,
+          90
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_005",
+        "description": "lambda_L = 0.30",
+        "bbox": [
+          145,
+          90,
+          220,
+          115
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_006",
+        "description": "ap",
+        "bbox": [
+          255,
+          40,
+          275,
+          60
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_007",
+        "description": "sm",
+        "bbox": [
+          255,
+          65,
+          275,
+          85
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_008",
+        "description": "fi",
+        "bbox": [
+          255,
+          90,
+          275,
+          110
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_009",
+        "description": "ni",
+        "bbox": [
+          255,
+          115,
+          275,
+          140
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_010",
+        "description": "legend entry for the green dashed line with lambda value",
+        "bbox": [
+          158,
+          36,
+          258,
+          63
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_011",
+        "description": "legend entry for the red dotted line with lambda value",
+        "bbox": [
+          158,
+          70,
+          258,
+          93
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_012",
+        "description": "legend entry for the blue dash-dot line with lambda value",
+        "bbox": [
+          158,
+          102,
+          258,
+          132
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_013",
+        "description": "Label for the horizontal axis representing W_H",
+        "bbox": [
+          425,
+          865,
+          495,
+          925
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_014",
+        "description": "Numerical scale markings for the W_H axis (tick labels)",
+        "bbox": [
+          210,
+          865,
+          760,
+          985
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_015",
+        "description": "The visual trace of the W_H axis (horizontal line)",
+        "bbox": [
+          0,
+          985,
+          1000,
+          995
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_016",
+        "description": "Legend label: lambda_L = 0.13 (Green)",
+        "bbox": [
+          122,
+          30,
+          196,
+          52
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_017",
+        "description": "Legend label: lambda_L = 0.20 (Red)",
+        "bbox": [
+          122,
+          52,
+          196,
+          70
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_018",
+        "description": "Legend label: lambda_L = 0.30 (Blue)",
+        "bbox": [
+          122,
+          70,
+          196,
+          88
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_019",
+        "description": "Legend entry: symbol X and label fi",
+        "bbox": [
+          160,
+          95,
+          230,
+          130
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_020",
+        "description": "Blue 'fi' marker (X) on the graph",
+        "bbox": [
+          585,
+          155,
+          615,
+          175
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_021",
+        "description": "Red 'fi' marker (X) on the graph",
+        "bbox": [
+          350,
+          260,
+          370,
+          280
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_022",
+        "description": "Green 'fi' marker (X) on the graph",
+        "bbox": [
+          200,
+          440,
+          220,
+          460
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_023",
+        "description": "Axis label W_H",
+        "bbox": [
+          450,
+          870,
+          520,
+          920
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_024",
+        "description": "Axis label W_L",
+        "bbox": [
+          65,
+          330,
+          85,
+          530
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_025",
+        "description": "Y-axis tick value 0.08",
+        "bbox": [
+          30,
+          280,
+          60,
+          320
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_026",
+        "description": "Y-axis tick value 0.06",
+        "bbox": [
+          30,
+          390,
+          60,
+          430
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_027",
+        "description": "Y-axis tick value 0.04",
+        "bbox": [
+          30,
+          500,
+          60,
+          540
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_028",
+        "description": "X-axis tick value 0.2",
+        "bbox": [
+          480,
+          580,
+          520,
+          600
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      },
+      {
+        "id": "pred_029",
+        "description": "Text 'ap' in legend (circle symbol)",
+        "bbox": [
+          195,
+          140,
+          240,
+          165
+        ],
+        "provenance": [
+          {
+            "step_id": "s5",
+            "call_id": "s5_5"
+          }
+        ]
+      }
+    ],
+    "union_statistics": {
+      "raw_element_count": 30,
+      "union_element_count": 30,
+      "exact_duplicates_removed": 0,
+      "cross_step_candidate_pairs": 314,
+      "cross_step_near_duplicate_pairs_iou_0_9": 0,
+      "cross_step_near_duplicate_rate": 0.0,
+      "bbox_union_area_ratio": 0.243731
+    },
+    "token_usage": {
+      "prompt": 5467,
+      "completion": 36206,
+      "total": 41673
+    },
+    "elapsed_seconds": 601.8359877999465,
+    "elapsed_seconds_complete": true,
+    "step_statuses": [
+      {
+        "step_id": "s1",
+        "status": "valid",
+        "element_count": 3
+      },
+      {
+        "step_id": "s2",
+        "status": "valid",
+        "element_count": 7
+      },
+      {
+        "step_id": "s3",
+        "status": "valid",
+        "element_count": 3
+      },
+      {
+        "step_id": "s4",
+        "status": "valid",
+        "element_count": 3
+      },
+      {
+        "step_id": "s5",
+        "status": "valid",
+        "element_count": 14
+      }
+    ]
+  }
+]

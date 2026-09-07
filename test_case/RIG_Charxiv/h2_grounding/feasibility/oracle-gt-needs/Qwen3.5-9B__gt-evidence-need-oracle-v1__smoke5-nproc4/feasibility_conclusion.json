@@ -1,0 +1,79 @@
+{
+  "experiment": "GT Evidence-Need Oracle Grounding",
+  "version": "gt-evidence-need-oracle-v1",
+  "model": "Qwen3.5-9B",
+  "indices": [1, 17, 8, 244, 346],
+  "scope": "engineering go/no-go pilot; not a confirmatory H2 result",
+  "oracle_input": "question + one GT annotation description + full image; the GT bbox is withheld from the model and used only for evaluation",
+  "completion": {
+    "samples": 5,
+    "targets": 49,
+    "valid": 44,
+    "truncated": 5,
+    "request_failed": 0,
+    "wall_clock_note": "Run used four concurrent API requests; summed per-request latency is not wall-clock time.",
+    "summed_request_latency_seconds": 5214.986626999977,
+    "token_usage": {
+      "prompt": 223018,
+      "completion": 262579,
+      "total": 485597
+    }
+  },
+  "oracle_results": {
+    "target_micro_profile_recall_iou_0_3": 0.30612244897959184,
+    "sample_macro_profile_recall_iou_0_3": 0.31476190476190474,
+    "target_micro_profile_recall_iou_0_5": 0.24489795918367346,
+    "sample_macro_profile_recall_iou_0_5": 0.2552380952380952,
+    "strict_iou_recall_0_3": 0.30612244897959184,
+    "strict_iou_recall_0_5": 0.16326530612244897,
+    "mean_best_iou": 0.19620111253156436,
+    "mean_predicted_boxes_per_target": 0.9591836734693877,
+    "large_box_only_rate": 0.08163265306122448,
+    "model_failure_rate": 0.10204081632653061,
+    "request_failure_rate": 0.0
+  },
+  "by_sample_profile_recall_iou_0_3": {
+    "1": 0.3,
+    "17": 0.3333333333333333,
+    "8": 0.75,
+    "244": 0.19047619047619047,
+    "346": 0.0
+  },
+  "diagnostic_categories_iou_0_3": {
+    "axis_or_tick": {"targets": 13, "hits": 7, "recall": 0.5384615384615384},
+    "legend": {"targets": 11, "hits": 0, "recall": 0.0},
+    "line_or_region": {"targets": 12, "hits": 5, "recall": 0.4166666666666667},
+    "point_cluster_peak": {"targets": 11, "hits": 1, "recall": 0.09090909090909091},
+    "other": {"targets": 2, "hits": 2, "recall": 1.0}
+  },
+  "direct_single_reference": {
+    "source": "test_case/RIG_Charxiv/h2_grounding/smoke-5/Qwen3.5-9B/single__h2-grounding-v1-12288-final/rig_results.json",
+    "calls": 5,
+    "total_tokens": 54470,
+    "sample_macro_profile_recall_iou_0_3": 0.25833333333333336,
+    "target_micro_profile_recall_iou_0_3": 0.22448979591836735,
+    "sample_macro_profile_recall_iou_0_5": 0.19333333333333333,
+    "target_micro_profile_recall_iou_0_5": 0.16326530612244897
+  },
+  "oracle_minus_direct_single": {
+    "sample_macro_recall_iou_0_3": 0.056428571428571384,
+    "target_micro_recall_iou_0_3": 0.0816326530612245,
+    "sample_macro_recall_iou_0_5": 0.06190476190476188,
+    "target_micro_recall_iou_0_5": 0.0816326530612245,
+    "call_multiplier": 9.8,
+    "token_multiplier": 8.914998971910384
+  },
+  "pre_registered_gate": {
+    "profile_recall_iou_0_3_at_least": 0.6,
+    "model_failure_rate_at_most": 0.2,
+    "request_failure_rate_equals": 0.0
+  },
+  "gate_result": {
+    "decision": "NO_GO_FOR_FULL_ADAPTIVE_SYSTEM_WITH_CURRENT_GROUNDER",
+    "recall_gate_passed": false,
+    "model_failure_gate_passed": true,
+    "infrastructure_gate_passed": true,
+    "interpretation": "Supplying a correct evidence need yields only a modest recall gain despite nearly ten times as many visual calls. The current bottleneck is target-conditioned localization, especially legends, curves/regions, points/clusters, and multi-panel spatial selection. Building the full adaptive planner would therefore be premature."
+  },
+  "recommended_next_gate": "Diagnose and improve target-conditioned grounding on these same 49 requests, using candidate-region or panel-aware localization and bbox refinement, then rerun this unchanged oracle protocol. Proceed to human adaptive planning only after the oracle recall gate passes."
+}

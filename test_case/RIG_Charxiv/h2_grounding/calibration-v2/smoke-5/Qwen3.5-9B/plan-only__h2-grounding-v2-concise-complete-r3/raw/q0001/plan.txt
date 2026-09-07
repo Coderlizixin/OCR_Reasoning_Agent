@@ -1,0 +1,65 @@
+The user wants me to create a plan for a visual grounding task. The task is asking about a line that is "furthest away from its fi value from the W_H axis". This is phrased oddly ("from its fi value"), which suggests there might be some text or labels in the image related to "fi value", "W_H", and some lines.
+
+Key constraints:
+1. Create 2 to 6 ordered evidence-grounding steps
+2. Each step must request one coherent kind of directly visible evidence
+3. Split identity mappings, scales, criteria, candidate observations, and spatial/structural relations when applicable
+4. Must NOT contain the final answer
+5. Must NOT contain steps for comparison, ranking, count, calculate, conclude, or select
+6. For comparison/questions, preserve all operands - request every candidate and counterpart together with the shared axis, scale, or complete trace
+7. Request bbox-localizable visible content, not estimated centroids or derived data coordinates
+8. Describe visual content in natural language; do not request bbox numbers, image dimensions, pixels, or coordinate conversion
+9. Return only JSON without markdown or analysis
+
+Since I only receive the question (not the image) and must not invent visible content, I need to create steps that would request what would be needed to answer such a question, based on what the question seems to imply should be visible.
+
+The question seems to reference:
+- Lines (multiple candidates)
+- A "W_H axis" (which appears to be a named axis/line in the visualization)
+- "fi value" (something related to identifying specific values along lines)
+- Distance/metric from W_H axis
+
+My steps should request:
+1. The visual elements that show lines and the W_H axis
+2. The labels/values for each line that define their "fi value"
+3. The scale or axis system showing the W_H axis coordinates
+
+Let me create 3-4 steps that request what would be visible:
+
+1. First, identify what lines are present in the visualization
+
+
+2. Next, locate the W_H axis and any tick labels or markers along it
+3. Then identify values or labels associated with each line (the "fi value" reference)
+4. Finally, ensure the scale/axis system is visible so distances can be evaluated
+
+Actually, I need to be careful here. I cannot request comparisons, calculations, or rankings. I must request only visible evidence. So each step should be about identifying separate visual elements that are needed for comparison but without asking for comparison itself.
+
+Step 1: Identify all line elements visible in the chart/plot showing candidate lines to evaluate.
+Step 2: Identify the W_H axis and its visible scale markings or tick labels shown in the visualization.
+Step 3: Identify visible values or labels marking the "fi value" for each line identified.
+Step 4: Ensure all axes and markings needed to assess relative positions between lines and the W_H axis are visible.
+
+I'm refining this to ensure each step targets only the raw visible data a visual grounder would need to work from, without asking the system to compute anything.
+</think>
+
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "Identify all line elements visible in the plot area including their colors, styles, and any associated legend labels or identifiers"
+    },
+    {
+      "step_id": "s2",
+      "evidence_need": "Identify the W_H axis visible in the plot including tick marks, labels, and scale markings along its span"
+    },
+    {
+      "step_id": "s3",
+      "evidence_need": "Identify any text labels, numerical values, or annotation marks directly printed on or adjacent to each line that correspond to fi values"
+    },
+    {
+      "step_id": "s4",
+      "evidence_need": "Identify the complete cross-axis structure including gridlines or axis boundaries that define the W_H axis framing"
+    }
+  ]
+}

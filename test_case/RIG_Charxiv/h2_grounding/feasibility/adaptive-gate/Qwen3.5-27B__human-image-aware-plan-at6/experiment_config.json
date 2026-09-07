@@ -1,0 +1,83 @@
+{
+  "experiment_version": "h2-human-image-aware-grounding-at6-v1",
+  "condition": "human-image-aware-plan@6",
+  "mode": "human-image-aware-plan",
+  "model_name": "Qwen3.5-27B",
+  "budget_k": 6,
+  "selected_indices": [
+    1,
+    17,
+    8,
+    244,
+    346
+  ],
+  "plan_only": false,
+  "open_loop": true,
+  "step_max_tokens": 12288,
+  "thinking_disabled": false,
+  "temperature_explicitly_set": false,
+  "protocol_sha256": "a9f53f625f9dc233928b3d515ec5b485affbb93ebfb0588bf51e91dda2568460",
+  "api_base": "http://10.3.112.34:23290/v1",
+  "tsv_sha256": "88381fc53b97d5be4c833dda520dcb6d6cf98509547c2a62d20ae9545408cf05",
+  "input_image_sha256": {
+    "1": "d9523819e39e812a9b6b7eee92bc7118d2a09da047b7a2fdf81a08dc2318a420",
+    "17": "00ac91d398cfbabec36bc507afa530e8b77827b6ec00ca99651de7f90f8913d0",
+    "8": "3d7f1aeeaad7041626299d2ebb77e43c03625ce380b17cb8a58db8802a6d3ecd",
+    "244": "6855161168230da2a1434aa9d87b528e1d8346b594f10c25e24850a74c5e4674",
+    "346": "572d6a3cf266cdc34be54bf4b5ccaac0a75f13dd107a8aee0a826d3d466fe193"
+  },
+  "plans_from": "T:\\PyCharmProject\\OCR-Reasoning\\OCR-Reasoning-main\\test_case\\RIG_Charxiv\\h2_grounding\\feasibility\\adaptive-gate\\Qwen3.5-27B__human-image-aware-plan-at6__plan-only\\plans.json",
+  "plans_from_sha256": "436e81eb94736383e2bf9223d32d06222395c649a579a8c7f38bfab93739f502",
+  "plan_manifest_sha256": "3b508422fb9d0ff80ecebd2a4624497c77e02d9d771afb0c4d04d21f50f6c82d",
+  "grounder_extra_body": {
+    "guided_json": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "bbox": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000
+                }
+              }
+            },
+            "required": [
+              "description",
+              "bbox"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "elements"
+      ],
+      "additionalProperties": false
+    },
+    "mm_processor_kwargs": {
+      "images_kwargs": {
+        "size": {
+          "longest_edge": 8388608,
+          "shortest_edge": 4194304
+        }
+      }
+    }
+  },
+  "author_anonymous_id": "270",
+  "human_planning_cost": "not measured; this is a human feasibility condition",
+  "created_at": "2026-09-07T03:00:39.106800+00:00"
+}

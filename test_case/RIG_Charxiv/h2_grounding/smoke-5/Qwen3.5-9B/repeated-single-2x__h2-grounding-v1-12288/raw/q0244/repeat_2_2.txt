@@ -1,0 +1,548 @@
+The user wants to identify charts where a specific curve has the greatest increase.
+The specific curve is defined by having a second coordinate of 0 in its label (e.g., (0,0), (1,0), (2,0), etc.).
+The comparison is against curves with non-zero second coordinates (e.g., (0,1), (1,1), etc.).
+The time frame is from iteration 0.0 to 12.5.
+
+I need to look at each subplot and its legend.
+
+**Chart 1 (Top Left): Cell (0,8)**
+- Legend shows cells (0,0) to (0,8).
+- Curves with second coordinate 0: (0,0), (0,1), (0,2).
+- Looking at the graph:
+    - (0,0) starts around 0.025 and goes up to ~0.08.
+    - (0,1) starts around 0.025 and goes up to ~0.08.
+    - (0,2) starts around 0.025 and goes down to near 0.
+    - (0,8) is the black line at the bottom, staying near 0.
+- comparing (0,0)/(0,1) vs others. (0,0) and (0,1) have significant increases. Let's look closer. The legend order is usually top-down corresponding to the lines.
+    - Top line in legend is (0,0). In the plot, there is a yellowish line that goes up.
+    - Second line (0,1) is also up.
+    - Third line (0,2) is lower.
+    - This chart seems to have curves with second coordinate 0 showing the greatest increase.
+
+**Chart 2 (Top Middle): Cell (1,8)**
+- Legend shows cells (1,0) to (1,8).
+- Curves with second coordinate 0: (1,0), (1,1), (1,2).
+- Looking at the graph:
+    - The top group of lines (orange/yellow) goes from ~0.09 to ~0.20. This corresponds to (1,0), (1,1), (1,2) likely based on the legend colors.
+    - The lower lines stay low or go down.
+    - The curves with second coordinate 0 show the greatest increase.
+
+**Chart 3 (Top Right): Cell (2,8)**
+- Legend: (2,0) to (2,8).
+- Curves with second coordinate 0: (2,0), (2,1), (2,2).
+- Graph:
+    - There is a high group of lines (orange/red) that goes from ~0.04 up to ~0.11.
+    - Looking at the legend, (2,0) is yellow, (2,1) is orange, (2,2) is red-orange. These are the high lines.
+    - Curves with non-zero second coordinates (like (2,5), (2,6), (2,7), (2,8)) stay very low or have a small bump.
+    - So, curves with second coordinate 0 show the greatest increase.
+
+**Chart 4 (Middle Left): Cell (3,8)**
+- Legend: (3,0) to (3,8).
+- Curves with second coordinate 0: (3,0), (3,1), (3,2).
+- Graph:
+    - There is a distinct group of lines in the middle (red/pink) that goes from ~0.03 to ~0.08.
+    - The legend entries (3,0), (3,1), (3,2) correspond to the lighter colors (yellow/orange/red).
+    - Wait, looking at the lines: The lines that go up to ~0.08 are reddish. In the legend, (3,0) is yellow, (3,1) is orange, (3,2) is red-orange.
+    - The legend lists (3,0) at the top. In the plot, there's a cluster of lines at the bottom that stay low (<0.03) and a cluster in the middle that goes up.
+    - Let's re-examine the legend. The legend lists (3,0) to (3,8).
+    - The lines at the bottom of the legend are dark blue/black. In the plot, there is a dark blue line at the bottom.
+    - The lines at the top of the legend are yellow/orange. In the plot, there is a reddish line rising.
+    - Actually, let's look at the colors.
+    - (3,0) is a light yellow line. In the graph, there isn't a clear light yellow line rising high.
+    - (3,3) is a red line. In the graph, the red lines rise from ~0.03 to ~0.08.
+    - (3,4) is purple. (3,5) is dark purple.
+    - Let's look at the labels again. The legend title is "Cell". The entries are (3,0) ... (3,8).
+    - The lines that rise are reddish/pink. In the legend, (3,2) or (3,3) looks reddish.
+    - Wait, let's look at the first chart again. (0,0) is yellow. The yellow lines go up.
+    - In chart 4, the legend order is (3,0), (3,1), (3,2)...
+    - The rising lines are reddish. The legend says (3,2) is reddish-orange, (3,3) is red.
+    - Let's assume the legend mapping is standard color cycle.
+    - If (3,2) or (3,3) rises, these have non-zero second coordinates.
+    - The yellow line (3,0) seems to be low, near the bottom lines.
+    - So in this chart, curves with non-zero second coordinates seem to have the greatest increase.
+
+**Chart 5 (Middle Center): Cell (4,8)**
+- Legend: (4,0) to (4,8).
+- Graph:
+    - There is a purple/magenta group of lines that goes from ~0.03 to ~0.08.
+    - The legend shows (4,4) as magenta. (4,3) is light red.
+    - The yellow line (4,0) is likely at the bottom.
+    - The rising curves have higher second coordinates.
+
+**Chart 6 (Middle Right): Cell (5,8)**
+- Legend: (5,0) to (5,8).
+- Graph:
+    - There is a purple group of lines rising from ~0.02 to ~0.06.
+    - Looking at the legend, (5,5) is purple. (5,4) is darker purple? No, the cycle goes.
+    - (5,0) is yellow. (5,1) orange... (5,5) is purple.
+    - The rising lines correspond to higher indices, likely (5,5), (5,6), (5,7).
+    - So non-zero second coordinates rise.
+
+**Chart 7 (Bottom Left): Cell (6,8)**
+- Legend: (6,0) to (6,8).
+- Graph:
+    - There is a purple/magenta line rising from ~0.02 to ~0.04.
+    - Likely corresponds to higher indices.
+
+**Chart 8 (Bottom Center): Cell (7,8)**
+- Legend: (7,0) to (7,8).
+- Graph:
+    - There is a dark blue/purple line rising from ~0.02 to ~0.05.
+    - Corresponds to higher indices.
+
+**Chart 9 (Bottom Right): Cell (8,8)**
+- Legend: (8,0) to (8,8).
+- Graph:
+    - There is a black line rising from ~0.025 to ~0.05.
+    - The legend shows (8,8) as black.
+    - This is a non-zero second coordinate.
+
+**Refining the analysis for Chart 1, 2, 3 vs others.**
+- Chart 1: Top line (yellow) is (0,0). It rises. (0,1) is orange, also rises. These are second coordinate 0 or 1. Wait, (0,0) has second coord 0. (0,1) has second coord 1.
+    - The question asks about "curve labeled with a second coordinate of 0".
+    - In Chart 1, (0,0) rises. Is it the greatest? The yellow lines (0,0), (0,1) rise. (0,2) is red-orange, stays lower.
+    - Yes, (0,0) is part of the rising group.
+- Chart 2: Top lines (0,0), (0,1), (0,2) rise significantly. Yes.
+- Chart 3: Top lines (2,0), (2,1), (2,2) rise significantly. Yes.
+
+So for the first 3 charts, the curves with second coordinate 0 (actually (0,0), (1,0), (2,0)) seem to be in the top rising group.
+
+Let's check the rest carefully.
+- Chart 4 (Cell 3,8): The rising lines are red/pink. Legend (3,2) is reddish. (3,3) is red. (3,4) is purple. The lines that rise are clearly not the top yellow ones ((3,0), (3,1)). The yellow lines are low. So (3,0) is not the greatest.
+- Chart 5 (Cell 4,8): Rising lines are magenta. Legend (4,4) is magenta. (4,5) is purple. Yellow (4,0) is low.
+- Chart 6 (Cell 5,8): Rising lines are purple. Legend (5,5) is purple. Yellow (5,0) is low.
+- Chart 7 (Cell 6,8): Rising lines are purple. Legend (6,5) or (6,6) is purple. Yellow (6,0) is low.
+- Chart 8 (Cell 7,8): Rising lines are dark blue. Legend (7,6), (7,7) are dark blue. Yellow (7,0) is low.
+- Chart 9 (Cell 8,8): Rising line is black. Legend (8,8) is black. Yellow (8,0) is low.
+
+So it seems only the first three charts (top row) have the reactant curve (second coord 0) rising the most.
+
+Let's double check Chart 1.
+Legend:
+(0,0) - yellow
+(0,1) - orange
+(0,2) - red-orange
+(0,3) - red
+...
+(0,8) - black
+
+In the plot:
+- The highest lines are yellow/orange. This matches (0,0) and (0,1).
+- (0,0) has second coordinate 0.
+- So yes, in Chart 1, the curve with second coordinate 0 shows the greatest increase.
+
+Let's double check Chart 2.
+Legend:
+(1,0) - yellow
+(1,1) - orange
+(1,2) - red-orange
+(1,3) - red
+...
+(1,8) - black
+
+In the plot:
+- The highest lines are yellow/orange/red-orange. This matches (1,0), (1,1), (1,2).
+- (1,0) is the curve with second coordinate 0.
+- It rises from ~0.09 to ~0.20.
+- So yes, in Chart 2, the curve with second coordinate 0 shows the greatest increase.
+
+Let's double check Chart 3.
+Legend:
+(2,0) - yellow
+(2,1) - orange
+(2,2) - red-orange
+(2,3) - red
+...
+(2,8) - black
+
+In the plot:
+- The highest lines are yellow/orange/red-orange. This matches (2,0), (2,1), (2,2).
+- (2,0) is the curve with second coordinate 0.
+- It rises from ~0.03 to ~0.11.
+- So yes, in Chart 3, the curve with second coordinate 0 shows the greatest increase.
+
+So the answer should be 3.
+I need to ground the evidence for these three charts.
+I also need to check if any other chart has the second coordinate 0 curve rising.
+Looking at Chart 4 again.
+Legend (3,0) is yellow. In the graph, the yellow line is at the bottom, near 0.
+The rising line is red/pink. Legend (3,2) is the third item, (3,3) is the fourth.
+So (3,0) is not rising.
+
+Looking at Chart 5.
+Legend (4,0) is yellow. In the graph, the yellow line is at the bottom.
+The rising line is magenta. Legend (4,4) is magenta.
+So (4,0) is not rising.
+
+It seems consistent. The "source" particle (x, 0) seems to have high density in the x-axis centered rows (0, 1, 2) but not in the lower rows (3-8).
+Wait, let's look at the trend.
+Rows 0, 1, 2: (x,0) rises.
+Rows 3+: (x, k) where k>0 rises, but (x,0) stays low.
+
+So the charts are the first three.
+The question asks "In how many charts...".
+I need to provide the grounding for these charts.
+I will select the subplots corresponding to Cell (0,8), (1,8), (2,8).
+Wait, the legend title is "Cell", and the first entry is (0,0) to (0,8). This implies the plot is for a grid column or section.
+Actually, the legend title is just "Cell" and lists (0,0)...(0,8). This likely means the subplot is aggregating data for cells with x=0.
+Similarly, top middle is x=1. Top right is x=2.
+Middle left is x=3.
+So the first three subplots are the ones.
+
+I will reference the legends and the curves in the top three subplots.
+
+For Chart 1:
+- Legend showing (0,0)...(0,8).
+- The curve for (0,0) showing a rise.
+
+For Chart 2:
+- Legend showing (1,0)...(1,8).
+- The curve for (1,0) showing a rise.
+
+For Chart 3:
+- Legend showing (2,0)...(2,8).
+- The curve for (2,0) showing a rise.
+
+I will create bounding boxes for the legends of these three charts and maybe the curves themselves if visible.
+The legends are quite large.
+Legend 1: [86, 12, 178, 305] approx.
+Legend 2: [580, 12, 672, 305] approx.
+Legend 3: [896, 12, 988, 305] approx.
+
+Let's refine the coordinates.
+Image size is roughly 1000x1000 (visually).
+Top left subplot:
+- x: 0-33%
+- y: 0-33%
+Legend is inside.
+Legend box for Chart 1: [90, 15, 180, 310]
+Legend box for Chart 2: [582, 15, 672, 310]
+Legend box for Chart 3: [898, 15, 988, 310]
+
+Let's look at the curves.
+In Chart 1, the yellow lines are high.
+In Chart 2, the yellow/orange lines are high.
+In Chart 3, the yellow/orange lines are high.
+
+I will provide the legend information as the primary evidence to identify the curves.
+The prompt asks to ground the visible evidence.
+I'll list the legends for the top row charts.
+
+Wait, looking closer at Chart 1.
+Legend (0,0) is the top entry.
+In the plot, the top line is yellow.
+This confirms (0,0) is the rising curve.
+
+Looking closer at Chart 2.
+Legend (1,0) is top entry.
+In the plot, top lines are yellow/orange.
+This confirms (1,0) is a rising curve (part of the group).
+
+Looking closer at Chart 3.
+Legend (2,0) is top entry.
+In the plot, top lines are yellow/orange.
+This confirms (2,0) is a rising curve (part of the group).
+
+I will focus on the legends to identify the curves labeled with second coordinate 0.
+The legends for the first three subplots show that the entries with "0" as the second coordinate (e.g., (0,0), (1,0), (2,0)) correspond to the colors that appear in the upper part of the curves where the density increases.
+
+Actually, for Chart 1, (0,0) is yellow. The yellow line goes up.
+For Chart 2, (1,0) is yellow. The yellow line goes up.
+For Chart 3, (2,0) is yellow. The yellow line goes up.
+
+In Chart 4 (Cell 3,0), (3,0) is yellow. The yellow line is low.
+So the distinction is clear.
+
+I will select the legends of the top row.
+Legend 1: [90, 15, 180, 310]
+Legend 2: [582, 15, 672, 310]
+Legend 3: [898, 15, 988, 310]
+
+I should also include the curve labels in the legends to be precise.
+"Cell (0,0)" etc.
+
+Let's do a full scan of legends to be safe.
+Top row legends are the key.
+The question asks "In how many charts...".
+So I need to identify the charts.
+I will box the legends of the three top rows.
+
+Coordinates estimation:
+Top left plot:
+x range: 0 to 340
+y range: 0 to 330
+Legend is at top center.
+x: ~80 to ~180
+y: ~15 to ~310
+
+Top middle plot:
+x range: 340 to 680
+y range: 0 to 330
+Legend is at top right (inside the plot area).
+x: ~580 to ~680
+y: ~15 to ~310
+
+Top right plot:
+x range: 680 to 1020 (image width seems > 1000 actually, let's assume 1000 for now or just use relative).
+Wait, let's look at the full image.
+It's a grid of 3x3.
+Top Left: [0, 330, 340, 340] -> No, x is horizontal.
+Plot 1: x=[0, 330], y=[0, 340]
+Plot 2: x=[340, 670], y=[0, 340]
+Plot 3: x=[670, 1000], y=[0, 340]
+Plot 4: x=[0, 330], y=[340, 670]
+...
+
+Legend 1 (Plot 1): [88, 13, 183, 308]
+Legend 2 (Plot 2): [588, 13, 683, 308] - wait, the legend is shifted right in plot 2.
+In Plot 2, the legend is at [588, 12, 688, 308].
+In Plot 3, the legend is at [890, 13, 985, 308].
+
+Let's just box the legends.
+Element 1: Legend in top-left chart.
+Element 2: Legend in top-middle chart.
+Element 3: Legend in top-right chart.
+
+Wait, let's check the text in the question. "curve labeled with a second coordinate of 0 (e.g., (x, 0))".
+In the legends, the text is visible.
+"(0,0)", "(1,0)", "(2,0)".
+These are in the top 3 legends.
+And they correspond to the rising curves (yellow lines).
+In the other charts (middle and bottom rows), the yellow lines "(3,0)", "(4,0)", etc. are at the bottom, while other lines (purple, black) rise.
+
+So the count is 3.
+I need to ground the evidence for these 3 charts.
+I will provide the legends for the top row.
+
+One detail: In Chart 1, (0,0) rises. (0,1) (second coord 1) also rises somewhat, but (0,0) is the topmost. The question asks if the curve with second coord 0 shows the *greatest* increase compared to curves with non-zero second coordinate.
+In Chart 1:
+(0,0) rises from ~0.025 to ~0.08.
+(0,1) rises from ~0.025 to ~0.08.
+(0,2) stays low.
+(0,8) stays low.
+So (0,0) (second coord 0) is among the greatest increasing curves.
+
+In Chart 2:
+(1,0) rises from ~0.09 to ~0.20.
+(1,1) rises from ~0.09 to ~0.20.
+(1,2) stays low? No, (1,2) is the reddish line.
+Let's look at the colors in legend 2.
+(1,0) yellow.
+(1,1) orange.
+(1,2) red-orange.
+(1,3) red.
+(1,4) purple.
+The rising lines are yellow, orange, red-orange. This means (1,0), (1,1), (1,2) are rising.
+(1,0) is the greatest? Or are they all similarly high?
+Visually, the yellow/orange cluster is on top.
+The question asks "In how many charts does the curve labeled with a second coordinate of 0 ... show the greatest increase".
+This implies (x,0) >= (x,k) for k>0 in terms of increase, or (x,0) is the top curve.
+In Chart 2, (1,0) is part of the top group. It definitely has a greater increase than (1,4)...(1,8) which are low.
+Is it greater than (1,1) or (1,2)? They are all in the top group, essentially overlapping or close. So it's a valid candidate for "greatest increase" (tied or close to tied).
+Usually "greatest increase" implies being the max. If it's tied for first, it's acceptable.
+But clearly it's greater than the "non-zero second coordinate" group if that group includes the low ones. The "non-zero second coordinate" group includes (1,1), (1,8).
+(1,0) is top. (1,8) is bottom.
+So (1,0) > (1,8).
+Is (1,0) > (1,1)? They look similar.
+However, compared to the *set* of curves with non-zero second coordinates, (1,0) is at the top. The second highest might be (1,1) or similar. But (1,0) is definitely a top performer.
+Actually, looking at Chart 2, (1,0) is the very top line (yellow).
+So it shows the greatest increase.
+
+In Chart 3:
+(2,0) yellow.
+(2,1) orange.
+(2,2) red-orange.
+The rising lines are the top cluster.
+(2,0) is likely the highest or among highest.
+(2,8) is black, at the bottom.
+So (2,0) > (2,8).
+
+So the answer is 3.
+
+I will formulate the response.
+Elements:
+1. Legend of the first chart (top-left). Shows Cell (0,0) etc.
+2. Legend of the second chart (top-middle). Shows Cell (1,0) etc.
+3. Legend of the third chart (top-right). Shows Cell (2,0) etc.
+4. Maybe just box the whole top row subplots?
+The instruction says "Ground the visible evidence".
+"Relevant mark, value or position for every compared candidate".
+The candidates are the curves.
+Since I can't point to individual curves easily without ambiguity of color mapping (though it seems standard), pointing to the legend is best to identify the labels.
+And visually, in those three plots, the colors corresponding to "(x,0)" (yellow) are in the upper region of increasing values.
+
+Let's refine the bounding boxes.
+Top Left Legend: [90, 15, 183, 308]
+Top Middle Legend: [588, 12, 683, 308] -> Wait, looking at the image, the legend in the middle plot is shifted right. It's around x=580.
+Top Right Legend: [890, 15, 985, 308]
+
+I will include these three legends.
+I will also include the general graph area or axis to indicate comparison range 0.0 to 12.5?
+The x-axis label is "Iteration of calibration method". The ticks are 0.0, 2.5, ..., 12.5.
+This is visible in all subplots. I can just mention the axis label.
+But the instruction says "For comparison or ranking questions, ground: the axis, scale, criterion...".
+So I should include the x-axis ticks/labels.
+But doing that for 3 plots might be too many boxes.
+The question is "In how many charts...".
+The evidence needed is:
+1. Identification of curves with second coordinate 0. (Legends)
+2. Visual confirmation that they have high values/increase compared to others. (Curve plots)
+
+I will box the legends of the top 3 charts.
+And I will box the x-axis of the top 3 charts to establish the time range? Or just rely on the general figure context?
+"Ground the visible evidence a downstream reasoner needs to derive the answer."
+The reasoner needs to see that:
+- The top 3 charts have legends with (x,0).
+- The curves corresponding to (x,0) (yellowish) are high.
+- Other curves are low.
+
+So I will box the legends of the top 3 charts.
+I will also box the x-axis of the first chart as a reference for the range 0.0-12.5, but maybe it's redundant for all.
+Actually, the prompt says "do not decide which candidate wins".
+Wait, "Ground only the final answer text or winning label" -> No, "Do not ground only the final answer text or winning label." -> "Do not decide which candidate wins".
+If the question is "In how many charts...", the "winner" is the count.
+I am grounding the evidence *for* the derivation.
+The evidence is the visual data.
+So I will list the legends of the charts where the condition holds.
+And maybe the legends of the charts where it doesn't holds? No, that's negative evidence.
+Actually, to count "how many", I need to know which ones satisfy the condition.
+So I will list the charts that satisfy it.
+The charts are Top-Left, Top-Middle, Top-Right.
+
+I will transcribe the legend text for clarity.
+Legend 1: Cell (0,0), (0,1)...
+Legend 2: Cell (1,0), (1,1)...
+Legend 3: Cell (2,0), (2,1)...
+
+And for the curves, I'll try to box the area where the rising curves are, or just rely on the legend mapping.
+The legend maps labels to colors.
+The plots show the colors.
+This is sufficient evidence.
+
+Coordinates:
+Legend 1: [90, 15, 183, 308]
+Legend 2: [588, 12, 683, 308] -> Looking closely, the legend is inside the plot.
+The plot box is roughly [340, 0, 680, 340].
+Legend x: 588 seems reasonable.
+Legend 3: [890, 15, 985, 308] -> Plot box roughly [680, 0, 1020, 340].
+
+Let's refine the boxes.
+Image width looks like ~1000.
+Top row height ~350.
+Top left: x=[0, 330]. Legend x=[88, 168] (width 80). y=[15, 195].
+Legend box usually includes title "Cell".
+Let's look at the first legend.
+"x": 90. "y": 15. "w": 90. "h": 180. -> [90, 15, 180, 195].
+Wait, the list has (0,0)...(0,8) = 9 items.
+Each item has a color box and text.
+The legend title "Cell" is at the top.
+So y range is [15, 195] roughly.
+x range is [90, 180].
+Let's check the second legend.
+It is shifted right.
+x roughly [580, 650]. y [15, 195].
+
+Okay, I will list these three legends.
+I will also list the x-axis labels to confirm the range 0.0 to 12.5.
+X-axis label: "Iteration of calibration method". Ticks: 0.0, 2.5, 5.0, 7.5, 10.0, 12.5.
+I'll pick one x-axis as reference.
+Bottom-left plot x-axis: [0, 330, 30, 650, 330, 12.5]. No, x-axis is at bottom of subplot.
+Subplot 4 (Middle Left): x=[0, 330, 5, 650].
+Label "Iteration of calibration method". Ticks 0.0 ... 12.5.
+
+So I will include:
+1. Legend of Top-Left chart.
+2. Legend of Top-Middle chart.
+3. Legend of Top-Right chart.
+4. X-axis of Top-Left chart (to show range).
+
+Actually, if I just provide the legends, the reasoner might need to verify the curves.
+I will also provide the plot area of the top-left chart to see the curves.
+Box for Top-Left Plot: [0, 0, 330, 330].
+This contains the x-axis, y-axis, and the curves.
+This allows verifying the rise.
+
+So:
+- Top-Left Plot area: [0, 0, 330, 330]
+- Top-Left Legend: [90, 15, 180, 195]
+- Top-Middle Plot area: [340, 0, 680, 330]
+- Top-Middle Legend: [580, 15, 670, 195]
+- Top-Right Plot area: [690, 0, 1030, 330] -> Wait, image width is likely ~1000. Let's assume the last plot starts at x=680.
+- Top-Right Legend: [890, 15, 980, 195]
+
+Let's look at the full image again.
+It is a 3x3 grid.
+Left column: x=0-33%. Middle: 33-66%. Right: 66-100%.
+Height: Top 0-33%. Middle 33-66%. Bottom 66-100%.
+
+So:
+Top Left: x=[0, 330], y=[0, 330].
+Top Mid: x=[330, 660], y=[0, 330].
+Top Right: x=[660, 990], y=[0, 330].
+
+Legends:
+Top Left: [88, 15, 178, 185]
+Top Mid: [570, 15, 660, 185]
+Top Right: [880, 15, 970, 185]
+
+I will use these.
+
+One final check on the curves.
+In Top Left, the yellow line (0,0) goes from ~0.02 to ~0.08.
+Other lines are low.
+So (0,0) is greatest.
+In Top Mid, yellow line (1,0) goes from ~0.09 to ~0.20.
+Other lines are lower.
+So (1,0) is greatest.
+In Top Right, yellow line (2,0) goes from ~0.03 to ~0.11.
+Other lines are lower.
+So (2,0) is greatest.
+
+In Middle Left (3,0), yellow line is low. Red line (3,2/3) goes up. So (3,0) is not greatest.
+
+The count is 3.
+I will ground the evidence for these 3 charts.
+
+Elements:
+1. Top-Left Chart Area
+2. Top-Left Legend
+3. Top-Middle Chart Area
+4. Top-Middle Legend
+5. Top-Right Chart Area
+6. Top-Right Legend
+
+Description for Top-Left Chart Area: "The plot showing steady-state flow density vs iteration for Cell (0,8) legend".
+Actually, the legend title is "Cell". The first entry is "(0,0)".
+I will just say "Legend showing Cell labels (0,0) to (0,8)".
+
+I'll stick to the JSON format.
+</think>
+
+{
+  "elements": [
+    {
+      "description": "Legend in the top-left chart showing cell labels (0,0) through (0,8) with corresponding colors, identifying the curve labeled (0,0).",
+      "bbox": [88, 15, 183, 190]
+    },
+    {
+      "description": "Top-left chart area showing 'Steady-state flow density' rising from ~0.025 to ~0.08, with x-axis 'Iteration of calibration method' from 0.0 to 12.5.",
+      "bbox": [0, 0, 330, 330]
+    },
+    {
+      "description": "Legend in the top-middle chart showing cell labels (1,0) through (1,8), identifying the curve labeled (1,0).",
+      "bbox": [578, 15, 673, 190]
+    },
+    {
+      "description": "Top-middle chart area showing 'Steady-state flow density' rising significantly from ~0.09 to ~0.20, with x-axis 'Iteration of calibration method' from 0.0 to 12.5.",
+      "bbox": [330, 0, 670, 330]
+    },
+    {
+      "description": "Legend in the top-right chart showing cell labels (2,0) through (2,8), identifying the curve labeled (2,0).",
+      "bbox": [880, 15, 975, 190]
+    },
+    {
+      "description": "Top-right chart area showing 'Steady-state flow density' rising from ~0.03 to ~0.11, with x-axis 'Iteration of calibration method' from 0.0 to 12.5.",
+      "bbox": [670, 0, 1010, 330]
+    }
+  ]
+}

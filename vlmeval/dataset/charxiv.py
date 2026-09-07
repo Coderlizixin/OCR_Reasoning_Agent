@@ -23,7 +23,13 @@ def auxeval(judge_model: Any, line: pd.Series, **kwargs: Any) -> Dict[str, Any]:
         Dict containing evaluation results with extract_answer and score
     """
     failure_result = {"extract_answer": "Failed to parse response", "score": 0.0}
-    prompt = line["grading_query"].replace("{PREDICTION}", line["prediction"])
+    grading_query = line.get("grading_query", "")
+    prediction = line.get("prediction", "")
+    if pd.isna(grading_query):
+        grading_query = ""
+    if pd.isna(prediction):
+        prediction = ""
+    prompt = str(grading_query).replace("{PREDICTION}", str(prediction))
 
     retry = kwargs.get("retry", 10)
     max_tokens = kwargs.get("max_tokens", 256)
@@ -54,6 +60,17 @@ def auxeval(judge_model: Any, line: pd.Series, **kwargs: Any) -> Dict[str, Any]:
             continue
 
     return failure_result
+
+
+def build_pending_tasks(
+    judge_model: Any,
+    data: pd.DataFrame,
+    processed_results: Dict[int, Any],
+) -> Tuple[List[int], List[Tuple[Any, pd.Series]]]:
+    """Build aligned keys/tasks for a fresh or partially completed judge run."""
+    indices = [i for i in range(len(data)) if i not in processed_results]
+    tasks = [(judge_model, data.iloc[i]) for i in indices]
+    return indices, tasks
 
 
 def qid2category(mode: str) -> Tuple[Dict[int, str], str]:
@@ -230,8 +247,7 @@ class CharXiv(ImageBaseDataset):
             processed_results = file.load(temp_result_file)
 
         # Identify unprocessed indices
-        indices = [i for i in range(len(data)) if i not in processed_results]
-        tups = [(judge_model, data.iloc[i]) for i in range(len(data))]
+        indices, tups = build_pending_tasks(judge_model, data, processed_results)
 
         # Process remaining examples
         nproc = judge_kwargs.pop("nproc", 4)

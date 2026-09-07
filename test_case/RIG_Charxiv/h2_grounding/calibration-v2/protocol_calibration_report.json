@@ -1,0 +1,65 @@
+{
+  "protocol_version": "h2-grounding-v2-concise-complete",
+  "calibration_scope": {
+    "model": "Qwen3.5-9B",
+    "indices": [1, 17, 8, 244, 346],
+    "purpose": "engineering calibration only; not an H2 scientific result",
+    "prompt_lock_rule": "The final prompt was selected for protocol validity and structural coverage, not by maximizing smoke-set grounding metrics. No score-driven prompt edits are permitted after this point."
+  },
+  "selected_run": {
+    "plan_run": "smoke-5/Qwen3.5-9B/plan-only__h2-grounding-v2-concise-complete-r4",
+    "grounding_run": "smoke-5/Qwen3.5-9B/predicted-plan__h2-grounding-v2-concise-complete-r4",
+    "samples": 5,
+    "plan_step_counts": [4, 4, 3, 6, 3],
+    "total_steps": 20,
+    "step_status": {
+      "valid": 15,
+      "truncated": 4,
+      "parse_failed": 1
+    },
+    "request_failed_samples": 0,
+    "total_elapsed_seconds": 2638.513906999986,
+    "token_usage": {
+      "prompt": 24861,
+      "completion": 158293,
+      "total": 183154
+    },
+    "spatial_diagnostic": {
+      "semantic_policy": "spatial",
+      "iou_0_3": {
+        "macro_necessary_recall": 0.12238095238095237,
+        "macro_precision": 0.06775736258311349,
+        "macro_f1": 0.08156419446742028,
+        "complete_evidence_rate": 0.0
+      },
+      "iou_0_5": {
+        "macro_necessary_recall": 0.09285714285714285,
+        "macro_precision": 0.051114607920272746,
+        "macro_f1": 0.06029776674937966,
+        "complete_evidence_rate": 0.0
+      },
+      "mean_predicted_bbox_count": 19.6,
+      "mean_predicted_union_area_ratio": 0.1205808,
+      "warning": "These five-sample spatial-only metrics have no semantic adjudication and must not be used as an H2 conclusion."
+    }
+  },
+  "rejected_calibration_runs": [
+    {
+      "label": "h2-grounding-v1-12288",
+      "reason": "The planner included answer-like compare/conclude operations, so its high smoke recall does not satisfy the evidence-only H2 protocol."
+    },
+    {
+      "label": "h2-grounding-v2",
+      "reason": "The prompt was too minimal and omitted necessary structural evidence."
+    },
+    {
+      "label": "h2-grounding-v2-balanced-r2",
+      "reason": "The planner still omitted operands and shared structural context."
+    },
+    {
+      "label": "h2-grounding-v2-complete-r1",
+      "reason": "The step grounder was unstable: three of four steps failed on the first inspected sample."
+    }
+  ],
+  "decision": "Freeze h2-grounding-v2-concise-complete. Preserve every calibration run, use the frozen protocol on the complete 41-question formal set, and perform semantic adjudication before drawing H2 conclusions."
+}

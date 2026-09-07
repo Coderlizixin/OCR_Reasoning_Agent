@@ -1,0 +1,33 @@
+**Shortcut: Go for the y-axis label**
+
+Goal: Ground the horizontal axis as `t` for the `$S_0$` vs `t` plot.
+
+**Plan:**
+1.  **Identify the plot:** Find the subplot labeled `$S_0$` (on the y-axis). This is at row 4, column 1 in the bottom-left corner.
+2.  **Locate the horizontal axis text:** The label `t (days)` is usually located below the x-axis of that specific subplot.
+3.  **Define geometric bounds ([xmin, ymin, xmax, ymax]):**
+    *   The subplot is in the lower-left region.
+    *   The x-axis label "t (days)" is centered below the plot frame.
+    *   Approximate coordinates:
+        *   xmin: ~85 (left edge of the label)
+        *   ymin: ~878 (bottom edge of the label area)
+        *   xmax: ~195 (right edge of the label area)
+        *   ymax: ~905 (top edge of the label area, just below the x-axis ticks)
+
+</think>
+
+```json
+{
+  "elements": [
+    {
+      "description": "horizontal axis label for the S_0 plot",
+      "bbox": [
+        85,
+        878,
+        195,
+        905
+      ]
+    }
+  ]
+}
+```

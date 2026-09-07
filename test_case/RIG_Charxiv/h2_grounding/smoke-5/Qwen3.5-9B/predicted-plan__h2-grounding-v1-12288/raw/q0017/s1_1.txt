@@ -1,0 +1,519 @@
+The user wants to identify a dense cluster of points closest to the coordinate (0.75, -0.25).
+I need to find visual confirmation of the axes and coordinates.
+The image shows a circular plot overlaid on a Cartesian coordinate system.
+The x-axis ranges from -1.00 to 1.00.
+The y-axis ranges from -1.00 to 1.00.
+I need to locate the position corresponding to x=0.75 and y=-0.25.
+Looking at the x-axis, 0.75 is located towards the right side.
+Looking at the y-axis, -0.25 is located slightly below the center line.
+
+Let's break down the visual clues needed:
+1.  **X-axis labels**: To confirm the horizontal scale. I see labels like -1.00, -0.75, -0.50, -0.25, 0.00, 0.25, 0.50, 0.75, 1.00.
+2.  **Y-axis labels**: To confirm the vertical scale. I see labels like 1.00, 0.75, 0.50, 0.25, 0.00, -0.25, -0.50, -0.75, -1.00.
+3.  **Coordinate locations**: I need to point out the specific tick marks or labels for 0.75 and -0.25 to establish the reference point.
+
+Let's look for these specific labels in the image.
+-   The label "0.75" is on the x-axis at the bottom right area.
+-   The label "-0.25" is on the y-axis at the left-middle area.
+
+Wait, the query is asking about a cluster closest to (0.75, -0.25).
+Let's re-examine the plot.
+-   There is a cluster at the top (around y=0.9, x=-0.3 to 0.5).
+-   There is a cluster on the right side (around x=0.8 to 0.9, y=-0.1 to 0.4).
+-   There is a cluster at the bottom (around x=0.25 to 0.3, y=-0.8 to -0.9).
+
+The query point is (0.75, -0.25).
+Let's trace x=0.75. It's near the right edge.
+Let's trace y=-0.25. It's slightly below the center horizontal axis.
+The intersection would be in the lower right quadrant.
+Looking at the clusters:
+-   Top cluster: Far from (0.75, -0.25).
+-   Right cluster: This cluster is located roughly between x=0.75 and x=0.9. Its y-coordinates range from roughly -0.1 to 0.4. The bottom-most part of this cluster is near y=0.0 or slightly below. Let's look closer. The cluster seems to be centered around x=0.85, y=0.2. The points extend down.
+-   Bottom cluster: This cluster is far to the left (x ~ 0.25).
+
+Wait, let's look for a cluster closer to (0.75, -0.25).
+The "right cluster" is the one on the right side of the circle.
+Its x-range is roughly 0.75 to 0.95.
+Its y-range is roughly -0.1 to 0.4.
+The query coordinate is (0.75, -0.25).
+This point is at x=0.75, y=-0.25.
+Looking at the right cluster, the points are generally above y=0.0.
+However, looking at the bottom cluster... its x is around 0.3. That's far from 0.75.
+
+Let's re-read the axes carefully.
+X-axis labels at the bottom: -1.00 ... 0.00 ... 0.25 ... 0.75 ... 1.00.
+Y-axis labels at the left: 1.00 ... 0.50 ... 0.00 ... -0.25 ... -0.50 ... -1.00.
+
+Coordinate (0.75, -0.25):
+x = 0.75 is the 8th major tick mark from the left (excluding negative ones maybe?). No, let's count. -1.00, -0.75, -0.50, -0.25, 0.00, 0.25, 0.50, 0.75, 1.00. So 0.75 is the second to last major tick.
+y = -0.25 is the 6th major tick from the top (1.00, 0.75, 0.50, 0.25, 0.00, -0.25). So it's a tick mark just below the center line.
+
+So the point (0.75, -0.25) is in the 4th quadrant (positive x, negative y), specifically near the boundary with the 1st quadrant.
+Wait, y=-0.25 is negative. So it's below the x-axis.
+x=0.75 is positive. So it's on the right.
+So the point is in the bottom-right area of the plot.
+
+Now look at the clusters:
+1.  **Top cluster**: x ~ -0.3 to 0.4, y ~ 0.8 to 0.95. Far away.
+2.  **Right cluster**: x ~ 0.75 to 0.95, y ~ 0.0 to 0.35. This is above the x-axis (y=0). The lowest points are near y=0. Maybe slightly below? Let's check the grid. The center is (0,0). The horizontal line is y=0. The right cluster starts around y=0 and goes up. Wait, looking closer at the right cluster, there are points near y=0. But are there points near y=-0.25?
+    Looking at the rightmost cluster, the points are roughly between y=0.1 and y=0.4. Wait, let me look really closely at crop 5 and 6.
+    In crop 5, I see the cluster on the right. The y-axis labels visible are 0.00, 0.25. The cluster is between 0.00 and 0.4 roughly.
+    Wait, let's look at the full image again.
+    There is a cluster of purple dots on the right side.
+    Its y-coordinates seem to range from about 0.0 to 0.35.
+    Its x-coordinates range from about 0.75 to 0.95.
+    So the point (0.75, -0.25) is below this cluster.
+
+3.  **Bottom cluster**: x ~ 0.1 to 0.35, y ~ -0.8 to -0.9. This is far to the left of x=0.75.
+
+Is there another cluster?
+Maybe the "right cluster" actually extends lower?
+Let's look at the main image again.
+There are dots near x=0.25, y=-0.8 (bottom cluster).
+There are dots near x=0.05, y=-0.5 (part of the bottom cluster trail?). No, that looks like a distinct trail leading to the bottom cluster.
+The trail starts near x=0.3, y=-0.2 and goes down to x=0.3, y=-0.9.
+Wait, let's trace that trail.
+It starts near (0.25, 0.0) maybe? No, there are dots at (0.6, -0.1), (0.6, -0.15)... (0.6, 0.5).
+Ah, there is a vertical-ish trail of points going from (0.6, 0.5) down to (0.25, -0.9).
+Wait, let's look at the structure.
+- Top group: x in [-0.3, 0.6], y in [0.8, 0.95].
+- Right group: x in [0.75, 0.95], y in [0.1, 0.4].
+- Vertical trail group: Starts around x=0.6, y=0.5. Goes down to x=0.25, y=-0.9.
+- Bottom cluster: The very end of that trail.
+
+Let's re-evaluate the coordinates.
+Query: (0.75, -0.25).
+This is x=0.75, y=-0.25.
+The "Right cluster" is at x > 0.75, y > 0.
+The "Bottom cluster" is x < 0.4, y < -0.7.
+Is there a cluster I'm missing?
+Maybe the question implies one of these three is closest, even if not super close.
+Distance to Right cluster:
+Closest point in right cluster is approx (0.75, 0.1).
+Distance to (0.75, -0.25) is ~0.35.
+
+Distance to Bottom cluster:
+The trail comes down x=0.25 area.
+The "bottom cluster" is the dense part at y=-0.9.
+The trail passes near x=0.25, y=-0.25.
+Wait, if x=0.25, that's not 0.75.
+Let's look at the vertical trail again.
+It is located around x=0.6 for the top part (y>0), then curves left to x=0.3 as it goes down.
+So at y=-0.25, the points are around x=0.3 or x=0.4.
+So distance from (0.75, -0.25) to (0.3, -0.25) is 0.45.
+
+So the Right cluster at x=0.85, y=0.2 is distance sqrt((0.1)^2 + (0.45)^2) ~ 0.46.
+The point (0.75, -0.25) is actually quite close to the edge of the plot area for the Right cluster.
+Actually, looking at the Right cluster, the left-most points are around x=0.75. The lowest points are just above y=0.
+So (0.75, -0.25) is slightly below and to the left of the Right cluster.
+
+Let's check the axis labels again.
+X-axis: 0.75 is clearly marked.
+Y-axis: -0.25 is clearly marked.
+I need to confirm these labels to ground the claim about coordinates.
+
+The request asks to identify a dense cluster.
+Options: top cluster, right cluster, bottom cluster.
+The point (0.75, -0.25) is in the lower-right quadrant.
+The Right cluster is in the first quadrant (mostly).
+The Bottom cluster is in the third/fourth quadrant (mostly x<0.5, y<0).
+Wait, let's look at the "vertical trail" again.
+It goes from (0.6, 0.5) down to (0.25, -0.9).
+At y=-0.25, the x-value is roughly 0.25.
+So the point (0.75, -0.25) is far from this trail horizontally.
+
+Let's look really closely at the Right cluster.
+Are there points lower down?
+In the main image, there are points at x=0.8, y=0.0.
+And points at x=0.85, y=0.1.
+It seems the cluster stays above the x-axis.
+
+Is it possible the question implies the "Right cluster" is the answer because it's the only one on the right side (x=0.75)?
+The x-coordinate 0.75 aligns vertically with the start of the Right cluster.
+The y-coordinate -0.25 is below the center.
+The cluster is around y=0.2.
+Maybe there is a misinterpretation of the clusters.
+Let's list them again.
+1. Top: x ~ -0.3 to 0.6, y ~ 0.8 to 0.95.
+2. Right: x ~ 0.75 to 0.95, y ~ 0.0 to 0.4.
+3. Bottom: x ~ 0.25 to 0.35, y ~ -0.8 to -0.9. (And a trail connecting to y=-0.2 area).
+
+Let's look at the trail again.
+There is a sequence of points going down.
+Start near (0.6, 0.5).
+Then (0.6, -0.1).
+Then (0.6, -0.15).
+Then (0.5, -0.2).
+Then (0.4, -0.3).
+Then (0.3, -0.4).
+Then (0.3, -0.5).
+Then (0.25, -0.7).
+Then (0.25, -0.9).
+This is a single continuous path or cluster of points.
+But the question lists "top cluster, right cluster, bottom cluster". This suggests three distinct groups.
+So:
+- Top cluster: The group at the very top.
+- Right cluster: The group on the right.
+- Bottom cluster: The group at the very bottom.
+
+The query point is (0.75, -0.25).
+x=0.75 is very close to the right cluster.
+y=-0.25 is somewhat close to the right cluster's lower edge (which is near y=0).
+The bottom cluster is way over to the left (x < 0.4).
+The top cluster is way over at the top and left.
+
+Therefore, the Right cluster is the closest.
+
+Evidence needed:
+- X-axis labels to identify x=0.75.
+- Y-axis labels to identify y=-0.25 (or just the axis to show quadrants).
+- Visual confirmation of the clusters' positions relative to these axes.
+
+Specific elements to ground:
+1.  Label "0.75" on the x-axis.
+2.  Label "-0.25" on the y-axis.
+3.  Maybe the label "1.00" to define scale? Or "0.00" for origin.
+4.  The cluster itself? The prompt asks to identify the cluster, but the "Current Evidence Need" is specifically "Visual confirmation of the image coordinate system or axis labels". So I don't need to box the cluster, just the axes.
+
+Wait, looking at the prompt again: "Identify a dense cluster... top cluster, right cluster, or bottom cluster?"
+And "CURRENT EVIDENCE NEED: Visual confirmation of the image coordinate system or axis labels to map the normalized query coordinate (0.75, -0.25) to specific pixel locations or spatial regions."
+
+So I just need to provide the axis labels/clues that allow me to map the coordinate.
+
+Let's refine the bounding boxes.
+- X-axis label "0.75": Bottom right area.
+- Y-axis label "-0.25": Middle left area.
+- X-axis label "1.00": Bottom far right.
+- Y-axis label "0.00": Middle left.
+- Y-axis label "0.75": Top left.
+
+Let's find the exact locations in the image.
+X-axis (bottom):
+- "-1.00" at bottom left.
+- "0.00" at center bottom.
+- "0.75" is the third tick from the right edge (0.50, 0.75, 1.00). Wait.
+Ticks: -1.00, -0.75, -0.50, -0.25, 0.00, 0.25, 0.50, 0.75, 1.00.
+So 0.75 is the second from the right.
+Label location: x~900, y~980 (in 1000px coords).
+
+Y-axis (left):
+- "1.00" at top left.
+- "0.00" in the middle.
+- "-0.25" is just below 0.00.
+Label location: x~50, y~560.
+
+The prompt asks for "Visible confirmation of the image coordinate system or axis labels".
+So I will list the labels "0.75" and "-0.25" and maybe "0.00" to establish the origin/quadrant.
+
+Also, I should probably mention the general location of the clusters if it helps, but the instructions say "Do not solve the full question... Return only the requested JSON object". The "elements" are for the evidence.
+The evidence is the axis labels.
+
+Wait, is there any other text?
+Color bar at top: 0.0 to 1.0. Doesn't help with position.
+Title/axis titles? Just numbers.
+
+So the elements are:
+1.  X-axis label "0.75".
+2.  Y-axis label "-0.25".
+3.  Maybe X-axis label "1.00" to confirm scale.
+4.  Maybe Y-axis label "0.00" to confirm the axis.
+
+Let's check the coordinates again.
+(0.75, -0.25).
+This is positive x, negative y. Fourth quadrant.
+Looking at the plot, the bottom-right area is red/orange gradient.
+The Right cluster is near the edge there?
+Actually, looking at the Right cluster (purple dots), they are located around x=0.8, y=0.2.
+Wait, let me look really closely at the Right cluster.
+Are those dots at y=0.2?
+The y-axis label "0.25" is visible on the left.
+The horizontal grid line corresponding to 0.25 passes near the bottom of the Right cluster.
+So the Right cluster is roughly between y=0.0 and y=0.35.
+The x-axis label "0.75" is visible.
+The vertical grid line (implied) for 0.75 passes just to the left of the Right cluster's leftmost points.
+So the Right cluster is near x=0.8-0.9.
+
+So (0.75, -0.25) is:
+x=0.75 (left edge of Right cluster area)
+y=-0.25 (below the Right cluster, in the orange zone).
+
+Is there a cluster there?
+The "Bottom cluster" is at x=0.25, y=-0.9.
+The "Trail" connects the top trail to the bottom cluster.
+The trail passes through x=0.6, y=-0.1 approx?
+Let's trace the trail carefully.
+Top trail part: starts near the right edge of the top cluster (x=0.6, y=0.9). Goes down to (x=0.6, y=0.5). Then down to (x=0.6, y=0.2). Then down to (x=0.6, y=0.0)?
+Actually, looking at the dots at x=0.6:
+There are dots at (0.6, 0.5), (0.6, 0.4)? No.
+There is a vertical line of dots at x=0.6.
+y coordinates: 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05, 0.0, -0.05, -0.1.
+Then from there, it curves left.
+(0.5, -0.2).
+(0.4, -0.3).
+(0.3, -0.4).
+... down to (0.25, -0.9).
+
+So there isn't a "Right cluster" at y=-0.25. The trail is at x < 0.6 for y < 0.2.
+So (0.75, -0.25) is empty.
+However, the question asks "Identify a dense cluster... that appears closest to...".
+So I need to find which of the three (top, right, bottom) is closest.
+Distance to Top cluster: Far.
+Distance to Bottom cluster: x diff ~ 0.5. y diff ~ 0.65. Total > 1.
+Distance to Right cluster: x diff ~ 0.1 (if at x=0.85). y diff ~ 0.45 (if at y=0.2).
+Wait, if the Right cluster is at x=0.85, y=0.2.
+(0.75, -0.25).
+dx = 0.1. dy = 0.45. Distance ~ 0.46.
+
+Is there any other cluster?
+Maybe the "Right cluster" is actually the trail? No, the prompt distinguishes "right cluster".
+The group on the far right is distinct.
+The group at the top is distinct.
+The group at the bottom is distinct.
+
+So "Right cluster" is the intended answer.
+The evidence needed is just to ground the coordinate system.
+
+I will formulate the JSON with the axis labels.
+- "0.75" on x-axis.
+- "-0.25" on y-axis.
+- "0.00" on x and y axis to show origin.
+- "1.00" and "-1.00" to show extent.
+
+Box coordinates:
+- "0.75" label: [875, 985, 910, 995] approx. (Looking at full image, x is near right edge, y near bottom).
+Let's estimate 1000x1000.
+Image size looks roughly square.
+Bottom axis labels are around y=980.
+Right edge is x=990.
+0.75 is the second label from right.
+Let's just transcribe the visible labels near the relevant quadrant.
+- X-axis "0.75": bottom row, 3rd from right.
+- X-axis "1.00": bottom row, far right.
+- Y-axis "0.00": middle left.
+- Y-axis "-0.25": just below 0.00.
+
+Let's refine the bounding boxes based on visual inspection of the provided image.
+- Label "0.75" (x-axis): Bottom, towards the right. [820, 980, 860, 995] maybe.
+- Label "1.00" (x-axis): Bottom, far right. [930, 980, 970, 995].
+- Label "-1.00" (x-axis): Bottom left. [75, 980, 115, 995].
+- Label "0.00" (x-axis): Center bottom. [500, 980, 540, 995].
+
+- Label "1.00" (y-axis): Top left of circle frame. [25, 110, 55, 125].
+- Label "0.00" (y-axis): Middle left. [25, 515, 55, 530].
+- Label "-0.25" (y-axis): Below 0.00. [25, 590, 55, 605].
+
+Wait, I need to be precise with the box for the text.
+Let's look at the cropped images or just infer from the main image.
+The main image has labels around the perimeter.
+Y-axis labels are on the left vertical line.
+X-axis labels are on the bottom horizontal line.
+
+Let's pick the labels "0.75" and "-0.25" as the primary evidence.
+Also "0.00" helps.
+
+One more thing: The question asks to "Identify a dense cluster...".
+The "elements" should ground the clues needed for the *current evidence need*.
+The current evidence need is "Visual confirmation of the image coordinate system or axis labels".
+So I should only provide the axis labels/clues. I should NOT provide the cluster bounding box unless I'm describing the cluster as a clue for location. But the prompt says "Ground every visible clue required for the current evidence need." which is specifically about the coordinate system/axes.
+
+So, I will list:
+1. X-axis label "0.75".
+2. Y-axis label "-0.25".
+3. Possibly X-axis label "1.00" and Y-axis label "0.00" to orient.
+
+Let's estimate bounding boxes in [0, 1000].
+The image is likely 1000x1000 or similar.
+Let's assume standard padding.
+X-axis labels are at the bottom. Y values around 970-990.
+Y-axis labels are at the left. X values around 20-60.
+
+Text "0.75":
+It is located at x ~ 860, y ~ 985.
+Text "-0.25":
+It is located at x ~ 25, y ~ 580.
+
+I will include a few labels to be safe.
+- X-axis "0.75"
+- X-axis "1.00"
+- Y-axis "0.00"
+- Y-axis "-0.25"
+
+Actually, the prompt says "Ground every visible clue...".
+Clues include labels, scales, axes.
+I'll box the specific values requested in the logic (0.75, -0.25) and the origin (0.00) to define the grid.
+
+Final check of the question: "Identify a dense cluster... closest to (0.75, -0.25)".
+My logic:
+- (0.75, -0.25) is in the 4th quadrant (positive x, negative y).
+- Top cluster is in 2nd quadrant (mostly) / 1st quadrant (part). Wait, x is negative mostly. y is high positive. So 2nd quadrant.
+- Right cluster is in 1st quadrant (positive x, positive y).
+- Bottom cluster is in 3rd/4th quadrant. x is small positive (0.25). y is large negative (-0.9).
+- The trail connects top to bottom.
+- The trail passes through x ~ 0.6 for y ~ 0.5 down to x ~ 0.6 for y ~ 0. Then curves to x ~ 0.25 for y ~ -0.2.
+- So at y=-0.25, the trail is at x ~ 0.3.
+- The query point is x=0.75, y=-0.25.
+- Distance to trail: |0.75 - 0.3| = 0.45.
+- Distance to Right cluster: Right cluster is at x ~ 0.85, y ~ 0.15.
+  - dx = |0.75 - 0.85| = 0.1.
+  - dy = |-0.25 - 0.15| = 0.4.
+  - Dist = sqrt(0.01 + 0.16) = ~0.41.
+- Distance to Bottom cluster: x ~ 0.25, y ~ -0.9.
+  - dx = 0.5. dy = 0.65. Dist > 1.
+
+So Right cluster is closest.
+
+The evidence is the axes.
+
+I will generate the JSON with:
+- Label "0.75" on x-axis.
+- Label "-0.25" on y-axis.
+- Label "0.00" on x-axis (and y-axis) to confirm axes.
+
+Coordinates for labels:
+- "0.75" (x-axis): Bottom right area.
+- "-0.25" (y-axis): Middle left area.
+- "0.00" (x-axis): Bottom center.
+- "0.00" (y-axis): Left middle.
+
+Let's refine the boxes.
+Width 1000, Height 1000.
+X-axis ticks are below the plot area. Plot area ends around y=970? No, the plot is circular.
+The box for the axes labels is at the very bottom and very left.
+Looking at the full image:
+- "0.75" is at roughly x=860, y=985.
+- "-0.25" is at roughly x=25, y=580.
+- "0.00" (x) is at x=500, y=985.
+- "0.00" (y) is at x=25, y=515.
+
+I'll include these.
+
+One detail: "Ground every visible clue required for the current evidence need."
+The need is "Visual confirmation of the image coordinate system or axis labels".
+So I should probably include the axis lines or ticks too if visible, but labels are the strongest clue.
+I'll stick to labels.
+
+Final list of elements:
+1. X-axis label "0.75".
+2. X-axis label "-1.00" (to show full range?). Maybe not needed.
+3. Y-axis label "-1.00".
+4. Y-axis label "1.00".
+Actually, just the relevant ones or the origin.
+I will include "0.75", "-0.25", "0.00" (x and y), and "1.00" (x and y) to fully define the system.
+
+Wait, looking at the image, the labels are:
+X-axis: -1.00, -0.75, -0.50, -0.25, 0.00, 0.25, 0.50, 0.75, 1.00
+Y-axis: 1.00, 0.75, 0.50, 0.25, 0.00, -0.25, -0.50, -0.75, -1.00
+
+I will select the labels that bound the relevant region or define the grid.
+- "0.75" (x)
+- "-0.25" (y)
+- "0.00" (x and y)
+- "1.00" (x and y) - to show extent.
+
+Actually, the prompt says "Include all applicable candidates, labels...".
+I will just list the ones that help map the coordinate.
+"0.75" x-label.
+"-0.25" y-label.
+"0.00" x-label and y-label (for origin).
+
+Let's get the bounding boxes as accurate as possible.
+Image looks like 1000x1000.
+X-axis labels are at y ~ 985.
+- "-1.00": x ~ 75.
+- "0.00": x ~ 500.
+- "0.75": x ~ 865.
+- "1.00": x ~ 935.
+
+Y-axis labels are at x ~ 25.
+- "1.00": y ~ 115.
+- "0.00": y ~ 515.
+- "-0.25": y ~ 585.
+- "-1.00": y ~ 910.
+
+I will use these approximate coordinates.
+
+One final check. The question asks to "Identify a dense cluster...".
+The "elements" are for the "Current Evidence Need".
+The Current Evidence Need is "Visual confirmation of the image coordinate system or axis labels".
+So I don't need to box the cluster. I just need to box the axes.
+
+Correct.
+
+One tiny thing: "Do not solve the full question".
+So I will just output the JSON with the axis labels.
+
+Wait, is there a legend?
+Top center: Color bar 0.0 to 1.0.
+This confirms the color mapping but not the position.
+
+Okay, ready to write.
+
+Description: "x-axis label '0.75'", bbox: [860, 980, 910, 995]
+Description: "y-axis label '-0.25'", bbox: [20, 580, 60, 610]
+Description: "x-axis label '0.00'", bbox: [490, 980, 540, 995]
+Description: "y-axis label '0.00'", bbox: [20, 510, 60, 530]
+Description: "x-axis label '1.00'", bbox: [920, 980, 960, 995]
+Description: "y-axis label '1.00'", bbox: [20, 110, 60, 130]
+
+I'll combine nearby labels if they are essentially the same type, but the rule says "Each item is exactly one semantic clue. Separate distinct clues even when boxes overlap or are identical."
+So I should separate "0.75" and "-0.25".
+
+I will provide the labels that are most critical for mapping (0.75, -0.25).
+- Label "0.75" on x-axis.
+- Label "-0.25" on y-axis.
+- Label "0.00" on x and y axis (to establish orientation).
+
+I'll add the ones at the ends to confirm the scale (1.00, -1.00).
+
+Actually, I'll just pick the most direct ones.
+1. X-axis "0.75"
+2. Y-axis "-0.25"
+3. X-axis "0.00"
+4. Y-axis "0.00"
+
+This is sufficient to map the point.
+
+Wait, looking at the image again, the y-axis label "-0.25" is clearly visible.
+The x-axis label "0.75" is clearly visible.
+The x-axis label "1.00" is visible.
+The y-axis label "0.00" is visible.
+
+I will use these.
+
+Coordinates estimation:
+- x-axis "0.75": x=865, y=985. Box: [860, 985, 910, 995].
+- y-axis "-0.25": x=25, y=585. Box: [20, 580, 60, 610].
+- x-axis "0.00": x=500, y=985. Box: [490, 980, 540, 995].
+- y-axis "0.00": x=25, y=515. Box: [20, 510, 60, 530].
+
+I'll format the output now.
+</think>
+
+{
+  "elements": [
+    {
+      "description": "x-axis label indicating the value 0.75, located near the right side of the horizontal axis",
+      "bbox": [860, 985, 910, 995]
+    },
+    {
+      "description": "y-axis label indicating the value -0.25, located below the origin on the vertical axis",
+      "bbox": [20, 580, 60, 610]
+    },
+    {
+      "description": "x-axis label indicating the origin 0.00, located at the center of the horizontal axis",
+      "bbox": [490, 980, 540, 995]
+    },
+    {
+      "description": "y-axis label indicating the origin 0.00, located in the middle of the vertical axis",
+      "bbox": [20, 510, 60, 530]
+    },
+    {
+      "description": "x-axis label indicating the maximum value 1.00, located at the far right of the horizontal axis",
+      "bbox": [920, 980, 960, 995]
+    },
+    {
+      "description": "y-axis label indicating the maximum value 1.00, located at the top of the vertical axis",
+      "bbox": [20, 110, 60, 130]
+    }
+  ]
+}

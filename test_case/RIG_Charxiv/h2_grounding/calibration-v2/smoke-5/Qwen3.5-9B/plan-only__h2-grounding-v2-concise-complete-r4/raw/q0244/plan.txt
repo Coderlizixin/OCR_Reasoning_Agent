@@ -1,0 +1,67 @@
+The user is asking me to create evidence-grounding steps for a visual grounding task. The question asks about counting charts where a specific curve shows the greatest increase compared to other curves.
+
+However, I cannot see any image. The user explicitly states this gives me the constraints I must follow:
+- I am decomposing a visual grounding task into evidence needs
+- I receive only the question, not the image
+- I should NOT solve the question, predict the answer, state candidate values, or invent visible content
+- Return only the requested JSON object without markdown or analysis
+
+I need to create 2-6 ordered evidence-grounding steps that describe what visual evidence would be needed to answer this question. Each step should request one coherent kind of directly visible evidence.
+
+Let me think about what information would be needed:
+
+1. First, I need to understand what charts are present in the visual document
+2. I need to identify curves labeled with second coordinate 0 (e.g., (x, 0))
+3. I need to identify curves with non-zero second coordinates
+4. I need to see the data/curves from iteration 0.0 to 12.5
+5. I need to be able to compare the increases
+
+But I must NOT provide the answer, predict values, or invent content. I need to describe what visual evidence would be needed.
+
+Let me create steps that request:
+1. What charts are visible and how many
+2. The curve labels/text to identify those with second coordinate 0
+3. The iteration labels (0.0 to 12.5)
+4. The curve traces/data lines visible in each chart
+5. The visual elements needed to determine relative increases between curves
+
+The key constraints:
+- Each step must request one coherent kind of directly visible evidence
+- No comparison, ranking, counting, calculating, concluding, or selecting
+- No bbox numbers, image dimensions, pixels, or coordinate conversion
+- Natural language description of visual content
+
+
+- Transcription is allowed only for text/values explicitly printed
+
+I need to stay strictly within the evidence requirement format—no analysis, no assumptions about what the image contains beyond what I can request as visible evidence.
+</think>
+
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "Identify all visible charts in the visual document, including the number of separate chart regions, their boundaries, and spatial arrangement"
+    },
+    {
+      "step_id": "s2",
+      "evidence_need": "Transcribe all text labels visible near curve endpoints or on axes that indicate second coordinate values of 0 or non-zero values, specifically looking for coordinates of the form (x, 0) and (x, y) where y is non-zero"
+    },
+    {
+      "step_id": "s3",
+      "evidence_need": "Document all iteration labels or x-axis tick marks visible in each chart, including values from 0.0 to 12.5 or their visible range"
+    },
+    {
+      "step_id": "s4",
+      "evidence_need": "Capture the visible curve traces, line paths, or data points present in each chart between the identified iteration boundaries, noting which curve belongs to which label"
+    },
+    {
+      "step_id": "s5",
+      "evidence_need": "Record the y-axis scale, tick marks, and axis labels visible in each chart that define the ordinate coordinate system for measuring increases and non-zero values"
+    },
+    {
+      "step_id": "s6",
+      "evidence_need": "Identify the legend or key visible in or near each chart that maps curve lines or colors to their corresponding labels or coordinate specifications"
+    }
+  ]
+}

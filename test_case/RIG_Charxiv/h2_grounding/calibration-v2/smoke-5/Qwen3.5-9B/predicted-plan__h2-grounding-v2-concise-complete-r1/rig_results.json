@@ -1,0 +1,314 @@
+[
+  {
+    "index": 1,
+    "model_name": "Qwen3.5-9B",
+    "prompt_version": "h2-grounding-v2-concise-complete",
+    "h2_mode": "predicted-plan",
+    "inst_category": 1,
+    "category_name": "Text-in-Chart",
+    "question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?",
+    "question_source_field": "raw_question",
+    "dataset_question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?\n    * Your final answer must be grounded to some text that is explicitly written and relevant to the question in the chart.\n    * If you need to answer multiple terms, separate them with commas.\n    * Unless specified in the question (such as answering with a letter), you are required to answer the full names of subplots and/or labels by default.\n    ",
+    "gt_answer": "lambda_L = 0.13",
+    "status": "valid",
+    "plan_status": "valid",
+    "plan_steps": [
+      {
+        "step_id": "s1",
+        "evidence_need": "Locate the specific visual marker or label identifying the W_H axis."
+      },
+      {
+        "step_id": "s2",
+        "evidence_need": "Identify the textual names or identifiers associated with each distinct line in the visualization."
+      },
+      {
+        "step_id": "s3",
+        "evidence_need": "Extract the specific fi value indicators or numerical labels corresponding to each line."
+      },
+      {
+        "step_id": "s4",
+        "evidence_need": "Observe the spatial coordinates or geometric placement of each line relative to the W_H axis."
+      }
+    ],
+    "elements": [
+      {
+        "id": "pred_000",
+        "description": "W_H axis label",
+        "bbox": [
+          400,
+          965,
+          505,
+          998
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_001",
+        "description": "legend entry for the green dashed line: lambda_L = 0.13",
+        "bbox": [
+          76,
+          29,
+          195,
+          58
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_002",
+        "description": "legend entry for the red dotted line: lambda_L = 0.20",
+        "bbox": [
+          76,
+          64,
+          195,
+          93
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_003",
+        "description": "legend entry for the blue dash-dot line: lambda_L = 0.30",
+        "bbox": [
+          76,
+          100,
+          196,
+          129
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_004",
+        "description": "x-axis label: W_H",
+        "bbox": [
+          321,
+          676,
+          503,
+          720
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_005",
+        "description": "y-axis label: W_L",
+        "bbox": [
+          16,
+          372,
+          70,
+          597
+        ],
+        "provenance": [
+          {
+            "step_id": "s2",
+            "call_id": "s2_2"
+          }
+        ]
+      },
+      {
+        "id": "pred_006",
+        "description": "lambda_L = 0.13",
+        "bbox": [
+          129,
+          50,
+          183,
+          78
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_007",
+        "description": "lambda_L = 0.20",
+        "bbox": [
+          129,
+          78,
+          183,
+          106
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_008",
+        "description": "lambda_L = 0.30",
+        "bbox": [
+          129,
+          106,
+          183,
+          134
+        ],
+        "provenance": [
+          {
+            "step_id": "s3",
+            "call_id": "s3_3"
+          }
+        ]
+      },
+      {
+        "id": "pred_009",
+        "description": "legend text for lambda_L = 0.13",
+        "bbox": [
+          112,
+          42,
+          226,
+          62
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_010",
+        "description": "legend text for lambda_L = 0.20",
+        "bbox": [
+          112,
+          68,
+          226,
+          88
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_011",
+        "description": "legend text for lambda_L = 0.30",
+        "bbox": [
+          112,
+          94,
+          226,
+          114
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_012",
+        "description": "fi marker (blue x) at W_H ~ 0.12",
+        "bbox": [
+          262,
+          512,
+          320,
+          524
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_013",
+        "description": "fi marker (red x) at W_H = 0.0",
+        "bbox": [
+          332,
+          800,
+          380,
+          812
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      },
+      {
+        "id": "pred_014",
+        "description": "fi marker (green x) at W_H = -0.2",
+        "bbox": [
+          50,
+          600,
+          100,
+          612
+        ],
+        "provenance": [
+          {
+            "step_id": "s4",
+            "call_id": "s4_4"
+          }
+        ]
+      }
+    ],
+    "union_statistics": {
+      "raw_element_count": 15,
+      "union_element_count": 15,
+      "exact_duplicates_removed": 0,
+      "cross_step_candidate_pairs": 77,
+      "cross_step_near_duplicate_pairs_iou_0_9": 0,
+      "cross_step_near_duplicate_rate": 0.0,
+      "bbox_union_area_ratio": 0.038985
+    },
+    "token_usage": {
+      "prompt": 4362,
+      "completion": 24677,
+      "total": 29039
+    },
+    "elapsed_seconds": 412.1283699000196,
+    "elapsed_seconds_complete": true,
+    "step_statuses": [
+      {
+        "step_id": "s1",
+        "status": "valid",
+        "element_count": 1
+      },
+      {
+        "step_id": "s2",
+        "status": "valid",
+        "element_count": 5
+      },
+      {
+        "step_id": "s3",
+        "status": "valid",
+        "element_count": 3
+      },
+      {
+        "step_id": "s4",
+        "status": "valid",
+        "element_count": 6
+      }
+    ]
+  }
+]

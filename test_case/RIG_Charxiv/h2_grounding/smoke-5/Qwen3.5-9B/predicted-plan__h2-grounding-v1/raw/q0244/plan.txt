@@ -1,0 +1,207 @@
+The user wants me to create a plan with 2 to 6 evidence-grounding steps for a visual grounding task.
+The question is: "In how many charts does the curve labeled with a second coordinate of 0 (e.g., (x, 0)) show the greatest increase compared to curves with a non-zero second coordinate from iteration 0.0 to 12.5?"
+
+I need to break down the evidence needed to answer this question.
+1. Identify the charts in the image.
+2. Find the legend or labels to identify curves with a second coordinate of 0 (e.g., (x, 0)) vs non-zero second coordinates.
+3. Observe the curves within the specific iteration range (0.0 to 12.5).
+4. Determine which curve shows the greatest increase.
+5. Count how many charts fit this condition.
+
+Step 1: Identify charts and legends. I need to see what charts exist and how curves are labeled.
+Step 2: Locate specific curves. I need to find curves corresponding to "second coordinate 0" and "non-zero second coordinate".
+Step 3: Analyze trends within the range. I need to see the values/trends between iteration 0.0 and 12.5.
+Step 4: Compare increases. I need to quantify or visually assess the magnitude of increase for the specific curve vs others.
+Step 5: Count occurrences. I need to count how many independent charts satisfy the condition identified in step 4.
+
+Let's refine these into 2-6 distinct steps focusing on visible evidence.
+
+Step 1: Evidence Need - Chart identification and legend/label mapping.
+- Need to list all charts visible and map labels to curve types (specifically identifying those with second coordinate 0).
+
+Step 2: Evidence Need - Observing the data range on x-axis.
+- Need to verify that the x-axis represents iterations and confirm the range spans 0.0 to 12.5 across all relevant charts.
+
+Step 3: Evidence Need - Visualizing curve trajectories for specific coordinates.
+- Need to observe the start and end points of the 0-second-coordinate curve versus non-zero ones within the specified iteration range.
+
+Step 4: Evidence Need - Comparing magnitude of increase.
+- Need to visually quantify or assess which curve shows the steepest/absolute greatest increase relative to others in each chart.
+
+Step 5: Evidence Need - Counting valid charts.
+- Need to tally the number of charts where the zero-coordinate curve is the one showing the greatest increase.
+
+I should combine some of these if they feel too granular, but keep them distinct. The prompt asks for "one precise visible-evidence requirement" per step.
+
+Revised Plan:
+1. Identify all charts and locate the legend or axis labels to distinguish curves based on their second coordinate values (e.g., (x, 0) vs non-zero).
+2. Verify the x-axis scale and ensure each chart covers the iteration range from 0.0 to 12.5.
+3. Within each chart, observe the trajectory of the curve labeled for a second coordinate of 0 and compare its slope/increase against curves with non-zero second coordinates.
+4. Determine for each chart which curve exhibits the greatest rate of increase or total rise between the start and end of the specified iteration range.
+5. Count the total number of distinct charts where the curve with the second coordinate of 0 is identified as having the greatest increase.
+
+This looks like 5 steps. Fits the 2-6 range.
+Constraints:
+- Return ONLY the requested JSON object.
+- No markdown.
+- Correct JSON structure.
+- Do not solve the question.
+
+Let's draft the JSON.
+
+```json
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "Identify the boundaries and labels of each chart page and the corresponding legend entries that define curves by their second coordinate values."
+    },
+    {
+      "step_id": "s2",
+      "evidence_need": "Verify the x-axis scale and tick marks for each chart to confirm coverage of the full iteration interval from 0.0 to 12.5."
+    },
+    {
+      "step_id": "s3",
+      "evidence_need": "Observe the vertical position and change in magnitude of the curve associated with coordinate 0 relative to other curves at iteration start (0.0) and end (12.5)."
+    },
+    {
+      "step_id": "s4",
+      "evidence_need": "Compare the slope and absolute change of the coordinate 0 curve against the non-zero coordinate curves to determine which curve shows the greatest increase within the specified interval."
+    },
+    {
+      "step_id": "s5",
+      "evidence_need": "Tally the number of distinct charts where the coordinate 0 curve is determined to have the maximum increase compared to non-zero curves."
+    }
+  ]
+}
+```
+
+Reviewing constraints:
+- "Return only the requested JSON object without markdown or analysis."
+- "Create 2 to 6 ordered evidence-grounding steps"
+
+The draft looks good. I will ensure no markdown formatting around the JSON.
+
+Final check on content:
+s1: Identify charts and labels.
+s2: Verify range 0.0 to 12.5.
+s3: Observe specific curve behavior (coordinate 0 vs non-zero).
+s4: Determine greatest increase logic.
+s5: Count charts meeting criteria.
+
+Wait, looking at step 3, 4 and 5, they are slightly overlapping. Step 3 says "Observe trajectory", Step 4 says "Compare to determine greatest increase". Step 5 counts.
+Step 3 could focus specifically on the coordinate 0 curve start/end points, and Step 4 on the comparison.
+Let's make s3 specifically about identifying/read coordinates at start/end.
+Let's make s4 about the comparison logic.
+Let's make s5 about counting.
+
+Actually, the current draft is fine. Step 3 is "Observe... relative to others... at start and end", Step 4 is "Compare... to determine which curve". Step 5 is "Tally".
+This is clear enough.
+
+One detail: "placed with a second coordinate of 0 (e.g., (x, 0))". This implies the labels might explicitly show (x, 0). So s1 needs to mention reading these labels or the legend.
+
+Let's refine s1 for precision: "Identify the legend or axis annotations that map curve lines to specific coordinate values, specifically identifying which curves correspond to a second coordinate of 0 versus non-zero values."
+This is better.
+
+Refining s2: "Confirm the x-axis iteration labels span the required range from 0.0 to 12.5 across all present charts."
+Refining s3: "Locate the start y-value and end y-value of the curve labeled with a second coordinate of 0 and the corresponding values for the non-zero coordinate curves within each chart."
+Refining s4: "Assess the difference between end and start values to identify which curve exhibits the greatest magnitude of increase in each chart."
+Refining s5: "Count the total number of charts where the curve with a second coordinate of 0 is the one exhibiting the greatest increase compared to curves with non-zero coordinates."
+
+This looks solid.
+
+One check: "The plan must describe evidence requirements only. It must not contain the final answer, decide a winning candidate, or claim any specific value visible in the image."
+My steps do not contain answers. They just describe what to look at.
+"Output ONLY: { "steps": ... }"
+No markdown code blocks like ```json ... ```. Just the raw JSON string.
+Wait, standard practice for JSON output in these systems usually usually allows code blocks or doesn't enforce strict violation of markdown if it's just formatting. But the prompt says "Return only the requested JSON object without markdown or analysis." I will output raw JSON text.
+
+Wait, I need to check if the system requires markdown block for JSON safety or not. "Output ONLY: { ... }". I will provide the raw JSON text.
+
+Wait, I need to check if the system prefers markdown code blocks for JSON structure often. "Return only the requested JSON object without markdown". I will strip markdown.
+
+Let's re-read carefully: "Return only the requested JSON object without markdown or analysis."
+So:
+{
+  "steps": [
+...
+  ]
+}
+No backticks.
+
+Final check on step count: 2 to 6. I have 5. Good.
+
+One more check on the instruction "You decompose a visual grounding task into evidence needs." -> "The plan must describe evidence requirements only."
+The content inside the steps is "evidence_need".
+I should ensure these are phrased as data requirements. "Identify...", "Verify...", "Observe...", "Compare...", "Count..." are appropriate actions to gather evidence.
+
+Final check on "second coordinate of 0". This likely refers to the label text itself or a legend description like "(x, 0)". I will ensure the step reflects finding this specific label information.
+
+Let's finalize the JSON content.
+s1: Identify chart boundaries and find legend/labels describing curves by their second coordinate value (distinguishing 0 from non-zero).
+s2: Verify the x-axis scale in each chart includes the full iteration sequence from 0.0 to 12.5.
+s3: Read the visual data points for the 'second coordinate 0' curve and 'non-zero' curves at the start (0.0) and end (12.5) of the x-axis.
+s4: Calculate the change (increase) for each curve at the start and end points to identify the greatest increase for the 'second coordinate 0' curve.
+s5: Count how many distinct charts satisfy the condition where the 'second coordinate 0' curve shows the greatest increase.
+
+This seems complete.
+
+Wait, I need to make sure I don't violate the "without markdown" instruction. I will just provide the JSON text.
+Actually, usually, I should wrap it in a markdown block if the interface supports it, but "without markdown" suggests raw text. I will try to provide raw text. But wait, most LLM interfaces render raw text as plain text. I will provide the JSON structure directly.
+However, often the prompt implies "Output ONLY the JSON...".
+I will write the JSON string.
+
+Wait, I should check if I need to be strict about the "2 to 6" constraint. Yes, 5 steps.
+"evidence_need": "one precise visible-evidence requirement".
+I will keep the strings concise and focused on the evidence needed.
+
+s1: "Identify the legend or axis text that maps each curve to its label, specifically distinguishing between curves with a second coordinate of 0 and non-zero values."
+s2: "Verify that the x-axis for every chart displays the iteration scale starting at 0.0 and extending to 12.5."
+s3: "Observe the starting y-position and ending y-position of the curve labeled with a second coordinate of 0 at the frame boundaries."
+s4: "Observe the starting y-position and ending y-position of the curves with non-zero second coordinates for comparison."
+s5: "Determine and aggregate the count of charts where the second coordinate 0 curve demonstrates the steepest upward trajectory compared to others."
+
+Wait, s3 and s4 can be merged to form a comparison step, or kept separate. Let's keep s3 and s4 distinct as they request evidence for two types of curves separately or as a comparison observation. Merging might be better for efficiency (2 to 6 steps).
+Let's try to merge s3, s4, s5 to 4 steps, or keep 5. 5 is within 2-6.
+Actually, "Determine and aggregate" is an action, not just evidence. Evidence needs are about what is visible.
+So s5 should be "Count the number of charts where the visual evidence of the zero-coordinate curve's increase surpasses the non-zero curves."
+This implies the evidence needs for previous steps established the values.
+Okay.
+
+Let's finalize.
+s1: Identify the legend or axis annotations to distinguish curves by their coordinate labels (specifically identifying the curve with a second coordinate of 0).
+s2: Verify the x-axis range on each chart explicitly covers the iteration interval from 0.0 to 12.5.
+s3: Observe the vertical displacement at iteration 0.0 and iteration 12.5 for the curve labeled with a second coordinate of 0.
+s4: Observe the vertical displacement at iteration 0.0 and iteration 12.5 for the curves labeled with non-zero second coordinates to facilitate comparison.
+s5: Tally the number of charts where the curve with a second coordinate of 0 exhibits a greater increase in height than the non-zero coordinate curves.
+
+This looks compliant.
+Wait, "visual displacement" is good.
+"vertical increase" is good.
+
+One more check: "without markdown or analysis".
+I will just output the JSON.
+
+One detail: "Create 2 to 6 ordered evidence-grounding steps".
+My steps are ordered.
+1. Identify labels.
+2. Verify axis.
+3. Observe zero-coordinate curve data.
+4. Observe non-zero curve data.
+5. Count results.
+
+This is a valid evidence-grounding plan.
+
+One final check on formatting. "OUTPUT ONLY: { ... }".
+I will ensure no markdown code blocks surround it.
+
+Wait, if I output raw JSON, it might be hard to read or parse if the system expects code block. But the instruction says "without markdown". I will follow instruction strictly.
+
+Wait, I should check if there is any ambiguity on "without markdown". Usually ` ```json ` is markdown. I will omit it.
+
+Let's construct the final string.
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "Identify the legend or axis text that maps each curve to its label, specifically distinguishing between

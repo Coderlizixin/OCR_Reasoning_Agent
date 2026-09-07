@@ -1,0 +1,97 @@
+The user wants to identify the visual elements related to the "W_H axis". This is the x-axis of the plot.
+
+1.  **Locate the axis label:** I see the label "$W_H$" below the horizontal axis. This is the primary identifier.
+2.  **Locate the tick marks/values:** The axis has numerical ticks: -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4. These define the extent of the axis.
+3.  **Locate the axis line itself:** The horizontal line running across the bottom of the plot area.
+
+I need to provide bounding boxes for these elements.
+
+-   **Label "$W_H$":** Located at the bottom center.
+-   **Tick values:** The numbers -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4 along the x-axis.
+-   **Axis line:** The bottom border of the plot frame.
+
+Let's refine the bounding boxes.
+-   Axis label "$W_H$": [480, 780, 515, 860] roughly.
+-   Tick labels: I should box each number or the general area of the axis line. The prompt asks for "Locate the specific visual marker or label identifying the W_H axis". So the label itself is the most direct evidence. The tick marks and values confirm it's the W_H axis.
+
+Let's look for specific text.
+-   Text "$W_H$" is clearly visible.
+-   The tick labels "-0.2", "-0.1", "0.0", "0.1", "0.2", "0.3", "0.4" are also identifiers for the axis scale.
+
+I will box the label "$W_H$" and perhaps the region containing the tick values if needed, but the label is the primary identifier. The prompt asks for "visible identity...".
+
+Let's select the label and the tick values.
+-   Label: [483, 886, 526, 925] (approx). Looking at coordinates... x is usually 0-1000 left-to-right, y is 0-1000 top-to-bottom? No, usually image coordinates. Let's assume standard image coordinates (0,0 top-left).
+    -   Image width ~1000, height ~1000.
+    -   Bottom center label: x ~ 600, y ~ 800.
+    -   Wait, let's look at the provided reference labels in the prompt's system prompt example or just estimate.
+    -   Legend top-left. Plot area center.
+    -   Label "$W_H$" is below the x-axis line.
+    -   Ticks are on the axis line.
+
+Let's try to be precise.
+-   Label "$W_H$": Around x=600, y=830.
+-   Ticks: -0.2 (x=200), -0.1 (x=300), 0.0 (x=400), 0.1 (x=500), 0.2 (x=600), 0.3 (x=700), 0.4 (x=800).
+
+Let's pick the label and the tick labels.
+-   Label: [483, 886, 526, 925] -> wait, let's look at the image again. The text is $W_H$. It is centered under the axis.
+-   Let's check the y-axis label $W_L$ for comparison. It's on the left. $W_H$ is on the bottom.
+
+Okay, I will box the label "$W_H$" and the tick numbers.
+
+Element 1: Label "$W_H$". bbox roughly [483, 886, 526, 925].
+Element 2: Tick "-0.2". bbox [216, 886, 288, 925].
+Element 3: Tick "-0.1". bbox [306, 886, 364, 925].
+Element 4: Tick "0.0". bbox [396, 886, 446, 925].
+Element 5: Tick "0.1". bbox [506, 886, 564, 925].
+Element 6: Tick "0.2". bbox [616, 886, 674, 925].
+Element 7: Tick "0.3". bbox [716, 886, 774, 925].
+Element 8: Tick "0.4". bbox [816, 886, 874, 925].
+
+Actually, the prompt asks to "Locate the specific visual marker or label identifying the W_H axis". The label "$W_H$" is the specific marker. The ticks are secondary but helpful context. I will focus on the label and the axis line/ticks.
+
+Let's just grab the label and the numbers.
+Label: "W_H" at the bottom.
+Numbers: -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4.
+
+I will formulate the response with these elements.
+</think>
+
+```json
+{
+  "elements": [
+    {
+      "description": "Label identifying the horizontal axis as W_H",
+      "bbox": [483, 886, 526, 925]
+    },
+    {
+      "description": "Tick value -0.2 on the W_H axis",
+      "bbox": [216, 886, 288, 925]
+    },
+    {
+      "description": "Tick value -0.1 on the W_H axis",
+      "bbox": [306, 886, 364, 925]
+    },
+    {
+      "description": "Tick value 0.0 on the W_H axis",
+      "bbox": [396, 886, 446, 925]
+    },
+    {
+      "description": "Tick value 0.1 on the W_H axis",
+      "bbox": [506, 886, 564, 925]
+    },
+    {
+      "description": "Tick value 0.2 on the W_H axis",
+      "bbox": [616, 886, 674, 925]
+    },
+    {
+      "description": "Tick value 0.3 on the W_H axis",
+      "bbox": [716, 886, 774, 925]
+    },
+    {
+      "description": "Tick value 0.4 on the W_H axis",
+      "bbox": [816, 886, 874, 925]
+    }
+  ]
+}
+```

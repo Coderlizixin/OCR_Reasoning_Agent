@@ -1,0 +1,94 @@
+[
+  {
+    "index": 1,
+    "model_name": "Qwen3.5-9B",
+    "prompt_version": "derivation-evidence-v4-concise-guided-json",
+    "guided_json": true,
+    "inst_category": 1,
+    "category_name": "Text-in-Chart",
+    "question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?",
+    "question_source_field": "raw_question",
+    "dataset_question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?\n    * Your final answer must be grounded to some text that is explicitly written and relevant to the question in the chart.\n    * If you need to answer multiple terms, separate them with commas.\n    * Unless specified in the question (such as answering with a letter), you are required to answer the full names of subplots and/or labels by default.\n    ",
+    "gt_answer": "lambda_L = 0.13",
+    "model_raw_output": "The user wants to identify the line furthest from its 'fi' value relative to the W_H axis.\n\n1.  **Identify 'fi' value**: Look at the legend. 'fi' is an 'X' symbol.\n2.  **Identify lines**: The legend shows three dashed lines corresponding to $\\lambda_L = 0.13$ (green), $\\lambda_L = 0.20$ (red/brown), and $\\lambda_L = 0.30$ (blue).\n3.  **Locate 'fi' markers on the plot**:\n    *   There is a green 'X' around W_H = -0.19, W_L = 0.027.\n    *   There is a red 'X' around W_H = 0.01, W_L = 0.050.\n    *   There is a blue 'X' around W_H = 0.12, W_L = 0.090.\n4.  **Determine \"furthest away from its fi value from the W_H axis\"**: This phrasing is slightly confusing. It likely asks for the line whose associated 'fi' marker (which is a single point) is furthest away from the curve itself, measured along the W_H axis? Or perhaps \"furthest away from the W_H axis\" means the W_L value is highest? No, the question says \"furthest away from its fi value\". This implies the distance between the line curve and the discrete 'fi' point labeled on that line.\n    *   Wait, let's re-read carefully: \"What is the name of the line that is the furthest away from its fi value from the W_H axis?\"\n    *   Maybe it means: For each line, find the 'fi' marker corresponding to that line. Then find the line (or the 'fi' point) that is furthest away from the vertical axis (W_H = 0)? No, \"from the W_H axis\". That usually means the largest W_H value.\n    *   Let's look at the legend. The lines are named by $\\lambda_L$. So the answer should be one of $\\lambda_L = 0.13$, $\\lambda_L = 0.20$, or $\\lambda_L = 0.30$.\n    *   Let's reconsider the question: \"furthest away from its fi value from the W_H axis\". This is grammatically strange.\n    *   Interpretation A: Find the 'fi' marker. Which one is furthest from the W_H axis (i.e., has the largest |W_H|)?\n        *   Green 'X': W_H ~ -0.19. Distance ~ 0.19.\n        *   Red 'X': W_H ~ 0.01. Distance ~ 0.01.\n        *   Blue 'X': W_H ~ 0.12. Distance ~ 0.12.\n        *   The green 'X' is furthest from the center. But it's negative.\n    *   Interpretation B: The question asks about the \"line\". Which line is furthest away *from* the 'fi' value marker *relative to* the W_H axis? Or perhaps \"furthest away from the W_H axis\" is the criterion for which line to pick?\n    *   Let's look at the provided solution in the prompt's hidden ground truth if available? No, I must generate the grounding.\n    *   Let's assume the question asks: Which line's 'fi' point is the furthest from the W_H axis (meaning has the largest magnitude of W_H)? That would be the green line's 'fi' point at W_H = -0.19.\n    *   However, usually \"furthest away from... from the axis\" implies a distance metric.\n    *   Let's look at the legend items. $\\lambda_L = 0.13$ corresponds to the green line. The 'fi' marker (green X) is at W_H = -0.19.\n    *   $\\lambda_L = 0.20$ corresponds to the red line. The 'fi' marker (red X) is at W_H = 0.015.\n    *   $\\lambda_L = 0.30$ corresponds to the blue line. The 'fi' marker (blue X) is at W_H = 0.12.\n    *   If the criterion is \"furthest from the W_H axis\" (meaning W_H=0 line), the green point at -0.19 is furthest.\n    *   But the question says \"furthest away from its fi value FROM the W_H axis\". This might mean: Look at the distance between the curve and the 'fi' point. Project that distance onto the W_H axis?\n    *   Let's look at the visual arrangement.\n        *   Green line curve is around W_H = 0.2 to 0.3. The 'fi' point is at -0.19. This is a huge separation.\n        *   Red line curve is around W_H = 0.25 to 0.35. The 'fi' point is at 0.015. Huge separation.\n        *   Blue line curve is around W_H = 0.28 to 0.4. The 'fi' point is at 0.12. Huge separation.\n    *   Actually, let's re-read the question as a potentially garbled \"What is the name of the line that is the furthest away from the W_H axis?\" No, \"furthest away from its fi value\".\n    *   Let's look at the specific phrasing: \"furthest away from its fi value from the W_H axis\".\n    *   Maybe it means: For the 'fi' point, which W_H axis line is it furthest from? No.\n    *   Let's assume the question asks to identify the line style/name based on the legend.\n    *   Let's look for the 'fi' markers.\n        *   Green X: [146, 637, 167, 694] roughly.\n        *   Red X: [386, 399, 458, 524] roughly.\n        *   Blue X: [563, 219, 584, 276] roughly.\n    *   The question asks for the \"name of the line\". The names are $\\lambda_L = 0.13$, $\\lambda_L = 0.20$, $\\lambda_L = 0.30$.\n    *   Let's reconsider the spatial relationship.\n        *   The green 'fi' (X) is at W_H = -0.19.\n        *   The red 'fi' (X) is at W_H = 0.01.\n        *   The blue 'fi' (X) is at W_H = 0.12.\n    *   Which 'fi' value is furthest from the W_H axis? Likely the green one because |-0.19| > 0.12 > 0.01.\n    *   Wait, the green 'fi' is on the green line? No, the green line is a curve on the right side (W_H > 0.2). The green 'fi' is on the left (W_H < 0).\n    *   The straight vertical lines are drawn through the points? No, the lines are curves.\n    *   The legend says:\n        *   $\\lambda_L = 0.13$ is green.\n        *   $\\lambda_L = 0.20$ is reddish-brown.\n        *   $\\lambda_L = 0.30$ is blue.\n    *   The points plotted are:\n        *   'ap' (circles), 'sm' (stars), 'ni' (squares).\n    *   The 'fi' (X) points are disjoint from the main curves?\n        *   Green X is at (-0.19, 0.027).\n        *   Red X is at (0.015, 0.05).\n        *   Blue X is at (0.12, 0.09).\n    *   The curves are:\n        *   Green curve: W_H roughly 0.2 -> 0.3.\n        *   Red curve: W_H roughly 0.23 -> 0.35.\n        *   Blue curve: W_H roughly 0.28 -> 0.39.\n    *   So for the green line ($\\lambda_L = 0.13$), the 'fi' point is at W_H = -0.19. The curve is at W_H ~ 0.25. Distance ~ 0.44.\n    *   For the red line ($\\lambda_L = 0.20$), the 'fi' point is at W_H = 0.015. The curve is at W_H ~ 0.28. Distance ~ 0.265.\n    *   For the blue line ($\\lambda_L = 0.30$), the 'fi' point is at W_H = 0.12. The curve is at W_H ~ 0.3. Distance ~ 0.18.\n    *   So the green line ($\\lambda_L = 0.13$) has the 'fi' point furthest away from the curve along the W_H axis.\n    *   The question phrasing \"furthest away from its fi value from the W_H axis\" is very weird. Maybe it means \"Which line's 'fi' value is furthest from the W_H axis (i.e. furthest left/right)?\" If so, the green one is furthest left (-0.19).\n    *   Or maybe \"furthest away from the W_H axis\" means highest W_L?\n        *   Green X: W_L ~ 0.027.\n        *   Red X: W_L ~ 0.05.\n        *   Blue X: W_L ~ 0.09.\n        *   The Blue X is furthest from the W_H axis (W_L=0 axis).\n    *   Let's check the legend again. \"fi\" is the label. \"X\" is the symbol.\n    *   Maybe the question is: \"What is the name of the line that is the furthest away from the W_H axis?\" -> That would be the Blue line ($\\lambda_L = 0.30$) because it reaches W_H=0.4.\n    *   But the question says \"from its fi value\".\n    *   Let's look at the legend box.\n        *   $\\lambda_L = 0.13$\n        *   $\\lambda_L = 0.20$\n        *   $\\lambda_L = 0.30$\n    *   Let's assume the question asks to identify the line associated with the 'fi' marker that is furthest from the W_H axis.\n    *   Wait, is \"fi\" a line name? No, \"fi\" is a symbol (X).\n    *   The lines are defined by $\\lambda_L$.\n    *   Let's look at the phrase \"furthest away from its fi value from the W_H axis\".\n    *   Could it mean \"furthest away from the W_H axis\" (i.e. largest absolute W_H value)?\n        *   The blue curve goes to 0.4.\n    *   Could it refer to the 'fi' marker itself?\n        *   Green 'fi' is at -0.19.\n        *   Blue 'fi' is at 0.12.\n    *   Let's look for visual cues. The green 'fi' is clearly an outlier.\n    *   Let's assume the question is asking about the line associated with the 'fi' marker that is furthest from the main bundle of curves/axis.\n    *   Actually, let's look at the text in the prompt. \"What is the name of the line that is the furthest away from its fi value from the W_H axis?\"\n    *   This sounds like a question about the distance between the curve and the 'fi' point.\n    *   As calculated:\n        *   Green ($\\lambda_L = 0.13$): Curve starts W_H ~ 0.22. Point is -0.19. Diff ~ 0.41.\n        *   Red ($\\lambda_L = 0.20$): Curve starts W_H ~ 0.23. Point is 0.015. Diff ~ 0.215.\n        *   Blue ($\\lambda_L = 0.30$): Curve starts W_H ~ 0.28. Point is 0.12. Diff ~ 0.16.\n    *   So the Green line ($\\lambda_L = 0.13$) is the one.\n\n    *   Alternatively, maybe it asks about the line furthest from the W_H axis (meaning the x-axis is W_H, so furthest from W_H=0 line? Or furthest from the vertical axis at the center?).\n    *   Let's assume the question asks for the line name.\n    *   Line names: $\\lambda_L = 0.13$, $\\lambda_L = 0.20$, $\\lambda_L = 0.30$.\n    *   I need to ground the \"fi\" label and the lines.\n\n    *   Let's just ground the relevant elements:\n        1.  Legend entry for 'fi' to identify the shape.\n        2.  The 'fi' markers on the plot.\n        3.  The legend entries for the lines.\n\n    *   Specifically, I need to identify the line that has the 'fi' marker furthest from the W_H axis.\n    *   \"Furthest from W_H axis\" usually means distance from W_H=0 (if it means distance from origin) or distance from the vertical axis (dx).\n    *   If dx:\n        *   Green X: |-0.19| = 0.19.\n        *   Blue X: |0.12| = 0.12.\n        *   Red X: |0.015| = 0.015.\n        *   Green is furthest.\n    *   If \"furthest from the curve\" (which is the only line there is):\n        *   Green X is furthest from the green curve.\n\n    *   So the answer is likely the green line, labeled $\\lambda_L = 0.13$.\n    *   I will ground the legend items for the lines and the 'fi' symbol.\n\n    *   Elements to ground:\n        *   Legend box containing line styles and $\\lambda_L$ values.\n        *   Legend entry for 'fi' (X symbol).\n        *   The 'fi' markers on the plot (Green X, Red X, Blue X).\n        *   The axis label \"W_H\" to confirm the horizontal axis.\n\n    *   Let's refine the bounding boxes.\n        *   Legend: [133, 47, 319, 369] (approx).\n        *   'fi' in legend: [156, 285, 175, 308].\n        *   'X' in legend: [156, 285, 175, 308] (wait, 'X' is the shape next to 'fi').\n        *   Green X marker: [146, 637, 167, 694].\n        *   Red X marker: [424, 480, 458, 524] (approx).\n        *   Blue X marker: [563, 219, 584, 276] (approx).\n        *   Line legend items:\n            *   $\\lambda_L = 0.13$: [148, 47, 307, 90].\n            *   $\\lambda_L = 0.20$: [148, 95, 307, 137].\n            *   $\\lambda_L = 0.30$: [148, 142, 307, 184].\n        *   W_H axis label: [527, 935, 563, 965].\n\n    *   Wait, I need to check the exact text for the lines.\n    *   Top legend item: green dashed line, \"$\\lambda_L = 0.13$\".\n    *   Middle legend item: brown dotted line, \"$\\lambda_L = 0.20$\".\n    *   Bottom line legend item: blue dash-dot line, \"$\\lambda_L = 0.30$\".\n\n    *   The question asks for the \"name of the line\".\n    *   Candidates: $\\lambda_L = 0.13$, $\\lambda_L = 0.20$, $\\lambda_L = 0.30$.\n    *   The \"fi\" value associated with each line.\n    *   Maybe the \"fi\" refers to the 'fi' marker itself.\n    *   The question might be simpler: Which 'fi' marker is furthest from the W_H axis (meaning W_H=0)?\n    *   Green 'fi' is at -0.19. Distance = 0.19.\n    *   Blue 'fi' is at 0.12. Distance = 0.12.\n    *   Red 'fi' is at ~0.015. Distance = 0.015.\n    *   So Green is the answer.\n    *   I will ground the evidence that allows determining this.\n</think>\n\n{\n  \"elements\": [\n    {\n      \"description\": \"Legend entry for the green dashed line corresponding to lambda_L = 0.13\",\n      \"bbox\": [\n        135,\n        45,\n        308,\n        95\n      ]\n    },\n    {\n      \"description\": \"Legend entry for the red/brown dotted line corresponding to lambda_L = 0.20\",\n      \"bbox\": [\n        135,\n        92,\n        307,\n        137\n      ]\n    },\n    {\n      \"description\": \"Legend entry for the blue dash-dot line corresponding to lambda_L = 0.30\",\n      \"bbox\": [\n        135,\n        140,\n        307,\n        184\n      ]\n    },\n    {\n      \"description\": \"Legend label 'fi' associated with the cross 'X' marker\",\n      \"bbox\": [\n        205,\n        285,\n        227,\n        308\n      ]\n    },\n    {\n      \"description\": \"Visible 'fi' marker (green cross) on the plot\",\n      \"bbox\": [\n        146,\n        633,\n        167,\n        694\n      ]\n    },\n    {\n      \"description\": \"Visible 'fi' marker (red cross) on the plot\",\n      \"bbox\": [\n        386,\n        399,\n        458,\n        524\n      ]\n    },\n    {\n      \"description\": \"Visible 'fi' marker (blue cross) on the plot\",\n      \"bbox\": [\n        563,\n        219,\n        584,\n        276\n      ]\n    },\n    {\n      \"description\": \"X-axis label W_H indicating the horizontal axis\",\n      \"bbox\": [\n        527,\n        935,\n        563,\n        965\n      ]\n    }\n  ]\n}",
+    "reasoning_content": null,
+    "elements": [
+      {
+        "description": "Legend entry for the green dashed line corresponding to lambda_L = 0.13",
+        "bbox": [
+          135,
+          45,
+          308,
+          95
+        ]
+      },
+      {
+        "description": "Legend entry for the red/brown dotted line corresponding to lambda_L = 0.20",
+        "bbox": [
+          135,
+          92,
+          307,
+          137
+        ]
+      },
+      {
+        "description": "Legend entry for the blue dash-dot line corresponding to lambda_L = 0.30",
+        "bbox": [
+          135,
+          140,
+          307,
+          184
+        ]
+      },
+      {
+        "description": "Legend label 'fi' associated with the cross 'X' marker",
+        "bbox": [
+          205,
+          285,
+          227,
+          308
+        ]
+      },
+      {
+        "description": "Visible 'fi' marker (green cross) on the plot",
+        "bbox": [
+          146,
+          633,
+          167,
+          694
+        ]
+      },
+      {
+        "description": "Visible 'fi' marker (red cross) on the plot",
+        "bbox": [
+          386,
+          399,
+          458,
+          524
+        ]
+      },
+      {
+        "description": "Visible 'fi' marker (blue cross) on the plot",
+        "bbox": [
+          563,
+          219,
+          584,
+          276
+        ]
+      },
+      {
+        "description": "X-axis label W_H indicating the horizontal axis",
+        "bbox": [
+          527,
+          935,
+          563,
+          965
+        ]
+      }
+    ],
+    "token_usage": {
+      "prompt": 4585,
+      "completion": 4517
+    }
+  }
+]

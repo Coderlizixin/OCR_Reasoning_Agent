@@ -160,7 +160,10 @@ class OpenAIWrapper(BaseAPI):
                 self.logger.error('Unknown API Base. ')
                 raise NotImplementedError
 
-        self.logger.info(f'Using API Base: {self.api_base}; API Key: {self.key}')
+        # Never print credentials. This log is routinely copied into experiment reports.
+        self.logger.info(
+            f'Using API Base: {self.api_base}; API Key configured: {bool(self.key)}'
+        )
 
     # inputs can be a lvl-2 nested list: [content1, content2, content3, ...]
     # content can be a string or a list of image & text

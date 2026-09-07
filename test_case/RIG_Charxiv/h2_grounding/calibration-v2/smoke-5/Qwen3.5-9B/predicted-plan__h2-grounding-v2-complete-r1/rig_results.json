@@ -1,0 +1,170 @@
+[
+  {
+    "index": 1,
+    "model_name": "Qwen3.5-9B",
+    "prompt_version": "h2-grounding-v2-complete-step",
+    "h2_mode": "predicted-plan",
+    "inst_category": 1,
+    "category_name": "Text-in-Chart",
+    "question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?",
+    "question_source_field": "raw_question",
+    "dataset_question": "What is the name of the line that is the furthest away from its fi value from the W_H axis?\n    * Your final answer must be grounded to some text that is explicitly written and relevant to the question in the chart.\n    * If you need to answer multiple terms, separate them with commas.\n    * Unless specified in the question (such as answering with a letter), you are required to answer the full names of subplots and/or labels by default.\n    ",
+    "gt_answer": "lambda_L = 0.13",
+    "status": "valid",
+    "plan_status": "valid",
+    "plan_steps": [
+      {
+        "step_id": "s1",
+        "evidence_need": "Locate the specific visual marker or label identifying the W_H axis."
+      },
+      {
+        "step_id": "s2",
+        "evidence_need": "Identify the textual names or identifiers associated with each distinct line in the visualization."
+      },
+      {
+        "step_id": "s3",
+        "evidence_need": "Extract the specific fi value indicators or numerical labels corresponding to each line."
+      },
+      {
+        "step_id": "s4",
+        "evidence_need": "Observe the spatial coordinates or geometric placement of each line relative to the W_H axis."
+      }
+    ],
+    "elements": [
+      {
+        "id": "pred_000",
+        "description": "Label identifying the horizontal axis as W_H",
+        "bbox": [
+          402,
+          832,
+          518,
+          880
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_001",
+        "description": "Tick label -0.2 on the W_H axis",
+        "bbox": [
+          85,
+          853,
+          118,
+          900
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_002",
+        "description": "Tick label -0.1 on the W_H axis",
+        "bbox": [
+          225,
+          853,
+          258,
+          900
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_003",
+        "description": "Tick label 0.0 on the W_H axis",
+        "bbox": [
+          395,
+          853,
+          428,
+          900
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_004",
+        "description": "Tick label 0.1 on the W_H axis",
+        "bbox": [
+          535,
+          853,
+          568,
+          900
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      },
+      {
+        "id": "pred_005",
+        "description": "Tick label 0.2 on the W_H axis",
+        "bbox": [
+          865,
+          853,
+          898,
+          900
+        ],
+        "provenance": [
+          {
+            "step_id": "s1",
+            "call_id": "s1_1"
+          }
+        ]
+      }
+    ],
+    "union_statistics": {
+      "raw_element_count": 6,
+      "union_element_count": 6,
+      "exact_duplicates_removed": 0,
+      "cross_step_candidate_pairs": 0,
+      "cross_step_near_duplicate_pairs_iou_0_9": 0,
+      "cross_step_near_duplicate_rate": 0.0,
+      "bbox_union_area_ratio": 0.012621
+    },
+    "token_usage": {
+      "prompt": 4942,
+      "completion": 44886,
+      "total": 49828
+    },
+    "elapsed_seconds": 752.0001835000003,
+    "elapsed_seconds_complete": true,
+    "step_statuses": [
+      {
+        "step_id": "s1",
+        "status": "valid",
+        "element_count": 6
+      },
+      {
+        "step_id": "s2",
+        "status": "truncated",
+        "element_count": 0
+      },
+      {
+        "step_id": "s3",
+        "status": "truncated",
+        "element_count": 0
+      },
+      {
+        "step_id": "s4",
+        "status": "truncated",
+        "element_count": 0
+      }
+    ]
+  }
+]

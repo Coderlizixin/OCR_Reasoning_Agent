@@ -1,0 +1,236 @@
+The user wants me to create evidence-grounding steps for a visual grounding task.
+The question asks to identify which of three clusters (top, right, bottom) closest to the coordinate (0.75, -0.25).
+
+Constraints:
+1.  Return only JSON.
+2.  No markdown formatting.
+3.  2 to 6 ordered evidence-grounding steps.
+4.  Each step requests one coherent kind of directly visible evidence.
+5.  Do not solve, predict, or state the answer.
+6.  Do not compare, rank, count, calculate, conclude, or select in the steps (those are for the reasoner).
+7.  Request visible inputs needed for comparison (both candidates and the criterion axis/scale).
+8.  Name both sides of spatial relations; don't replace specific with generic "position".
+9.  Request bbox-localizable visible content; no estimated centroids, distances, etc.
+10. Describe visual content in natural language; no bbox numbers/pixels.
+11. If coordinate (0.75, -0.25) is not visibly marked, request axes/tick labels to locate it.
+
+Let's plan the steps:
+1.  **Identify the candidate clusters**: I need to see the clusters mentioned in the options (top, right, bottom).
+2.  **Understand the coordinate system**: The question mentions coordinates (0.75, -0.25). I need to verify the axes and ranges to interpret this location.
+3.  **Locate the target coordinate**: Map (0.75, -0.25) based on the axes.
+4.  **Determine proximity**: Compare the location of the target coordinate relative to the visible clusters (Top, Right, Bottom). Wait, I can't ask the reasoner to *determine* proximity or *compare* distances. Steps must ask for evidence *needed* to derive the answer.
+    Actually, the instruction says: "For a comparison, ranking, distance, or count question, preserve all operands of the criterion: request every candidate and counterpart together with the shared axis, scale, or complete trace needed to compare them."
+
+    So step 1: Identify the visual clusters.
+    Step 2: Identify the coordinate mapping (axes).
+    Step 3: Map the coordinate (0.75, -0.25) to a visual location using the axes.
+    Step 4: Establish spatial relations between the mapped location and the clusters.
+
+    Wait, strictly speaking, the reasoner will do the comparison. My steps provide the evidence.
+    Evidence 1: Visible locations of the top, right, and bottom clusters.
+    Evidence 2: The coordinate system (axis labels, origin, direction) to interpret (0.75, -0.25).
+    Evidence 3: The placement of (0.75, -0.25) on the axes.
+    Evidence 4: (Maybe not a separate step?) The logical comparison is done by the reasoner.
+    However, I need to make sure I don't ask "which is closest".
+    I need to ask for the visual positions of the clusters.
+    I need to ask for the coordinate system visualization to map (0.75, -0.25).
+
+    Let's refine.
+    Step 1: Locate the specific clusters referred to as "top", "right", and "bottom" within the visual field.
+    Step 2: Identify the visualization axes and their scales to interpret chart coordinates.
+    Step 3: Locate the coordinate point (0.75, -0.25) on the axes.
+    Step 4: Describe the visual proximity of this coordinate point to each of the three identified clusters.
+    Actually, Step 4 asks for "proximity", which is a relation derived from space. The evidence should be the spatial arrangement.
+    Better Step 4: Describe the relative spatial positions of the three clusters with respect to the location of coordinate (0.75, -0.25).
+
+    Wait, "Do not create a step whose job is to ... compare, rank, calculate, conclude, or select."
+    So I cannot ask "what is the relative distance". I can ask "where is the cluster relative to the coordinate".
+    Let's check "Name both sides of a spatial relation".
+    So: "Visual content showing the spatial relation between the top cluster and the coordinate (0.75, -0.25)"
+    But usually, evidence needs are about *content* visible.
+    Maybe:
+    1. Identify the visible clusters labeled or positioned as top, right, bottom.
+    2. Identify the coordinate axes and scale markings.
+    3. Locate the intersection corresponding to 0.75 on the x-axis and -0.25 on the y-axis visually.
+    4. Document the visual distance or alignment between the intersection point and the top cluster.
+    5. Document the visual distance or alignment between the intersection point and the right cluster.
+    6. Document the visual distance or alignment between the intersection point and the bottom cluster.
+
+    This seems to fit the "do not compare" rule if the steps just request the alignment or position of each independently.
+    Actually, I should keep it to 2-6 steps.
+    Let's try to group.
+    1. Identify the spatial distribution and visual characteristics of the three clusters: top cluster, right cluster, and bottom cluster.
+    2. Identify the coordinate axes ranges and tick labels to map the data coordinate (0.75, -0.25).
+    3. Visualize the location on the plot corresponding to x=0.75 and y=-0.25 based on the axes.
+    4. Record the visual spatial arrangement between the mapped point (0.75, -0.25) and the top cluster.
+    5. Record the visual spatial arrangement between the mapped point (0.75, -0.25) and the right cluster.
+    6. Record the visual spatial arrangement between the mapped point (0.75, -0.25) and the bottom cluster.
+
+    Is "Record the visual spatial arrangement" allowed? Yes, it requests "visible evidence".
+    Is "Identify the spatial distribution" too generic?
+    The constraint says: "Request every candidate and counterpart together with the shared axis, scale, or complete trace needed to compare them."
+    So for the clusters (candidates) and the coordinate (criterion).
+    Step 1: Visual identification of the three clusters (top, right, bottom).
+    Step 2: Identification of the coordinate system (axes, origin, direction) needed to interpret (0.75, -0.25).
+    Step 3: Localization of the exact intersection point for x=0.75, y=-0.25 on the axes.
+    Step 4: Documentation of the spatial relationship between the intersection point and the top cluster.
+    Step 5: Documentation of the spatial relationship between the intersection point and the right cluster.
+    Step 6: Documentation of the spatial relationship between the intersection point and the bottom cluster.
+
+    This covers the necessary evidence without the reasoner doing the calculation/selection in the prompt steps.
+    Wait, "Documentation of spatial relationship" is essentially asking for evidence of where they are relative to each other.
+    "Describe the visual content in natural language; do not request bbox numbers...".
+    So steps should ask for descriptions of what is visible.
+    Step 1: Describe the visual locations of the clusters appearing as top, right, and bottom within the plot area.
+    Step 2: Describe the axis labels and range definitions (including x and y) visible on the plot to interpret coordinate (0.75, -0.25).
+    Step 3: Describe the visual point or region corresponding to the intersection of 0.75 on the horizontal axis and -0.25 on the vertical axis.
+    Step 4: Describe the visual distance and direction from the mapped coordinate point (0.75, -0.25) to the top cluster.
+    Step 5: Describe the visual distance and direction from the mapped coordinate point (0.75, -0.25) to the right cluster.
+    Step 6: Describe the visual distance and direction from the mapped coordinate point (0.75, -0.25) to the bottom cluster.
+
+    This provides the information (all operands of comparison) to the reasoner:
+    - Candidate 1 (top cluster loc) vs Target (0.75, -0.25 loc)
+    - Candidate 2 (right cluster loc) vs Target (0.75, -0.25 loc)
+    - Candidate 3 (bottom cluster loc) vs Target (0.75, -0.25 loc)
+    The reasoner computes distance.
+    This satisfies "preserve all operands of the criterion".
+
+    Let's condense slightly to ensure they are coherent "kinds" of evidence.
+    1. Request visible identification and positioning of the three candidate clusters (top, right, bottom).
+    2. Request visible axis scales and tick labels defining the coordinate system.
+    3. Request the visual representation or precise location corresponding to coordinate (0.75, -0.25) derived from the axes.
+    4. Request the spatial relation description between the coordinate location and the top cluster.
+    5. Request the spatial relation description between the coordinate location and the right cluster.
+    6. Request the spatial relation description between the coordinate location and the bottom cluster.
+
+    Actually, "Request the visual representation or precise location corresponding to coordinate..." might be interpreted as "estimate centroid".
+    "Request bbox-localizable visible content, not estimated centroids, derived data coordinates..."
+    So I must ask for the visible axes/tick marks, then the location is visualized.
+    Step 3: "Describe the visual alignment or intersection found at x=0.75 and y=-0.25 based on the plotted axis ticks."
+    Step 4, 5, 6 are asking to compare, which might be borderline "reasoning".
+    However, "Describe the spatial relation" is asking for the observable evidence of that relation (e.g., "top cluster is above and to the left of the point"). This is evidence, not the calculated distance value.
+    If I ask "What is the distance?", that is forbidden.
+    If I ask "Describe which way the cluster is from the point", that is observation.
+    The prompt says "Request the visible inputs needed by those operations [comparison/ranking].".
+    So describing the spatial relation IS the input for the distance operation.
+    
+    Let's refine the wording to be strictly "visible evidence".
+    1. Identify the visual locations and bounding appearance of the dense point clusters labeled or positioned as top, right, and bottom.
+    2. Identify the axis ranges, directions, and tick labels visible on the plot that define the coordinate system.
+    3. Identify the visible markers or grid intersections corresponding to the coordinate values x=0.75 and y=-0.25.
+    4. Describe the positional alignment of the top cluster relative to the markers for x=0.75 and y=-0.25.
+    5. Describe the positional alignment of the right cluster relative to the markers for x=0.75 and y=-0.25.
+    6. Describe the positional alignment of the bottom cluster relative to the markers for x=0.75 and y=-0.25.
+
+    This looks solid. It asks for the geometric facts without asking for the final "closest" calculation.
+    Step 1: Cluster locations.
+    Step 2: Coordinate system.
+    Step 3: Target point location on the system.
+    Step 4, 5, 6: Relative positions (spatial relations).
+    
+    Wait, Step 3 asks for "markers or grid intersections". Usually, these coordinates are not "visible" unless it's a specific graph. If it's a scatter plot without grids, the "point" (0.75, -0.25) is not a visible object.
+    The instruction says: "If the question supplies a target data coordinate that is not visibly marked, request the visible axes and tick labels needed to locate it rather than requesting canvas metadata."
+    So Step 3 should be about the axes enabling location.
+    Step 3 revised: Describe the visible positions on the axes corresponding to the value 0.75 on the X axis and -0.25 on the Y axis.
+    Actually, the coordinate is a point. I need the relationship between the point and the clusters.
+    Step 3: Describe the visual location on the plot surface defined by the intersection of the axis value 0.75 and the axis value -0.25.
+    Step 4: Describe the visual spatial relation between that defined location and the top cluster.
+    Step 5: Describe the visual spatial relation between that defined location and the right cluster.
+    Step 6: Describe the visual spatial relation between that defined location and the bottom cluster.
+
+    This logic holds.
+    I will output in JSON.
+    
+    Constraints Checklist:
+    - JSON format: Yes.
+    - No markdown: Yes.
+    - 2 to 6 steps: I have 6 steps.
+    - Ordered: Yes.
+    - Coherent evidence kind per step: Yes.
+    - No final answer: Yes.
+    - No comparisons/ranking in steps (just spatial relations as evidence): Is "Describe spatial relation" allowed compared to "Which is closest"? Yes, describing spatial relation is evidence (observation). Deciding closeness is the result. Describing "The top cluster is above the intersection" is evidence. "The top cluster is closer" is reasoning.
+    - Specific candidates: Yes (top, right, bottom clusters, coordinate 0.75, -0.25).
+    - Natural language descriptions: Yes.
+
+    Wait, is "Describe spatial relation" a "one precise visible-evidence requirement"? Yes, it requests the evidence required to perform the comparison.
+    I will ensure the phrasing emphasizes *visible* relation. "Describe the visible proximity or alignment".
+    
+    Re-reading constraint: "For a comparison, ranking, distance, or count question, preserve all operands of the criterion: request every candidate and counterpart together with the shared axis, scale, or complete trace needed to compare them."
+    So I need to request the location of the target (coordinate) and the location of every candidate (cluster) and their relationship.
+    So:
+    1. Visual locations of the three clusters.
+    2. Axes/scales to locate the coordinate.
+    3. Visual location of the coordinate.
+    4. Relationship between coordinate and top cluster.
+    5. Relationship between coordinate and right cluster.
+    6. Relationship between coordinate and bottom cluster.
+
+    That covers the "operands" (coordinates/locations of all entities involved in the distance comparison).
+    I'll write the steps.
+    
+    Wait, "Transparent transcription of text or values explicitly printed". If (0.75, -0.25) is not printed, I ask for axes/ticks.
+    Step 2 asks for axes.
+    Step 3 asks for the intersection point location.
+    Step 4,5,6 ask for relation.
+    
+    Let's check step count. 2 to 6. I have 6 steps. This is acceptable.
+    I will consolidate slightly if it feels fragmented, but distinctness helps grounding.
+    Maybe 4 steps is better.
+    1. Visible locations of top, right, bottom clusters.
+    2. Coordinate system axes and ranges.
+    3. Visual intersection at (0.75, -0.25).
+    4. Spatial relations between (0.75, -0.25) and each cluster (grouped? No, keep distinct to preserve operands).
+    Actually, grouping into step 4 "Describe relations with top" and step 5 "Describe relations with right" and step 6 "Describe relations with bottom" is safer to ensure specific comparison data is available.
+    
+    Let's refine wording for "visible" nature.
+    Step 1: Describe the visual positions and shapes of the dense point clusters identified as the top, right, and bottom clusters.
+    Step 2: Describe the visible axis labels, scales, and directions that define the coordinate system for the plot.
+    Step 3: Describe the visual point location corresponding to the intersection of x=0.75 and y=-0.25 based on the visible axes.
+    Step 4: Describe the visible direction and distance from the coordinate point (x=0.75, y=-0.25) to the top cluster.
+    Step 5: Describe the visible direction and distance from the coordinate point (x=0.75, y=-0.25) to the right cluster.
+    Step 6: Describe the visible direction and distance from the coordinate point (x=0.75, y=-0.25) to the bottom cluster.
+    
+    Wait, "distance" might imply calculation. "Visible direction and distance" could be interpreted as "approximately how far". 'Distance' is a metric. "Relative position" or "alignment" is safer.
+    Instruction: "Request bbox-localizable visible content, not estimated centroids, derived data coordinates, distances, rankings, or counts."
+    Ah, "derived data coordinates, distances".
+    So I cannot ask for "distance" between them. I can ask for "relative position" or "alignment".
+    "Spatial relation" is safer.
+    Revised Step 4: Describe the relative spatial alignment of the top cluster with respect to the visual location of the coordinate point (0.75, -0.25).
+    Revised Step 5: Describe the relative spatial alignment of the right cluster with respect to the visual location of the coordinate point (0.75, -0.25).
+    Revised Step 6: Describe the relative spatial alignment of the bottom cluster with respect to the visual location of the coordinate point (0.75, -0.25).
+    
+    This avoids asking for a "distance" value (which is derived data). It asks for the visible alignment/ranks (which helps the reasoner compute distance).
+    This aligns with "Name both sides of a spatial relation".
+    
+    Okay, plan is set.
+    JSON structure keys: "steps", "evidence_need". Step keys: "step_id", "evidence_need".
+    No code block ticks.
+</think>
+{
+  "steps": [
+    {
+      "step_id": "s1",
+      "evidence_need": "Describe the visual locations, shapes, and bounding appearances of the dense point clusters identified as the top, right, and bottom clusters within the plot."
+    },
+    {
+      "step_id": "s2",
+      "evidence_need": "Describe the visible axis labels, numerical scales, tick marks, and directional origins for both horizontal and vertical axes."
+    },
+    {
+      "step_id": "s3",
+      "evidence_need": "Describe the specific visual location on the plot surface where the horizontal axis value 0.75 and the vertical axis value -0.25 intersect based on the visible grid or monotonic markings."
+    },
+    {
+      "step_id": "s4",
+      "evidence_need": "Describe the relative spatial alignment and directional offset between the top cluster and the visual location defined by the intersection of 0.75 and -0.25."
+    },
+    {
+      "step_id": "s5",
+      "evidence_need": "Describe the relative spatial alignment and directional offset between the right cluster and the visual location defined by the intersection of 0.75 and -0.25."
+    },
+    {
+      "step_id": "s6",
+      "evidence_need": "Describe the relative spatial alignment and directional offset between the bottom cluster and the visual location defined by the intersection of 0.75 and -0.25."
+    }
+  ]
+}

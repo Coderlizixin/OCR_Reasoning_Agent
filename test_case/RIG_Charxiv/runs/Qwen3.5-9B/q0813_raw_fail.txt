@@ -1,0 +1,548 @@
+The user wants to identify the category with the second smallest visible proportion of risk exchanged in March based on the provided chart.
+
+1.  **Analyze the chart type:** It's a stacked area chart (or area chart) showing "Risk exchanged (relative to total)" on the y-axis (0.0 to 1.0) and months on the x-axis.
+2.  **Locate "March" on the x-axis:** The x-axis labels are "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep". I need to look at the section above "Mar".
+3.  **Identify the categories/colored regions:**
+    *   Bottom blue area: "options" (from legend).
+    *   Orange area above blue: "VIX_0".
+    *   Green area above orange: "VIX_1".
+    *   Red area above green: "VIX_2".
+    *   Purple area above red: "VIX_3".
+    *   Brown area at the very top (very thin strip): "VIX_4".
+4.  **Estimate proportions in March:**
+    *   Look at the vertical slice for "Mar".
+    *   **Blue (options):** Starts at 0.0, goes up to about 0.25. Height ~0.25.
+    *   **Orange (VIX_0):** Starts ~0.25, goes up to ~0.6. Height ~0.35.
+    *   **Green (VIX_1):** Starts ~0.6, goes up to ~0.9. Height ~0.3.
+    *   **Red (VIX_2):** Starts ~0.9, goes up to ~0.95/0.98. Height ~0.05 - 0.1.
+    *   **Purple (VIX_3):** Very thin strip. Height ~0.02 - 0.03.
+    *   **Brown (VIX_4):** Extremely thin strip at the very top. Height ~ < 0.01.
+
+    Wait, let's re-evaluate visually.
+    *   Blue (options): ~0.25 height.
+    *   Orange (VIX_0): ~0.35 height.
+    *   Green (VIX_1): ~0.3 height.
+    *   Red (VIX_2): ~0.05 - 0.1 height.
+    *   Purple (VIX_3): ~0.02 height.
+    *   Brown (VIX_4): ~0.001 height (barely visible).
+
+    Actually, looking closely at the legend and the stack order:
+    Bottom to Top:
+    1.  Blue: options
+    2.  Orange: VIX_0
+    3.  Green: VIX_1
+    4.  Red: VIX_2
+    5.  Purple: VIX_3
+    6.  Brown: VIX_4
+
+    Let's look at the widths (heights in the vertical stack) specifically around March.
+    *   **options (Blue):** Width is roughly from y=0 to y=0.25. So size ~25%.
+    *   **VIX_0 (Orange):** Width is roughly from y=0.25 to y=0.6. So size ~35%.
+    *   **VIX_1 (Green):** Width is roughly from y=0.6 to y=0.9. So size ~30%.
+    *   **VIX_2 (Red):** Width is roughly from y=0.9 to y=0.97. So size ~7%.
+    *   **VIX_3 (Purple):** Width is roughly from y=0.97 to y=1.0. Wait, looking at the legend, there's a brown box at the bottom "VIX_4" and purple box "VIX_3". In the chart, at the very top, there is a thin brown strip and a thin purple strip.
+    *   Let's look at the legend order vs stack order.
+        Legend: options, VIX_0, VIX_1, VIX_2, VIX_3, VIX_4.
+        Stack (bottom up): Blue, Orange, Green, Red, Purple, Brown.
+        Wait, looking at the very top right corner.
+        Under the brown strip is the purple strip. Under that is the red strip.
+        So the stack from bottom to top is: options, VIX_0, VIX_1, VIX_2, VIX_3, VIX_4.
+        Actually, let's look at the legend colors again.
+        - Blue: options
+        - Orange: VIX_0
+        - Green: VIX_1
+        - Red: VIX_2
+        - Purple: VIX_3
+        - Brown: VIX_4
+
+        In the chart area:
+        - Bottom big area is Blue (options).
+        - Next is Orange (VIX_0).
+        - Next is Green (VIX_1).
+        - Next is Red (VIX_2).
+        - Next is Purple (VIX_3).
+        - Topmost thin strip is Brown (VIX_4). Wait, looking at the very top, there is a brownish strip at the absolute top and a purple strip just below it.
+        Let's re-examine the top of the chart.
+        The red area (VIX_2) is quite thick. Above it is a purple layer (VIX_3). Above that is a brown layer (VIX_4).
+        So the order from bottom to top is:
+        1. options (Blue) - largest
+        2. VIX_0 (Orange) - second largest
+        3. VIX_1 (Green) - third largest
+        4. VIX_2 (Red) - small strip
+        5. VIX_3 (Purple) - very thin strip
+        6. VIX_4 (Brown) - extremely thin strip at the very top edge.
+
+    Let's re-evaluate sizes in March specifically.
+    - Blue (options): ~0 to 0.25 -> Size 0.25
+    - Orange (VIX_0): ~0.25 to 0.6 -> Size 0.35
+    - Green (VIX_1): ~0.6 to 0.9 -> Size 0.3
+    - Red (VIX_2): ~0.9 to 0.98 -> Size 0.08
+    - Purple (VIX_3): ~0.98 to 0.99 -> Size 0.01
+    - Brown (VIX_4): ~0.99 to 1.0 -> Size 0.01 (almost invisible)
+
+    Wait, looking closer at the top.
+    The red area is prominent. Above red is purple. Above purple is brown.
+    Is brown visible? Yes, a very thin strip at the very top edge (y=1.0).
+    Is purple visible? Yes, a thin strip below brown.
+    Is red visible? Yes, a distinct strip below purple.
+
+    Let's look at the sizes again.
+    - options (Blue): ~25%
+    - VIX_0 (Orange): ~35%
+    - VIX_1 (Green): ~30%
+    - VIX_2 (Red): ~5-8%
+    - VIX_3 (Purple): ~1-2%
+    - VIX_4 (Brown): ~0.5-1%
+
+    So the order of size from largest to smallest in March:
+    1. options (~25-30%) - Actually, blue is ~0-0.25. Orange is ~0.25-0.6 (35%). Green is ~0.6-0.9 (30%).
+    Let's refine the height estimates.
+    - Blue (options): 0 to ~0.25. Height = 0.25.
+    - Orange (VIX_0): ~0.25 to ~0.6. Height = 0.35.
+    - Green (VIX_1): ~0.6 to ~0.9. Height = 0.3.
+    - Red (VIX_2): ~0.9 to ~0.98. Height = 0.08.
+    - Purple (VIX_3): ~0.98 to ~0.99. Height = 0.01.
+    - Brown (VIX_4): ~0.99 to 1.0. Height = 0.01.
+
+    So the smallest is likely VIX_4 (brown) or VIX_3 (purple). They are both tiny at the top.
+    The second smallest would be the larger of the tiny strips, which is VIX_3 (purple).
+    Or is Red (VIX_2) smaller than them? No, Red is clearly much thicker than the purple/brown strips.
+    Wait, let's look at the legend again.
+    Brown is VIX_4. Purple is VIX_3.
+    In the stack, Purple is below Brown.
+    Visually, the brown strip is the thinnest visible sliver at the very top.
+    The purple strip is slightly thicker than the brown one.
+    The red strip is much thicker.
+    So the smallest is VIX_4. The second smallest is VIX_3.
+    The third smallest is VIX_2.
+    The largest are VIX_0, VIX_1, options.
+
+    Let's re-read the chart carefully.
+    Top edge is y=1.0.
+    Just below that is a thin brown layer (VIX_4).
+    Below that is a thin purple layer (VIX_3).
+    Below that is a thicker red layer (VIX_2).
+    Below that is green (VIX_1).
+    Below that is orange (VIX_0).
+    Bottom is blue (options).
+
+    Wait, looking at the very top left corner.
+    There is a brown strip. Below it purple. Below it red.
+    So order from top down: VIX_4, VIX_3, VIX_2.
+    So sizes:
+    - VIX_4 (Brown): Smallest.
+    - VIX_3 (Purple): Second smallest.
+    - VIX_2 (Red): Third smallest (but still small compared to others).
+    - VIX_1 (Green): Large.
+    - VIX_0 (Orange): Large.
+    - options (Blue): Large.
+
+    The question asks for the "second smallest visible proportion".
+    Smallest: VIX_4 (Brown).
+    Second smallest: VIX_3 (Purple).
+
+    Let me double check the "visible" part.
+    VIX_4 is barely visible, just a sliver.
+    VIX_3 is visible.
+    VIX_2 is clearly visible (red band).
+    So proportion-wise:
+    VIX_4 < VIX_3 < VIX_2 < VIX_1/VIX_0/options.
+
+    So the answer should be VIX_3.
+
+    Let's check the legend text to provide the full name.
+    Legend text: "VIX_3".
+    The question asks for "full names of subplots and/or labels". The labels in the legend are "options", "VIX_0", "VIX_1", "VIX_2", "VIX_3", "VIX_4".
+    So the answer is "VIX_3".
+
+    Wait, is there any ambiguity?
+    "Which category displayed the second smallest visible proportion..."
+    1. Smallest: VIX_4 (brown strip at top).
+    2. Second smallest: VIX_3 (purple strip below brown).
+    3. Third smallest: VIX_2 (red strip).
+
+    Let's confirm the visual heights in March.
+    - Blue: ~0.25
+    - Orange: ~0.35
+    - Green: ~0.3
+    - Red: ~0.05 - 0.1 (looks like roughly 5-10%)
+    - Purple: ~0.02 (maybe 2%)
+    - Brown: ~0.01 (maybe 1%)
+
+    Yes, Brown (VIX_4) is smallest. Purple (VIX_3) is second smallest.
+
+    So I need to identify the element corresponding to "VIX_3" in the legend.
+    Legend box location: [812, 76, 980, 513] approx.
+    Text "VIX_3" location: [880, 356, 953, 420] approx.
+    Color box for VIX_3: [820, 370, 870, 405].
+
+    Wait, the prompt asks for "Ground every chart element essential to answering a question."
+    And "Your final answer must be grounded to some text that is explicitly written and relevant to the question."
+    So I need to output the legend item for VIX_3.
+
+    Let's refine the bounding boxes.
+    The legend is a box on the right.
+    Inside the legend, there are text labels.
+    "VIX_3" is the text label for the purple category.
+    Box for text "VIX_3": x is around 880, y is around 350-400.
+    Looking at the image coordinates:
+    The legend starts around x=810.
+    "options" is at top.
+    "VIX_0" below.
+    "VIX_1" below.
+    "VIX_2" below.
+    "VIX_3" below.
+    "VIX_4" at bottom.
+
+    Let's estimate coordinates for "VIX_3" text.
+    y-axis of chart is inverted relative to image coordinates (top is 0).
+    Chart height is roughly 600-700 pixels.
+    Legend is to the right.
+    "VIX_3" is near the bottom of the legend.
+    Let's look at the provided JSON structure in the prompt example.
+    It asks for `description` and `bbox`.
+
+    I need to identify the specific text label "VIX_3".
+    And potentially the brown strip itself to confirm it's the smallest?
+    The question asks "Which category...". The answer is the name of the category.
+    So the essential element is the legend label "VIX_3".
+    But to be thorough, I should probably identify the legend label.
+
+    Let's look at the legend items again.
+    Top: Blue square, text "options" [885, 90, 973, 140]
+    2nd: Orange square, text "VIX_0" [885, 155, 953, 206]
+    3rd: Green square, text "VIX_1" [885, 220, 953, 273]
+    4th: Red square, text "VIX_2" [820, 285, 953, 345] -> Wait, red square is around y=285. Text "VIX_2" is below it.
+    5th: Purple square, text "VIX_3" [820, 350, 953, 410]
+    6th: Brown square, text "VIX_4" [820, 415, 953, 490]
+
+    Let's re-verify the "second smallest" logic.
+    Visible proportions in March:
+    - VIX_4 (Brown): Very thin strip at top (y~0.99-1.0). Size ~0.01.
+    - VIX_3 (Purple): Thin strip below brown (y~0.97-0.99). Size ~0.02.
+    - VIX_2 (Red): Thicker strip below purple (y~0.9-0.97). Size ~0.07.
+    - VIX_1 (Green): Large block (y~0.6-0.9). Size ~0.3.
+    - VIX_0 (Orange): Large block (y~0.25-0.6). Size ~0.35.
+    - options (Blue): Large block (y~0-0.25). Size ~0.25.
+
+    So smallest is VIX_4. Second smallest is VIX_3.
+    The question asks "Which category...".
+    The answer is "VIX_3".
+    I need to ground this to the text "VIX_3" in the legend.
+
+    So the element is the legend label "VIX_3".
+    Description: Legend label 'VIX_3' corresponding to the purple area.
+    Bbox: I need to find the coordinates for the text "VIX_3".
+    Looking at the legend box:
+    x range: ~810 to 980.
+    y range: ~75 to 500.
+    "VIX_3" is the 5th item from top.
+    Total height of legend text area is roughly 500-700 pixels in image space if full height.
+    Wait, the image height is likely 1000 units in normalized coordinates.
+    Let's estimate based on 1000 scale.
+    Top of legend box: y=80.
+    Bottom of legend box: y=520.
+    Height = 440.
+    There are 6 items. Each item height ~ 440/6 = 73 units.
+    Item 1 (options): y=80 to 150.
+    Item 2 (VIX_0): y=150 to 225.
+    Item 3 (VIX_1): y=225 to 300.
+    Item 4 (VIX_2): y=300 to 375.
+    Item 5 (VIX_3): y=375 to 450.
+    Item 6 (VIX_4): y=450 to 520.
+
+    So "VIX_3" text is roughly y=375 to 420. x is roughly 880 to 950.
+    Let's look at the provided image.
+    The legend is clearly on the right.
+    "VIX_3" is the purple one.
+    Text "VIX_3" is below the red "VIX_2" and above the brown "VIX_4".
+    So bbox should encompass the text.
+    [880, 360, 953, 420] seems reasonable.
+
+    Wait, is the brown strip VIX_4 actually the smallest?
+    Looking at the very top right corner.
+    There is a brown strip.
+    Below it is purple.
+    The brown strip looks thinner than the purple strip.
+    So VIX_4 < VIX_3.
+    Therefore, second smallest is VIX_3.
+
+    Is it possible that "options" or "VIX_0" are smaller?
+    No, they take up the bulk of the chart (0 to 0.6 or so).
+    Green, Red, Purple, Brown are the upper part.
+    Green is ~0.3.
+    Red is ~0.1.
+    Purple is ~0.02.
+    Brown is ~0.01.
+    So yes, VIX_3 is second smallest.
+
+    I will formulate the response.
+    The essential element is the legend label "VIX_3".
+    I should also probably mention the brown strip VIX_4 to establish it's the smallest?
+    The rules say "Ground every chart element essential to answering a question."
+    To determine "second smallest", I implicitly need to know the sizes of the smallest and second smallest.
+    So identifying VIX_4 (smallest) and VIX_3 (second smallest) is good practice, but the final answer is VIX_3.
+    The prompt says "Your final answer must be grounded to some text that is explicitly written and relevant to the question."
+    This implies I should output the JSON for the text element that is the answer.
+    However, the "elements" list can contain multiple items.
+    "If two necessary clues overlap or share the same box, output them as separate items".
+    "Each list item must represent exactly ONE semantic clue."
+
+    To answer "Which category displayed the second smallest...", I need to identify the category.
+    The category is identified by the legend label "VIX_3".
+    Is the chart area necessary? "Ground every chart element essential...".
+    The visual chart area showing the proportions in March is essential to estimate the sizes.
+    But the question is multiple choice style (implicitly, or short answer).
+    "Your final answer must be grounded to some text..." -> This usually means the text string that is the answer.
+    So I will provide the legend label "VIX_3".
+    Maybe also "VIX_4" to justify why it's the second (because VIX_4 is first).
+    And maybe the Red "VIX_2" to show it's larger than VIX_3.
+
+    Let's stick to the legend labels.
+    1. "VIX_4" (Smallest) - Brown box/text.
+    2. "VIX_3" (Second smallest) - Purple box/text.
+    3. "VIX_2" (Third smallest) - Red box/text.
+
+    Actually, looking really closely at the top of the chart.
+    The brown strip (VIX_4) is visible.
+    The purple strip (VIX_3) is visible.
+    The red strip (VIX_2) is visible.
+    The sizes are:
+    Brown: ~1%
+    Purple: ~2%
+    Red: ~7%
+    So order: VIX_4 < VIX_3 < VIX_2.
+    Second smallest is VIX_3.
+
+    So I will include the legend text "VIX_3".
+    I will also include "VIX_4" to be safe about the ordering.
+    And maybe the general chart area? No, specific elements are better.
+    The prompt example has "Joint-CNN", "Session 9", "60". These are specific labels/ticks.
+    So I will provide the legend labels.
+
+    Let's refine the bounding box for "VIX_3".
+    In the image, the legend is at x=810 to 980.
+    The text is aligned right of the color box.
+    Text starts around x=885. Ends around x=950.
+    Y-coordinate:
+    Top of legend box ~ y=80.
+    Bottom of legend box ~ y=520.
+    "options" ~ y=100.
+    "VIX_0" ~ y=180.
+    "VIX_1" ~ y=260.
+    "VIX_2" ~ y=340.
+    "VIX_3" ~ y=420.
+    "VIX_4" ~ y=480.
+
+    Let's look at the provided image again to be precise.
+    The legend box is white with a shadow.
+    "options" is at top.
+    "VIX_4" is at bottom.
+    "VIX_3" is second from bottom.
+    So y-coordinates are roughly:
+    "VIX_4": y=460 to 500.
+    "VIX_3": y=400 to 440.
+    "VIX_2": y=340 to 380.
+    "options": y=100 to 140.
+
+    Wait, the y-axis of the image goes from 0 at top to 1000 at bottom.
+    The chart area y is roughly 100 to 900.
+    The legend is to the right.
+    Legend top y ~ 80.
+    Legend bottom y ~ 520.
+    So "VIX_3" text is around y=360 to 420.
+    "VIX_4" text is around y=430 to 480.
+
+    I will output the legend label "VIX_3" and maybe "VIX_4" to show the smallest.
+    And the text "VIX_3" is the answer.
+
+    Let's check the brown strip again. Is it possible that VIX_4 is not visible?
+    The prompt says "second smallest visible proportion".
+    If VIX_4 is not visible, then VIX_3 is smallest, and VIX_2 is second smallest.
+    Looking at the very top edge (y=0 in chart coords, top of image).
+    There is a thin brown strip right up against the top border (the black frame line).
+    So VIX_4 is visible (proportion > 0).
+    So VIX_4 is smallest.
+    VIX_3 is second smallest.
+
+    So the answer is VIX_3.
+
+    I will list the elements:
+    1. Legend label "VIX_3" (Purple category).
+    2. Legend label "VIX_4" (Brown category, smallest).
+    This establishes the ordering.
+
+    Wait, I should check the colors in the chart vs legend.
+    Legend:
+    - Blue: options
+    - Orange: VIX_0
+    - Green: VIX_1
+    - Red: VIX_2
+    - Purple: VIX_3
+    - Brown: VIX_4
+
+    Chart (bottom to top):
+    - Blue (options)
+    - Orange (VIX_0)
+    - Green (VIX_1)
+    - Red (VIX_2)
+    - Purple (VIX_3)
+    - Brown (VIX_4) - This matches the legend order (usually legend order matches stack order or vice versa, here it matches).
+
+    So my analysis holds.
+    Smallest: VIX_4 (Brown).
+    Second smallest: VIX_3 (Purple).
+
+    I will provide the JSON with these elements.
+    Description for "VIX_3": Legend label 'VIX_3' indicating the purple category which has the second smallest visible area in March.
+    Description for "VIX_4": Legend label 'VIX_4' indicating the brown category which has the smallest visible area in March.
+
+    Actually, looking at the sizes again.
+    Is it possible that Red (VIX_2) is smaller than Purple (VIX_3)?
+    Red strip width: From y=0.9 to y=0.98 (approx). Height 0.08.
+    Purple strip width: From y=0.98 to y=0.995. Height 0.015.
+    Brown strip width: From y=0.995 to 1.0. Height 0.005.
+    So Red > Purple > Brown.
+    So order of size: options, VIX_0, VIX_1, VIX_2, VIX_3, VIX_4.
+    Smallest: VIX_4.
+    Second smallest: VIX_3.
+    Third smallest: VIX_2.
+
+    So the answer is definitely VIX_3.
+
+    I will define the bbox for "VIX_3".
+    x: 880, y: 360, w: 70, h: 40. -> [880, 360, 950, 400].
+    Wait, looking at the image, "VIX_3" is centered right.
+    Legend box width is ~170. Color box width ~50. Text width ~60.
+    x_start = 810 + 50 = 860.
+    So x is roughly 860 to 920.
+    Let's refine.
+    The legend starts at x=810.
+    Color boxes are ~50px wide.
+    Text is to the right.
+    "options": x ~ 860 to 920.
+    "VIX_3": x ~ 860 to 920.
+    y coordinate:
+    "options": y ~ 100.
+    "VIX_4": y ~ 470.
+    "VIX_3": y ~ 390.
+
+    Let's just use a reasonable box.
+    [880, 365, 950, 425] covers "VIX_3".
+
+    One more check: "Risk exchanged (relative to total)".
+    The y-axis is 0.0 to 1.0.
+    So the areas sum to 1.0 (100%).
+    This confirms it's a stack area chart.
+
+    Final plan:
+    Provide bbox for "VIX_3" text.
+    Provide bbox for "VIX_4" text (to confirm it's smaller).
+    Maybe "options" text? No, not essential.
+    Just the two smallest categories is enough to answer "second smallest".
+    Actually, providing just the answer "VIX_3" is sufficient if I can describe it.
+    But "Ground every chart element essential..." suggests I should include the visual evidence.
+    The visual evidence is the chart area itself and the legend.
+    But the rule "Your final answer must be grounded to some text that is explicitly written" suggests the JSON elements should be the text labels.
+
+    I'll include:
+    1. Legend text "VIX_3"
+    2. Legend text "VIX_4" (to establish it's the smallest)
+    3. Maybe the chart area bounding box? No, that's usually a single big box.
+    4. The x-axis label "Mar" to locate the time period?
+    The question asks about "March".
+    So locating "Mar" on the x-axis is essential context.
+    So I should include "Mar".
+
+    So essential elements:
+    - "Mar" x-axis label.
+    - Legend "VIX_3".
+    - Legend "VIX_4" (since it's the smallest, VIX_3 is second).
+
+    Let's refine bboxes.
+    "Mar": x=240, y=910. (Looking at image, "Feb" is left, "Sep" is right. "Mar" is 2nd tick. Image width 1000.
+    Ticks: Feb (200), Mar (400), Apr (600), Jun (800), Jul (1000)? No, there are 7 labels.
+    Feb, Mar, Apr, Jun, Jul, Aug, Sep.
+    Wait, May and Sep are missing? Or is it Feb, Mar, Apr, Jun, Jul, Aug, Sep.
+    Let's count spaces.
+    Space 1: Feb.
+    Space 2: Mar.
+    Space 3: Apr.
+    Space 4: Jun.
+    Space 5: Jul.
+    Space 6: Aug.
+    Space 7: Sep.
+    Total 7 labels.
+    Chart width is roughly 1000 (x=100 to x=790). So 690 pixels wide.
+    690 / 6 intervals = 115 pixels per interval.
+    Feb: x=180.
+    Mar: x=295.
+    Apr: x=410.
+    Jun: x=525.
+    Jul: x=640.
+    Aug: x=755.
+    Sep: x=870.
+    Wait, the labels are inside the chart area at the bottom.
+    Looking at the image, the labels are below the chart area.
+    Chart area x: 100 to 790.
+    Labels x: 160 (Feb), 260 (Mar), 360 (Apr), 460 (Jun), 560 (Jul), 660 (Aug), 760 (Sep).
+    Let's look at the image provided.
+    "Feb" is at x ~ 180.
+    "Mar" is at x ~ 260.
+    "Mar" bbox: [260, 900, 290, 950]. (y is bottom, so high y value).
+    Image y=0 is top. y=1000 is bottom.
+    So "Mar" is near y=900.
+    "Feb" x ~ 180.
+    "Mar" x ~ 260.
+    "Apr" x ~ 360.
+    "Jun" x ~ 460.
+    "Jul" x ~ 560.
+    "Aug" x ~ 660.
+    "Sep" x ~ 760.
+
+    Okay, I need "Mar" label.
+    And the legend items.
+
+    Let's construct the JSON.
+    Element 1: "Mar" label.
+    Element 2: "VIX_3" legend text.
+    Element 3: "VIX_4" legend text.
+
+    Wait, the question is "Which category...".
+    The answer is "VIX_3".
+    So "VIX_3" is the most important element.
+    "Mar" is necessary to specify *when*.
+    "VIX_4" is necessary to justify the "second smallest" ranking.
+
+    Let's refine the bbox for "VIX_3".
+    In the image, the legend is on the right.
+    The text "VIX_3" is purple.
+    It is the second from the bottom of the legend list.
+    Bottom is "VIX_4".
+    So "VIX_3" is just above "VIX_4".
+    Legend box edges:
+    Top x=800, y=80.
+    Bottom x=980, y=520.
+    Width = 180. Height = 440.
+    6 items.
+    Item height ~ 73.
+    Item 6 (VIX_4): y=460 to 530.
+    Item 5 (VIX_3): y=385 to 455.
+    Text is right of color box. Color box width ~50 (x=800 to 850).
+    Text starts x=850. Ends x=920.
+    So bbox for "VIX_3": [850, 385, 920, 440].
+    bbox for "VIX_4": [850, 430, 920, 485].
+    bbox for "Mar": [260, 910, 290, 950]. (Approximate).
+
+    Let's check the coordinates on the provided image visually.
+    "Mar" is clearly visible below the chart.
+    Legend is clearly visible on the right.
+    "VIX_3" is clearly visible in the legend.
+
+    One detail: "Risk exchanged (relative to total)".
+    The y-axis label is vertical on the left.
+    x-axis labels are at the bottom.
+
+    Okay, ready to write.
+    Elements:
+    1. "Mar" label -> x-axis tick label identifying

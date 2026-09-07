@@ -1,6 +1,6 @@
 # OCR-Reasoning 项目记忆
 
-> 最近核对：2026-08-18，`main` 分支，提交 `6282752`。
+> 最近核对：2026-09-05，`main` 分支，提交 `b9914e3`。
 
 - [项目总览](project-overview.md) — 仓库定位、核心数据流、目录职责、运行与评测约定
 - [当前研究与实验状态](current-research.md) — OCR-Agent V4/V5/V6、Step-QA、已知漂移与排障入口

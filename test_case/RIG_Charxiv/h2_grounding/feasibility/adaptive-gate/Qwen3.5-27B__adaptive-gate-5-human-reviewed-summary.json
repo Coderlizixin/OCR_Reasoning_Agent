@@ -1,0 +1,331 @@
+{
+  "experiment": "H2 27B five-question adaptive-gate reviewed comparison including Human@6",
+  "indices": [
+    1,
+    17,
+    8,
+    244,
+    346
+  ],
+  "semantic_policy": "overlap_review",
+  "human_adjudication": {
+    "protocol": "H2 five-question overlap-review adjudication v1",
+    "indices_with_manual_review": [
+      1,
+      8,
+      244
+    ],
+    "source_material": [
+      "GT description",
+      "prediction description",
+      "GT/prediction bbox",
+      "source image"
+    ],
+    "decision_rule": "True only for the same necessary semantic clue. Wrong-series overlaps are false. A controlled subplot region containing the complete named curve set is accepted and separately penalized by area.",
+    "candidate_count": 44,
+    "candidate_key_sha256": "dcb65d8e25ff63c92c9d161a6302e65f843353d51d7a0a3be4baf1cf52128e91",
+    "true_count": 42,
+    "false_count": 2,
+    "pending_count": 0
+  },
+  "runs": {
+    "repeated-single@6": {
+      "n_samples": 5,
+      "mean_pred_count": 58.4,
+      "mean_pred_union_area_ratio": 0.2911072,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.8002380952380952,
+          "micro_necessary_recall": 0.8163265306122449,
+          "macro_precision": 0.14115036610558998,
+          "macro_f1": 0.2392853658060613,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.8192857142857143
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.674047619047619,
+          "micro_necessary_recall": 0.7346938775510204,
+          "macro_precision": 0.11832449545882381,
+          "macro_f1": 0.2006893949742729,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.674047619047619
+        }
+      }
+    },
+    "static-question-plan@6": {
+      "n_samples": 5,
+      "mean_pred_count": 34.8,
+      "mean_pred_union_area_ratio": 0.5312903999999999,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.7592857142857142,
+          "micro_necessary_recall": 0.7959183673469388,
+          "macro_precision": 0.28003318250377074,
+          "macro_f1": 0.38656387304085515,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.7688095238095238
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.6038095238095238,
+          "micro_necessary_recall": 0.5918367346938775,
+          "macro_precision": 0.2181659125188537,
+          "macro_f1": 0.30350760705620045,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.6038095238095238
+        }
+      }
+    },
+    "human-image-aware-plan@6": {
+      "n_samples": 5,
+      "mean_pred_count": 19.6,
+      "mean_pred_union_area_ratio": 0.2154356,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.7597619047619047,
+          "micro_necessary_recall": 0.8163265306122449,
+          "macro_precision": 0.41942248572683355,
+          "macro_f1": 0.5340467938943055,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.7597619047619047
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.5621428571428572,
+          "micro_necessary_recall": 0.5102040816326531,
+          "macro_precision": 0.3086627140974967,
+          "macro_f1": 0.393633073024968,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.5621428571428572
+        }
+      }
+    }
+  },
+  "human_prefixes": [
+    {
+      "k": 1,
+      "n_samples": 5,
+      "mean_pred_count": 3.4,
+      "mean_pred_union_area_ratio": 0.0243722,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.29904761904761906,
+          "micro_necessary_recall": 0.3469387755102041,
+          "macro_precision": 1.0,
+          "macro_f1": 0.45142857142857146,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.29904761904761906
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.18,
+          "micro_necessary_recall": 0.14285714285714285,
+          "macro_precision": 0.6,
+          "macro_f1": 0.2742857142857143,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.18
+        }
+      }
+    },
+    {
+      "k": 2,
+      "n_samples": 5,
+      "mean_pred_count": 6.8,
+      "mean_pred_union_area_ratio": 0.08838120000000001,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.42238095238095236,
+          "micro_necessary_recall": 0.4489795918367347,
+          "macro_precision": 0.75,
+          "macro_f1": 0.5256410256410255,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.42238095238095236
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.2783333333333333,
+          "micro_necessary_recall": 0.22448979591836735,
+          "macro_precision": 0.5,
+          "macro_f1": 0.35,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.2783333333333333
+        }
+      }
+    },
+    {
+      "k": 3,
+      "n_samples": 5,
+      "mean_pred_count": 9.4,
+      "mean_pred_union_area_ratio": 0.121502,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.490952380952381,
+          "micro_necessary_recall": 0.5510204081632653,
+          "macro_precision": 0.5933333333333333,
+          "macro_f1": 0.5212298812298812,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.490952380952381
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.3373809523809524,
+          "micro_necessary_recall": 0.30612244897959184,
+          "macro_precision": 0.4033333333333333,
+          "macro_f1": 0.3571273171273171,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.3373809523809524
+        }
+      }
+    },
+    {
+      "k": 4,
+      "n_samples": 5,
+      "mean_pred_count": 12.8,
+      "mean_pred_union_area_ratio": 0.1617438,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.6228571428571429,
+          "micro_necessary_recall": 0.6938775510204082,
+          "macro_precision": 0.5344444444444445,
+          "macro_f1": 0.5561764705882353,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.6228571428571429
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.4442857142857143,
+          "micro_necessary_recall": 0.42857142857142855,
+          "macro_precision": 0.36592592592592593,
+          "macro_f1": 0.3857843137254902,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.4442857142857143
+        }
+      }
+    },
+    {
+      "k": 5,
+      "n_samples": 5,
+      "mean_pred_count": 14.6,
+      "mean_pred_union_area_ratio": 0.2065394,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.7311904761904762,
+          "micro_necessary_recall": 0.7551020408163265,
+          "macro_precision": 0.5582608695652174,
+          "macro_f1": 0.6166369578134283,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.7311904761904762
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.5526190476190476,
+          "micro_necessary_recall": 0.4897959183673469,
+          "macro_precision": 0.41159420289855075,
+          "macro_f1": 0.457397504456328,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.5526190476190476
+        }
+      }
+    },
+    {
+      "k": 6,
+      "n_samples": 5,
+      "mean_pred_count": 19.6,
+      "mean_pred_union_area_ratio": 0.2154356,
+      "profiles": {
+        "match_at_0.3": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.7597619047619047,
+          "micro_necessary_recall": 0.8163265306122449,
+          "macro_precision": 0.41942248572683355,
+          "macro_f1": 0.5340467938943055,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.7597619047619047
+        },
+        "match_at_0.5": {
+          "n_finalized_samples": 5,
+          "n_pending_samples": 0,
+          "macro_necessary_recall": 0.5621428571428572,
+          "micro_necessary_recall": 0.5102040816326531,
+          "macro_precision": 0.3086627140974967,
+          "macro_f1": 0.393633073024968,
+          "complete_evidence_rate": 0.0,
+          "spatial_upper_bound_recall": 0.5621428571428572
+        }
+      }
+    }
+  ],
+  "paired_recall_0_3": {
+    "repeated-single@6": {
+      "paired_unit": "question",
+      "resamples": 10000,
+      "seed": 20260903,
+      "mean_delta_human_minus_other": -0.040476190476190485,
+      "bootstrap_95_ci": [
+        -0.15,
+        0.028571428571428536
+      ],
+      "per_question": {
+        "1": 0.0,
+        "17": 0.0,
+        "8": 0.0,
+        "244": 0.04761904761904756,
+        "346": -0.25
+      }
+    },
+    "static-question-plan@6": {
+      "paired_unit": "question",
+      "resamples": 10000,
+      "seed": 20260903,
+      "mean_delta_human_minus_other": 0.0004761904761904745,
+      "bootstrap_95_ci": [
+        -0.15,
+        0.1704761904761905
+      ],
+      "per_question": {
+        "1": 0.30000000000000004,
+        "17": 0.0,
+        "8": 0.0,
+        "244": -0.04761904761904767,
+        "346": -0.25
+      }
+    }
+  },
+  "human_grounding_cost": {
+    "visual_calls": 30,
+    "total_tokens": 201891,
+    "elapsed_seconds": 2122.4373241000576,
+    "human_planning_time": "unavailable"
+  },
+  "interpretation_limits": [
+    "Five-question feasibility calibration, not a formal 41-question result.",
+    "Human planning time is unavailable and excluded from cost comparisons.",
+    "Human@6 is image-aware open-loop planning, not closed-loop adaptive planning."
+  ]
+}

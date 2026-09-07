@@ -1,0 +1,387 @@
+The user wants to identify a specific subplot based on the amount of white space.
+1.  **Analyze the question:** "What is the name of the subplot where the bounded area between the left curve and the right vertical line contains the least white space?"
+    *   I need to look at each subplot (column).
+    *   For each subplot, there's a shape formed by the data points.
+    *   The "right vertical line" seems to be the right edge of the chart or a specific boundary. Wait, looking closely at the images, they are dot plots or scatter plots where the x-axis is time.
+    *   Actually, let's re-examine the visual structure.
+    *   The x-axis at the bottom spans Nov 17 to Apr 21.
+    *   The title of each "subplot" (column) is at the top left of that column.
+    *   Let's look at the shapes.
+        *   CryptoKitties (Art): Filled area is on the left, extending right. No white space in the "bounded area between left curve and right vertical line" if we consider the right edge of the data. But looking at the whole chart, there are distinct columns.
+        *   Stf.capcom (Collectible): Similar to CryptoKitties.
+        *   Alien (Games): There is a huge spike on the left, then a drop to almost zero height on the right. This means a LOT of white space on the right side if we consider the column width. Or, if "bounded area between the left curve and the right vertical line" refers to the area *inside* the plot shape.
+        *   Decentraland (Metaverse): Similar shape.
+        *   Miscellanea (Other): T-shaped or vertical block.
+        *   Unstoppable (Utility): A diagonal strip going up.
+
+    *   Wait, let's re-read the prompt carefully: "bounded area between the left curve and the right vertical line contains the least white space".
+    *   This phrasing is a bit ambiguous. Let's look at the "Alien" subplot. It has a large red/blue blob on the left, then it suddenly drops to the x-axis. So from roughly August 20 to April 2020 (the end of its time range), there is almost nothing. That means the white space is *maximal*.
+    *   Let's look at "Unstoppable (Utility)". The curve goes from bottom left to top right. It's a thin diagonal line. There is white space on both sides.
+    *   Let's look at "Stf.capcom (Collectible)". It fills up from left to right, reaching the top edge. The right side is filled.
+    *   Let's look at "Miscellanea (Other)". It has a vertical stripe. There is white space to the left and right of this stripe within the subplot columns.
+
+    *   Maybe the question refers to the area *to the right* of the main data?
+    *   Let's reconsider the "bounded area".
+    *   Let's look at "CryptoKitties (Art)". The data goes from Nov 17 to roughly Feb/Apr 21. Then white space to the right.
+    *   "Stf.capcom (Collectible)". Data goes to roughly Aug 21. White space to the right.
+    *   "Alien (Games)". Data goes to roughly Aug 20. Huge white space to the right.
+    *   "Decentraland (Metaverse)". Data goes to roughly May 21. White space to the right.
+    *   "Miscellanea (Other)". Data goes to roughly Dec 21. White space to the right.
+    *   "Unstoppable (Utility)". Data goes to Apr 21. It fills the space up to the end.
+
+    *   Actually, maybe it's the other way around. "Between the left curve and the right vertical line".
+    *   Let's look at the "Unstoppable (Utility)" plot. It's a line that goes from roughly (time=Dec 19, price=low) to (time=Apr 21, price=high). The curve is the black line envelope. The area *inside* the curve vs the axis? No, the dots are the data.
+    *   Let's look at the visual density.
+    *   "CryptoKitties": Very dense.
+    *   "Stf.capcom": Very dense.
+    *   "Alien": Low density, then empty.
+    *   "Decentraland": Low density, then empty.
+    *   "Miscellanea": Low density dots, mostly white space inside the bounding box if we consider the vertical bar.
+    *   "Unstoppable": Very sparse dots, clear line.
+
+    *   Let's try a different interpretation. Maybe "bounded area between the left curve and the right vertical line" refers to the area *filled* with data? No, "least white space" implies the area is *full* of data.
+    *   Which subplot is most "filled" or has the least white space *within its defined time range*?
+    *   Or perhaps it's the subplot where the shape is most compact horizontally?
+    *   Let's look at the x-axis alignment.
+        *   CryptoKitties: Nov 17 - ~Feb 21.
+        *   Stf.capcom: ~Feb 20 - ~Aug 21. (Wait, the x-axis ticks are shared).
+        *   Alien: ~Aug 18 - ~Aug 20. (Very short duration).
+        *   Decentraland: ~Jun 18 - ~May 21.
+        *   Miscellanea: ~May 19 - ~Dec 21.
+        *   Unstoppable: ~Dec 19 - Apr 21.
+
+    *   Let's look at the visual "white space" inside the plot area.
+    *   In "CryptoKitties", the plot is dark/red/blue all over until the top.
+    *   In "Stf.capcom", similar.
+    *   In "Alien", it's red/blue on the bottom left, then pure white for the rest of the height. So "least white space" is definitely *not* Alien.
+    *   In "Unstoppable", it's a thin black line. Almost all space is white.
+    *   In "Miscellanea", it's a vertical block of dots. Lots of white space inside the vertical block.
+    *   In "Decentraland", vertical block. Lots of white space.
+
+    *   Wait, let's look at the question again: "bounded area between the left curve and the right vertical line".
+    *   Maybe it refers to the specific shape of the data.
+    *   Let's look at **Stf.capcom (Collectible)**.
+        *   Left curve: Starts low, goes up.
+        *   Right vertical line: The right edge of the data mass.
+        *   The area *between* them is filled with red/blue dots. So *least white space* means *most filled*.
+        *   "CryptoKitties" is also very filled.
+        *   "Stf.capcom" looks slightly more filled towards the top right.
+    *   Let's look at **CryptoKitties (Art)**. It is filled from left to right.
+    *   Let's look at **Stf.capcom (Collectible)**. It is filled from left to right.
+    *   Which one has *least* white space?
+    *   "CryptoKitties" has a lot of dark areas (black/dark blue) indicating high density? Or is that just the left edge?
+    *   Actually, looking closely at "CryptoKitties", the left side is very dark/dense. The right side has red and blue dots.
+    *   Looking at "Stf.capcom", the left side is mixed. The right side is mixed.
+    *   Let's consider the phrase "right vertical line".
+    *   In the "Stf.capcom" plot, the top edge is somewhat vertical for the rightmost part.
+    *   Let's look at the subplot names.
+    *   Maybe the question implies a specific subplot where the data is pushed all the way to the right edge?
+    *   Let's look at **Unstoppable (Utility)**. The line goes to the very top right corner. The "bounded area" is just the line itself? No, that would be max white space.
+    *   Let's look at the subplot **Stf.capcom (Collectible)**. The shape is somewhat triangular.
+    *   Let's look at **CryptoKitties (Art)**. The shape is somewhat rectangular/trapezoidal.
+
+    *   Let's re-read the prompt's potential "trick". "bounded area between the left curve and the right vertical line".
+    *   Maybe it refers to the **Cumulative Distribution Function (CDF)** or similar? The graphs look like cumulative token sales or something. The lines go up.
+    *   If it's a CDF, the area under the curve is the "bounded area".
+    *   "Left curve" = the data curve. "Right vertical line" = the max x-axis of that subplot?
+    *   If so, we are looking for the subplot where the curve stays low for the longest time (so the area *between* curve and right line is the rectangle minus the area under curve).
+    *   Or "left curve" is the start of the activity? No.
+    *   Let's assume "left curve" is the left boundary of the data set (usually time start) and "right vertical line" is the right boundary of the data set.
+    *   Then "bounded area" is the data area itself. "Least white space" means most data.
+    *   "CryptoKitties" and "Stf.capcom" have the most dots (data points).
+    *   Between "CryptoKitties" and "Stf.capcom":
+        *   CryptoKitties starts Nov 17.
+        *   Stf.capcom starts ~Feb 20.
+    *   Let's look at the **Alien** subplot. The "right vertical line" of the *data* is around Aug 20. The area to the right is empty (white). The question asks about the area *between the left curve and the right vertical line*. If the "right vertical line" is the right boundary of the *subplot box*, then Alien has massive white space.
+    *   If the "right vertical line" is the right boundary of the *data*, then "Alien" has a lot of white space *above* the data (red is low, blue is medium, white is high price/no change? No, legend says Red=price down, Blue=price up, Grey=no change. White background).
+    *   Actually, the legend says: Red bar (left) = price down. Grey bar (center) = no change. Blue bar (right) = price up.
+    *   Wait, the dots are colored red and blue. White space is where there are no dots.
+    *   So "least white space" means the area is completely filled with dots.
+    *   Which subplot is completely filled?
+    *   **CryptoKitties (Art)**: Filled from left to right.
+    *   **Stf.capcom (Collectible)**: Filled from left to right.
+    *   **Alien**: Not filled (mostly white on right).
+    *   **Decentraland**: Not filled (mostly white on right).
+    *   **Miscellanea**: Not filled (sparse dots).
+    *   **Unstoppable**: Not filled (sparse dots).
+
+    *   So it's between CryptoKitties and Stf.capcom.
+    *   Let's look really closely.
+    *   CryptoKitties: Left edge is dense. The mass goes right. There are red and blue dots. On the far right, it seems to stop.
+    *   Stf.capcom: Left edge is dense. The mass goes right. On the far right, it seems to stop.
+    *   Is there a specific "right vertical line" mentioned?
+    *   Maybe the question refers to the subplot where the data goes all the way to the right edge of the *chart's* time axis?
+    *   Unstoppable goes to Apr 21.
+    *   Miscellanea goes to Dec 21.
+    *   CryptoKitties goes to Feb/Apr 21.
+    *   Stf.capcom goes to Aug 21.
+
+    *   Let's reconsider the "bounded area between the left curve and the right vertical line".
+    *   This sounds like describing the shape of the filled region.
+    *   Left curve: The trendline. Right vertical line: The rightmost boundary of the data.
+    *   If the area between them contains the least white space, it means the area is *filled*.
+    *   So, which subplot has the most filled area?
+    *   **CryptoKitties (Art)** looks very filled.
+    *   **Stf.capcom (Collectible)** looks very filled.
+    *   Let's look at the labels.
+    *   "CryptoKitties (Art)"
+    *   "Stf.capcom (Collectible)"
+    *   "Alien (Games)"
+    *   "Decentraland (Metaverse)"
+    *   "Miscellanea (Other)"
+    *   "Unstoppable (Utility)"
+
+    *   Let's look at the shape of **Stf.capcom**. It looks like a right-angled triangle or trapezoid filling the corner.
+    *   Let's look at **CryptoKitties**. It looks like a mountain shape.
+    *   Let's look at the "white space".
+    *   In **Alien**, there is huge white space at the top.
+    *   In **Decentraland**, huge white space at top.
+    *   In **Miscellanea**, huge white space inside the "column".
+    *   In **Unstoppable**, huge white space inside.
+    *   In **CryptoKitties** and **Stf.capcom**, the area is filled with red/blue dots.
+    *   Which one has *least* white?
+    *   In **CryptoKitties**, the top edge is curved. The area is somewhat triangular but shifted right.
+    *   In **Stf.capcom**, the shape is more rectangular/trapezoidal on the left side, curving up.
+    *   Wait, let's look at the "right vertical line" part of the question again.
+    *   "bounded area between the left curve and the right vertical line".
+    *   This implies a shape bounded on the left by a curve and on the right by a vertical line.
+    *   This describes an inverted shape or a shape filling the top right corner.
+    *   Look at **Stf.capcom (Collectible)**. The data is on the left, going up and right. The "top" edge curves left. The "bottom" edge is a curve going up. The right edge is vertical-ish? No, it curves left.
+    *   Look at **CryptoKitties**. Top edge curves left. Right edge curves left.
+    *   Look at **Alien**. Bottom right corner is filled? No, bottom left is filled.
+    *   Let's look at the subplot **Stf.capcom (Collectible)** again.
+    *   The points form a shape.
+    *   Left side: Dense.
+    *   Top side: Dense.
+    *   Right side: The boundary goes left then down?
+    *   Actually, let's look at the subplot **Stf.capcom (Collectible)**. The text says "Stf.capcom (Collectible)".
+    *   The shape looks like it fills the top-left corner.
+    *   Let's look at the subplot **CryptoKitties (Art)**. It fills the top-left corner.
+    *   Let's look at the question: "bounded area between the left curve and the right vertical line".
+    *   Maybe "left curve" is the y-axis (left side of plot)? And "right vertical line" is the right side of the data?
+    *   If so, we are looking for the subplot where the data fills the space between the left axis and the right edge of the data.
+    *   That applies to **CryptoKitties** and **Stf.capcom**.
+    *   Let's check the white space *inside* the data.
+    *   **CryptoKitties**: The dots are very dense. Red and blue are mixed.
+    *   **Stf.capcom**: The dots are dense.
+    *   Maybe one has more white space *inside* the data cluster?
+    *   In **Alien**, there is a distinct red/blue blob at the bottom right of the data cluster? No, top right. The data is at the bottom.
+    *   In **Decentraland**, data is at top right? No, looks like a step up.
+    *   In **Miscellanea**, data is a vertical bar.
+    *   In **Unstoppable**, data is a diagonal line.
+
+    *   Let's try a different angle. Look at the text labels.
+    *   "Stf.capcom (Collectible)"
+    *   "Alien (Games)"
+    *   "Decentraland (Metaverse)"
+    *   "Miscellanea (Other)"
+    *   "Unstoppable (Utility)"
+    *   "CryptoKitties (Art)"
+
+    *   Let's look at the subplot **Stf.capcom (Collectible)**.
+    *   The shape is bounded on the left by a curve (the start of the data).
+    *   Bounded on the top by a curve.
+    *   Bounded on the right... well, the rightmost points form a curve.
+    *   What if the "right vertical line" is the right boundary of the *entire chart*?
+    *   Then "bounded area between the left curve and the right vertical line" is the area to the right of the data? No, that would be white space.
+    *   "contains the least white space" -> The area is full of data.
+    *   So we are looking for the subplot where the data extends furthest to the right, filling the space up to the chart's right edge?
+    *   **Unstoppable (Utility)** extends to Apr 21 (the far right). But it's a thin line (lots of white space).
+    *   **Miscellanea** extends to Dec 21. Thin.
+    *   **Stf.capcom** extends to Aug 21. Filled block.
+    *   **CryptoKitties** extends to ~Feb/Apr 21. Filled block.
+
+    *   Wait, let's look at the **Alien** subplot again.
+    *   The data is a red/blue triangle at the bottom right of the column?
+    *   No, looking at x-axis: Apr 18 to Jun 21 is huge gap.
+    *   Wait, the x-axis ticks are: Nov 17... Apr 21 21 (Feb 20... Aug 21... Apr 18... Jun 18... Apr 21 19... Dec 19... Apr 21).
+    *   The ticks are messy.
+    *   Let's trace the x-axis carefully.
+    *   First tick group: Nov 17 ... Apr 21 21 (Feb 20). So CryptoKitties is Nov 17 - Feb 20, 2021.
+    *   Second tick group: Feb 20 ... Apr 18. So Stf.capcom is Feb 20 - Aug 21, 2021? The label says "Apr Aug 21 20". This is confusing.
+    *   Let's look at the labels under the axis.
+    *   Group 1: Nov 17 ... Apr 21 21 20 (Feb). Range: ~1.5 years.
+    *   Group 2: Apr Aug 21 20. Range: ~1.6 years.
+    *   Group 3: Apr Jun 21 18. Range: ~2.2 years.
+    *   Group 4: Apr May 21 19. Range: ~2 years.
+    *   Group 5: Apr Dec 21 19. Range: ~2.2 years.
+    *   Group 6: Apr 21.
+
+    *   Let's look at the visual shapes again.
+    *   **CryptoKitties**: Filled area.
+    *   **Stf.capcom**: Filled area.
+    *   **Alien**: Filled area at the bottom right? No, looking at the red/blue cluster, it's at the bottom, rising up. It's a curve going up. To the right of it is white space. Wait, the red/blue part is the *top* of the white area? No.
+    *   Let's look at the legend. Red = price down, Blue = price up. White = background.
+    *   So the red/blue dots are the data.
+    *   **Alien**: The red/blue cluster is at the bottom right of the *subplot column*?
+    *   No, x-axis is time (left to right).
+    *   For Alien: X-axis is Aug 18 to Aug 20 (approx).
+    *   The red/blue dots are concentrated on the left side of the time range? Or right?
+    *   Looking at "Alien (Games)": The red/blue dots are on the *right* side of the column? No, they are rising from the bottom. It looks like a curve going up and left. So the data is concentrated in the later times (right side of the column)?
+    *   If the curve goes up and left, the area to the left (earlier times) is white. The area to the right (later times) is... the data.
+    *   Wait, let's look at the shape. It's a "L" shape or a bite taken out of the top right?
+    *   Actually, it looks like the data is filling the bottom right corner.
+    *   Left side (early time): White.
+    *   Middle: White.
+    *   Right side (later time): Red/Blue/Dark.
+    *   If so, the "bounded area between the left curve and the right vertical line" (if left curve is the data boundary and right vertical line is the end of data) would be full.
+    *   But the question asks for "least white space". This implies the area *is* full.
+    *   So, which subplot has its data filling the "bounded area"?
+    *   Let's look at **Stf.capcom (Collectible)**.
+    *   The data starts near time=Feb 20. Goes right.
+    *   The top boundary curves to the left.
+    *   The right boundary is somewhat vertical?
+    *   The area is filled with red/blue dots.
+    *   So this area has *least* white space (meaning full of dots).
+
+    *   Let's look at **CryptoKitties**.
+    *   Starts Nov 17. Goes right.
+    *   Top boundary curves left.
+    *   Right boundary curves left.
+    *   Filled with dots.
+
+    *   Let's look at the specific phrasing "bounded area between the left curve and the right vertical line".
+    *   This sounds like a description of a specific shape.
+    *   In **Stf.capcom (Collectible)**, the top edge is a curve concave down? No, concave up.
+    *   The left edge is vertical-ish.
+    *   The bottom edge is a curve concave up.
+    *   The right edge is... vertical?
+    *   If the right edge is vertical, then the area is a block.
+    *   In **Stf.capcom**, the rightmost points seem to align vertically for a bit?
+    *   Let's compare to **CryptoKitties**. The rightmost points curve inwards (leftwards).
+    *   Let's compare to **Alien**. The rightmost points are high up. The curve goes left.
+    *   Let's compare to **Decentraland**. Step function. Vertical line up, diagonal down-left.
+    *   Let's compare to **Miscellanea**. Vertical line left, horizontal top? No, steps up.
+    *   Let's compare to **Unstoppable**. Diagonal line.
+
+    *   Okay, let's look for a subplot where the description "bounded area between the left curve and the right vertical line contains the least white space" applies.
+    *   This implies the area *between* the left boundary (curve) and the right boundary (vertical line) is full.
+    *   This describes a shape that looks like a filled region on the left/bottom, bounded on the right by a vertical line.
+    *   Look at **Stf.capcom (Collectible)**.
+    *   Left boundary: A curve going up (the start of the data).
+    *   Right boundary: A vertical line? The right edge of the data block looks somewhat vertical at the top right corner.
+    *   If the right edge is vertical, and the left edge is a curve (the bottom/left boundary of the data), then the area between them is filled.
+    *   This fits **Stf.capcom (Collectible)**. The data forms a solid block in the top right of the subplot? No, the data forms a solid block in the top left?
+    *   Let's re-examine **Stf.capcom**.
+    *   X-axis: Time. Y-axis: Price/Value (implied by "price down/up").
+    *   The data points are red/blue/dots.
+    *   The shape is a large filled region in the upper part of the column.
+    *   The bottom boundary is a curve.
+    *   The left boundary is a curve.
+    *   The top boundary is a curve.
+    *   The right boundary is... where the data stops.
+    *   Actually, looking at **CryptoKitties**, it's a big blob.
+    *   Looking at **Stf.capcom**, it's a big blob.
+
+    *   Let's try to interpret "least white space" differently.
+    *   Maybe it means the subplot with the highest density of points?
+    *   **CryptoKitties** looks very dense.
+    *   **Stf.capcom** looks very dense.
+    *   **Alien** has sparse points at the bottom.
+    *   **Decentraland** has sparse points.
+    *   **Miscellanea** has sparse points.
+    *   **Unstoppable** has sparse points.
+    *   So it's CryptoKitties or Stf.capcom.
+    *   Which one has *least* white space?
+    *   In **CryptoKitties**, the top edge curves in. There is a "bite" taken out of the top right corner? No, the curve goes up and right, filling the corner. The top boundary curves left. So there is white space below the curve? No, red/blue dots are below the top boundary. So the area *above* the dots is white.
+    *   In **Stf.capcom**, the top boundary curves left. Area above is white.
+    *   In both, there is white space at the top.
+    *   In **Alien**, there is white space at the top (above the red/blue triangle).
+    *   In **Decentraland**, white space to the left (before the jump) and top.
+    *   In **Miscellanea**, white space to the left (empty column) and inside (sparse dots).
+    *   In **Unstoppable**, white space everywhere except the line.
+
+    *   Let's look at the text "bounded area between the left curve and the right vertical line".
+    *   Maybe it refers to the **Stf.capcom (Collectible)** subplot specifically.
+    *   Why? "Stf.capcom" -> "Stf.capcom (Collectible)".
+    *   Let's look at the shape of the data in **Stf.capcom**.
+    *   It looks like it fills the area bounded by the left axis (curve), the bottom axis (curve), and a right vertical line.
+    *   Wait, the data is in the *upper* part.
+    *   Let's assume the "right vertical line" is the rightmost edge of the data cluster.
+    *   If the cluster is dense and fills the space between its left curve and right vertical edge, then it has least white space.
+    *   **Stf.capcom** looks like a solid block.
+    *   **CryptoKitties** looks like a solid block.
+    *   Let's look at the provided solution in similar tasks or common sense for these charts.
+    *   Usually, these charts show distribution of token sales or something.
+    *   "CryptoKitties" is the first one.
+    *   "Stf.capcom" is the second.
+    *   "Alien" is third.
+    *   "Decentraland" is fourth.
+    *   "Miscellanea" is fifth.
+    *   "Unstoppable" is sixth.
+
+    *   Let's look at the subplot **Stf.capcom (Collectible)**.
+    *   The name is "Stf.capcom (Collectible)".
+    *   The shape is a right trapezoid roughly.
+    *   Left side: Curve.
+    *   Top side: Curve.
+    *   Bottom side: Curve.
+    *   Right side: Vertical?
+    *   Actually, looking really closely at **Stf.capcom**, the right edge looks very straight/vertical at the top.
+    *   If the question asks for the subplot where the area between a left curve and a right vertical line contains the least white space...
+    *   This implies the area is *full* (least white space).
+    *   And the area is defined by a left curve and a right vertical line.
+    *   In **Stf.capcom**, the data is bounded on the left by a rising curve. Bounded on the right by a vertical-ish end. The area between them is filled with red/blue dots.
+    *   In **CryptoKitties**, the data is bounded on the left by a curve, but the right side curves inwards (concave). So the "right vertical line" description doesn't fit well.
+    *   In **Alien**, the data is bounded on the left by... well, it's sparse.
+    *   In **Decentraland**, the right side is sparse/white.
+    *   So, **Stf.capcom (Collectible)** seems the most likely candidate because its shape is the most "rectangular" or "filled" on the right side compared to CryptoKitties which tapers.
+    *   Wait, let's look at **CryptoKitties** again. It tapers to the right.
+    *   **Stf.capcom** tapers to the left? No, it starts left and goes right. The top right corner seems cut off by a curve.
+    *   Let's look at the text "Stf.capcom".
+    *   Is it possible the answer is **Stf.capcom (Collectible)**?
+    *   Let's check the text "CryptoKitties".
+    *   Let's check the text "Alien".
+    *   Let's check the text "Decentraland".
+    *   Let's check the text "Miscellanea".
+    *   Let's check the text "Unstoppable".
+
+    *   Let's re-read the prompt's condition: "bounded area between the left curve and the right vertical line contains the least white space".
+    *   This phrasing is very specific.
+    *   "Left curve": The left boundary of the data.
+    *   "Right vertical line": The right boundary of the data.
+    *   "Contains the least white space": The area is full of data (red/blue dots).
+    *   So we are looking for the subplot that is most "solid" or "dense".
+    *   Comparing **CryptoKitties** and **Stf.capcom**:
+        *   **CryptoKitties**: The mass is heaviest on the left. The right side is thinner/fainter.
+        *   **Stf.capcom**: The mass is fairly uniform across the width? Or heavier on the left?
+        *   Actually, looking at **Stf.capcom**, the red/blue dots are dense throughout.
+        *   Looking at **CryptoKitties**, the dots are dense throughout.
+    *   Let's look at the "right vertical line" part.
+    *   In **Stf.capcom**, the right edge of the data mass is somewhat vertical for a portion?
+    *   In **CryptoKitties**, the right edge is definitely curved (concave).
+    *   In **Alien**, the right edge is a vertical line (the rightmost points are aligned vertically). But the area to the left is white. Wait.
+    *   In **Alien**, the data is concentrated on the *right* side of the column?
+    *   If the data is on the right, and bounded by a left curve (the data boundary) and a right vertical line (the column edge or data edge).
+    *   If the data fills the space between the data's left curve and the data's right edge (which is vertical), then it fits.
+    *   In **Alien**, the red/blue dots form a shape that is bounded on the left by a curve (rising from bottom) and on the right by a vertical line (the rightmost edge of the dots looks somewhat vertical, or close to it).
+    *   However, there is a huge white space *below* and *left* of it.
+    *   But the question specifies the "bounded area *between* the left curve and the right vertical line". It doesn't say the whole subplot. Just the bounded area.
+    *   If we define the "bounded area" as the region enclosed by: Left Curve, Right Vertical Line, and maybe Top/Bottom?
+    *   If the area *inside* this definition has least white space, it means it's full of dots.
+    *   In **Alien**, if the left curve is the data boundary and the right line is the right edge of the data... the area between them is small and full of dots.
+    *   In **Stf.capcom**, the area between the left data boundary and right data boundary is large and full of dots.
+    *   So "least white space" could mean "most filled with data relevant to the shape".
+    *   But usually "least white space" in a subplot means the subplot is the most dense.
+    *   Let's look at the subplot **Stf.capcom (Collectible)**.
+    *   It looks like the top-left corner is filled.
+    *   Let's look at the subplot **CryptoKitties (Art)**.
+    *   It looks like the top-left corner is filled.
+
+    *   Let's look at the subplot **Stf.capcom (Collectible)** again.
+    *   The text "Stf.capcom (Collectible)" is written vertically.
+    *   The plot is full of red/blue dots.
+    *   The shape is bounded on the left by a curve.
+    *   The shape is bounded on the right by... essentially the right edge of the chart column.
+    *   Is the right edge vertical? Yes, it's a vertical slice of time.
+    *   So the area between the left data curve and the right vertical line (end of time) contains the data.
+    *   How much white space is in that area?
+    *   In **Stf.capcom**, the data starts early (near left) and goes to late (near right). So the area is full.
+    *   In **Alien**, the data starts late (near right) and goes... wait.
+    *   X-axis for Alien: Aug 18 to Aug 20.
+    *   The red/blue dots are near the right side (Aug 20).
+    *   So the area between the left curve (start of data at Aug 20?) and right vertical line (end of data)? No, that would be empty.
+    *   If the data is at the right, the "bounded area between left curve and right vertical line" would be the area to the *right* of the data? No, that's outside.
+    *   This interpretation is tricky.
+
+    *   Let's try: "bounded area" refers
